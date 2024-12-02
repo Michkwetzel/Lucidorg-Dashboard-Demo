@@ -1,0 +1,1 @@
+enum SelectionButtonType { token, guest, view, none }

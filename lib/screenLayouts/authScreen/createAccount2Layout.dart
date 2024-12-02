@@ -1,0 +1,51 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:platform_front/components/authScreen/bottomButtonsRow.dart';
+import 'package:platform_front/components/buttons/selectionButton.dart';
+import 'package:platform_front/constants.dart';
+import 'package:platform_front/enums.dart';
+import 'package:platform_front/providers.dart';
+import 'package:platform_front/screenLayouts/authScreen/createAccount1Layout.dart';
+import 'package:platform_front/screenLayouts/authScreen/createAccount3Layout.dart';
+
+class CreateAccount2Layout extends ConsumerWidget {
+  const CreateAccount2Layout({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Container(
+      padding: const EdgeInsets.all(32),
+      decoration: BoxDecoration(
+        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.20), blurRadius: 4)],
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(24),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Image.asset('assets/logo/tempLogo.png', scale: kLogoScale),
+          const SizedBox(height: 12),
+          const Text("Please select", style: kH3TextStyle),
+          const SizedBox(height: 12),
+          const Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Selectionbutton(buttonText: 'I have a token', buttonType: SelectionButtonType.token),
+              SizedBox(width: 24),
+              Selectionbutton(buttonText: 'I am viewing \nCompany results', buttonType: SelectionButtonType.view),
+              SizedBox(width: 24),
+              Selectionbutton(buttonText: 'I am a guest', buttonType: SelectionButtonType.guest)
+            ],
+          ),
+          const SizedBox(height: 24),
+          BottomButtonsRow(
+            width: 500,
+            onPressedBackButton: () => ref.read(authDisplayProvider.notifier).changeDisplay(const CreateAccount1Layout()),
+            onPressedNextButton: () => ref.read(authDisplayProvider.notifier).changeDisplay(const CreateAccount3Layout()),
+            nextButtonText: "Continue",
+          )
+        ],
+      ),
+    );
+  }
+}
