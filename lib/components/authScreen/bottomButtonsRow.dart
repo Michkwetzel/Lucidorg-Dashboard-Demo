@@ -20,7 +20,7 @@ class BottomButtonsRow extends ConsumerWidget {
         children: [
           Custombackbutton(onPressed: onPressedBackButton),
           const SizedBox(width: 16),
-          CallToActionButton(onPressed: onPressedNextButton, buttonText: "Continue"),
+          CallToActionButton(onPressed: onPressedNextButton, buttonText: nextButtonText),
         ],
       );
     }
@@ -31,7 +31,7 @@ class BottomButtonsRow extends ConsumerWidget {
           children: [
             Custombackbutton(onPressed: onPressedBackButton),
             const SizedBox(width: 16),
-            CallToActionButton(onPressed: onPressedNextButton, buttonText: "Continue"),
+            CallToActionButton(onPressed: onPressedNextButton, buttonText: nextButtonText),
           ],
         ));
   }

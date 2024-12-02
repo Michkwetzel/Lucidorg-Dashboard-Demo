@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/components/authScreen/bottomButtonsRow.dart';
 import 'package:platform_front/components/textFields/textfieldGray.dart';
-import 'package:platform_front/constants.dart';
-import 'package:platform_front/providers.dart';
+import 'package:platform_front/config/constants.dart';
+import 'package:platform_front/config/providers.dart';
 import 'package:platform_front/screenLayouts/authScreen/createAccount2Layout.dart';
 
 class CreateAccount3Layout extends ConsumerWidget {
@@ -27,7 +27,7 @@ class CreateAccount3Layout extends ConsumerWidget {
           const SizedBox(height: 12),
           const Text("Token", style: kTextFieldHeaderTextStyle),
           const SizedBox(height: 2),
-          const TextfieldGray(),
+          //const TextfieldGray(onTextChanged: (value) {}),
           const SizedBox(height: 24),
           BottomButtonsRow(
             onPressedBackButton: () => ref.read(authDisplayProvider.notifier).changeDisplay(CreateAccount2Layout()),

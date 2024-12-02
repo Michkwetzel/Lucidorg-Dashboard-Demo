@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:platform_front/constants.dart';
-import 'package:platform_front/enums.dart';
-import 'package:platform_front/providers.dart';
+import 'package:platform_front/config/constants.dart';
+import 'package:platform_front/config/enums.dart';
+import 'package:platform_front/config/providers.dart';
 
 // Radio Button used for selecting token or guest or viewer of results in auth log in
 class Selectionbutton extends ConsumerWidget {
