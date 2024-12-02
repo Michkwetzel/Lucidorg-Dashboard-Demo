@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/components/buttons/CallToActionButton.dart';
 import 'package:platform_front/components/buttons/secondaryButton.dart';
-import 'package:platform_front/constants.dart';
-import 'package:platform_front/providers.dart';
+import 'package:platform_front/config/constants.dart';
+import 'package:platform_front/config/providers.dart';
 import 'package:platform_front/screenLayouts/authScreen/createAccount1Layout.dart';
 
 class AppEntryLayout extends ConsumerWidget {
@@ -28,9 +28,15 @@ class AppEntryLayout extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              //TODO: Log in
-              Secondarybutton(onPressed: () {}, buttonText: "Create Account"),
-              CallToActionButton(onPressed: () => ref.read(authDisplayProvider.notifier).changeDisplay(CreateAccount1Layout()), buttonText: "Log in")
+              Secondarybutton(
+                onPressed: () => ref.read(authDisplayProvider.notifier).changeDisplay(const CreateAccount1Layout()),
+                buttonText: "Create Account",
+              ),
+              CallToActionButton(
+                  onPressed: () => ref.read(authDisplayProvider.notifier).changeDisplay(const CreateAccount1Layout(
+                        logIn: true,
+                      )),
+                  buttonText: "Log in")
             ],
           )
         ],

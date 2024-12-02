@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:platform_front/constants.dart';
+import 'package:platform_front/config/constants.dart';
 
 class CallToActionButton extends StatelessWidget {
   final VoidCallback onPressed;
