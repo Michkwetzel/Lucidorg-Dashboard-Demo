@@ -4,7 +4,7 @@ import 'package:platform_front/components/buttons/CallToActionButton.dart';
 import 'package:platform_front/components/buttons/secondaryButton.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/providers.dart';
-import 'package:platform_front/screenLayouts/authScreen/createAccount1Layout.dart';
+import 'package:platform_front/screenLayouts/authScreen/userTypeSelectionLayout.dart';
 
 class AppEntryLayout extends ConsumerWidget {
   const AppEntryLayout({super.key});
@@ -29,13 +29,11 @@ class AppEntryLayout extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Secondarybutton(
-                onPressed: () => ref.read(authDisplayProvider.notifier).changeDisplay(const CreateAccount1Layout()),
+                onPressed: () => ref.read(authDisplayProvider.notifier).changeDisplay(const UserTypeSelectionLayout()),
                 buttonText: "Create Account",
               ),
               CallToActionButton(
-                  onPressed: () => ref.read(authDisplayProvider.notifier).changeDisplay(const CreateAccount1Layout(
-                        logIn: true,
-                      )),
+                  onPressed: () {},
                   buttonText: "Log in")
             ],
           )

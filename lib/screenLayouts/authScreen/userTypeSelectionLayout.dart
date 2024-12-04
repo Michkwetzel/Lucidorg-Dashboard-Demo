@@ -5,14 +5,26 @@ import 'package:platform_front/components/buttons/selectionButton.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/config/providers.dart';
-import 'package:platform_front/screenLayouts/authScreen/createAccount1Layout.dart';
-import 'package:platform_front/screenLayouts/authScreen/createAccount3Layout.dart';
+import 'package:platform_front/screenLayouts/authScreen/appEntryLayout.dart';
+import 'package:platform_front/screenLayouts/authScreen/enterEmailPasswordLayout.dart';
+import 'package:platform_front/screenLayouts/authScreen/enterTokenLayout.dart';
 
-class CreateAccount2Layout extends ConsumerWidget {
-  const CreateAccount2Layout({super.key});
+class UserTypeSelectionLayout extends ConsumerWidget {
+  const UserTypeSelectionLayout({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    void onPressedNextButton() {
+      var selectedButton = ref.read(selectionButtonProvider);
+      if (selectedButton == SelectionButtonType.none) {
+        //TODO: Red Error Text
+      } else if (selectedButton == SelectionButtonType.token) {
+        ref.read(authDisplayProvider.notifier).changeDisplay(const EnterTokenLayout());
+      } else {
+        ref.read(authDisplayProvider.notifier).changeDisplay(const EnterEmailPasswordLayout());
+      }
+    }
+
     return Container(
       padding: const EdgeInsets.all(32),
       decoration: BoxDecoration(
@@ -40,8 +52,11 @@ class CreateAccount2Layout extends ConsumerWidget {
           const SizedBox(height: 24),
           BottomButtonsRow(
             width: 500,
-            onPressedBackButton: () => ref.read(authDisplayProvider.notifier).changeDisplay(const CreateAccount1Layout()),
-            onPressedNextButton: () => ref.read(authDisplayProvider.notifier).changeDisplay(const CreateAccount3Layout()),
+            onPressedBackButton: () {
+              ref.read(selectionButtonProvider.notifier).onButtonSelect(SelectionButtonType.none);
+              ref.read(authDisplayProvider.notifier).changeDisplay(const AppEntryLayout());
+            },
+            onPressedNextButton: () => onPressedNextButton(),
             nextButtonText: "Continue",
           )
         ],

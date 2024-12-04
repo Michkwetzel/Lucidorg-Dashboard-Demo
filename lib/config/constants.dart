@@ -41,13 +41,17 @@ const kSelectionButtonTexyStyle = TextStyle(
   fontWeight: FontWeight.w400,
   fontSize: 14,
   color: Color.fromARGB(255, 0, 0, 0),
-  
 );
 
+const kErrorTextFieldTextStyle = TextStyle(
+  fontFamily: "OpenSans",
+  fontWeight: FontWeight.w400,
+  fontSize: 12,
+  color: Color.fromARGB(255, 213, 0, 0),
+);
 //Button dimensions
 const double kButtonHeight = 40;
 const double kSelectionButtonHeight = 80;
-
 
 //Logo Scale
 const double kLogoScale = 3.15;

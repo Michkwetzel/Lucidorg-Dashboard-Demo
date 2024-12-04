@@ -3,19 +3,28 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/components/authScreen/bottomButtonsRow.dart';
 import 'package:platform_front/components/textFields/textfieldGray.dart';
 import 'package:platform_front/config/constants.dart';
+import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/config/providers.dart';
-import 'package:platform_front/screenLayouts/authScreen/appEntryLayout.dart';
-import 'package:platform_front/screenLayouts/authScreen/createAccount2Layout.dart';
+import 'package:platform_front/screenLayouts/authScreen/enterTokenLayout.dart';
 
-class CreateAccount1Layout extends ConsumerWidget {
+class EnterEmailPasswordLayout extends ConsumerWidget {
   final bool logIn;
 
-  const CreateAccount1Layout({super.key, this.logIn = false});
+  const EnterEmailPasswordLayout({super.key, this.logIn = false});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     String inputEmail = '';
     String inputPassword = '';
+
+    void onPressedBackButton() {
+      var selectedButton = ref.read(selectionButtonProvider);
+      if (selectedButton == SelectionButtonType.token) {
+        ref.read(authDisplayProvider.notifier).changeDisplay(EnterTokenLayout());
+      } else {
+        ref.read(authDisplayProvider.notifier).changeDisplay(EnterEmailPasswordLayout());
+      }
+    }
 
     return Container(
       padding: const EdgeInsets.all(32),
@@ -44,12 +53,12 @@ class CreateAccount1Layout extends ConsumerWidget {
           ),
           const SizedBox(height: 24),
           BottomButtonsRow(
-            onPressedBackButton: () => ref.read(authDisplayProvider.notifier).changeDisplay(AppEntryLayout()),
+            onPressedBackButton: () => onPressedBackButton(),
             onPressedNextButton: () {
               ref.read(authfirestoreserviceProvider.notifier).setInputEmail(inputEmail);
               ref.read(authfirestoreserviceProvider.notifier).setInputPassword(inputPassword);
-              ref.read(authfirestoreserviceProvider.notifier).createUserWithEmailAndPassword();
-              ref.read(authDisplayProvider.notifier).changeDisplay(CreateAccount2Layout());
+              //ref.read(authfirestoreserviceProvider.notifier).createUserWithEmailAndPassword();
+              ref.read(authDisplayProvider.notifier).changeDisplay(EnterEmailPasswordLayout());
               ref.read(authfirestoreserviceProvider.notifier).printState();
             },
             nextButtonText: logIn ? "Log in" : "Continue",
