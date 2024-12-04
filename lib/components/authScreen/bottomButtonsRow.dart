@@ -9,8 +9,9 @@ class BottomButtonsRow extends ConsumerWidget {
   final VoidCallback onPressedNextButton;
   final String nextButtonText;
   final double width;
+  final bool success;
 
-  const BottomButtonsRow({this.width = -1, required this.onPressedBackButton, required this.onPressedNextButton, required this.nextButtonText, super.key});
+  const BottomButtonsRow( {this.width = -1, required this.onPressedBackButton, required this.onPressedNextButton, required this.nextButtonText, this.success = false, super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -31,7 +32,7 @@ class BottomButtonsRow extends ConsumerWidget {
           children: [
             Custombackbutton(onPressed: onPressedBackButton),
             const SizedBox(width: 16),
-            CallToActionButton(onPressed: onPressedNextButton, buttonText: nextButtonText),
+            CallToActionButton(onPressed: onPressedNextButton, buttonText: nextButtonText, isSuccess: success,),
           ],
         ));
   }

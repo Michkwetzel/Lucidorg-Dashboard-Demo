@@ -8,7 +8,8 @@ import 'package:platform_front/screens/AuthScreen.dart';
 void setupLogging() {
   Logger.root.level = Level.ALL;
   Logger.root.onRecord.listen((record) {
-    print('${record.level.name}: '
+    print('${record.loggerName}: '
+        '${record.level.name}: '
         '${record.time}: '
         '${record.message}');
   });
