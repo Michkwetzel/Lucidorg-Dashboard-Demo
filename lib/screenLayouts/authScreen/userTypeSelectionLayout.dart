@@ -21,7 +21,7 @@ class UserTypeSelectionLayout extends ConsumerWidget {
       } else if (selectedButton == SelectionButtonType.token) {
         ref.read(authDisplayProvider.notifier).changeDisplay(const EnterTokenLayout());
       } else {
-        ref.read(authDisplayProvider.notifier).changeDisplay(const EnterEmailPasswordLayout());
+        ref.read(authDisplayProvider.notifier).changeDisplay(EnterEmailPasswordLayout());
       }
     }
 
