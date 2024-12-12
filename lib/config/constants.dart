@@ -55,3 +55,8 @@ const double kSelectionButtonHeight = 80;
 
 //Logo Scale
 const double kLogoScale = 3.15;
+
+// Google Function HTTP Paths
+const String kVerifyAuthTokenPath = 'https://verifyauthtoken-rbyavkqn2a-uc.a.run.app';
+
+const String kCreateUserProfilePath = 'https://createuserprofile-rbyavkqn2a-uc.a.run.app';

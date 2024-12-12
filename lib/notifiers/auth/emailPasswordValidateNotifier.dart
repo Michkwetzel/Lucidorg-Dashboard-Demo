@@ -39,7 +39,6 @@ class EmailpasswordvalidateNotifer extends StateNotifier<EmailPasswordValidation
     } else {
       state = state.copyWith(emailError: '');
     }
-    print('EmailError: ${state.emailError}');
   }
 
   void validatePassword(String password) {
@@ -50,7 +49,6 @@ class EmailpasswordvalidateNotifer extends StateNotifier<EmailPasswordValidation
     } else {
       state = state.copyWith(passwordError: '');
     }
-    print('PasswordState: ${state.passwordError}');
   }
 
   bool get isValid => state.emailError == null && state.passwordError == null;

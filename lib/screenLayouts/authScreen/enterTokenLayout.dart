@@ -69,7 +69,7 @@ class _EnterTokenLayoutState extends ConsumerState<EnterTokenLayout> {
         return;
       }
 
-      Future<dynamic> pendingCheckToken = ref.read(httpServiceProvider.notifier).postRequest(path: 'verifyAuthToken', request: {'token': token});
+      Future<dynamic> pendingCheckToken = ref.read(googlefunctionserviceProvider.notifier).verifyAuthToken(authToken: token);
 
       setState(() {
         _pendingCheckToken = pendingCheckToken; //Set Loading animation
@@ -82,11 +82,12 @@ class _EnterTokenLayoutState extends ConsumerState<EnterTokenLayout> {
 
         // Show Success bottom sheet, wait 2 seconds. Then move to next screen
         if (tokenExists == true && tokenUsed == false) {
+          ref.read(authTokenProvider.notifier).setToken(token);
           _showStandardBottomSheet(context);
           await Future.delayed(const Duration(seconds: 2));
           logger.info("Token Valid. Change to Next Screen");
           ref.read(authDisplayProvider.notifier).changeDisplay(EnterEmailPasswordLayout());
-        } 
+        }
         // Token has already been used
         else if (tokenExists == true && tokenUsed == true) {
           setState(() {
@@ -102,7 +103,7 @@ class _EnterTokenLayoutState extends ConsumerState<EnterTokenLayout> {
           });
         }
       }).catchError((e) {
-        logger.warning("Checking token Valid failed.Error: $e");
+        logger.warning("Checking token Valid failed. Error: $e");
         setState(() {
           error = true;
           errorText = "An error occurred:";

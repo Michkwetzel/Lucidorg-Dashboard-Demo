@@ -23,7 +23,7 @@ class TextfieldGray extends StatelessWidget {
       required this.controller});
 
   static void _emptyFunction0() {}
-  static void _emptyFunction1(String value){}
+  static void _emptyFunction1(String value) {}
 
   TextField textField() {
     return TextField(
@@ -67,8 +67,6 @@ class TextfieldGray extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('Error: $error');
-    print('Error Text: $errorText');
     return error
         ? Flexible(
             child: Column(

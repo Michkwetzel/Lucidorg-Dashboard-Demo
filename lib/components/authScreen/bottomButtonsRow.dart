@@ -25,7 +25,7 @@ class BottomButtonsRow extends ConsumerWidget {
         ],
       );
     }
-    return Container(
+    return SizedBox(
         width: width,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
