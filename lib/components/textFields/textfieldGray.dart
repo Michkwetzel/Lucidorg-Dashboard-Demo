@@ -7,6 +7,8 @@ class TextfieldGray extends StatelessWidget {
   final bool isLoading;
   final bool error;
   final String errorText;
+  final String hintText;
+  final IconData? leadingIcon;
   final Function(String) onTextChanged;
   final VoidCallback onSubmitted;
   final TextEditingController controller;
@@ -19,6 +21,8 @@ class TextfieldGray extends StatelessWidget {
       this.isLoading = false,
       this.error = false,
       this.errorText = '',
+      this.hintText = '',
+      this.leadingIcon,
       this.onSubmitted = _emptyFunction0,
       required this.controller});
 
@@ -31,6 +35,9 @@ class TextfieldGray extends StatelessWidget {
       onSubmitted: (value) => onSubmitted(),
       onChanged: onTextChanged,
       decoration: InputDecoration(
+        hintStyle: TextStyle(color: Color(0xFF777777), fontFamily: 'Poppins', fontWeight: FontWeight.w300, fontSize: 14),
+        hintText: hintText,
+        prefixIcon: leadingIcon != null ? Icon(leadingIcon, color: Color(0xFF777777),) : null,
         suffixIcon: isLoading
             ? const SizedBox(
                 width: 16,
@@ -67,6 +74,7 @@ class TextfieldGray extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(error);
     return error
         ? Flexible(
             child: Column(

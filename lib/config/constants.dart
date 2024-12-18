@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-//Button TextStyles
+// Button TextStyles
 const kCallToActionButtonTextStyle = TextStyle(
   fontFamily: "OpenSans",
   fontWeight: FontWeight.w400,
@@ -22,10 +22,48 @@ const kSecondaryButtonTextStyle = TextStyle(
   color: Colors.black,
 );
 
+const kSelectionButtonTexyStyle = TextStyle(
+  fontFamily: "OpenSans",
+  fontWeight: FontWeight.w400,
+  fontSize: 14,
+  color: Color.fromARGB(255, 0, 0, 0),
+);
+
+const kSidePanelButtonsTextStyle = TextStyle(
+  fontFamily: "OpenSans",
+  fontWeight: FontWeight.w400,
+  fontSize: 18,
+  color: Color.fromARGB(255, 0, 0, 0),
+);
+
+// Text Field TextStyles
 const kTextFieldHeaderTextStyle = TextStyle(
   fontFamily: "OpenSans",
   fontWeight: FontWeight.w400,
   fontSize: 16,
+  color: Color(0xFF323232),
+);
+
+const kErrorTextFieldTextStyle = TextStyle(
+  fontFamily: "OpenSans",
+  fontWeight: FontWeight.w400,
+  fontSize: 12,
+  color: Color.fromARGB(255, 213, 0, 0),
+);
+
+// Text Body Styles
+
+const kH1TextStyle = TextStyle(
+  fontFamily: "OpenSans",
+  fontWeight: FontWeight.w600,
+  fontSize: 40,
+  color: Color(0xFF494949),
+);
+
+const kH2TextStyle = TextStyle(
+  fontFamily: "Poppins",
+  fontWeight: FontWeight.w400,
+  fontSize: 28,
   color: Color(0xFF323232),
 );
 
@@ -36,19 +74,13 @@ const kH3TextStyle = TextStyle(
   color: Color(0xFF323232),
 );
 
-const kSelectionButtonTexyStyle = TextStyle(
+const kInfoTextTextStyle = TextStyle(
   fontFamily: "OpenSans",
   fontWeight: FontWeight.w400,
   fontSize: 14,
-  color: Color.fromARGB(255, 0, 0, 0),
+  color: Color(0xFF494949),
 );
 
-const kErrorTextFieldTextStyle = TextStyle(
-  fontFamily: "OpenSans",
-  fontWeight: FontWeight.w400,
-  fontSize: 12,
-  color: Color.fromARGB(255, 213, 0, 0),
-);
 //Button dimensions
 const double kButtonHeight = 40;
 const double kSelectionButtonHeight = 80;

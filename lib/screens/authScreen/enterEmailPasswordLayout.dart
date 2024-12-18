@@ -3,17 +3,17 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
-import 'package:platform_front/components/authScreen/bottomButtonsRow.dart';
-import 'package:platform_front/components/general/tempComponents.dart';
+import 'package:platform_front/components/auth/bottomButtonsRow.dart';
+import 'package:platform_front/components/auth/tempComponents.dart';
 import 'package:platform_front/components/textFields/textfieldGray.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/config/providers.dart';
 import 'package:platform_front/notifiers/auth/emailPasswordValidateNotifier.dart';
 import 'package:platform_front/notifiers/auth/selectionButtonNotifier.dart';
-import 'package:platform_front/screenLayouts/authScreen/appEntryLayout.dart';
-import 'package:platform_front/screenLayouts/authScreen/enterTokenLayout.dart';
-import 'package:platform_front/screenLayouts/authScreen/userTypeSelectionLayout.dart';
+import 'package:platform_front/screens/authScreen/appEntryLayout.dart';
+import 'package:platform_front/screens/authScreen/enterTokenLayout.dart';
+import 'package:platform_front/screens/authScreen/userTypeSelectionLayout.dart';
 
 class EnterEmailPasswordLayout extends ConsumerStatefulWidget {
   final bool logIn;

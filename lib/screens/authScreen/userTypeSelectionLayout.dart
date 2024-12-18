@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:platform_front/components/authScreen/bottomButtonsRow.dart';
+import 'package:platform_front/components/auth/bottomButtonsRow.dart';
 import 'package:platform_front/components/buttons/selectionButton.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/config/providers.dart';
-import 'package:platform_front/screenLayouts/authScreen/appEntryLayout.dart';
-import 'package:platform_front/screenLayouts/authScreen/enterEmailPasswordLayout.dart';
-import 'package:platform_front/screenLayouts/authScreen/enterTokenLayout.dart';
+import 'package:platform_front/screens/authScreen/appEntryLayout.dart';
+import 'package:platform_front/screens/authScreen/enterEmailPasswordLayout.dart';
+import 'package:platform_front/screens/authScreen/enterTokenLayout.dart';
 
 class UserTypeSelectionLayout extends ConsumerWidget {
   const UserTypeSelectionLayout({super.key});

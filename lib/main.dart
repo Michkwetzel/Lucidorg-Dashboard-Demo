@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:platform_front/firebase_options.dart';
-import 'package:platform_front/screens/AuthScreen.dart';
+import 'package:go_router/go_router.dart';
+import 'package:platform_front/screens/authScreen/authscreen.dart';
+import 'package:platform_front/screens/dashboard/dashboardScaffold.dart';
 
 void setupLogging() {
   Logger.root.level = Level.ALL;
@@ -14,6 +16,21 @@ void setupLogging() {
         '${record.message}');
   });
 }
+
+final _router = GoRouter(
+  initialLocation: '/dashboard',
+  routes: [
+    GoRoute(
+      path: '/auth',
+      builder: (context, state) => const AuthScreen(),
+    ),
+    GoRoute(
+      path: '/dashboard',
+      builder: (context, state) => const Dashboardscaffold(),
+    )
+    //ShellRoute(routes: routes, builder: (context, state, child) => child)
+  ],
+);
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,11 +48,8 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: AuthScreen(),
-        backgroundColor: Colors.white,
-      ),
+    return MaterialApp.router(
+      routerConfig: _router,
     );
   }
 }
