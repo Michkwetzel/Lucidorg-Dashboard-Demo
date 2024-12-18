@@ -24,14 +24,17 @@ class AuthFirestoreServiceNotifier extends StateNotifier<User?> {
 
   //Create user, if Successfull, sign them in.
   Future<void> createUserWithEmailAndPassword(String inputEmail, String inputPassword) async {
+    logger.info("Create user Account started inputEmail: $inputEmail");
     var userCred = await _auth.createUserWithEmailAndPassword(email: inputEmail, password: inputPassword);
-    logger.info("Created new user ${userCred.user!.uid} , email: $inputEmail , About to sign him in");
-    //await signInWithEmailAndPassword(inputEmail, inputPassword);
-    //logger.info("signed in user ${userCred.user!.uid} , email: $inputEmail");
+    logger.info("Success creating Google Auth Account, UID: ${userCred.user?.uid}, email: ${userCred.user?.email}");
   }
 
-  Future<void> signInWithEmailAndPassword(String email, String password) async {
-    await _auth.signInWithEmailAndPassword(email: email, password: password);
+  Future<UserCredential> signInWithEmailAndPassword(String email, String password) async {
+    return await _auth.signInWithEmailAndPassword(email: email, password: password);
+  }
+
+  Future<dynamic> signinWithGoogle() async {
+    return await _auth.signInWithPopup(GoogleAuthProvider());
   }
 
   void logState() {

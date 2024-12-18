@@ -3,12 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
-import 'package:platform_front/components/authScreen/bottomButtonsRow.dart';
+import 'package:platform_front/components/auth/bottomButtonsRow.dart';
 import 'package:platform_front/components/textFields/textfieldGray.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/providers.dart';
-import 'package:platform_front/screenLayouts/authScreen/enterEmailPasswordLayout.dart';
-import 'package:platform_front/screenLayouts/authScreen/userTypeSelectionLayout.dart';
+import 'package:platform_front/screens/authScreen/enterEmailPasswordLayout.dart';
+import 'package:platform_front/screens/authScreen/userTypeSelectionLayout.dart';
 
 class EnterTokenLayout extends ConsumerStatefulWidget {
   const EnterTokenLayout({super.key});
@@ -69,7 +69,7 @@ class _EnterTokenLayoutState extends ConsumerState<EnterTokenLayout> {
         return;
       }
 
-      Future<dynamic> pendingCheckToken = ref.read(httpServiceProvider.notifier).postRequest(path: 'verifyAuthToken', request: {'token': token});
+      Future<dynamic> pendingCheckToken = ref.read(googlefunctionserviceProvider.notifier).verifyAuthToken(authToken: token);
 
       setState(() {
         _pendingCheckToken = pendingCheckToken; //Set Loading animation
@@ -82,11 +82,12 @@ class _EnterTokenLayoutState extends ConsumerState<EnterTokenLayout> {
 
         // Show Success bottom sheet, wait 2 seconds. Then move to next screen
         if (tokenExists == true && tokenUsed == false) {
+          ref.read(authTokenProvider.notifier).setToken(token);
           _showStandardBottomSheet(context);
           await Future.delayed(const Duration(seconds: 2));
           logger.info("Token Valid. Change to Next Screen");
           ref.read(authDisplayProvider.notifier).changeDisplay(EnterEmailPasswordLayout());
-        } 
+        }
         // Token has already been used
         else if (tokenExists == true && tokenUsed == true) {
           setState(() {
@@ -102,7 +103,7 @@ class _EnterTokenLayoutState extends ConsumerState<EnterTokenLayout> {
           });
         }
       }).catchError((e) {
-        logger.warning("Checking token Valid failed.Error: $e");
+        logger.warning("Checking token Valid failed. Error: $e");
         setState(() {
           error = true;
           errorText = "An error occurred:";
@@ -130,6 +131,7 @@ class _EnterTokenLayoutState extends ConsumerState<EnterTokenLayout> {
                 const Text("Token", style: kTextFieldHeaderTextStyle),
                 const SizedBox(height: 2),
                 TextfieldGray(
+                  height: 100,
                   onTextChanged: (value) {
                     token = value;
                   },

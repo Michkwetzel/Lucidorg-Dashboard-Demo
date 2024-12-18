@@ -1,20 +1,14 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:logging/logging.dart';
 
-class HttpService extends StateNotifier<bool> {
-  final Logger logger = Logger("HttpService");
+class HttpService {
+  static final Logger logger = Logger("HttpService");
 
-  final String baseUrl;
-
-  HttpService({this.baseUrl = 'https://verifyauthtoken-rbyavkqn2a-uc.a.run.app'}) : super(true);
-
-  Future<dynamic> postRequest({required String path, required Map<String, dynamic> request, Map<String, String>? additionalHeaders}) async {
-    final uri = Uri.parse(baseUrl);
+  static Future<dynamic> postRequest({required String path, required Map<String, dynamic> request, Map<String, String>? additionalHeaders}) async {
+    final uri = Uri.parse(path);
     final headers = {
       'Content-Type': 'application/json',
-      ...?additionalHeaders // Merge with any additional headers
     };
 
     try {
@@ -33,7 +27,7 @@ class HttpService extends StateNotifier<bool> {
   }
 
   /// Handles the HTTP response with comprehensive error checking
-  dynamic _handleResponse(http.Response response) {
+  static dynamic _handleResponse(http.Response response) {
     logger.info("Response Status Code: ${response.statusCode}");
     logger.info("Response Body: ${response.body}");
 
@@ -41,7 +35,6 @@ class HttpService extends StateNotifier<bool> {
       case 200:
         try {
           return jsonDecode(response.body);
-          
         } catch (e) {
           logger.severe('JSON parsing error: ${e.toString()}');
           throw HttpRequestException('Error parsing server response');
@@ -62,7 +55,7 @@ class HttpService extends StateNotifier<bool> {
   }
 
   /// Attempts to extract a meaningful error message from the response body
-  String _extractErrorMessage(http.Response response) {
+  static String _extractErrorMessage(http.Response response) {
     try {
       final errorBody = jsonDecode(response.body);
       return errorBody['message'] ?? errorBody['error'] ?? response.body;

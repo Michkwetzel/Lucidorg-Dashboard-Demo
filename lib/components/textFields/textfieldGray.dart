@@ -2,35 +2,48 @@ import 'package:flutter/material.dart';
 import 'package:platform_front/config/constants.dart';
 
 class TextfieldGray extends StatelessWidget {
-  final double width;
   final double height;
   final bool isLoading;
   final bool error;
-  final String errorText;
+  final String? errorText;
+  final String hintText;
+  final IconData? leadingIcon;
   final Function(String) onTextChanged;
   final VoidCallback onSubmitted;
   final TextEditingController controller;
 
   const TextfieldGray(
       {super.key,
-      this.width = -1,
-      this.height = -1,
+      required this.height,
       this.onTextChanged = _emptyFunction1,
       this.isLoading = false,
       this.error = false,
-      this.errorText = '',
+      this.errorText,
+      this.hintText = '',
+      this.leadingIcon,
       this.onSubmitted = _emptyFunction0,
       required this.controller});
 
   static void _emptyFunction0() {}
-  static void _emptyFunction1(String value){}
+  static void _emptyFunction1(String value) {}
 
   TextField textField() {
     return TextField(
+      expands: true,
+      maxLines: null,
+      minLines: null,
       controller: controller,
       onSubmitted: (value) => onSubmitted(),
       onChanged: onTextChanged,
       decoration: InputDecoration(
+        hintStyle: TextStyle(color: Color(0xFF777777), fontFamily: 'Poppins', fontWeight: FontWeight.w300, fontSize: 14),
+        hintText: hintText,
+        prefixIcon: leadingIcon != null
+            ? Icon(
+                leadingIcon,
+                color: Color(0xFF777777),
+              )
+            : null,
         suffixIcon: isLoading
             ? const SizedBox(
                 width: 16,
@@ -67,24 +80,25 @@ class TextfieldGray extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('Error: $error');
-    print('Error Text: $errorText');
     return error
-        ? Flexible(
-            child: Column(
+        ? Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              textField(),
+              SizedBox(
+                height: height,
+                child: textField()),
               const SizedBox(
                 height: 2,
               ),
               Text(
-                errorText,
+                errorText!,
                 style: kErrorTextFieldTextStyle,
               )
             ],
-          ))
-        : Flexible(child: textField());
+          )
+        : SizedBox(
+          height: height,
+          child: textField());
   }
 }

@@ -18,7 +18,8 @@ class Selectionbutton extends ConsumerWidget {
     return SizedBox(
       height: kSelectionButtonHeight,
       child: MaterialButton(
-        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+        minWidth: MediaQuery.of(context).size.width < 600 ? 150 : null,
+        padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width < 600 ? 24 : 32, vertical: 12),
         onPressed: () => ref.read(selectionButtonProvider.notifier).onButtonSelect(buttonType),
         color: isSelected ? const Color(0xFFBDF1F7) : Colors.white,
         shape: RoundedRectangleBorder(

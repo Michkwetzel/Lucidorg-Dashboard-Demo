@@ -4,7 +4,8 @@ import 'package:platform_front/components/buttons/CallToActionButton.dart';
 import 'package:platform_front/components/buttons/secondaryButton.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/providers.dart';
-import 'package:platform_front/screenLayouts/authScreen/userTypeSelectionLayout.dart';
+import 'package:platform_front/screens/authScreen/enterEmailPasswordLayout.dart';
+import 'package:platform_front/screens/authScreen/userTypeSelectionLayout.dart';
 
 class AppEntryLayout extends ConsumerWidget {
   const AppEntryLayout({super.key});
@@ -33,7 +34,7 @@ class AppEntryLayout extends ConsumerWidget {
                 buttonText: "Create Account",
               ),
               CallToActionButton(
-                  onPressed: () {},
+                onPressed: () => ref.read(authDisplayProvider.notifier).changeDisplay(const EnterEmailPasswordLayout(logIn: true,)),
                   buttonText: "Log in")
             ],
           )
