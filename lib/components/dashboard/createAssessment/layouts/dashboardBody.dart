@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:platform_front/components/dashboard/createAssessment/emailList/emailListBody.dart';
-import 'package:platform_front/components/dashboard/createAssessment/emailList/emailListViewLayout.dart';
 import 'package:platform_front/config/constants.dart';
 
 class DashboardBody extends StatelessWidget {

@@ -13,7 +13,7 @@ class EmailCard extends ConsumerWidget {
     return Container(
       decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Color(0xFFC3C3C3), width: 1))),
       child: Padding(
-        padding: const EdgeInsets.only(bottom: 6, top: 6, right: 8, left: 4),
+        padding: const EdgeInsets.only(bottom: 4, top: 4, right: 8, left: 4),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           mainAxisSize: MainAxisSize.min,
@@ -22,13 +22,14 @@ class EmailCard extends ConsumerWidget {
               constraints: const BoxConstraints(maxWidth: 250),
               child: Text(
                 emailText,
-                style: TextStyle(fontFamily: 'Poppins', fontSize: 14, fontWeight: FontWeight.w300, overflow: TextOverflow.ellipsis),
+                style: const TextStyle(fontFamily: 'Poppins', fontSize: 14, fontWeight: FontWeight.w300, overflow: TextOverflow.ellipsis),
               ),
             ),
             IconButton(
               onPressed: () => ref.read(emailListProvider.notifier).deleteSingleEmail(index: index, type: ref.read(emailListRadioButtonProvider)),
               icon: const Icon(
-                Icons.cancel,
+                Icons.close,
+                size: 20,
                 color: Color(0xFFC3C3C3),
               ),
             )

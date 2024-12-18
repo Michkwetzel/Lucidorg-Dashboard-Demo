@@ -39,7 +39,7 @@ class EmailListViewLayout extends ConsumerWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Secondarybutton(onPressed: () => ref.read(emailListProvider.notifier).deleteAllEmails(), buttonText: 'Clear'),
+            Secondarybutton(onPressed: () => ref.read(emailListProvider.notifier).deleteGroupEmails(ref.watch(emailListRadioButtonProvider)), buttonText: 'Clear'),
             Primarybutton(onPressed: () => ref.read(emailListProvider.notifier).changeToAddEmailsDisplay(), buttonText: 'Add Emails'),
           ],
         )

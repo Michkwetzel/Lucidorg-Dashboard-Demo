@@ -131,6 +131,7 @@ class _EnterTokenLayoutState extends ConsumerState<EnterTokenLayout> {
                 const Text("Token", style: kTextFieldHeaderTextStyle),
                 const SizedBox(height: 2),
                 TextfieldGray(
+                  height: 100,
                   onTextChanged: (value) {
                     token = value;
                   },

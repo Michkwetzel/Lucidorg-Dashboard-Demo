@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:platform_front/components/dashboard/createAssessment/layouts/dashboardBody.dart';
-import 'package:platform_front/components/dashboard/navigationBar.dart';
+import 'package:platform_front/components/dashboard/navBar/navigationBar.dart';
 
 class Dashboardscaffold extends StatelessWidget {
   const Dashboardscaffold({super.key});

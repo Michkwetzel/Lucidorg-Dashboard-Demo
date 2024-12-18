@@ -204,6 +204,7 @@ class _EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLay
                 const Text("Email", style: kTextFieldHeaderTextStyle),
                 const SizedBox(height: 2),
                 TextfieldGray(
+                  height: 50,
                   controller: emailController,
                   isLoading: snapshot.connectionState == ConnectionState.waiting,
                   error: validationState.emailError != null,
@@ -213,6 +214,7 @@ class _EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLay
                 const Text("Password", style: kTextFieldHeaderTextStyle),
                 const SizedBox(height: 2),
                 TextfieldGray(
+                  height: 50,
                   controller: passwordController,
                   isLoading: snapshot.connectionState == ConnectionState.waiting,
                   error: validationState.passwordError != null,

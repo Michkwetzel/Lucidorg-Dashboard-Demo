@@ -51,7 +51,7 @@ class EmailListNotifier extends StateNotifier<EmailListState> {
     }
   }
 
-  int listLength(EmailListRadioButtonType type){
+  int listLength(EmailListRadioButtonType type) {
     switch (type) {
       case EmailListRadioButtonType.cSuite:
         return state.emailsCSuite.length;
@@ -59,8 +59,6 @@ class EmailListNotifier extends StateNotifier<EmailListState> {
         return state.emailsCeo.length;
       case EmailListRadioButtonType.employee:
         return state.emailsEmployee.length;
-      default:
-        return 0;
     }
   }
 
@@ -68,10 +66,33 @@ class EmailListNotifier extends StateNotifier<EmailListState> {
     state = state.copyWith(emailsCSuite: [], emailsCeo: [], emailsEmployee: []);
   }
 
-  void changeToAddEmailsDisplay(){
+  void deleteGroupEmails(EmailListRadioButtonType type) {
+    switch (type) {
+      case EmailListRadioButtonType.cSuite:
+        state = state.copyWith(emailsCSuite: []);
+      case EmailListRadioButtonType.ceo:
+        state = state.copyWith(emailsCeo: []);
+      case EmailListRadioButtonType.employee:
+        state = state.copyWith(emailsEmployee: []);
+    }
+  }
+
+  void changeToAddEmailsDisplay() {
     state = state.copyWith(addEmailDisplay: true);
   }
-  void changeToViewEmailsDisplay(){
+
+  void changeToViewEmailsDisplay() {
     state = state.copyWith(addEmailDisplay: false);
+  }
+
+  void addEmails(List<String> emails, EmailListRadioButtonType type) {
+    switch (type) {
+      case EmailListRadioButtonType.cSuite:
+        state = state.copyWith(emailsCSuite: [...state.emailsCSuite, ...emails].toSet().toList());
+      case EmailListRadioButtonType.ceo:
+        state = state.copyWith(emailsCeo: [...state.emailsCeo, ...emails].toSet().toList());
+      case EmailListRadioButtonType.employee:
+        state = state.copyWith(emailsEmployee: [...state.emailsEmployee, ...emails].toSet().toList());
+    }
   }
 }

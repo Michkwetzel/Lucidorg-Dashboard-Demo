@@ -6,6 +6,9 @@ import 'package:platform_front/firebase_options.dart';
 import 'package:go_router/go_router.dart';
 import 'package:platform_front/screens/authScreen/authscreen.dart';
 import 'package:platform_front/screens/dashboard/dashboardScaffold.dart';
+import 'dart:ui_web' as ui_web;
+import 'dart:html' as html;
+
 
 void setupLogging() {
   Logger.root.level = Level.ALL;
@@ -21,7 +24,7 @@ final _router = GoRouter(
   initialLocation: '/dashboard',
   routes: [
     GoRoute(
-      path: '/auth',
+      path: '/',
       builder: (context, state) => const AuthScreen(),
     ),
     GoRoute(
@@ -38,6 +41,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   setupLogging();
+ 
   runApp(
     const ProviderScope(child: App()),
   );
