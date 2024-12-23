@@ -7,4 +7,16 @@ class EmailListRadioButtonNotifier extends StateNotifier<EmailListRadioButtonTyp
   void onButtonSelect(EmailListRadioButtonType selectedButton) {
     state = selectedButton;
   }
+
+  @override
+  String toString() {
+    switch (state) {
+      case (EmailListRadioButtonType.ceo):
+        return "Ceo";
+      case (EmailListRadioButtonType.employee):
+        return "Employee";
+      case (EmailListRadioButtonType.cSuite):
+        return "C-Suite";
+    }
+  }
 }

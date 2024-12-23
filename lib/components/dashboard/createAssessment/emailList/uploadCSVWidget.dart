@@ -94,10 +94,6 @@ class _UploadCSVWidgetState extends State<UploadCSVWidget> {
         uploadError = false;
         success = true;
       });
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Successfully loaded ${validEmails.length} emails')),
-      );
     } catch (e) {
       widget.onDataExtracted([], true);
       setState(() {

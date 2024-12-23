@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:platform_front/components/dashboard/createAssessment/layouts/dashboardBody.dart';
+import 'package:platform_front/components/dashboard/createAssessment/layouts/createAssessmentBody.dart';
 import 'package:platform_front/components/dashboard/navBar/navigationBar.dart';
 
 class Dashboardscaffold extends StatelessWidget {
@@ -12,11 +12,10 @@ class Dashboardscaffold extends StatelessWidget {
       body: Padding(
         padding: EdgeInsets.all(32.0),
         child: Row(
-          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             NavBar(),
-            DashboardBody(),
+            Expanded(child: CreateAssessmentBody()),
           ],
         ),
       ),

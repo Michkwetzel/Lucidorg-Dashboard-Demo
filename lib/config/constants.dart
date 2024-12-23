@@ -56,14 +56,14 @@ const kErrorTextFieldTextStyle = TextStyle(
 const kH1TextStyle = TextStyle(
   fontFamily: "OpenSans",
   fontWeight: FontWeight.w600,
-  fontSize: 40,
+  fontSize: 32,
   color: Color(0xFF494949),
 );
 
 const kH2TextStyle = TextStyle(
   fontFamily: "Poppins",
   fontWeight: FontWeight.w400,
-  fontSize: 28,
+  fontSize: 24,
   color: Color(0xFF323232),
 );
 

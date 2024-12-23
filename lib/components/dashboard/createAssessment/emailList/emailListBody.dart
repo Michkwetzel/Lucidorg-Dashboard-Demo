@@ -10,16 +10,12 @@ class Emaillistbody extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
-      width: 380,
-      height: 550,
+      height: 500,
       decoration: BoxDecoration(
         border: Border.all(color: const Color(0xFF555353), width: 0.7),
         borderRadius: BorderRadius.circular(24.0),
       ),
-      child: Padding(
-        padding: EdgeInsets.all(24.0),
-        child: ref.watch(emailListProvider).addEmailDisplay ?  Emaillistaddlayout() :  EmailListViewLayout()
-      ),
+      child: Padding(padding: EdgeInsets.all(24.0), child: ref.watch(emailListProvider).addEmailDisplay ? Emaillistaddlayout() : EmailListViewLayout()),
     );
   }
 }
