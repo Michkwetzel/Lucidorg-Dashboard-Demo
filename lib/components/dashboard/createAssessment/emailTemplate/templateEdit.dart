@@ -15,14 +15,12 @@ class _TemplateEditState extends ConsumerState<TemplateEdit> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      expands: true, // Add this
-
       enableInteractiveSelection: true,
-      scrollPadding: EdgeInsets.zero,
       initialValue: ref.read(emailTemplateProvider.notifier).templateBody,
       onChanged: (value) => ref.read(emailTemplateProvider.notifier).updateTemplateText(value),
       maxLines: null,
       style: const TextStyle(
+        letterSpacing: 0.4,
         fontSize: 16.0,
         height: 1.5,
         color: Colors.black87,
@@ -31,7 +29,7 @@ class _TemplateEditState extends ConsumerState<TemplateEdit> {
         border: InputBorder.none,
         filled: true,
         fillColor: Colors.white,
-        contentPadding: EdgeInsets.zero,
+        contentPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 0), // Be explicit with padding
       ),
     );
   }

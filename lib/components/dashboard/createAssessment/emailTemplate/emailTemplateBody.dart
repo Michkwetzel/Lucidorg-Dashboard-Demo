@@ -7,52 +7,54 @@ import 'package:platform_front/components/dashboard/createAssessment/emailTempla
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/providers.dart';
 
-class Emailtemplatebody extends ConsumerWidget {
-  const Emailtemplatebody({super.key});
+class EmailTemplateBody extends ConsumerWidget {
+  const EmailTemplateBody({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return Container(
-          constraints: BoxConstraints(
-            maxHeight: 800,
-            minWidth: 400, 
-            maxWidth: 500// Minimum width
+    final isEditMode = ref.watch(emailTemplateProvider.select((it) => it.editEmailTemplateDisplay));
+
+    return Container(
+      padding: const EdgeInsets.only(left: 32, right: 32, top: 50, bottom: 16),
+      decoration: isEditMode
+          ? BoxDecoration(
+              boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.20), blurRadius: 4)],
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+            )
+          : null,
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height,
+        maxWidth: 570,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text("Email Template", style: kH2TextStyle),
+          SizedBox(height: 36),
+          Flexible(
+            child: isEditMode ? TemplateEdit() : const TemplateView(),
           ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(
-                height: 50,
-              ),
-              const Text(
-                "Email Template",
-                style: kH2TextStyle,
-              ),
-              const SizedBox(
-                height: 36,
-              ),
-              Expanded(child: ref.watch(emailTemplateProvider.select((it) => it.editEmailTemplateDisplay)) ? TemplateEdit() : TemplateView()),
-              SizedBox(
-                height: 32,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  ref.watch(emailTemplateProvider.select((it) => it.editEmailTemplateDisplay))
-                      ? CallToActionButton(
-                          onPressed: () => ref.read(emailTemplateProvider.notifier).changeToViewEmailsDisplay(),
-                          buttonText: 'Save',
-                        )
-                      : Primarybutton(onPressed: () => ref.read(emailTemplateProvider.notifier).changeToEditEmailsDisplay(), buttonText: "Edit Email Template"),
-                ],
-              ),
-            ],
-          ),
-        );
-      }
+          const SizedBox(height: 32),
+          _buildActionButton(ref, isEditMode),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildActionButton(WidgetRef ref, bool isEditMode) {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: isEditMode
+          ? CallToActionButton(
+              onPressed: () => ref.read(emailTemplateProvider.notifier).changeToViewEmailsDisplay(),
+              buttonText: 'Save',
+            )
+          : Primarybutton(
+              onPressed: () => ref.read(emailTemplateProvider.notifier).changeToEditEmailsDisplay(),
+              buttonText: "Edit Email Template",
+            ),
     );
   }
 }

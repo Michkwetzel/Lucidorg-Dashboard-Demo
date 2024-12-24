@@ -12,7 +12,7 @@ class NavBar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
-      padding: const EdgeInsets.only(right: 60),
+      padding: const EdgeInsets.only(right: 60, bottom: 16),
       child: Container(
         decoration: BoxDecoration(
           boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.20), blurRadius: 4)],

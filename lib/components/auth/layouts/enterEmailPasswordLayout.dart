@@ -3,17 +3,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
-import 'package:platform_front/components/auth/bottomButtonsRow.dart';
-import 'package:platform_front/components/auth/tempComponents.dart';
+import 'package:platform_front/components/auth/buttons/bottomButtonsRow.dart';
+import 'package:platform_front/components/auth/buttons/tempComponents.dart';
 import 'package:platform_front/components/textFields/textfieldGray.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/config/providers.dart';
 import 'package:platform_front/notifiers/auth/emailPasswordValidateNotifier.dart';
-import 'package:platform_front/notifiers/auth/selectionButtonNotifier.dart';
-import 'package:platform_front/screens/authScreen/appEntryLayout.dart';
-import 'package:platform_front/screens/authScreen/enterTokenLayout.dart';
-import 'package:platform_front/screens/authScreen/userTypeSelectionLayout.dart';
+import 'package:platform_front/components/auth/layouts/appEntryLayout.dart';
+import 'package:platform_front/components/auth/layouts/enterTokenLayout.dart';
+import 'package:platform_front/components/auth/layouts/userTypeSelectionLayout.dart';
 
 class EnterEmailPasswordLayout extends ConsumerStatefulWidget {
   final bool logIn;
@@ -30,6 +29,7 @@ class _EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLay
   final TextEditingController passwordController = TextEditingController();
 
   Future<void>? _pendingNextButtonRequest;
+  // ignore: unused_field
   Future<void>? _pendingGoogleSignRequest;
 
   void _showStandardBottomSheet(BuildContext context, String displayMessage) {
@@ -106,6 +106,7 @@ class _EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLay
                 //TODO: display message, not succesffull.
               }
             } else {
+              // ignore: unused_local_variable
               UserCredential userCred = await ref.read(authfirestoreserviceProvider.notifier).signInWithEmailAndPassword(emailController.text, passwordController.text);
               _showStandardBottomSheet(context, "Logged in");
               await Future.delayed(const Duration(seconds: 2));
