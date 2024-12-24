@@ -4,10 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:platform_front/firebase_options.dart';
 import 'package:go_router/go_router.dart';
-import 'package:platform_front/screens/authScreen/authscreen.dart';
-import 'package:platform_front/screens/dashboard/dashboardScaffold.dart';
-import 'dart:ui_web' as ui_web;
-import 'dart:html' as html;
+import 'package:platform_front/screens/authscreen.dart';
+import 'package:platform_front/screens/dashboardScaffold.dart';
 
 
 void setupLogging() {

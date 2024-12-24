@@ -25,11 +25,7 @@ class EmailListViewLayout extends ConsumerWidget {
               'Email List',
               style: kH2TextStyle,
             ),
-            SizedBox(height: 12),
-            Text(
-              'Active emails grouped by category',
-              style: kInfoTextTextStyle,
-            ),
+         
             SizedBox(height: 12),
             RadioButtonRow(),
             SizedBox(height: 12),

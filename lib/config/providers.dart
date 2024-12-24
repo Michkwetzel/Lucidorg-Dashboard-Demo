@@ -9,6 +9,7 @@ import 'package:platform_front/notifiers/auth/emailPasswordValidateNotifier.dart
 import 'package:platform_front/notifiers/auth/selectionButtonNotifier.dart';
 import 'package:platform_front/notifiers/createAssessment/emailListNotifer.dart';
 import 'package:platform_front/notifiers/createAssessment/emailListRadioButtonNotifier.dart';
+import 'package:platform_front/notifiers/createAssessment/emailTemplateNotifer.dart';
 import 'package:platform_front/notifiers/navBar/navBarNotifer.dart';
 import 'package:platform_front/services/googleFunctionService.dart';
 
@@ -48,4 +49,8 @@ final emailListProvider = StateNotifierProvider<EmailListNotifier, EmailListStat
 
 final navBarProvider = StateNotifierProvider<Navbarnotifer, NavBarButtonType>((ref) {
   return Navbarnotifer();
+});
+
+final emailTemplateProvider = StateNotifierProvider<Emailtemplatenotifer, EmailTemplateState>((ref) {
+  return Emailtemplatenotifer();
 });

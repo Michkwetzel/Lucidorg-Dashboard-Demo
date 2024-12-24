@@ -3,12 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
-import 'package:platform_front/components/auth/bottomButtonsRow.dart';
+import 'package:platform_front/components/auth/buttons/bottomButtonsRow.dart';
 import 'package:platform_front/components/textFields/textfieldGray.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/providers.dart';
-import 'package:platform_front/screens/authScreen/enterEmailPasswordLayout.dart';
-import 'package:platform_front/screens/authScreen/userTypeSelectionLayout.dart';
+import 'package:platform_front/components/auth/layouts/enterEmailPasswordLayout.dart';
+import 'package:platform_front/components/auth/layouts/userTypeSelectionLayout.dart';
 
 class EnterTokenLayout extends ConsumerStatefulWidget {
   const EnterTokenLayout({super.key});

@@ -19,9 +19,11 @@ class _EmaillistaddlayoutState extends ConsumerState<Emaillistaddlayout> {
   final TextEditingController inputController = TextEditingController();
   List<String> newValidEmailsTextField = [];
   List<String> newValidEmailsCSV = [];
-  String? errorText;
+  String? errorTextFieldText;
+  String? errorCSVText;
   bool errorTextField = false;
   bool errorCSV = false;
+  bool displayErrorCSV = false;
 
   void extractEmailsFromTextField() {
     try {
@@ -40,30 +42,40 @@ class _EmaillistaddlayoutState extends ConsumerState<Emaillistaddlayout> {
         } else {
           newValidEmailsTextField.add(email);
         }
-        if (errorTextField) {
-          setState(() {
-            errorTextField = false;
-            errorText = null;
-          });
-        }
       }
+      setState(() {
+        errorTextField = false;
+        errorTextFieldText = null;
+      });
     } catch (e) {
       setState(() {
         errorTextField = true;
-        errorText = e.toString();
+        errorTextFieldText = e.toString();
       });
     }
   }
 
   void onUploadPressed() {
+    setState(() {
+      displayErrorCSV = false;
+    });
     extractEmailsFromTextField();
     List<String> newValidEmails = [...newValidEmailsCSV, ...newValidEmailsTextField].toSet().toList();
     if (!errorCSV && !errorTextField) {
       print(newValidEmails);
       if (newValidEmails.isNotEmpty) {
-        ref.read(emailListProvider.notifier).addEmails(newValidEmails, ref.watch(emailListRadioButtonProvider) );
+        ref.read(emailListProvider.notifier).addEmails(newValidEmails, ref.watch(emailListRadioButtonProvider));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text( newValidEmails.length == 1 ? 'Successfully loaded ${newValidEmails.length} ${ref.read(emailListRadioButtonProvider.notifier).toString()} email' :'Successfully loaded ${newValidEmails.length} ${ref.read(emailListRadioButtonProvider.notifier).toString()} emails')),
+        );
+        ref.read(emailListProvider.notifier).changeToViewEmailsDisplay();
+      } else {
+        setState(() {
+          displayErrorCSV = true;
+          errorTextField = true;
+          errorTextFieldText = '';
+        });
       }
-      ref.read(emailListProvider.notifier).changeToViewEmailsDisplay();
     }
   }
 
@@ -89,13 +101,13 @@ class _EmaillistaddlayoutState extends ConsumerState<Emaillistaddlayout> {
             const SizedBox(height: 24),
             TextfieldGray(
               error: errorTextField,
-              errorText: errorText,
+              errorText: errorTextFieldText,
               height: 50,
               controller: inputController,
               leadingIcon: Icons.email_outlined,
               hintText: 'Emails, comma seperated',
             ),
-            SizedBox(
+            const SizedBox(
               height: 24,
             ),
             const Row(
@@ -107,14 +119,18 @@ class _EmaillistaddlayoutState extends ConsumerState<Emaillistaddlayout> {
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 24,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 UploadCSVWidget(
+                  displayErrorCSV: displayErrorCSV,
                   onDataExtracted: (List<String> emails, bool errorCSV) {
+                    setState(() {
+                      displayErrorCSV = errorCSV;
+                    });
                     this.errorCSV = errorCSV;
                     newValidEmailsCSV = emails;
                   },
@@ -123,11 +139,12 @@ class _EmaillistaddlayoutState extends ConsumerState<Emaillistaddlayout> {
             )
           ],
         ),
+        SizedBox(height: 24,),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Secondarybutton(onPressed: () => ref.read(emailListProvider.notifier).changeToViewEmailsDisplay(), buttonText: "Cancel"),
-            CallToActionButton(onPressed: () =>  onUploadPressed(), buttonText: "Upload")
+            CallToActionButton(onPressed: () => onUploadPressed(), buttonText: "Upload")
           ],
         )
       ],

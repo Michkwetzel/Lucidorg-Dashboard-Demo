@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:platform_front/components/dashboard/createAssessment/layouts/dashboardBody.dart';
+import 'package:platform_front/components/dashboard/companyInfo/companyInfoBody.dart';
+import 'package:platform_front/components/dashboard/createAssessment/layouts/createAssessmentBody.dart';
 import 'package:platform_front/components/dashboard/navBar/navigationBar.dart';
 
 class Dashboardscaffold extends StatelessWidget {
@@ -7,16 +8,15 @@ class Dashboardscaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
-        padding: EdgeInsets.all(32.0),
+        padding: EdgeInsets.only(top: 32, left: 32, right: 32, bottom: 16),
         child: Row(
-          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             NavBar(),
-            DashboardBody(),
+            Expanded(child: CompanyInfoBody()),
           ],
         ),
       ),

@@ -4,8 +4,8 @@ import 'package:platform_front/components/buttons/CallToActionButton.dart';
 import 'package:platform_front/components/buttons/secondaryButton.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/providers.dart';
-import 'package:platform_front/screens/authScreen/enterEmailPasswordLayout.dart';
-import 'package:platform_front/screens/authScreen/userTypeSelectionLayout.dart';
+import 'package:platform_front/components/auth/layouts/enterEmailPasswordLayout.dart';
+import 'package:platform_front/components/auth/layouts/userTypeSelectionLayout.dart';
 
 class AppEntryLayout extends ConsumerWidget {
   const AppEntryLayout({super.key});

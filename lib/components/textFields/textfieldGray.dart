@@ -80,7 +80,7 @@ class TextfieldGray extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return error
+    return error && errorText != ''
         ? Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,

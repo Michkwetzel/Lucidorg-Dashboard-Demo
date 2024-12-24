@@ -5,8 +5,9 @@ import 'package:logging/logging.dart';
 
 class UploadCSVWidget extends StatefulWidget {
   final Function(List<String>, bool error) onDataExtracted;
+  final bool displayErrorCSV;
 
-  const UploadCSVWidget({super.key, required this.onDataExtracted});
+  const UploadCSVWidget({super.key, required this.onDataExtracted, required this.displayErrorCSV});
 
   @override
   State<UploadCSVWidget> createState() => _UploadCSVWidgetState();
@@ -21,12 +22,30 @@ class _UploadCSVWidgetState extends State<UploadCSVWidget> {
   bool isLoading = false;
   bool isHovering = false;
   bool success = false;
+  bool uploadError = false;
 
   // Email validation regex
   final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
 
+  @override
+  void didUpdateWidget(UploadCSVWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.displayErrorCSV != oldWidget.displayErrorCSV) {
+      setState(() {
+        if (widget.displayErrorCSV) {
+          success = false;
+        }
+      });
+    }
+  }
+
   Future<void> handleDrop(DropzoneFileInterface file) async {
-    setState(() => isLoading = true);
+    setState(() {
+      isHovering = false;
+      isLoading = true;
+      uploadError = false;
+      success = false;
+    });
 
     try {
       // Check if it's a CSV file
@@ -72,23 +91,17 @@ class _UploadCSVWidgetState extends State<UploadCSVWidget> {
       widget.onDataExtracted(validEmails, false);
       setState(() {
         displayText = "Successfully loaded ${validEmails.length} emails";
+        uploadError = false;
         success = true;
       });
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Successfully loaded ${validEmails.length} emails')),
-      );
     } catch (e) {
       widget.onDataExtracted([], true);
-      displayText = 'Error processing CSV';
+      setState(() {
+        success = false;
+        uploadError = true;
+      });
+
       logger.info('Error processing CSV: $e');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Error: $e'),
-          backgroundColor: Colors.red,
-          duration: const Duration(seconds: 5),
-        ),
-      );
     } finally {
       setState(() => isLoading = false);
     }
@@ -104,8 +117,56 @@ class _UploadCSVWidgetState extends State<UploadCSVWidget> {
     }
   }
 
+  Color handleColor() {
+    print('uploadError: $uploadError, Successr: ${success}, isHovering: $isHovering, widget.error ${widget.displayErrorCSV}');
+    if (uploadError || widget.displayErrorCSV) {
+      return Colors.red;
+    } else if (success) {
+      return Colors.blue;
+    } else if (isHovering) {
+      return Colors.blue;
+    } else {
+      return Colors.grey;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (uploadError || success) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          _buildCSVWidget(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              IconButton(
+                  padding: EdgeInsets.zero,
+                  onPressed: () {
+                    setState(() {
+                      success = false;
+                      uploadError = false;
+                      displayText = "Click or drag CSV file here";
+                      csvContent = '';
+                      validEmails = [];
+                    });
+                    widget.onDataExtracted([], false);
+                  },
+                  icon: const Icon(
+                    Icons.close,
+                    color: Colors.red,
+                    size: 20,
+                  ))
+            ],
+          )
+        ],
+      );
+    } else {
+      return _buildCSVWidget();
+    }
+  }
+
+  SizedBox _buildCSVWidget() {
     return SizedBox(
       height: 90,
       width: 330,
@@ -126,7 +187,7 @@ class _UploadCSVWidgetState extends State<UploadCSVWidget> {
             child: GestureDetector(
               onTap: handleClick,
               child: DottedBorder(
-                color: isHovering || success ? Colors.blue : Colors.grey,
+                color: handleColor(),
                 strokeWidth: 1,
                 dashPattern: const [5, 5],
                 radius: const Radius.circular(10),
@@ -138,7 +199,7 @@ class _UploadCSVWidgetState extends State<UploadCSVWidget> {
                       Icon(
                         isLoading ? Icons.hourglass_empty : Icons.upload_file,
                         size: 32,
-                        color: isHovering || success ? Colors.blue : Colors.grey,
+                        color: handleColor(),
                       ),
                       const SizedBox(height: 16),
                       if (isLoading)
@@ -147,14 +208,14 @@ class _UploadCSVWidgetState extends State<UploadCSVWidget> {
                         Text(
                           displayText,
                           style: TextStyle(
-                            color: isHovering || success ? Colors.blue : Colors.grey,
+                            color: handleColor(),
                           ),
                         )
                       else
                         Text(
                           displayText,
                           style: TextStyle(
-                            color: isHovering || success ? Colors.blue : Colors.grey,
+                            color: handleColor(),
                           ),
                         ),
                     ],
