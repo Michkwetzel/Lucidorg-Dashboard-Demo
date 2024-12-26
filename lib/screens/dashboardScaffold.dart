@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:platform_front/components/dashboard/companyInfo/companyInfoBody.dart';
-import 'package:platform_front/components/dashboard/createAssessment/layouts/createAssessmentBody.dart';
+
 import 'package:platform_front/components/dashboard/navBar/navigationBar.dart';
 
 class Dashboardscaffold extends StatelessWidget {
-  const Dashboardscaffold({super.key});
+  final Widget body;
+  const Dashboardscaffold({super.key, required this.body});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
-        padding: EdgeInsets.only(top: 32, left: 32, right: 32, bottom: 16),
+        padding: const EdgeInsets.only(top: 32, left: 32, right: 32, bottom: 16),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            NavBar(),
-            Expanded(child: CompanyInfoBody()),
+            const NavBar(),
+            Expanded(child: body),
           ],
         ),
       ),

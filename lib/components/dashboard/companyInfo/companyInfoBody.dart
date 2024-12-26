@@ -1,40 +1,105 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/components/buttons/CallToActionButton.dart';
-import 'package:platform_front/components/textFields/textfieldGray.dart';
+import 'package:platform_front/components/dashboard/companyInfo/styledDropdown.dart';
 import 'package:platform_front/config/constants.dart';
+import 'package:platform_front/config/providers.dart';
 
-class CompanyInfoBody extends StatelessWidget {
-  CompanyInfoBody({super.key});
+class CompanyInfoBody extends ConsumerStatefulWidget {
+  const CompanyInfoBody({super.key});
 
-  final TextEditingController controller = TextEditingController();
+  @override
+  ConsumerState<CompanyInfoBody> createState() => _CompanyInfoBodyState();
+}
+
+class _CompanyInfoBodyState extends ConsumerState<CompanyInfoBody> {
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController companyNameController = TextEditingController();
+  String numEmployees = '1-10';
+  String stageFunding = 'Pre-seed';
+  String industry = 'Technology & Software';
+  String region = 'North America';
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start, // Add this to align columns at the top
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Flexible(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start, // Align text to the left
-            mainAxisSize: MainAxisSize.min, // Add th
-            children: [
-              Text(
-                'Company Info',
-                style: kH1TextStyle,
-              ),
-              Text('Company Name'),
-              TextfieldGray(height: 50, controller: controller),
-              Text('Num of Employees'),
-              StyledDropdown(items: ['1-10', '10-50', '50-100', '100-200', '200+']),
-              Text('Stage of Funding'),
-              StyledDropdown(
-                items: ['Pre-seed', 'Seed Funding', 'Series A', 'Series B', 'Series C and Beyond'],
-              ),
-              Text('Industry'),
-              StyledDropdown(items: [
+    return Form(
+      key: _formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            'Company Info',
+            style: kH1TextStyle,
+          ),
+          SizedBox(
+            height: 16,
+          ),
+          Text('Company Name'),
+          ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: 250),
+            child: TextFormField(
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please enter Company Name";
+                  }
+                  return null;
+                },
+                controller: companyNameController,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: const Color(0xFFEFEFEF),
+                  focusColor: const Color(0xFFEFEFEF),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: BorderSide.none,
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: BorderSide.none,
+                  ),
+                  focusedErrorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: BorderSide(color: Colors.red, width: 2),
+                  ),
+                  errorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: BorderSide(color: Colors.red, width: 1),
+                  ),
+                )),
+          ),
+          SizedBox(
+            height: 16,
+          ),
+          Text('Num of Employees'),
+          ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: 100),
+            child: StyledDropdown(
+              items: const ['1-10', '10-50', '50-100', '100-200', '200+'],
+              onChanged: (value) => setState(() => numEmployees = value),
+            ),
+          ),
+          SizedBox(
+            height: 16,
+          ),
+          Text('Stage of Funding'),
+          ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: 250),
+            child: StyledDropdown(
+              items: const ['Pre-seed', 'Seed Funding', 'Series A', 'Series B', 'Series C and Beyond'],
+              onChanged: (value) => setState(() => stageFunding = value),
+            ),
+          ),
+          SizedBox(
+            height: 16,
+          ),
+          Text('Industry'),
+          ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: 250),
+            child: StyledDropdown(
+              items: const [
                 'Technology & Software',
                 'Healthcare & Medical',
                 'Financial Services',
@@ -50,9 +115,18 @@ class CompanyInfoBody extends StatelessWidget {
                 'Agriculture',
                 'Energy & Utilities',
                 'Telecommunications'
-              ]),
-              Text('Region'),
-              StyledDropdown(items: [
+              ],
+              onChanged: (value) => setState(() => industry = value),
+            ),
+          ),
+          SizedBox(
+            height: 16,
+          ),
+          Text('Region'),
+          ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: 250),
+            child: StyledDropdown(
+              items: const [
                 'North America',
                 'Europe',
                 'Asia Pacific',
@@ -68,59 +142,38 @@ class CompanyInfoBody extends StatelessWidget {
                 'Western Europe',
                 'Northern Africa',
                 'Sub-Saharan Africa'
-              ]),
-              SizedBox(height: 32,),
-              Align(
-                alignment: Alignment.centerRight,
-                child: CallToActionButton(onPressed: () {}, buttonText: "Save"))
-            ],
+              ],
+              onChanged: (value) => setState(() => region = value),
+            ),
           ),
-        ),
-      ],
-    );
-  }
-}
-
-class StyledDropdown extends StatefulWidget {
-  final List<String> items;
-  const StyledDropdown({super.key, required this.items});
-
-  @override
-  State<StyledDropdown> createState() => _StyledDropdownState();
-}
-
-class _StyledDropdownState extends State<StyledDropdown> {
-  late String selectedValue = widget.items[0];
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
-      decoration: BoxDecoration(
-        color: Colors.grey[200],
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.grey[300]!),
-      ),
-      child: DropdownButton<String>(
-        value: selectedValue,
-        isExpanded: true,
-        underline: Container(), // Removes the default underline
-        style: const TextStyle(
-          color: Colors.black,
-          fontSize: 16,
-        ),
-        icon: const Icon(Icons.arrow_drop_down),
-        onChanged: (String? value) {
-          setState(() {
-            selectedValue = value!;
-          });
-        },
-        items: widget.items.map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
-          );
-        }).toList(),
+          SizedBox(
+            height: 16,
+          ),
+          ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: 250),
+              child: Align(
+                  alignment: Alignment.centerRight,
+                  child: CallToActionButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          final Map<String, String> formData = {
+                            'companyName': companyNameController.text,
+                            'numberOfEmployees': numEmployees,
+                            'fundingStage': stageFunding,
+                            'industry': industry,
+                            'region': region,
+                          };
+                          ref.read(companyInfoProvider.notifier).saveCompanyInfo(formData);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Company info successfully saved'),
+                              backgroundColor: Colors.blue,
+                            ),
+                          );
+                        }
+                      },
+                      buttonText: "Save")))
+        ],
       ),
     );
   }

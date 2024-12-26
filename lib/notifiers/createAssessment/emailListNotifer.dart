@@ -33,6 +33,8 @@ class EmailListNotifier extends StateNotifier<EmailListState> {
           emailsEmployee: ["michkwetzel@gmail.com", "jason@gmail.com", "mark@gmail.com", "sarahhuissteenshsbdhsbdhsbdhsbhdbshbdhsbdbhbdhs@gmail.com", "jasmin@gmail.com"],
         ));
 
+  bool get emailsEmpty => state.emailsCSuite.isEmpty && state.emailsCeo.isEmpty && state.emailsEmployee.isEmpty;
+
   Future<void> loadEmails() async {}
 
   Future<void> removeEmail(String emailId) async {}

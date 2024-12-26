@@ -15,7 +15,7 @@ class Emaillistbody extends ConsumerWidget {
         border: Border.all(color: const Color(0xFF555353), width: 0.7),
         borderRadius: BorderRadius.circular(24.0),
       ),
-      child: Padding(padding: EdgeInsets.all(24.0), child: ref.watch(emailListProvider).addEmailDisplay ? Emaillistaddlayout() : EmailListViewLayout()),
+      child: Padding(padding: const EdgeInsets.all(24.0), child: ref.watch(emailListProvider).addEmailDisplay ? Emaillistaddlayout() : EmailListViewLayout()),
     );
   }
 }

@@ -2,19 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/config/providers.dart';
 
-class TemplateEdit extends ConsumerStatefulWidget {
+class TemplateEdit extends ConsumerWidget {
+  final String? Function(String?)? validator;
   TemplateEdit({
-    super.key,
-  });
+    Key? key,
+    required this.validator,
+  }) : super(key: key);
 
   @override
-  ConsumerState<TemplateEdit> createState() => _TemplateEditState();
-}
-
-class _TemplateEditState extends ConsumerState<TemplateEdit> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      validator: validator,
       enableInteractiveSelection: true,
       initialValue: ref.read(emailTemplateProvider.notifier).templateBody,
       onChanged: (value) => ref.read(emailTemplateProvider.notifier).updateTemplateText(value),
@@ -25,11 +24,19 @@ class _TemplateEditState extends ConsumerState<TemplateEdit> {
         height: 1.5,
         color: Colors.black87,
       ),
-      decoration: const InputDecoration(
+      decoration: InputDecoration(
         border: InputBorder.none,
         filled: true,
         fillColor: Colors.white,
-        contentPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 0), // Be explicit with padding
+        contentPadding: EdgeInsets.all(6),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: BorderSide(color: Colors.red, width: 2),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: BorderSide(color: Colors.red, width: 1),
+        ),
       ),
     );
   }

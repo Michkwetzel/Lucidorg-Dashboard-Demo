@@ -66,7 +66,10 @@ class _EmaillistaddlayoutState extends ConsumerState<Emaillistaddlayout> {
       if (newValidEmails.isNotEmpty) {
         ref.read(emailListProvider.notifier).addEmails(newValidEmails, ref.watch(emailListRadioButtonProvider));
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text( newValidEmails.length == 1 ? 'Successfully loaded ${newValidEmails.length} ${ref.read(emailListRadioButtonProvider.notifier).toString()} email' :'Successfully loaded ${newValidEmails.length} ${ref.read(emailListRadioButtonProvider.notifier).toString()} emails')),
+          SnackBar(
+              content: Text(newValidEmails.length == 1
+                  ? 'Successfully loaded ${newValidEmails.length} ${ref.read(emailListRadioButtonProvider.notifier).toString()} email'
+                  : 'Successfully loaded ${newValidEmails.length} ${ref.read(emailListRadioButtonProvider.notifier).toString()} emails')),
         );
         ref.read(emailListProvider.notifier).changeToViewEmailsDisplay();
       } else {
@@ -107,7 +110,9 @@ class _EmaillistaddlayoutState extends ConsumerState<Emaillistaddlayout> {
               leadingIcon: Icons.email_outlined,
               hintText: 'Emails, comma seperated',
             ),
-            const SizedBox(
+            errorTextField ? const SizedBox(
+              height: 7,
+            ) : const SizedBox(
               height: 24,
             ),
             const Row(
@@ -130,6 +135,7 @@ class _EmaillistaddlayoutState extends ConsumerState<Emaillistaddlayout> {
                   onDataExtracted: (List<String> emails, bool errorCSV) {
                     setState(() {
                       displayErrorCSV = errorCSV;
+                      errorTextField = false;
                     });
                     this.errorCSV = errorCSV;
                     newValidEmailsCSV = emails;
@@ -139,7 +145,7 @@ class _EmaillistaddlayoutState extends ConsumerState<Emaillistaddlayout> {
             )
           ],
         ),
-        SizedBox(height: 24,),
+   
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

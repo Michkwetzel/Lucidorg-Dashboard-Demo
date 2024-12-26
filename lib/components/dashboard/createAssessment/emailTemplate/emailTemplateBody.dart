@@ -7,6 +7,8 @@ import 'package:platform_front/components/dashboard/createAssessment/emailTempla
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/providers.dart';
 
+final _formKey = GlobalKey<FormState>();
+
 class EmailTemplateBody extends ConsumerWidget {
   const EmailTemplateBody({super.key});
 
@@ -27,18 +29,33 @@ class EmailTemplateBody extends ConsumerWidget {
         maxHeight: MediaQuery.of(context).size.height,
         maxWidth: 570,
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text("Email Template", style: kH2TextStyle),
-          SizedBox(height: 36),
-          Flexible(
-            child: isEditMode ? TemplateEdit() : const TemplateView(),
-          ),
-          const SizedBox(height: 32),
-          _buildActionButton(ref, isEditMode),
-        ],
+      child: Form(
+        key: _formKey,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text("Email Template", style: kH2TextStyle),
+            SizedBox(height: 36),
+            Flexible(
+              child: isEditMode
+                  ? TemplateEdit(
+                      validator: (value) {
+                        print(value);
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter some text';
+                        } else if (!value.contains('[Assessment Link]') && !value.contains('[assessment link]')) {
+                          return 'Email must contain "[Survey Link]"';
+                        }
+                        return null;
+                      },
+                    )
+                  : const TemplateView(),
+            ),
+            const SizedBox(height: 32),
+            _buildActionButton(ref, isEditMode),
+          ],
+        ),
       ),
     );
   }
@@ -48,7 +65,13 @@ class EmailTemplateBody extends ConsumerWidget {
       alignment: Alignment.centerRight,
       child: isEditMode
           ? CallToActionButton(
-              onPressed: () => ref.read(emailTemplateProvider.notifier).changeToViewEmailsDisplay(),
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  // Form is valid, proceed with save
+                  print(_formKey.currentState!.validate());
+                  ref.read(emailTemplateProvider.notifier).changeToViewEmailsDisplay();
+                }
+              },
               buttonText: 'Save',
             )
           : Primarybutton(

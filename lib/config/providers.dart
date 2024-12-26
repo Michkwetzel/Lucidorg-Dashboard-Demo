@@ -7,6 +7,7 @@ import 'package:platform_front/notifiers/auth/authFireStoreServiceNotifier.dart'
 import 'package:platform_front/notifiers/auth/authTokenNotifier.dart';
 import 'package:platform_front/notifiers/auth/emailPasswordValidateNotifier.dart';
 import 'package:platform_front/notifiers/auth/selectionButtonNotifier.dart';
+import 'package:platform_front/notifiers/companyInfo/companyInfoNotifer.dart';
 import 'package:platform_front/notifiers/createAssessment/emailListNotifer.dart';
 import 'package:platform_front/notifiers/createAssessment/emailListRadioButtonNotifier.dart';
 import 'package:platform_front/notifiers/createAssessment/emailTemplateNotifer.dart';
@@ -32,7 +33,11 @@ final emailpasswordvalidateProvider = StateNotifierProvider<Emailpasswordvalidat
 });
 
 final googlefunctionserviceProvider = StateNotifierProvider<Googlefunctionservice, bool>((ref) {
-  return Googlefunctionservice();
+  final authNotifier = ref.watch(authfirestoreserviceProvider.notifier);
+  final companyInfoNotifer = ref.watch(companyInfoProvider.notifier);
+  final emailTemplateNotifer = ref.watch(emailTemplateProvider.notifier);
+  final emailListNotifier = ref.watch(emailListProvider.notifier);
+  return Googlefunctionservice(emailListNotifier, emailTemplateNotifer, companyInfoNotifer, authNotifier);
 });
 
 final authTokenProvider = StateNotifierProvider<Authtokennotifier, String>((ref) {
@@ -53,4 +58,8 @@ final navBarProvider = StateNotifierProvider<Navbarnotifer, NavBarButtonType>((r
 
 final emailTemplateProvider = StateNotifierProvider<Emailtemplatenotifer, EmailTemplateState>((ref) {
   return Emailtemplatenotifer();
+});
+
+final companyInfoProvider = StateNotifierProvider<CompanyInfoNotifer, Map<String, String>>((ref) {
+  return CompanyInfoNotifer();
 });
