@@ -8,6 +8,8 @@ import 'package:platform_front/firebase_options.dart';
 import 'package:go_router/go_router.dart';
 import 'package:platform_front/screens/dashboardScaffold.dart';
 
+//TODO: make sure the user can only fill out the survey once. Check if already filled out. 
+
 void setupLogging() {
   Logger.root.level = Level.ALL;
   Logger.root.onRecord.listen((record) {
@@ -39,7 +41,7 @@ final _router = GoRouter(
         GoRoute(
           path: '/CompanyInfo',
           pageBuilder: (context, state) {
-            return NoTransitionPage(
+            return const NoTransitionPage(
               child: CompanyInfoBody(),
             );
           },

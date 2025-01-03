@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/components/buttons/CallToActionButton.dart';
+import 'package:platform_front/components/dashboard/companyInfo/customTextFieldForm.dart';
 import 'package:platform_front/components/dashboard/companyInfo/styledDropdown.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/providers.dart';
@@ -17,13 +18,25 @@ class CompanyInfoBody extends ConsumerStatefulWidget {
 class _CompanyInfoBodyState extends ConsumerState<CompanyInfoBody> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController companyNameController = TextEditingController();
-  String numEmployees = '1-10';
-  String stageFunding = 'Pre-seed';
-  String industry = 'Technology & Software';
-  String region = 'North America';
+  late String numEmployees;
+  late String stageFunding;
+  late String industry;
+  late String region;
+
+  @override
+  void initState() {
+    super.initState();
+    Map<String, String> companyInfo = ref.read(companyInfoProvider);
+    companyNameController.text = companyInfo['companyName'] ?? '';
+    numEmployees = companyInfo['numberOfEmployees'] ?? '1-50';
+    stageFunding = companyInfo['fundingStage'] ?? 'Pre-seed';
+    industry = companyInfo['industry'] ?? 'Technology & Software';
+    region = companyInfo['region'] ?? 'North America';
+  }
 
   @override
   Widget build(BuildContext context) {
+    Map<String, String> companyInfo = ref.read(companyInfoProvider);
     return Form(
       key: _formKey,
       child: Column(
@@ -40,44 +53,17 @@ class _CompanyInfoBodyState extends ConsumerState<CompanyInfoBody> {
           Text('Company Name'),
           ConstrainedBox(
             constraints: BoxConstraints(maxWidth: 250),
-            child: TextFormField(
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "Please enter Company Name";
-                  }
-                  return null;
-                },
-                controller: companyNameController,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: const Color(0xFFEFEFEF),
-                  focusColor: const Color(0xFFEFEFEF),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(16),
-                    borderSide: BorderSide.none,
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(16),
-                    borderSide: BorderSide.none,
-                  ),
-                  focusedErrorBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(16),
-                    borderSide: BorderSide(color: Colors.red, width: 2),
-                  ),
-                  errorBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(16),
-                    borderSide: BorderSide(color: Colors.red, width: 1),
-                  ),
-                )),
+            child: CustomTextFieldForm(ref: ref, companyNameController: companyNameController),
           ),
           SizedBox(
             height: 16,
           ),
           Text('Num of Employees'),
           ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 100),
+            constraints: BoxConstraints(maxWidth: 120),
             child: StyledDropdown(
-              items: const ['1-10', '10-50', '50-100', '100-200', '200+'],
+              initalValue: companyInfo['numberOfEmployees'] ?? '1-50',
+              items: const ['1-50', '50-100', '100-200', '200+'],
               onChanged: (value) => setState(() => numEmployees = value),
             ),
           ),
@@ -88,6 +74,7 @@ class _CompanyInfoBodyState extends ConsumerState<CompanyInfoBody> {
           ConstrainedBox(
             constraints: BoxConstraints(maxWidth: 250),
             child: StyledDropdown(
+              initalValue: companyInfo['fundingStage'] ?? 'Pre-seed',
               items: const ['Pre-seed', 'Seed Funding', 'Series A', 'Series B', 'Series C and Beyond'],
               onChanged: (value) => setState(() => stageFunding = value),
             ),
@@ -99,6 +86,7 @@ class _CompanyInfoBodyState extends ConsumerState<CompanyInfoBody> {
           ConstrainedBox(
             constraints: BoxConstraints(maxWidth: 250),
             child: StyledDropdown(
+              initalValue: companyInfo['industry'] ?? 'Technology & Software',
               items: const [
                 'Technology & Software',
                 'Healthcare & Medical',
@@ -126,6 +114,7 @@ class _CompanyInfoBodyState extends ConsumerState<CompanyInfoBody> {
           ConstrainedBox(
             constraints: BoxConstraints(maxWidth: 250),
             child: StyledDropdown(
+              initalValue: companyInfo['region'] ?? 'North America',
               items: const [
                 'North America',
                 'Europe',

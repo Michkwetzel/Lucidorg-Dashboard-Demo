@@ -4,10 +4,10 @@ import 'package:platform_front/config/providers.dart';
 
 class TemplateEdit extends ConsumerWidget {
   final String? Function(String?)? validator;
-  TemplateEdit({
-    Key? key,
+  const TemplateEdit({
+    super.key,
     required this.validator,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -28,14 +28,14 @@ class TemplateEdit extends ConsumerWidget {
         border: InputBorder.none,
         filled: true,
         fillColor: Colors.white,
-        contentPadding: EdgeInsets.all(6),
+        contentPadding: const EdgeInsets.all(6),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide(color: Colors.red, width: 2),
+          borderSide: const BorderSide(color: Colors.red, width: 2),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide(color: Colors.red, width: 1),
+          borderSide: const BorderSide(color: Colors.red, width: 1),
         ),
       ),
     );

@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:platform_front/components/dashboard/navBar/navBarButton.dart';
 import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/config/providers.dart';
-import 'package:platform_front/main.dart';
 
 class NavBar extends ConsumerWidget {
   const NavBar({

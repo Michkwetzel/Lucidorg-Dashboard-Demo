@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/components/buttons/CallToActionButton.dart';
 import 'package:platform_front/components/dashboard/createAssessment/emailList/emailListBody.dart';
@@ -12,6 +11,33 @@ class CreateAssessmentBody extends ConsumerWidget {
     super.key,
   });
 
+  void startAssessment(BuildContext context, WidgetRef ref) {
+    if (ref.read(emailTemplateProvider.notifier).editEmailTemplateDisplay) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please Save Email Template'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } else if (ref.read(emailListProvider.notifier).emailsEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Email list Empty'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } else if (ref.read(companyInfoProvider.notifier).companyInfoEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please enter details in Company Info Page'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } else {
+      ref.read(googlefunctionserviceProvider.notifier).createAssessment();
+    }
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return SingleChildScrollView(
@@ -20,7 +46,7 @@ class CreateAssessmentBody extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ConstrainedBox(
-            constraints: BoxConstraints(
+            constraints: const BoxConstraints(
               maxWidth: 380,
             ),
             child: Column(
@@ -40,38 +66,13 @@ class CreateAssessmentBody extends ConsumerWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Emaillistbody(),
+                        const Emaillistbody(),
                         const SizedBox(height: 32),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             CallToActionButton(
-                              onPressed: () {
-                                if (ref.read(emailTemplateProvider.notifier).editEmailTemplateDisplay) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text('Please Save Email Template'),
-                                      backgroundColor: Colors.red,
-                                    ),
-                                  );
-                                } else if (ref.read(emailListProvider.notifier).emailsEmpty) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text('Email list Empty'),
-                                      backgroundColor: Colors.red,
-                                    ),
-                                  );
-                                } else if (ref.read(companyInfoProvider.notifier).companyInfoEmpty) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text('Please enter details in Company Info Page'),
-                                      backgroundColor: Colors.red,
-                                    ),
-                                  );
-                                } else {
-                                  ref.read(googlefunctionserviceProvider.notifier).createAssessment();
-                                }
-                              },
+                              onPressed: () => startAssessment(context, ref),
                               buttonText: "Start Assessment",
                             ),
                           ],
@@ -84,7 +85,7 @@ class CreateAssessmentBody extends ConsumerWidget {
             ),
           ),
           const SizedBox(width: 32),
-          EmailTemplateBody(),
+          const EmailTemplateBody(),
         ],
       ),
     );

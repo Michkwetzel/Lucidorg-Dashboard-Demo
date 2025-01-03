@@ -37,7 +37,7 @@ class HttpService {
           return jsonDecode(response.body);
         } catch (e) {
           logger.severe('JSON parsing error: ${e.toString()}');
-          throw HttpRequestException('Error parsing server response');
+          throw const HttpRequestException('Error parsing server response');
         }
       case 400:
         throw HttpRequestException('Bad Request: ${_extractErrorMessage(response)}');

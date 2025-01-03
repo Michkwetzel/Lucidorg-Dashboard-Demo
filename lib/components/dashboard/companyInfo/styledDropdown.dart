@@ -5,11 +5,13 @@ import 'package:flutter/material.dart';
 class StyledDropdown extends StatefulWidget {
   final List<String> items;
   final Function(String) onChanged;
+  final String initalValue;
 
   const StyledDropdown({
     super.key,
     required this.items,
     required this.onChanged,
+    required this.initalValue
   });
 
   @override
@@ -17,7 +19,7 @@ class StyledDropdown extends StatefulWidget {
 }
 
 class _StyledDropdownState extends State<StyledDropdown> {
-  late String selectedValue = widget.items[0];
+  late String selectedValue = widget.initalValue;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +34,7 @@ class _StyledDropdownState extends State<StyledDropdown> {
         dropdownColor: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(8)),
         value: selectedValue,
+        menuMaxHeight: 300,
         isExpanded: true,
         underline: Container(),
         style: const TextStyle(
