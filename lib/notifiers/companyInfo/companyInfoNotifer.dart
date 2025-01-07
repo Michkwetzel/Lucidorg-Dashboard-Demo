@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CompanyInfoNotifer extends StateNotifier<Map<String, String>> {
-  CompanyInfoNotifer() : super({'companyInfo' : ''});
+  CompanyInfoNotifer() : super({'companyName' : ''});
 
   void saveCompanyInfo(Map<String,String> infoList) {
     state = infoList;
@@ -9,6 +9,6 @@ class CompanyInfoNotifer extends StateNotifier<Map<String, String>> {
 
   String get companyName => state['companyName'] ?? '';
 
-  bool get companyInfoEmpty => state.isEmpty;
+  bool get companyInfoEmpty => state['companyName'] == '';
 
 }

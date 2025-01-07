@@ -85,7 +85,10 @@ class CreateAssessmentBody extends ConsumerWidget {
             ),
           ),
           const SizedBox(width: 32),
-          const EmailTemplateBody(),
+          const Padding(
+            padding:  EdgeInsets.only(top: 4, bottom: 4),
+            child:  EmailTemplateBody(),
+          ),
         ],
       ),
     );

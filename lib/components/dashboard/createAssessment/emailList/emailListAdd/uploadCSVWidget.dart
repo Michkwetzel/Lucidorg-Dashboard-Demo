@@ -75,16 +75,14 @@ class _UploadCSVWidgetState extends State<UploadCSVWidget> {
 
         final email = columns[0].trim();
         if (!emailRegex.hasMatch(email)) {
-          displayText = 'Invalid email format in row ${i + 1}: $email';
-          throw 'CSV validation failed:\n$displayText';
+          throw CSVValidationException('CSV validation failed:\nInvalid email format in row ${i + 1}: ${email.substring(0, 10)}');
         }
 
         validEmails.add(email);
       }
 
       if (validEmails.isEmpty) {
-        displayText = 'No valid emails found in the CSV file';
-        throw 'No valid emails found in the CSV file';
+        throw NoEmailsFoundException('No valid emails found in the CSV file');
       }
 
       // Send valid emails back to parent
@@ -95,13 +93,20 @@ class _UploadCSVWidgetState extends State<UploadCSVWidget> {
         success = true;
       });
     } catch (e) {
+      print(e);
       widget.onDataExtracted([], true);
       setState(() {
+        if (e is CSVValidationException) {
+          displayText = e.message; // Use message property instead of toString()
+        } else if (e is NoEmailsFoundException) {
+          displayText = e.message; // Use message property instead of toString()
+        } else {
+          print('Unexpected error: $e');
+          displayText = 'Invalid CSV file';
+        }
         success = false;
         uploadError = true;
       });
-
-      logger.info('Error processing CSV: $e');
     } finally {
       setState(() => isLoading = false);
     }
@@ -118,7 +123,6 @@ class _UploadCSVWidgetState extends State<UploadCSVWidget> {
   }
 
   Color handleColor() {
-    print('uploadError: $uploadError, Successr: ${success}, isHovering: $isHovering, widget.error ${widget.displayErrorCSV}');
     if (uploadError || widget.displayErrorCSV) {
       return Colors.red;
     } else if (success) {
@@ -168,7 +172,7 @@ class _UploadCSVWidgetState extends State<UploadCSVWidget> {
 
   SizedBox _buildCSVWidget() {
     return SizedBox(
-      height: 90,
+      height: 95,
       width: 330,
       child: Stack(
         children: [
@@ -228,4 +232,20 @@ class _UploadCSVWidgetState extends State<UploadCSVWidget> {
       ),
     );
   }
+}
+
+class CSVValidationException implements Exception {
+  final String message;
+  CSVValidationException(this.message);
+
+  @override
+  String toString() => message;
+}
+
+class NoEmailsFoundException implements Exception {
+  final String message;
+  NoEmailsFoundException(this.message);
+
+  @override
+  String toString() => message;
 }

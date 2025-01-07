@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/components/buttons/CallToActionButton.dart';
 import 'package:platform_front/components/buttons/secondaryButton.dart';
 import 'package:platform_front/components/dashboard/createAssessment/emailList/radioButton/radioButtonRow.dart';
-import 'package:platform_front/components/dashboard/createAssessment/emailList/uploadCSVWidget.dart';
+import 'package:platform_front/components/dashboard/createAssessment/emailList/emailListAdd/uploadCSVWidget.dart';
 import 'package:platform_front/components/textFields/textfieldGray.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/providers.dart';
@@ -24,10 +24,17 @@ class _EmaillistaddlayoutState extends ConsumerState<Emaillistaddlayout> {
   bool errorTextField = false;
   bool errorCSV = false;
   bool displayErrorCSV = false;
+  double textFieldHeight = 50;
+  final FocusNode _focusNode = FocusNode();
+  bool hideWidgets = false;
 
   void extractEmailsFromTextField() {
     try {
-      final inputEmails = inputController.text.split(',').map((e) => e.trim()).toList();
+      final inputEmails = inputController.text
+          .split(RegExp(r'[,\n\s]+')) // Split by comma, newline, or whitespace
+          .where((email) => email.isNotEmpty) // Remove empty entries
+          .map((e) => e.trim()) // Trim any remaining whitespace
+          .toList();
 
       for (int i = 0; i < inputEmails.length; i++) {
         final email = inputEmails[i];
@@ -82,6 +89,32 @@ class _EmaillistaddlayoutState extends ConsumerState<Emaillistaddlayout> {
     }
   }
 
+  void handleFocus() {
+    setState(() {
+      hideWidgets = true;
+      textFieldHeight = 200;
+    });
+  }
+
+  void handleUnfocus() {
+    setState(() {
+      hideWidgets = false;
+      textFieldHeight = 50;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode.addListener(() {
+      if (_focusNode.hasFocus) {
+        handleFocus();
+      } else {
+        handleUnfocus();
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -103,49 +136,53 @@ class _EmaillistaddlayoutState extends ConsumerState<Emaillistaddlayout> {
             const RadioButtonRow(),
             const SizedBox(height: 24),
             TextfieldGray(
+              focusNode: _focusNode,
               error: errorTextField,
               errorText: errorTextFieldText,
-              height: 50,
+              height: textFieldHeight,
               controller: inputController,
               leadingIcon: Icons.email_outlined,
-              hintText: 'Emails, comma seperated',
+              hintText: 'Emails, comma or space seperated',
             ),
-            errorTextField ? const SizedBox(
-              height: 7,
-            ) : const SizedBox(
-              height: 24,
-            ),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Or',
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 24,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                UploadCSVWidget(
-                  displayErrorCSV: displayErrorCSV,
-                  onDataExtracted: (List<String> emails, bool errorCSV) {
-                    setState(() {
-                      displayErrorCSV = errorCSV;
-                      errorTextField = false;
-                    });
-                    this.errorCSV = errorCSV;
-                    newValidEmailsCSV = emails;
-                  },
-                )
-              ],
-            )
+            if (!hideWidgets) ...[
+              errorTextField
+                  ? const SizedBox(
+                      height: 7,
+                    )
+                  : const SizedBox(
+                      height: 24,
+                    ),
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Or',
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 24,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  UploadCSVWidget(
+                    displayErrorCSV: displayErrorCSV,
+                    onDataExtracted: (List<String> emails, bool errorCSV) {
+                      setState(() {
+                        displayErrorCSV = errorCSV;
+                        errorTextField = false;
+                      });
+                      this.errorCSV = errorCSV;
+                      newValidEmailsCSV = emails;
+                    },
+                  )
+                ],
+              )
+            ],
           ],
         ),
-   
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

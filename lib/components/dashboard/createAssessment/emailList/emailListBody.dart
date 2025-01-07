@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:platform_front/components/dashboard/createAssessment/emailList/emailListAddLayout.dart';
-import 'package:platform_front/components/dashboard/createAssessment/emailList/emailListViewLayout.dart';
+import 'package:platform_front/components/dashboard/createAssessment/emailList/emailListAdd/emailListAddLayout.dart';
+import 'package:platform_front/components/dashboard/createAssessment/emailList/emailListView/emailListViewLayout.dart';
 import 'package:platform_front/config/providers.dart';
 
 class Emaillistbody extends ConsumerWidget {

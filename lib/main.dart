@@ -6,9 +6,10 @@ import 'package:platform_front/components/dashboard/companyInfo/companyInfoBody.
 import 'package:platform_front/components/dashboard/createAssessment/layouts/createAssessmentBody.dart';
 import 'package:platform_front/firebase_options.dart';
 import 'package:go_router/go_router.dart';
+import 'package:platform_front/screens/authscreen.dart';
 import 'package:platform_front/screens/dashboardScaffold.dart';
 
-//TODO: make sure the user can only fill out the survey once. Check if already filled out. 
+//TODO: make sure the user can only fill out the survey once. Check if already filled out.
 
 void setupLogging() {
   Logger.root.level = Level.ALL;
@@ -39,7 +40,7 @@ final _router = GoRouter(
           },
         ),
         GoRoute(
-          path: '/CompanyInfo',
+          path: '/companyInfo',
           pageBuilder: (context, state) {
             return const NoTransitionPage(
               child: CompanyInfoBody(),
@@ -48,6 +49,10 @@ final _router = GoRouter(
         ),
       ],
     ),
+    GoRoute(
+      path: '/auth',
+      builder: (context, state) => AuthScreen(),
+    )
   ],
 );
 
