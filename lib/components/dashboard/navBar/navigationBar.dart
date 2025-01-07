@@ -46,7 +46,7 @@ class NavBar extends ConsumerWidget {
                           ),
                           const SizedBox(height: 24),
                           NavBarButton(
-                            onTap: () => ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.home),
+                            onTap: () =>  context.go('/home'),
                             icon: Icons.home,
                             label: 'Home',
                             buttonType: NavBarButtonType.home,

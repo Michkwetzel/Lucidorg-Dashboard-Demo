@@ -28,9 +28,9 @@ class EmailListState {
 class EmailListNotifier extends StateNotifier<EmailListState> {
   EmailListNotifier()
       : super(EmailListState(
-          emailsCeo: ["dsoo@gmail.com", "saadsrk@gmail.com"],
-          emailsCSuite: ["devinAndrews@gmail.com", "mark@gmail.com", "random@gmail.com", "mark@gmail.com", "jason@gmail.com", "mark@gmail.com", "jasmin@gmail.com"],
-          emailsEmployee: ["michkwetzel@gmail.com", "jason@gmail.com", "mark@gmail.com", "sarahhuissteenshsbdhsbdhsbdhsbhdbshbdhsbdbhbdhs@gmail.com", "jasmin@gmail.com"],
+          emailsCeo: [],
+          emailsCSuite: [],
+          emailsEmployee: [],
         ));
 
   bool get emailsEmpty => state.emailsCSuite.isEmpty && state.emailsCeo.isEmpty && state.emailsEmployee.isEmpty;

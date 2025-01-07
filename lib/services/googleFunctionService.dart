@@ -7,6 +7,7 @@ import 'package:platform_front/notifiers/companyInfo/companyInfoNotifer.dart';
 import 'package:platform_front/notifiers/createAssessment/emailListNotifer.dart';
 import 'package:platform_front/notifiers/createAssessment/emailTemplateNotifer.dart';
 import 'package:platform_front/services/httpService.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Googlefunctionservice extends StateNotifier<bool> {
   final Logger logger = Logger("Googlefunctionservice");
@@ -32,6 +33,15 @@ class Googlefunctionservice extends StateNotifier<bool> {
   Future<dynamic> createUserProfile({required String? email, required String userUID, String? authToken, bool? employee, bool? guest}) {
     Map<String, dynamic> request = {'token': authToken, 'userEmail': email, 'userUID': userUID, 'employee': employee ?? false, 'guest': guest ?? false};
     return HttpService.postRequest(path: kCreateUserProfilePath, request: request);
+  }
+
+  Future<Stream<QuerySnapshot>> getResultsStream() async {
+    final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+    final docCompanyUIDSnapshot = await _firestore.collection('surveyData').doc('dBR3TMXWGxm_LqJDXd7vkw').get();
+    final latestSurveyDocName = docCompanyUIDSnapshot.data()?['latestSurvey']; //Get latest survey
+
+    return _firestore.collection('surveyData/dBR3TMXWGxm_LqJDXd7vkw/$latestSurveyDocName/results/data').snapshots();
   }
 
   Future<dynamic> createAssessment() {

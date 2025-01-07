@@ -45,7 +45,7 @@ class EmailTemplateBody extends ConsumerWidget {
                         if (value == null || value.isEmpty) {
                           return 'Please enter some text';
                         } else if (!value.contains('[Assessment Link]') && !value.contains('[assessment link]')) {
-                          return 'Email must contain "[Survey Link]"';
+                          return 'Email must contain "[assessment link]" (This is where link will be inserted)';
                         }
                         return null;
                       },

@@ -27,6 +27,11 @@ class EmailListViewLayout extends ConsumerWidget {
             ),
          
             SizedBox(height: 12),
+            Text(
+              'Select appropriate department',
+              style: kInfoTextTextStyle,
+            ),
+            SizedBox(height: 12),
             RadioButtonRow(),
             SizedBox(height: 12),
             ActiveEmailListWidget(),

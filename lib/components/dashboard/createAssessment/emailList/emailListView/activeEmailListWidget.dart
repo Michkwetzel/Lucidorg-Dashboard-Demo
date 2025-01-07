@@ -29,7 +29,7 @@ class ActiveEmailListWidget extends ConsumerWidget {
     }
 
     return SizedBox(
-      height: 300,
+      height: 250,
       child: ListView.builder(
         itemCount: selectedEmailList.length,
         itemBuilder: (context, index) {
