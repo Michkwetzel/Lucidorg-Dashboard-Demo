@@ -26,22 +26,32 @@ class ResultsStats extends ConsumerWidget {
       future: ref.read(googlefunctionserviceProvider.notifier).getResultsStream(),
       builder: (context, streamSnapshot) {
         if (streamSnapshot.hasError) {
-          return Text('Error loading stream');
+          return Card(
+            child: Padding(
+              padding: EdgeInsets.all(16),
+              child: Text('Error loading stream: ${streamSnapshot.error}'),
+            ),
+          );
         }
 
         if (!streamSnapshot.hasData) {
-          return CircularProgressIndicator();
+          return Center(child: CircularProgressIndicator());
         }
 
         return StreamBuilder<QuerySnapshot>(
           stream: streamSnapshot.data,
           builder: (context, snapshot) {
             if (snapshot.hasError) {
-              return Text('Something went wrong');
+              return Card(
+                child: Padding(
+                  padding: EdgeInsets.all(16),
+                  child: Text('Stream error: ${snapshot.error}'),
+                ),
+              );
             }
 
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return CircularProgressIndicator();
+              return Center(child: CircularProgressIndicator());
             }
 
             final docs = snapshot.data?.docs ?? [];

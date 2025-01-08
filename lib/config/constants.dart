@@ -89,10 +89,10 @@ const double kSelectionButtonHeight = 80;
 const double kLogoScale = 3.15;
 
 // Google Function HTTP Paths
-const String kVerifyAuthTokenPath = 'https://verifyauthtoken-rbyavkqn2a-uc.a.run.app';
+// const String kVerifyAuthTokenPath = 'https://verifyauthtoken-rbyavkqn2a-uc.a.run.app';
+const String kVerifyAuthTokenPath = 'http://127.0.0.1:5001/efficiency-1st/us-central1/verifyAuthToken';
 
-const String kCreateUserProfilePath = 'https://createuserprofile-rbyavkqn2a-uc.a.run.app';
+// const String kCreateUserProfilePath = 'https://createuserprofile-rbyavkqn2a-uc.a.run.app';
+const String kCreateUserProfilePath = 'http://127.0.0.1:5001/efficiency-1st/us-central1/createUserProfile';
 
 const String kCreateAssessmentPath = 'https://createassessment-rbyavkqn2a-uc.a.run.app';
-
-

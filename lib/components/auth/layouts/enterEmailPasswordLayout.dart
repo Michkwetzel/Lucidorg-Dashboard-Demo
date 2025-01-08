@@ -13,9 +13,10 @@ import 'package:platform_front/notifiers/auth/emailPasswordValidateNotifier.dart
 import 'package:platform_front/components/auth/layouts/appEntryLayout.dart';
 import 'package:platform_front/components/auth/layouts/enterTokenLayout.dart';
 import 'package:platform_front/components/auth/layouts/userTypeSelectionLayout.dart';
+import 'package:platform_front/services/snackBarService.dart';
 
 class EnterEmailPasswordLayout extends ConsumerStatefulWidget {
-  final bool logIn;
+  final bool logIn; // To keep track if this is a log in screen or a create account screen
 
   const EnterEmailPasswordLayout({super.key, this.logIn = false});
 
@@ -62,6 +63,11 @@ class _EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLay
     );
   }
 
+  void succesfullyCreatedAccount() {
+    ref.read(authfirestoreserviceProvider.notifier).setPermission();
+    SnackBarService.showMessage("Successfully created Account", Colors.blue);
+  }
+
   @override
   Widget build(BuildContext context) {
     EmailPasswordValidationState validationState = ref.watch(emailpasswordvalidateProvider);
@@ -90,28 +96,33 @@ class _EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLay
             //TODO: for now employee is also guest. Later change to logic for employee signing in aswell.
 
             if (!widget.logIn) {
+              // Create Account
               await ref.read(authfirestoreserviceProvider.notifier).createUserWithEmailAndPassword(emailController.text, passwordController.text);
               final responseBody = await ref.read(googlefunctionserviceProvider.notifier).createUserProfile(
                     email: emailController.text,
                     userUID: FirebaseAuth.instance.currentUser!.uid,
+                    employee: selectedButton == SelectionButtonType.employee ? true : false,
                     guest: selectedButton == SelectionButtonType.guest ? true : false,
                     authToken: selectedButton == SelectionButtonType.token ? ref.read(authTokenProvider) : null,
                   );
 
               if (responseBody['success']) {
-                _showStandardBottomSheet(context, "Account created successfully");
-                await Future.delayed(const Duration(seconds: 2));
+                succesfullyCreatedAccount();
+
                 //TODO: Go to next screen
               } else {
-                //TODO: display message, not succesffull.
+                ref.read(authfirestoreserviceProvider.notifier).deleteAccount();
+                SnackBarService.showMessage("Internal Error creating account, Please try again later or click feedback button", Colors.red);
               }
             } else {
+              // Log in
               // ignore: unused_local_variable
               UserCredential userCred = await ref.read(authfirestoreserviceProvider.notifier).signInWithEmailAndPassword(emailController.text, passwordController.text);
-              _showStandardBottomSheet(context, "Logged in");
+              SnackBarService.showMessage("Log in successfull", Colors.blue);
               await Future.delayed(const Duration(seconds: 2));
             }
           } on FirebaseAuthException catch (e) {
+            ref.read(authfirestoreserviceProvider.notifier).deleteAccount();
             logger.info('Error logging in or sign up with Firebase Auth Account: ${e.code}');
             switch (e.code) {
               case 'email-already-in-use':
@@ -140,6 +151,8 @@ class _EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLay
                 break;
             }
           } on Exception catch (e) {
+            ref.read(authfirestoreserviceProvider.notifier).deleteAccount();
+
             logger.info('Error logging in or sign up $e');
             validationNotifier.setEmailError("Invalid");
           }
@@ -164,19 +177,23 @@ class _EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLay
                   // This logic here actualy takes care of which user it is. Except Employee
                   email: userCred?.user?.email,
                   userUID: FirebaseAuth.instance.currentUser!.uid,
+                  employee: selectedButton == SelectionButtonType.employee ? true : false,
                   guest: selectedButton == SelectionButtonType.guest ? true : false,
                   authToken: selectedButton == SelectionButtonType.token ? ref.read(authTokenProvider) : null,
                 );
 
             if (responseBody['success']) {
-              _showStandardBottomSheet(context, "Account created successfully");
-              await Future.delayed(const Duration(seconds: 2));
+              succesfullyCreatedAccount();
+            } else {
+              ref.read(authfirestoreserviceProvider.notifier).deleteAccount();
+              SnackBarService.showMessage("Internal Error creating account, Please try again later or click feedback button", Colors.red);
             }
           } else {
             //TODO: Log in Logic
           }
         } on Exception {
-          _showStandardBottomSheet(context, "Google Sign in Error");
+          ref.read(authfirestoreserviceProvider.notifier).deleteAccount();
+          SnackBarService.showMessage("Google sign in error, Please try again later or click feedback button", Colors.red);
           await Future.delayed(const Duration(seconds: 2));
         }
       });

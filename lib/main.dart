@@ -5,10 +5,12 @@ import 'package:logging/logging.dart';
 import 'package:platform_front/components/dashboard/companyInfo/companyInfoBody.dart';
 import 'package:platform_front/components/dashboard/createAssessment/layouts/createAssessmentBody.dart';
 import 'package:platform_front/components/dashboard/home/homelayout.dart';
+import 'package:platform_front/components/errorScreen/errorScreen.dart';
 import 'package:platform_front/firebase_options.dart';
 import 'package:go_router/go_router.dart';
 import 'package:platform_front/screens/authscreen.dart';
 import 'package:platform_front/screens/dashboardScaffold.dart';
+import 'package:platform_front/services/snackBarService.dart';
 
 //TODO: make sure the user can only fill out the survey once. Check if already filled out.
 
@@ -23,7 +25,7 @@ void setupLogging() {
 }
 
 final _router = GoRouter(
-  initialLocation: '/createAssessment',
+  initialLocation: '/auth',
   // Disable page transitions animations globally
   routerNeglect: true,
   routes: [
@@ -59,6 +61,10 @@ final _router = GoRouter(
       ],
     ),
     GoRoute(
+      path: '/errorScreen',
+      builder: (context, state) => const ErrorScreen(),
+    ),
+    GoRoute(
       path: '/auth',
       builder: (context, state) => AuthScreen(),
     )
@@ -83,6 +89,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      scaffoldMessengerKey: SnackBarService.scaffoldKey,
       routerConfig: _router,
     );
   }

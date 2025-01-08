@@ -64,7 +64,7 @@ class NavBar extends ConsumerWidget {
                             buttonType: NavBarButtonType.results,
                           ),
                           NavBarButton(
-                            onTap: () => ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.blueprints),
+                            onTap: () => ref.read(authfirestoreserviceProvider.notifier).signinWithGoogle(),
                             icon: Icons.highlight_alt_rounded,
                             label: 'Blueprints',
                             buttonType: NavBarButtonType.blueprints,

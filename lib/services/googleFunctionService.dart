@@ -21,7 +21,7 @@ class Googlefunctionservice extends StateNotifier<bool> {
   List<String> get employeeEmails => _emailListNotifier.state.emailsEmployee;
   String get emailTemplate => _emailTemplateNotifier.state.templateBody;
   Map<String, String> get companyInfo => _companyInfoNotifer.state;
-  User get user => _authFirestoreServiceNotifier.state!;
+  User get user => _authFirestoreServiceNotifier.state.currentUser!;
 
   Googlefunctionservice(this._emailListNotifier, this._emailTemplateNotifier, this._companyInfoNotifer, this._authFirestoreServiceNotifier) : super(true);
 
@@ -31,17 +31,31 @@ class Googlefunctionservice extends StateNotifier<bool> {
   }
 
   Future<dynamic> createUserProfile({required String? email, required String userUID, String? authToken, bool? employee, bool? guest}) {
-    Map<String, dynamic> request = {'token': authToken, 'userEmail': email, 'userUID': userUID, 'employee': employee ?? false, 'guest': guest ?? false};
+    Map<String, dynamic> request = {'token': authToken ?? false, 'userEmail': email, 'userUID': userUID, 'employee': employee ?? false, 'guest': guest ?? false};
     return HttpService.postRequest(path: kCreateUserProfilePath, request: request);
   }
 
   Future<Stream<QuerySnapshot>> getResultsStream() async {
-    final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+    try {
+      final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-    final docCompanyUIDSnapshot = await _firestore.collection('surveyData').doc('dBR3TMXWGxm_LqJDXd7vkw').get();
-    final latestSurveyDocName = docCompanyUIDSnapshot.data()?['latestSurvey']; //Get latest survey
+      // Wait for Firestore to be ready, but don't terminate
+      await _firestore.waitForPendingWrites();
 
-    return _firestore.collection('surveyData/dBR3TMXWGxm_LqJDXd7vkw/$latestSurveyDocName/results/data').snapshots();
+      final docCompanyUIDSnapshot = await _firestore.collection('surveyData').doc('dBR3TMXWGxm_LqJDXd7vkw').get();
+
+      final latestSurveyDocName = docCompanyUIDSnapshot.data()?['latestSurvey'];
+
+      if (latestSurveyDocName == null) {
+        throw Exception('Latest survey not found');
+      }
+
+      // Return the stream without terminating the connection
+      return _firestore.collection('surveyData/dBR3TMXWGxm_LqJDXd7vkw/$latestSurveyDocName/results/data').snapshots();
+    } catch (e) {
+      print('Error in getResultsStream: $e');
+      throw e;
+    }
   }
 
   Future<dynamic> createAssessment() {

@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/config/enums.dart';
@@ -22,7 +21,7 @@ final selectionButtonProvider = StateNotifierProvider<SelectionButtonNotifier, S
   return SelectionButtonNotifier();
 });
 
-final authfirestoreserviceProvider = StateNotifierProvider<AuthFirestoreServiceNotifier, User?>((ref) {
+final authfirestoreserviceProvider = StateNotifierProvider<AuthFirestoreServiceNotifier, UserState?>((ref) {
   final auth = AuthFirestoreServiceNotifier();
   auth.initState();
   return auth;
