@@ -68,7 +68,7 @@ class Googlefunctionservice extends StateNotifier<bool> {
       'employeeEmails': employeeEmails,
       'emailTemplate': emailTemplate,
       'companyInfo': companyInfo,
-      'userUID': 'wvsDmspjXx6Q24T48ofP'
+      'userUID': user.uid,
     };
     print(request);
     return HttpService.postRequest(path: kCreateAssessmentPath, request: request);

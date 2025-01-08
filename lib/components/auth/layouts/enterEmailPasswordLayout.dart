@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart';
 import 'package:platform_front/components/auth/buttons/bottomButtonsRow.dart';
 import 'package:platform_front/components/auth/buttons/tempComponents.dart';
@@ -13,7 +14,8 @@ import 'package:platform_front/notifiers/auth/emailPasswordValidateNotifier.dart
 import 'package:platform_front/components/auth/layouts/appEntryLayout.dart';
 import 'package:platform_front/components/auth/layouts/enterTokenLayout.dart';
 import 'package:platform_front/components/auth/layouts/userTypeSelectionLayout.dart';
-import 'package:platform_front/services/snackBarService.dart';
+import 'package:platform_front/services/microServices/navigationService.dart';
+import 'package:platform_front/services/microServices/snackBarService.dart';
 
 class EnterEmailPasswordLayout extends ConsumerStatefulWidget {
   final bool logIn; // To keep track if this is a log in screen or a create account screen
@@ -21,10 +23,10 @@ class EnterEmailPasswordLayout extends ConsumerStatefulWidget {
   const EnterEmailPasswordLayout({super.key, this.logIn = false});
 
   @override
-  _EnterEmailPasswordLayoutState createState() => _EnterEmailPasswordLayoutState();
+  EnterEmailPasswordLayoutState createState() => EnterEmailPasswordLayoutState();
 }
 
-class _EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLayout> {
+class EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLayout> {
   final Logger logger = Logger("EnterEmailPasswordLayout");
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -33,39 +35,10 @@ class _EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLay
   // ignore: unused_field
   Future<void>? _pendingGoogleSignRequest;
 
-  void _showStandardBottomSheet(BuildContext context, String displayMessage) {
-    showModalBottomSheet(
-      isDismissible: false,
-      context: context,
-      builder: (BuildContext context) {
-        Timer(const Duration(seconds: 2), () {
-          try {
-            if (Navigator.of(context).mounted && Navigator.canPop(context)) {
-              Navigator.pop(context);
-            }
-          } catch (e) {
-            logger.info('Bottom Sheet closed before timere: $e');
-          }
-        });
-        return Container(
-          decoration: const BoxDecoration(color: Color(0xFFBDF1F7), shape: BoxShape.rectangle, borderRadius: BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16))),
-          height: 100,
-          width: 350,
-          padding: const EdgeInsets.all(16),
-          child: Center(
-            child: Text(
-              displayMessage,
-              style: TextStyle(color: Colors.black, fontSize: 18, fontFamily: "Open Sans"),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
   void succesfullyCreatedAccount() {
-    ref.read(authfirestoreserviceProvider.notifier).setPermission();
-    SnackBarService.showMessage("Successfully created Account", Colors.blue);
+    ref.read(authfirestoreserviceProvider.notifier).getUserInfo();
+    SnackBarService.showMessage("Successfully created Account", Colors.green);
+    NavigationService.navigateTo('/home');
   }
 
   @override
@@ -93,7 +66,7 @@ class _EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLay
       if (validationNotifier.isValid) {
         Future<void> pendingNextButtonAuthRequest = Future(() async {
           try {
-            //TODO: for now employee is also guest. Later change to logic for employee signing in aswell.
+            //TODO: employee gets sent to back but back doesnt do anything different yet.
 
             if (!widget.logIn) {
               // Create Account
@@ -108,8 +81,6 @@ class _EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLay
 
               if (responseBody['success']) {
                 succesfullyCreatedAccount();
-
-                //TODO: Go to next screen
               } else {
                 ref.read(authfirestoreserviceProvider.notifier).deleteAccount();
                 SnackBarService.showMessage("Internal Error creating account, Please try again later or click feedback button", Colors.red);
@@ -172,7 +143,7 @@ class _EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLay
 
           if (userCred!.additionalUserInfo!.isNewUser) {
             //If new google account. Also create profile
-            _showStandardBottomSheet(context, "Creating Account");
+            SnackBarService.showMessage("Creating Account", Colors.blue);
             final responseBody = await ref.read(googlefunctionserviceProvider.notifier).createUserProfile(
                   // This logic here actualy takes care of which user it is. Except Employee
                   email: userCred?.user?.email,

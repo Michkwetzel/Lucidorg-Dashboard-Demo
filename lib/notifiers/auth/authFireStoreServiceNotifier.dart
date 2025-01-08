@@ -9,12 +9,13 @@ import 'package:platform_front/config/enums.dart';
 class UserState {
   final User? currentUser;
   final Permission? permission;
+  final String? companyUID;
   final bool error;
 
-  UserState({this.currentUser, this.permission, this.error = false});
+  UserState({this.currentUser, this.permission, this.error = false, this.companyUID});
 
-  UserState copyWith({User? currentUser, Permission? permission, bool? error}) {
-    return UserState(currentUser: currentUser ?? this.currentUser, permission: permission ?? this.permission, error: error ?? this.error);
+  UserState copyWith({User? currentUser, Permission? permission, bool? error, String? companyUID}) {
+    return UserState(currentUser: currentUser ?? this.currentUser, permission: permission ?? this.permission, error: error ?? this.error, companyUID: companyUID ?? this.companyUID);
   }
 }
 
@@ -30,7 +31,7 @@ class AuthFirestoreServiceNotifier extends StateNotifier<UserState> {
     _auth.userChanges().listen((User? user) async {
       state = state.copyWith(currentUser: user);
       if (user != null) {
-        setPermission();
+        getUserInfo();
         logger.info("User signed in with UID: ${user.uid}, Email: ${user.email}, Permission: ${state.permission}");
       } else {
         logger.info("No user signed in");
@@ -38,12 +39,10 @@ class AuthFirestoreServiceNotifier extends StateNotifier<UserState> {
     });
   }
 
-  void setPermission() async {
+  void getUserInfo() async {
     try {
-      // final idTokenResult = await state.currentUser!.getIdTokenResult();
-      // String? claims = idTokenResult.claims?['role'] as String?;
-      //Note this updates too slowly. so now check from db user doc
       final userDocRef = await _firestore.collection('users').doc(state.currentUser!.uid).get();
+      //Get permision
       final claim = userDocRef.data()?['permission'];
       if (claim != null) {
         switch (claim) {
@@ -60,7 +59,12 @@ class AuthFirestoreServiceNotifier extends StateNotifier<UserState> {
             state = state.copyWith(error: true, permission: Permission.error);
         }
       }
-      logger.info("Set App wide permission for ${state.currentUser?.uid} to ${state.permission}");
+      //Get companyUID
+      final companyUID = userDocRef.data()?['companyUID'];
+      if (companyUID != null) {
+        state = state.copyWith(companyUID: companyUID);
+      }
+      logger.info('Current user: ${state.currentUser?.uid}, companyUID: ${state.companyUID}, permission: ${state.permission}}');
     } on Exception catch (e) {
       state = state.copyWith(error: true);
       logger.severe("Unable to get permissions ${state.currentUser?.uid}, Email: ${state.currentUser?.email} $e");

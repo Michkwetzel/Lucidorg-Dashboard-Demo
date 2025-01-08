@@ -12,7 +12,7 @@ class HttpService {
     };
 
     try {
-      logger.info("POST Request: URL=$uri, Body=${jsonEncode(request)}");
+      logger.info("POST Request: URL=$uri, Body=${jsonEncode(request)} Headers=${headers.toString()}");
 
       final response = await http.post(uri, headers: headers, body: jsonEncode(request));
 
