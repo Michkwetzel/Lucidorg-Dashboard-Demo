@@ -10,6 +10,8 @@ class TextfieldGray extends StatelessWidget {
   final IconData? leadingIcon;
   final Function(String) onTextChanged;
   final VoidCallback onSubmitted;
+  final VoidCallback onTap;
+  final FocusNode? focusNode;
   final TextEditingController controller;
 
   const TextfieldGray(
@@ -22,17 +24,22 @@ class TextfieldGray extends StatelessWidget {
       this.hintText = '',
       this.leadingIcon,
       this.onSubmitted = _emptyFunction0,
+      this.onTap = _emptyFunction2,
+      this.focusNode,
       required this.controller});
 
   static void _emptyFunction0() {}
   static void _emptyFunction1(String value) {}
+  static void _emptyFunction2() {}
 
   TextField textField() {
     return TextField(
+      focusNode: focusNode,
       expands: true,
       maxLines: null,
       minLines: null,
       controller: controller,
+      onTap: onTap,
       onSubmitted: (value) => onSubmitted(),
       onChanged: onTextChanged,
       decoration: InputDecoration(
@@ -85,9 +92,7 @@ class TextfieldGray extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                height: height,
-                child: textField()),
+              SizedBox(height: height, child: textField()),
               const SizedBox(
                 height: 2,
               ),
@@ -97,8 +102,6 @@ class TextfieldGray extends StatelessWidget {
               )
             ],
           )
-        : SizedBox(
-          height: height,
-          child: textField());
+        : SizedBox(height: height, child: textField());
   }
 }

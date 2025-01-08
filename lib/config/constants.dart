@@ -92,3 +92,7 @@ const double kLogoScale = 3.15;
 const String kVerifyAuthTokenPath = 'https://verifyauthtoken-rbyavkqn2a-uc.a.run.app';
 
 const String kCreateUserProfilePath = 'https://createuserprofile-rbyavkqn2a-uc.a.run.app';
+
+const String kCreateAssessmentPath = 'https://createassessment-rbyavkqn2a-uc.a.run.app';
+
+

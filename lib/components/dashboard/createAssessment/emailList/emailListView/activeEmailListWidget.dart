@@ -4,8 +4,8 @@ import 'package:platform_front/components/dashboard/createAssessment/emailList/e
 import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/config/providers.dart';
 
-class ActiveEmailListView extends ConsumerWidget {
-  const ActiveEmailListView({super.key});
+class ActiveEmailListWidget extends ConsumerWidget {
+  const ActiveEmailListWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -29,7 +29,7 @@ class ActiveEmailListView extends ConsumerWidget {
     }
 
     return SizedBox(
-      height: 300,
+      height: 250,
       child: ListView.builder(
         itemCount: selectedEmailList.length,
         itemBuilder: (context, index) {

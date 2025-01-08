@@ -1,12 +1,29 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:platform_front/config/constants.dart';
+import 'package:platform_front/notifiers/auth/authFireStoreServiceNotifier.dart';
+import 'package:platform_front/notifiers/companyInfo/companyInfoNotifer.dart';
+import 'package:platform_front/notifiers/createAssessment/emailListNotifer.dart';
+import 'package:platform_front/notifiers/createAssessment/emailTemplateNotifer.dart';
 import 'package:platform_front/services/httpService.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Googlefunctionservice extends StateNotifier<bool> {
   final Logger logger = Logger("Googlefunctionservice");
+  final EmailListNotifier _emailListNotifier;
+  final Emailtemplatenotifer _emailTemplateNotifier;
+  final CompanyInfoNotifer _companyInfoNotifer;
+  final AuthFirestoreServiceNotifier _authFirestoreServiceNotifier;
 
-  Googlefunctionservice() : super(true);
+  List<String> get ceoEmails => _emailListNotifier.state.emailsCeo;
+  List<String> get cSuiteEmails => _emailListNotifier.state.emailsCSuite;
+  List<String> get employeeEmails => _emailListNotifier.state.emailsEmployee;
+  String get emailTemplate => _emailTemplateNotifier.state.templateBody;
+  Map<String, String> get companyInfo => _companyInfoNotifer.state;
+  User get user => _authFirestoreServiceNotifier.state!;
+
+  Googlefunctionservice(this._emailListNotifier, this._emailTemplateNotifier, this._companyInfoNotifer, this._authFirestoreServiceNotifier) : super(true);
 
   Future<dynamic> verifyAuthToken({required String authToken}) {
     Map<String, dynamic> request = {'authToken': authToken};
@@ -18,4 +35,28 @@ class Googlefunctionservice extends StateNotifier<bool> {
     return HttpService.postRequest(path: kCreateUserProfilePath, request: request);
   }
 
+  Future<Stream<QuerySnapshot>> getResultsStream() async {
+    final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+    final docCompanyUIDSnapshot = await _firestore.collection('surveyData').doc('dBR3TMXWGxm_LqJDXd7vkw').get();
+    final latestSurveyDocName = docCompanyUIDSnapshot.data()?['latestSurvey']; //Get latest survey
+
+    return _firestore.collection('surveyData/dBR3TMXWGxm_LqJDXd7vkw/$latestSurveyDocName/results/data').snapshots();
+  }
+
+  Future<dynamic> createAssessment() {
+    logger.info("Creating Assessment");
+
+    //TODO: proper userUID input
+    Map<String, dynamic> request = {
+      'ceoEmails': ceoEmails,
+      'cSuiteEmails': cSuiteEmails,
+      'employeeEmails': employeeEmails,
+      'emailTemplate': emailTemplate,
+      'companyInfo': companyInfo,
+      'userUID': 'wvsDmspjXx6Q24T48ofP'
+    };
+    print(request);
+    return HttpService.postRequest(path: kCreateAssessmentPath, request: request);
+  }
 }

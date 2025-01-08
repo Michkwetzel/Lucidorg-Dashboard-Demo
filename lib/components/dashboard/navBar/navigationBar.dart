@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:platform_front/components/dashboard/navBar/navBarButton.dart';
 import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/config/providers.dart';
@@ -45,13 +46,13 @@ class NavBar extends ConsumerWidget {
                           ),
                           const SizedBox(height: 24),
                           NavBarButton(
-                            onTap: () => ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.home),
+                            onTap: () =>  context.go('/home'),
                             icon: Icons.home,
                             label: 'Home',
                             buttonType: NavBarButtonType.home,
                           ),
                           NavBarButton(
-                            onTap: () => ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.createAssessment),
+                            onTap:  () => context.go('/createAssessment'),
                             icon: Icons.layers_outlined,
                             label: 'Assessment',
                             buttonType: NavBarButtonType.createAssessment,
@@ -73,7 +74,7 @@ class NavBar extends ConsumerWidget {
                       Column(
                         children: [
                           NavBarButton(
-                            onTap: () => ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.companyInfo),
+                            onTap: () => context.go('/companyInfo'),
                             icon: Icons.person,
                             label: 'Company Info',
                             buttonType: NavBarButtonType.companyInfo,

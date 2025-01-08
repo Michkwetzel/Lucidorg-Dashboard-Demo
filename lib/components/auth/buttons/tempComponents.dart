@@ -22,7 +22,7 @@ class LineBreak extends StatelessWidget {
         children: [
           Flexible(
             child: Container(
-              constraints: BoxConstraints(
+              constraints: const BoxConstraints(
                 maxWidth: 200, // Set maximum width
               ),
               color: paintColour,
@@ -30,15 +30,15 @@ class LineBreak extends StatelessWidget {
             ),
           ),
           Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Text(
               'Or',
               style: TextStyle(color: paintColour),
             ),
-            padding: EdgeInsets.symmetric(horizontal: 10),
           ),
           Flexible(
             child: Container(
-              constraints: BoxConstraints(
+              constraints: const BoxConstraints(
                 maxWidth: 200,
               ),
               color: paintColour,

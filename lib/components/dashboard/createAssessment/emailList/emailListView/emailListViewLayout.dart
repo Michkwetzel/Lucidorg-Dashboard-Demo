@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/components/buttons/primaryButton.dart';
 import 'package:platform_front/components/buttons/secondaryButton.dart';
-import 'package:platform_front/components/dashboard/createAssessment/emailList/emailListView/activeEmailListVIew.dart';
+import 'package:platform_front/components/dashboard/createAssessment/emailList/emailListView/activeEmailListWidget.dart';
 import 'package:platform_front/components/dashboard/createAssessment/emailList/radioButton/radioButtonRow.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/providers.dart';
@@ -27,9 +27,14 @@ class EmailListViewLayout extends ConsumerWidget {
             ),
          
             SizedBox(height: 12),
+            Text(
+              'Select appropriate department',
+              style: kInfoTextTextStyle,
+            ),
+            SizedBox(height: 12),
             RadioButtonRow(),
             SizedBox(height: 12),
-            ActiveEmailListView(),
+            ActiveEmailListWidget(),
           ],
         ),
         Row(

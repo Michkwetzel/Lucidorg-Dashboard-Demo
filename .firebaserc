@@ -1,0 +1,18 @@
+{
+  "projects": {
+    "default": "efficiency-1st"
+  },
+  "targets": {
+    "efficiency-1st": {
+      "hosting": {
+        "app1": [
+          "assessment-909ce"
+        ],
+        "app2": [
+          "dashboard-fdda8"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

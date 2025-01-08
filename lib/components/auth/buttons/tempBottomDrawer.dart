@@ -23,10 +23,10 @@ class CustomDrawerController {
 
 class TempBottonDrawer extends StatefulWidget {
   @override
-  _TempBottonDrawerState createState() => _TempBottonDrawerState();
+  TempBottonDrawerState createState() => TempBottonDrawerState();
 }
 
-class _TempBottonDrawerState extends State<TempBottonDrawer> {
+class TempBottonDrawerState extends State<TempBottonDrawer> {
   late GlobalKey<ScaffoldState> _scaffoldKey;
   late CustomDrawerController _drawerController;
 
@@ -41,24 +41,24 @@ class _TempBottonDrawerState extends State<TempBottonDrawer> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      appBar: AppBar(title: Text('Customizable Drawer')),
+      appBar: AppBar(title: const Text('Customizable Drawer')),
       body: Center(
         child: ElevatedButton(
           onPressed: () => _drawerController.showTemporaryDrawer(
             title: 'Custom Drawer',
             content: 'This is a temporary drawer with custom text',
           ),
-          child: Text('Show Drawer'),
+          child: const Text('Show Drawer'),
         ),
       ),
       drawer: Drawer(
         child: ListView(
-          children: [
+          children: const [
             DrawerHeader(
-              child: Text('Custom Drawer Title'),
               decoration: BoxDecoration(
                 color: Colors.blue,
               ),
+              child: Text('Custom Drawer Title'),
             ),
             ListTile(
               title: Text('Custom Drawer Content'),

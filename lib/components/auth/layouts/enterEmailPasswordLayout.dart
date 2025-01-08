@@ -229,7 +229,7 @@ class _EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLay
                 const SizedBox(height: 4),
                 GoogleSignInButton(onPressed: () => googleSignInClicked()),
                 const SizedBox(
-                  height: 14,
+                  height: 18,
                 ),
                 BottomButtonsRow(
                   onPressedBackButton: () => onPressedBackButton(),
