@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
 import 'package:platform_front/config/providers.dart';
 
 class HomeLayout extends StatelessWidget {
@@ -8,73 +9,78 @@ class HomeLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // decoration: BoxDecoration(
-      //   boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.20), blurRadius: 4)],
-      //   color: Colors.white,
-      //   borderRadius: BorderRadius.circular(16),
-      // ),
-      child: ResultsStats(),
-    );
+    return ResultsStats();
   }
 }
+// 1. First, create a provider for your stream:
+final resultsStreamProvider = StreamProvider.family<QuerySnapshot, ({String? assessmentId, String? companyId})>((ref, params) {
+  if (params.assessmentId == null) return Stream.empty();
+  
+  return FirebaseFirestore.instance
+      .collection('surveyData/${params.companyId}/${params.assessmentId}/results/data')
+      .snapshots();
+});
 
+// 2. Then modify your ResultsStats widget:
 class ResultsStats extends ConsumerWidget {
+  final Logger logger = Logger('HomeLayout');
+
+  ResultsStats({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return FutureBuilder<Stream<QuerySnapshot>>(
-      future: ref.read(googlefunctionserviceProvider.notifier).getResultsStream(),
-      builder: (context, streamSnapshot) {
-        if (streamSnapshot.hasError) {
-          return Card(
+    final latestAssessment = ref.watch(activeAssessmentDataProvider.select((data) => data.docName));
+    final companyUID = ref.watch(authfirestoreserviceProvider.select((data) => data.companyUID));
+    
+    final resultsStream = ref.watch(resultsStreamProvider((
+      assessmentId: latestAssessment, 
+      companyId: companyUID
+    )));
+
+    print("rebuild");
+
+    return resultsStream.when(
+      data: (snapshot) {
+        if (snapshot.docs.isEmpty) {
+          return const Card(
             child: Padding(
               padding: EdgeInsets.all(16),
-              child: Text('Error loading stream: ${streamSnapshot.error}'),
+              child: Text('No results available'),
             ),
           );
         }
 
-        if (!streamSnapshot.hasData) {
-          return Center(child: CircularProgressIndicator());
-        }
+        final docs = snapshot.docs;
+        final totalDocs = docs.length;
+        final startedCount = docs.where((doc) => doc['started'] == true).length;
+        final finishedCount = docs.where((doc) => doc['finished'] == true).length;
 
-        return StreamBuilder<QuerySnapshot>(
-          stream: streamSnapshot.data,
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              return Card(
-                child: Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Text('Stream error: ${snapshot.error}'),
-                ),
-              );
-            }
-
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
-            }
-
-            final docs = snapshot.data?.docs ?? [];
-            final totalDocs = docs.length;
-            final startedCount = docs.where((doc) => doc['started'] == true).length;
-            final finishedCount = docs.where((doc) => doc['finished'] == true).length;
-
-            return Card(
-              child: Padding(
-                padding: EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Total Documents: $totalDocs'),
-                    Text('Started: $startedCount'),
-                    Text('Finished: $finishedCount'),
-                  ],
-                ),
-              ),
-            );
-          },
+        return Container(
+          decoration: BoxDecoration(
+            boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.20), blurRadius: 4)],
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Padding(
+            padding: EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Total Documents: $totalDocs'),
+                Text('Started: $startedCount'),
+                Text('Finished: $finishedCount'),
+              ],
+            ),
+          ),
         );
       },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (error, stack) => Card(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Text('Error: $error'),
+        ),
+      ),
     );
   }
 }

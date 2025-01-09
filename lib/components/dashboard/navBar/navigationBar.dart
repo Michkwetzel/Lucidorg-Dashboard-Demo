@@ -91,7 +91,9 @@ class NavBar extends ConsumerWidget {
                             buttonType: NavBarButtonType.companyInfo,
                           ),
                           NavBarButton(
-                            onTap: () => ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.logOut),
+                            onTap: () {ref.read(authfirestoreserviceProvider.notifier).signOutUser();
+                            NavigationService.navigateTo('/auth');
+                            },
                             icon: Icons.logout_outlined,
                             label: 'Log out',
                             buttonType: NavBarButtonType.logOut,

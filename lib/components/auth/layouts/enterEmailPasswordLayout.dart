@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart';
 import 'package:platform_front/components/auth/buttons/bottomButtonsRow.dart';
 import 'package:platform_front/components/auth/buttons/tempComponents.dart';
@@ -35,10 +34,18 @@ class EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLayo
   // ignore: unused_field
   Future<void>? _pendingGoogleSignRequest;
 
-  void succesfullyCreatedAccount() {
-    ref.read(authfirestoreserviceProvider.notifier).getUserInfo();
+  void succesfullyCreatedAccount() async {
+    User? user = ref.read(authfirestoreserviceProvider).currentUser;
+    ref.read(authfirestoreserviceProvider.notifier).getUserInfo(user);
     SnackBarService.showMessage("Successfully created Account", Colors.green);
-    NavigationService.navigateTo('/home');
+    NavigationService.navigateTo('/createAssessment');
+    ref.read(authDisplayProvider.notifier).changeDisplay(const AppEntryLayout());
+  }
+
+  void successfullyLogIn() async {
+    SnackBarService.showMessage("Successfully Logged in", Colors.green);
+    NavigationService.navigateTo('/createAssessment');
+    ref.read(authDisplayProvider.notifier).changeDisplay(const AppEntryLayout());
   }
 
   @override
@@ -89,8 +96,7 @@ class EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLayo
               // Log in
               // ignore: unused_local_variable
               UserCredential userCred = await ref.read(authfirestoreserviceProvider.notifier).signInWithEmailAndPassword(emailController.text, passwordController.text);
-              SnackBarService.showMessage("Log in successfull", Colors.blue);
-              await Future.delayed(const Duration(seconds: 2));
+              successfullyLogIn();
             }
           } on FirebaseAuthException catch (e) {
             ref.read(authfirestoreserviceProvider.notifier).deleteAccount();
@@ -115,7 +121,9 @@ class EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLayo
                 validationNotifier.setEmailError("Wrong password");
                 break;
               case 'invalid-credential':
-                validationNotifier.setEmailError("Invalid credential");
+                validationNotifier.setEmailError(" ");
+
+                validationNotifier.setPasswordError("Invalid credential");
                 break;
               default:
                 logger.info('Unexpected info $e');
@@ -160,7 +168,7 @@ class EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLayo
               SnackBarService.showMessage("Internal Error creating account, Please try again later or click feedback button", Colors.red);
             }
           } else {
-            //TODO: Log in Logic
+            successfullyLogIn();
           }
         } on Exception {
           ref.read(authfirestoreserviceProvider.notifier).deleteAccount();

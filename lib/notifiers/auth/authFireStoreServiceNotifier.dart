@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:logging/logging.dart';
 import 'package:platform_front/config/enums.dart';
+import 'package:platform_front/notifiers/ActiveAssessmentData/ActiveAssessmentDataNotifier.dart';
+import 'package:platform_front/services/firebaseServiceNotifier.dart';
 
 // Holds current widget being displayd to user in Auth Process.`
 
@@ -23,15 +27,17 @@ class AuthFirestoreServiceNotifier extends StateNotifier<UserState> {
   final logger = Logger("AuthFireStoreService");
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseServiceNotifier firebaseServiceNotifier;
+  final ActiveAssessmentDataNotifier activeAssessmentDataNotifier;
 
-  AuthFirestoreServiceNotifier() : super(UserState());
+  AuthFirestoreServiceNotifier({required this.activeAssessmentDataNotifier, required this.firebaseServiceNotifier}) : super(UserState());
 
   //Set up listening to user changes. If user logged in set user state
   void initState() {
     _auth.userChanges().listen((User? user) async {
-      state = state.copyWith(currentUser: user);
       if (user != null) {
-        getUserInfo();
+        //state = state.copyWith(currentUser: user);
+        getUserInfo(user);
         logger.info("User signed in with UID: ${user.uid}, Email: ${user.email}, Permission: ${state.permission}");
       } else {
         logger.info("No user signed in");
@@ -39,35 +45,34 @@ class AuthFirestoreServiceNotifier extends StateNotifier<UserState> {
     });
   }
 
-  void getUserInfo() async {
+  void getUserInfo(User? user) async {
     try {
-      final userDocRef = await _firestore.collection('users').doc(state.currentUser!.uid).get();
+      final userDocRef = await _firestore.collection('users').doc(user!.uid).get();
       //Get permision
-      final claim = userDocRef.data()?['permission'];
-      if (claim != null) {
-        switch (claim) {
-          case 'exec':
-            state = state.copyWith(permission: Permission.exec);
-            break;
-          case 'employee':
-            state = state.copyWith(permission: Permission.employee);
-            break;
-          case 'guest':
-            state = state.copyWith(permission: Permission.guest);
-            break;
-          default:
-            state = state.copyWith(error: true, permission: Permission.error);
-        }
-      }
+      final permission = parsePermission(userDocRef.data()?['permission']);
       //Get companyUID
       final companyUID = userDocRef.data()?['companyUID'];
-      if (companyUID != null) {
-        state = state.copyWith(companyUID: companyUID);
-      }
-      logger.info('Current user: ${state.currentUser?.uid}, companyUID: ${state.companyUID}, permission: ${state.permission}}');
+      //Get latest Survey if it exist
+      await activeAssessmentDataNotifier.setAssessmentDocName(companyUID);
+
+      state = state.copyWith(currentUser: user, permission: permission, companyUID: companyUID);
+      logger.info('Current user: ${state.currentUser?.uid}, companyUID: ${state.companyUID}, permission: ${state.permission}, Latest Survey: ${activeAssessmentDataNotifier.activeSurvey}}');
     } on Exception catch (e) {
       state = state.copyWith(error: true);
       logger.severe("Unable to get permissions ${state.currentUser?.uid}, Email: ${state.currentUser?.email} $e");
+    }
+  }
+
+  Permission parsePermission(String? claim) {
+    switch (claim) {
+      case 'exec':
+        return Permission.exec;
+      case 'employee':
+        return Permission.employee;
+      case 'guest':
+        return Permission.guest;
+      default:
+        return Permission.error;
     }
   }
 
@@ -94,6 +99,11 @@ class AuthFirestoreServiceNotifier extends StateNotifier<UserState> {
     print('Signin with Google');
     _auth.signOut();
     return await _auth.signInWithPopup(GoogleAuthProvider());
+  }
+
+  void signOutUser(){
+    _auth.signOut();
+    state = state.copyWith(currentUser: null, permission: null, companyUID: null);
   }
 
   void logState() {

@@ -6,6 +6,7 @@ import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/providers.dart';
 import 'package:platform_front/components/auth/layouts/enterEmailPasswordLayout.dart';
 import 'package:platform_front/components/auth/layouts/userTypeSelectionLayout.dart';
+import 'package:platform_front/services/microServices/navigationService.dart';
 
 class AppEntryLayout extends ConsumerWidget {
   const AppEntryLayout({super.key});
@@ -34,10 +35,23 @@ class AppEntryLayout extends ConsumerWidget {
                 buttonText: "Create Account",
               ),
               CallToActionButton(
-                onPressed: () => ref.read(authDisplayProvider.notifier).changeDisplay(const EnterEmailPasswordLayout(logIn: true,)),
+                  onPressed: () => ref.read(authDisplayProvider.notifier).changeDisplay(const EnterEmailPasswordLayout(
+                        logIn: true,
+                      )),
                   buttonText: "Log in")
             ],
-          )
+          ),
+          SizedBox(
+            height: 24,
+          ),
+          Secondarybutton(
+              onPressed: () async {
+                await ref.read(authfirestoreserviceProvider.notifier).signInWithEmailAndPassword('test@gmail.com', '1234567890');
+                NavigationService.navigateTo('/createAssessment');
+              },
+              buttonText: "Test"),
+
+          //Secondarybutton(onPressed: () => ref.read(googlefunctionserviceProvider.notifier).createTokens(numCompanyUIds: 2, numTokens: 5), buttonText: "Create Tokens")
         ],
       ),
     );
