@@ -7,6 +7,7 @@ import 'package:platform_front/config/providers.dart';
 import 'package:platform_front/components/auth/layouts/enterEmailPasswordLayout.dart';
 import 'package:platform_front/components/auth/layouts/userTypeSelectionLayout.dart';
 import 'package:platform_front/services/microServices/navigationService.dart';
+import 'package:platform_front/services/microServices/snackBarService.dart';
 
 class AppEntryLayout extends ConsumerWidget {
   const AppEntryLayout({super.key});
@@ -41,17 +42,30 @@ class AppEntryLayout extends ConsumerWidget {
                   buttonText: "Log in")
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 24,
           ),
           Secondarybutton(
               onPressed: () async {
-                await ref.read(authfirestoreserviceProvider.notifier).signInWithEmailAndPassword('test@gmail.com', '1234567890');
-                NavigationService.navigateTo('/createAssessment');
+                try {
+                  await ref.read(authfirestoreserviceProvider.notifier).signInWithEmailAndPassword('test@gmail.com', '1234567890');
+                  SnackBarService.showMessage('Succesfull Test Log in', Colors.green);
+                  NavigationService.navigateTo('/createAssessment');
+                } on Exception catch (e) {
+                  SnackBarService.showMessage('System Error', Colors.red);
+                }
               },
               buttonText: "Test"),
-
-          //Secondarybutton(onPressed: () => ref.read(googlefunctionserviceProvider.notifier).createTokens(numCompanyUIds: 2, numTokens: 5), buttonText: "Create Tokens")
+          CallToActionButton(
+              onPressed: () {
+                ref.read(firebaseServiceNotifierProvider.notifier).readToDB();
+              },
+              buttonText: "Firebase read"),
+          CallToActionButton(
+              onPressed: () {
+                ref.read(firebaseServiceNotifierProvider.notifier).writeToDB();
+              },
+              buttonText: "Firebase write")
         ],
       ),
     );

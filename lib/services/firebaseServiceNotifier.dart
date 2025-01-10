@@ -38,4 +38,12 @@ class FirebaseServiceNotifier extends StateNotifier<bool> {
       rethrow;
     }
   }
+
+  Future<void> writeToDB() async {
+    _firestore.collection('testing').doc().set({'test': 'test'});
+  }
+
+  Future<void> readToDB() async {
+    print(_firestore.collection('testing').doc().get().toString());
+  }
 }

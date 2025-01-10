@@ -7,7 +7,6 @@ import 'package:platform_front/components/dashboard/companyInfo/companyInfoBody.
 import 'package:platform_front/components/dashboard/createAssessment/layouts/createAssessmentBody.dart';
 import 'package:platform_front/components/dashboard/home/homelayout.dart';
 import 'package:platform_front/components/errorScreen/errorScreen.dart';
-import 'package:platform_front/config/providers.dart';
 import 'package:platform_front/firebase_options.dart';
 import 'package:go_router/go_router.dart';
 import 'package:platform_front/screens/authscreen.dart';
