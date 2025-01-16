@@ -56,16 +56,6 @@ class AppEntryLayout extends ConsumerWidget {
                 }
               },
               buttonText: "Test"),
-          CallToActionButton(
-              onPressed: () {
-                ref.read(firebaseServiceNotifierProvider.notifier).readToDB();
-              },
-              buttonText: "Firebase read"),
-          CallToActionButton(
-              onPressed: () {
-                ref.read(firebaseServiceNotifierProvider.notifier).writeToDB();
-              },
-              buttonText: "Firebase write")
         ],
       ),
     );
