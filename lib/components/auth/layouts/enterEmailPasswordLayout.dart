@@ -13,17 +13,19 @@ import 'package:platform_front/notifiers/auth/emailPasswordValidateNotifier.dart
 import 'package:platform_front/components/auth/layouts/appEntryLayout.dart';
 import 'package:platform_front/components/auth/layouts/enterTokenLayout.dart';
 import 'package:platform_front/components/auth/layouts/userTypeSelectionLayout.dart';
+import 'package:platform_front/services/microServices/navigationService.dart';
+import 'package:platform_front/services/microServices/snackBarService.dart';
 
 class EnterEmailPasswordLayout extends ConsumerStatefulWidget {
-  final bool logIn;
+  final bool logIn; // To keep track if this is a log in screen or a create account screen
 
   const EnterEmailPasswordLayout({super.key, this.logIn = false});
 
   @override
-  _EnterEmailPasswordLayoutState createState() => _EnterEmailPasswordLayoutState();
+  EnterEmailPasswordLayoutState createState() => EnterEmailPasswordLayoutState();
 }
 
-class _EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLayout> {
+class EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLayout> {
   final Logger logger = Logger("EnterEmailPasswordLayout");
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -32,34 +34,18 @@ class _EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLay
   // ignore: unused_field
   Future<void>? _pendingGoogleSignRequest;
 
-  void _showStandardBottomSheet(BuildContext context, String displayMessage) {
-    showModalBottomSheet(
-      isDismissible: false,
-      context: context,
-      builder: (BuildContext context) {
-        Timer(const Duration(seconds: 2), () {
-          try {
-            if (Navigator.of(context).mounted && Navigator.canPop(context)) {
-              Navigator.pop(context);
-            }
-          } catch (e) {
-            logger.info('Bottom Sheet closed before timere: $e');
-          }
-        });
-        return Container(
-          decoration: const BoxDecoration(color: Color(0xFFBDF1F7), shape: BoxShape.rectangle, borderRadius: BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16))),
-          height: 100,
-          width: 350,
-          padding: const EdgeInsets.all(16),
-          child: Center(
-            child: Text(
-              displayMessage,
-              style: TextStyle(color: Colors.black, fontSize: 18, fontFamily: "Open Sans"),
-            ),
-          ),
-        );
-      },
-    );
+  void succesfullyCreatedAccount() async {
+    User? user = ref.read(authfirestoreserviceProvider).currentUser;
+    ref.read(authfirestoreserviceProvider.notifier).getUserInfo(user);
+    SnackBarService.showMessage("Successfully created Account", Colors.green);
+    NavigationService.navigateTo('/createAssessment');
+    ref.read(authDisplayProvider.notifier).changeDisplay(const AppEntryLayout());
+  }
+
+  void successfullyLogIn() async {
+    SnackBarService.showMessage("Successfully Logged in", Colors.green);
+    NavigationService.navigateTo('/createAssessment');
+    ref.read(authDisplayProvider.notifier).changeDisplay(const AppEntryLayout());
   }
 
   @override
@@ -87,31 +73,33 @@ class _EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLay
       if (validationNotifier.isValid) {
         Future<void> pendingNextButtonAuthRequest = Future(() async {
           try {
-            //TODO: for now employee is also guest. Later change to logic for employee signing in aswell.
+            //TODO: employee gets sent to back but back doesnt do anything different yet.
 
             if (!widget.logIn) {
+              // Create Account
               await ref.read(authfirestoreserviceProvider.notifier).createUserWithEmailAndPassword(emailController.text, passwordController.text);
               final responseBody = await ref.read(googlefunctionserviceProvider.notifier).createUserProfile(
                     email: emailController.text,
                     userUID: FirebaseAuth.instance.currentUser!.uid,
+                    employee: selectedButton == SelectionButtonType.employee ? true : false,
                     guest: selectedButton == SelectionButtonType.guest ? true : false,
                     authToken: selectedButton == SelectionButtonType.token ? ref.read(authTokenProvider) : null,
                   );
 
               if (responseBody['success']) {
-                _showStandardBottomSheet(context, "Account created successfully");
-                await Future.delayed(const Duration(seconds: 2));
-                //TODO: Go to next screen
+                succesfullyCreatedAccount();
               } else {
-                //TODO: display message, not succesffull.
+                ref.read(authfirestoreserviceProvider.notifier).deleteAccount();
+                SnackBarService.showMessage("Internal Error creating account, Please try again later or click feedback button", Colors.red);
               }
             } else {
+              // Log in
               // ignore: unused_local_variable
               UserCredential userCred = await ref.read(authfirestoreserviceProvider.notifier).signInWithEmailAndPassword(emailController.text, passwordController.text);
-              _showStandardBottomSheet(context, "Logged in");
-              await Future.delayed(const Duration(seconds: 2));
+              successfullyLogIn();
             }
           } on FirebaseAuthException catch (e) {
+            ref.read(authfirestoreserviceProvider.notifier).deleteAccount();
             logger.info('Error logging in or sign up with Firebase Auth Account: ${e.code}');
             switch (e.code) {
               case 'email-already-in-use':
@@ -133,13 +121,17 @@ class _EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLay
                 validationNotifier.setEmailError("Wrong password");
                 break;
               case 'invalid-credential':
-                validationNotifier.setEmailError("Invalid credential");
+                validationNotifier.setEmailError(" ");
+
+                validationNotifier.setPasswordError("Invalid credential");
                 break;
               default:
                 logger.info('Unexpected info $e');
                 break;
             }
           } on Exception catch (e) {
+            ref.read(authfirestoreserviceProvider.notifier).deleteAccount();
+
             logger.info('Error logging in or sign up $e');
             validationNotifier.setEmailError("Invalid");
           }
@@ -159,24 +151,28 @@ class _EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLay
 
           if (userCred!.additionalUserInfo!.isNewUser) {
             //If new google account. Also create profile
-            _showStandardBottomSheet(context, "Creating Account");
+            SnackBarService.showMessage("Creating Account", Colors.blue);
             final responseBody = await ref.read(googlefunctionserviceProvider.notifier).createUserProfile(
                   // This logic here actualy takes care of which user it is. Except Employee
                   email: userCred?.user?.email,
                   userUID: FirebaseAuth.instance.currentUser!.uid,
+                  employee: selectedButton == SelectionButtonType.employee ? true : false,
                   guest: selectedButton == SelectionButtonType.guest ? true : false,
                   authToken: selectedButton == SelectionButtonType.token ? ref.read(authTokenProvider) : null,
                 );
 
             if (responseBody['success']) {
-              _showStandardBottomSheet(context, "Account created successfully");
-              await Future.delayed(const Duration(seconds: 2));
+              succesfullyCreatedAccount();
+            } else {
+              ref.read(authfirestoreserviceProvider.notifier).deleteAccount();
+              SnackBarService.showMessage("Internal Error creating account, Please try again later or click feedback button", Colors.red);
             }
           } else {
-            //TODO: Log in Logic
+            successfullyLogIn();
           }
         } on Exception {
-          _showStandardBottomSheet(context, "Google Sign in Error");
+          ref.read(authfirestoreserviceProvider.notifier).deleteAccount();
+          SnackBarService.showMessage("Google sign in error, Please try again later or click feedback button", Colors.red);
           await Future.delayed(const Duration(seconds: 2));
         }
       });

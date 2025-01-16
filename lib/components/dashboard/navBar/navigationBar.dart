@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:platform_front/components/dashboard/navBar/navBarButton.dart';
 import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/config/providers.dart';
+import 'package:platform_front/services/microServices/navigationService.dart';
 
 class NavBar extends ConsumerWidget {
   const NavBar({
@@ -46,25 +46,33 @@ class NavBar extends ConsumerWidget {
                           ),
                           const SizedBox(height: 24),
                           NavBarButton(
-                            onTap: () =>  context.go('/home'),
+                            onTap: () {
+                              ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.home);
+                              NavigationService.navigateTo('/home');
+                            },
                             icon: Icons.home,
                             label: 'Home',
                             buttonType: NavBarButtonType.home,
                           ),
                           NavBarButton(
-                            onTap:  () => context.go('/createAssessment'),
+                            onTap: () {
+                              ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.createAssessment);
+                              NavigationService.navigateTo('/createAssessment');
+                            },
                             icon: Icons.layers_outlined,
                             label: 'Assessment',
                             buttonType: NavBarButtonType.createAssessment,
                           ),
                           NavBarButton(
-                            onTap: () => ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.results),
+                            onTap: () {
+                              ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.results);
+                            },
                             icon: Icons.format_align_center,
                             label: 'Results',
                             buttonType: NavBarButtonType.results,
                           ),
                           NavBarButton(
-                            onTap: () => ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.blueprints),
+                            onTap: () => {},
                             icon: Icons.highlight_alt_rounded,
                             label: 'Blueprints',
                             buttonType: NavBarButtonType.blueprints,
@@ -74,13 +82,18 @@ class NavBar extends ConsumerWidget {
                       Column(
                         children: [
                           NavBarButton(
-                            onTap: () => context.go('/companyInfo'),
+                            onTap: () {
+                              ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.companyInfo);
+                              NavigationService.navigateTo('/companyInfo');
+                            },
                             icon: Icons.person,
                             label: 'Company Info',
                             buttonType: NavBarButtonType.companyInfo,
                           ),
                           NavBarButton(
-                            onTap: () => ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.logOut),
+                            onTap: () {ref.read(authfirestoreserviceProvider.notifier).signOutUser();
+                            NavigationService.navigateTo('/auth');
+                            },
                             icon: Icons.logout_outlined,
                             label: 'Log out',
                             buttonType: NavBarButtonType.logOut,

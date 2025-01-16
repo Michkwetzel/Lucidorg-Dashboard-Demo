@@ -29,8 +29,8 @@ class EmailTemplateState {
   }
 }
 
-class Emailtemplatenotifer extends StateNotifier<EmailTemplateState> {
-  Emailtemplatenotifer() : super(EmailTemplateState.initial());
+class EmailTemplateNotifer extends StateNotifier<EmailTemplateState> {
+  EmailTemplateNotifer() : super(EmailTemplateState.initial());
 
   String get templateBody => state.templateBody;
   bool get editEmailTemplateDisplay => state.editEmailTemplateDisplay;

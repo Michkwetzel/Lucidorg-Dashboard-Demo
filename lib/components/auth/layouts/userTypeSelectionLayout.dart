@@ -46,21 +46,21 @@ class UserTypeSelectionLayout extends ConsumerWidget {
                 ? const Column(
                   mainAxisSize: MainAxisSize.min,
                     children: [
-                      Selectionbutton(buttonText: 'I have a token', buttonType: SelectionButtonType.token),
+                      Selectionbutton(buttonText: 'I have a paid \nsubscription', buttonType: SelectionButtonType.token),
                       SizedBox(height: 12),
-                      Selectionbutton(buttonText: 'I am viewing \nCompany results', buttonType: SelectionButtonType.view),
+                      Selectionbutton(buttonText: 'I am viewing \nCompany results', buttonType: SelectionButtonType.employee),
                       SizedBox(height: 12),
-                      Selectionbutton(buttonText: 'I am a guest', buttonType: SelectionButtonType.guest)
+                      Selectionbutton(buttonText: 'I am testing \nthe product', buttonType: SelectionButtonType.guest)
                     ],
                   )
                 : const Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Selectionbutton(buttonText: 'I have a token', buttonType: SelectionButtonType.token),
+                      Selectionbutton(buttonText: 'I have a paid \nsubscription', buttonType: SelectionButtonType.token),
                       SizedBox(width: 24),
-                      Selectionbutton(buttonText: 'I am viewing \nCompany results', buttonType: SelectionButtonType.view),
+                      Selectionbutton(buttonText: 'I am viewing \nCompany results', buttonType: SelectionButtonType.employee),
                       SizedBox(width: 24),
-                      Selectionbutton(buttonText: 'I am a guest', buttonType: SelectionButtonType.guest)
+                      Selectionbutton(buttonText: 'I am testing \nthe product', buttonType: SelectionButtonType.guest)
                     ],
                   ),
             const SizedBox(height: 24),

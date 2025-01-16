@@ -9,6 +9,7 @@ import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/providers.dart';
 import 'package:platform_front/components/auth/layouts/enterEmailPasswordLayout.dart';
 import 'package:platform_front/components/auth/layouts/userTypeSelectionLayout.dart';
+import 'package:platform_front/services/microServices/snackBarService.dart';
 
 class EnterTokenLayout extends ConsumerStatefulWidget {
   const EnterTokenLayout({super.key});
@@ -27,36 +28,6 @@ class _EnterTokenLayoutState extends ConsumerState<EnterTokenLayout> {
   String errorText = '';
 
   bool success = false;
-
-  void _showStandardBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-      isDismissible: false,
-      context: context,
-      builder: (BuildContext context) {
-        Timer(const Duration(seconds: 2), () {
-          try {
-            if (Navigator.of(context).mounted && Navigator.canPop(context)) {
-              Navigator.pop(context);
-            }
-          } catch (e) {
-            logger.info('Bottom Sheet closed before timere: $e');
-          }
-        });
-        return Container(
-          decoration: const BoxDecoration(color: Color(0xFFBDF1F7), shape: BoxShape.rectangle, borderRadius: BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16))),
-          height: 100,
-          width: 350,
-          padding: const EdgeInsets.all(16),
-          child: const Center(
-            child: Text(
-              'Token is Valid',
-              style: TextStyle(color: Colors.black, fontSize: 18, fontFamily: "Open Sans"),
-            ),
-          ),
-        );
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,10 +54,10 @@ class _EnterTokenLayoutState extends ConsumerState<EnterTokenLayout> {
         // Show Success bottom sheet, wait 2 seconds. Then move to next screen
         if (tokenExists == true && tokenUsed == false) {
           ref.read(authTokenProvider.notifier).setToken(token);
-          _showStandardBottomSheet(context);
-          await Future.delayed(const Duration(seconds: 2));
+          SnackBarService.showMessage("Token Verified", Colors.green);
+          await Future.delayed(const Duration(seconds: 1));
           logger.info("Token Valid. Change to Next Screen");
-          ref.read(authDisplayProvider.notifier).changeDisplay(EnterEmailPasswordLayout());
+          ref.read(authDisplayProvider.notifier).changeDisplay(const EnterEmailPasswordLayout());
         }
         // Token has already been used
         else if (tokenExists == true && tokenUsed == true) {
@@ -131,7 +102,7 @@ class _EnterTokenLayoutState extends ConsumerState<EnterTokenLayout> {
                 const Text("Token", style: kTextFieldHeaderTextStyle),
                 const SizedBox(height: 2),
                 TextfieldGray(
-                  height: 100,
+                  height: 50,
                   onTextChanged: (value) {
                     token = value;
                   },

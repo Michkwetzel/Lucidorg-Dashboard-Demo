@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:platform_front/config/constants.dart';
+import 'package:platform_front/notifiers/ActiveAssessmentData/ActiveAssessmentDataNotifier.dart';
 import 'package:platform_front/notifiers/auth/authFireStoreServiceNotifier.dart';
 import 'package:platform_front/notifiers/companyInfo/companyInfoNotifer.dart';
 import 'package:platform_front/notifiers/createAssessment/emailListNotifer.dart';
@@ -9,21 +10,33 @@ import 'package:platform_front/notifiers/createAssessment/emailTemplateNotifer.d
 import 'package:platform_front/services/httpService.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Googlefunctionservice extends StateNotifier<bool> {
+class GoogleFunctionService extends StateNotifier<bool> {
   final Logger logger = Logger("Googlefunctionservice");
   final EmailListNotifier _emailListNotifier;
-  final Emailtemplatenotifer _emailTemplateNotifier;
+  final EmailTemplateNotifer _emailTemplateNotifier;
   final CompanyInfoNotifer _companyInfoNotifer;
   final AuthFirestoreServiceNotifier _authFirestoreServiceNotifier;
+  final ActiveAssessmentDataNotifier _activeAssessmentDataNotifier;
 
   List<String> get ceoEmails => _emailListNotifier.state.emailsCeo;
   List<String> get cSuiteEmails => _emailListNotifier.state.emailsCSuite;
   List<String> get employeeEmails => _emailListNotifier.state.emailsEmployee;
   String get emailTemplate => _emailTemplateNotifier.state.templateBody;
   Map<String, String> get companyInfo => _companyInfoNotifer.state;
-  User get user => _authFirestoreServiceNotifier.state!;
+  User get user => _authFirestoreServiceNotifier.state.currentUser!;
 
-  Googlefunctionservice(this._emailListNotifier, this._emailTemplateNotifier, this._companyInfoNotifer, this._authFirestoreServiceNotifier) : super(true);
+  GoogleFunctionService(
+      {required EmailListNotifier emailListNotifier,
+      required EmailTemplateNotifer emailTemplateNotifier,
+      required CompanyInfoNotifer companyInfoNotifier,
+      required AuthFirestoreServiceNotifier authFirestoreServiceNotifier,
+      required ActiveAssessmentDataNotifier activeAssessmentDataNotifier})
+      : _emailListNotifier = emailListNotifier,
+        _emailTemplateNotifier = emailTemplateNotifier,
+        _companyInfoNotifer = companyInfoNotifier,
+        _authFirestoreServiceNotifier = authFirestoreServiceNotifier,
+        _activeAssessmentDataNotifier = activeAssessmentDataNotifier,
+        super(true);
 
   Future<dynamic> verifyAuthToken({required String authToken}) {
     Map<String, dynamic> request = {'authToken': authToken};
@@ -31,17 +44,8 @@ class Googlefunctionservice extends StateNotifier<bool> {
   }
 
   Future<dynamic> createUserProfile({required String? email, required String userUID, String? authToken, bool? employee, bool? guest}) {
-    Map<String, dynamic> request = {'token': authToken, 'userEmail': email, 'userUID': userUID, 'employee': employee ?? false, 'guest': guest ?? false};
+    Map<String, dynamic> request = {'token': authToken ?? false, 'userEmail': email, 'userUID': userUID, 'employee': employee ?? false, 'guest': guest ?? false};
     return HttpService.postRequest(path: kCreateUserProfilePath, request: request);
-  }
-
-  Future<Stream<QuerySnapshot>> getResultsStream() async {
-    final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
-    final docCompanyUIDSnapshot = await _firestore.collection('surveyData').doc('dBR3TMXWGxm_LqJDXd7vkw').get();
-    final latestSurveyDocName = docCompanyUIDSnapshot.data()?['latestSurvey']; //Get latest survey
-
-    return _firestore.collection('surveyData/dBR3TMXWGxm_LqJDXd7vkw/$latestSurveyDocName/results/data').snapshots();
   }
 
   Future<dynamic> createAssessment() {
@@ -54,9 +58,17 @@ class Googlefunctionservice extends StateNotifier<bool> {
       'employeeEmails': employeeEmails,
       'emailTemplate': emailTemplate,
       'companyInfo': companyInfo,
-      'userUID': 'wvsDmspjXx6Q24T48ofP'
+      'userUID': user.uid,
     };
     print(request);
     return HttpService.postRequest(path: kCreateAssessmentPath, request: request);
   }
+
+
+
+  // Future<void> createTokens({int numTokens = 1, int numCompanyUIds = 1}) {
+  //   logger.info("Creating Tokens");
+  //   Map<String, int> request = {'numTokens': numTokens, 'numCompanyUIds': numCompanyUIds};
+  //   return HttpService.postRequest(path: kCreateTokensPath, request: request);
+  // }
 }
