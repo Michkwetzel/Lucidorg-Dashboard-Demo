@@ -39,7 +39,6 @@ final emailpasswordvalidateProvider = StateNotifierProvider<Emailpasswordvalidat
 });
 
 final googlefunctionserviceProvider = StateNotifierProvider<GoogleFunctionService, bool>((ref) {
-  final companyInfoNotifer = ref.watch(companyInfoProvider.notifier);
   final emailTemplateNotifer = ref.watch(emailTemplateProvider.notifier);
   final emailListNotifier = ref.watch(emailListProvider.notifier);
   final activeAssessmentDataNotifier = ref.watch(activeAssessmentDataProvider.notifier);
@@ -48,7 +47,6 @@ final googlefunctionserviceProvider = StateNotifierProvider<GoogleFunctionServic
   return GoogleFunctionService(
     emailListNotifier: emailListNotifier,
     emailTemplateNotifier: emailTemplateNotifer,
-    companyInfoNotifier: companyInfoNotifer,
     userDataNotifier: userDataNotifier,
     activeAssessmentDataNotifier: activeAssessmentDataNotifier,
   );
@@ -75,7 +73,7 @@ final emailTemplateProvider = StateNotifierProvider<EmailTemplateNotifer, EmailT
 });
 
 final companyInfoProvider = StateNotifierProvider<CompanyInfoNotifer, Map<String, String>>((ref) {
-  return CompanyInfoNotifer();
+  return CompanyInfoNotifer(googlefunctionserviceProvider: ref.watch(googlefunctionserviceProvider.notifier));
 });
 
 final firebaseServiceNotifierProvider = StateNotifierProvider<FirebaseServiceNotifier, bool>((ref) {
