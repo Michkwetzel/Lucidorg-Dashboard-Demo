@@ -26,7 +26,7 @@ void setupLogging() {
 
 GoRouter setupRouter() {
   return GoRouter(
-    initialLocation: '/home',
+    initialLocation: '/auth',
     routerNeglect: true,
     routes: [
       ShellRoute(
@@ -37,7 +37,7 @@ GoRouter setupRouter() {
           GoRoute(
             path: '/createAssessment',
             pageBuilder: (context, state) {
-              return const NoTransitionPage(
+              return NoTransitionPage(
                 child: CreateAssessmentBody(),
               );
             },
@@ -71,11 +71,11 @@ GoRouter setupRouter() {
     ],
     redirect: (context, state) {
       // If you are not authenticated. You cant access any screens. so take you back to log in
-      //TODO: remove these coments
-      // final isAuthenticated = FirebaseAuth.instance.currentUser != null;
-      // if (!isAuthenticated) {
-      //   return '/auth';
-      // }
+      // TODO: remove these coments
+      final isAuthenticated = FirebaseAuth.instance.currentUser != null;
+      if (!isAuthenticated) {
+        return '/auth';
+      }
       return null;
     },
   );

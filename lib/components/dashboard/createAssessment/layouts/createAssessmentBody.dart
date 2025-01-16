@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
 import 'package:platform_front/components/buttons/CallToActionButton.dart';
 import 'package:platform_front/components/dashboard/createAssessment/emailList/emailListBody.dart';
 import 'package:platform_front/components/dashboard/createAssessment/emailTemplate/emailTemplateBody.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/providers.dart';
+import 'package:platform_front/services/microServices/snackBarService.dart';
 
 class CreateAssessmentBody extends ConsumerWidget {
-  const CreateAssessmentBody({
+  CreateAssessmentBody({
     super.key,
   });
 
-  void startAssessment(BuildContext context, WidgetRef ref) {
+  final Logger logger = Logger('CreateAssessment');
+
+  void startAssessment(BuildContext context, WidgetRef ref) async {
     if (ref.read(emailTemplateProvider.notifier).editEmailTemplateDisplay) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -34,7 +38,13 @@ class CreateAssessmentBody extends ConsumerWidget {
         ),
       );
     } else {
-      ref.read(googlefunctionserviceProvider.notifier).createAssessment();
+      try {
+        await ref.read(googlefunctionserviceProvider.notifier).createAssessment();
+        SnackBarService.showMessage('Successfully Created assessment', Colors.green);
+      } on Exception catch (e) {
+        SnackBarService.showMessage('Error creating Assessment', Colors.red);
+        logger.severe("Failed to create Assessment with error: $e");
+      }
     }
   }
 
@@ -86,8 +96,8 @@ class CreateAssessmentBody extends ConsumerWidget {
           ),
           const SizedBox(width: 32),
           const Padding(
-            padding:  EdgeInsets.only(top: 4, bottom: 4),
-            child:  EmailTemplateBody(),
+            padding: EdgeInsets.only(top: 4, bottom: 4),
+            child: EmailTemplateBody(),
           ),
         ],
       ),

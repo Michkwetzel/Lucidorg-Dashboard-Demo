@@ -21,7 +21,7 @@ class AuthFirestoreServiceNotifier extends StateNotifier<User?> {
   void initState() {
     _auth.userChanges().listen((User? user) async {
       if (user != null) {
-        //state = state.copyWith(currentUser: user);
+        state = user;
         logger.info("User signed in with UID: ${user.uid}, Email: ${user.email}}");
         userDataNotifier.getUserInfo(user);
       } else {

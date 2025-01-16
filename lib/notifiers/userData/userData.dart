@@ -26,17 +26,18 @@ class UserDataNotifier extends StateNotifier<UserState> {
 
   UserDataNotifier({required this.activeAssessmentDataNotifier}) : super(UserState());
 
-  void getUserInfo(User? user) async {
+  Future<void> getUserInfo(User? user) async {
     try {
       //Get userDoc
       final userDocRef = await _firestore.collection('users').doc(user!.uid).get();
       //Get permision
       final permission = parsePermission(userDocRef.data()?['permission']);
+
       //Get companyUID
       final companyUID = userDocRef.data()?['companyUID'];
+
       //Get latest Survey if it exist
       await activeAssessmentDataNotifier.setAssessmentDocName(companyUID);
-
 
       state = state.copyWith(userUID: user.uid, permission: permission, companyUID: companyUID, email: user.email);
       logger.info('Current user: ${user.uid}, companyUID: ${state.companyUID}, permission: ${state.permission}, Latest Survey: ${activeAssessmentDataNotifier.activeSurvey}}');
@@ -59,7 +60,8 @@ class UserDataNotifier extends StateNotifier<UserState> {
     }
   }
 
-  void clearUserData(){
-    state = state.copyWith(userUID: null, permission: null, companyUID: null, email: null);
+  void clearUserData() {
+    state = UserState();
+    logger.info("Cleared user data: ${state.userUID}, ${state.permission}, ${state.companyUID}, ${state.email}");
   }
 }
