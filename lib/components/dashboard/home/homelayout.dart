@@ -32,7 +32,7 @@ class ResultsStats extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final latestAssessment = ref.watch(activeAssessmentDataProvider.select((data) => data.docName));
-    final companyUID = ref.watch(authfirestoreserviceProvider.select((data) => data.companyUID));
+    final companyUID = ref.watch(userDataProvider.select((data) => data.companyUID));
 
     final resultsStream = ref.watch(resultsStreamProvider((assessmentId: latestAssessment, companyId: companyUID)));
 

@@ -9,12 +9,10 @@ import 'package:platform_front/components/dashboard/home/homelayout.dart';
 import 'package:platform_front/components/errorScreen/errorScreen.dart';
 import 'package:platform_front/firebase_options.dart';
 import 'package:go_router/go_router.dart';
-import 'package:platform_front/screens/authscreen.dart';
-import 'package:platform_front/screens/dashboardScaffold.dart';
+import 'package:platform_front/mainSections/authscreen.dart';
+import 'package:platform_front/mainSections/dashboardScaffold.dart';
 import 'package:platform_front/services/microServices/navigationService.dart';
 import 'package:platform_front/services/microServices/snackBarService.dart';
-
-//TODO: make sure the user can only fill out the survey once. Check if already filled out.
 
 void setupLogging() {
   Logger.root.level = Level.ALL;
@@ -29,7 +27,6 @@ void setupLogging() {
 GoRouter setupRouter() {
   return GoRouter(
     initialLocation: '/auth',
-    // Disable page transitions animations globally
     routerNeglect: true,
     routes: [
       ShellRoute(
@@ -40,7 +37,7 @@ GoRouter setupRouter() {
           GoRoute(
             path: '/createAssessment',
             pageBuilder: (context, state) {
-              return const NoTransitionPage(
+              return NoTransitionPage(
                 child: CreateAssessmentBody(),
               );
             },
@@ -73,8 +70,8 @@ GoRouter setupRouter() {
       )
     ],
     redirect: (context, state) {
-      // Add your redirect logic here
-      // For example:
+      // If you are not authenticated. You cant access any screens. so take you back to log in
+      // TODO: remove these coments
       final isAuthenticated = FirebaseAuth.instance.currentUser != null;
       if (!isAuthenticated) {
         return '/auth';

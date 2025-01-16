@@ -23,7 +23,7 @@ class ActiveAssessmentDataNotifier extends StateNotifier<ActiveAssessmentState> 
 
   Future<void> setAssessmentDocName(String? companyUID) async {
     final docName = await firebaseservicenotifier.getLatestAssessment(companyUID);
-    logger.info('Set Assessment $docName');
+    logger.info('Set current Assessment to: $docName');
 
     state = state.copyWith(docName: docName);
   }

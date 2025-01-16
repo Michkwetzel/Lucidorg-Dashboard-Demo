@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/config/enums.dart';
@@ -12,6 +13,7 @@ import 'package:platform_front/notifiers/createAssessment/emailListNotifer.dart'
 import 'package:platform_front/notifiers/createAssessment/emailListRadioButtonNotifier.dart';
 import 'package:platform_front/notifiers/createAssessment/emailTemplateNotifer.dart';
 import 'package:platform_front/notifiers/navBar/navBarNotifer.dart';
+import 'package:platform_front/notifiers/userData/userData.dart';
 import 'package:platform_front/services/firebaseServiceNotifier.dart';
 import 'package:platform_front/services/googleFunctionService.dart';
 
@@ -23,10 +25,11 @@ final selectionButtonProvider = StateNotifierProvider<SelectionButtonNotifier, S
   return SelectionButtonNotifier();
 });
 
-final authfirestoreserviceProvider = StateNotifierProvider<AuthFirestoreServiceNotifier, UserState>((ref) {
+final authfirestoreserviceProvider = StateNotifierProvider<AuthFirestoreServiceNotifier, User?>((ref) {
   final FirebaseServiceNotifier firebaseServiceNotifier = ref.watch(firebaseServiceNotifierProvider.notifier);
   final ActiveAssessmentDataNotifier activeAssessmentDataNotifier = ref.watch(activeAssessmentDataProvider.notifier);
-  final auth = AuthFirestoreServiceNotifier(firebaseServiceNotifier: firebaseServiceNotifier, activeAssessmentDataNotifier: activeAssessmentDataNotifier);
+  final UserDataNotifier userDataNotifier = ref.watch(userDataProvider.notifier);
+  final auth = AuthFirestoreServiceNotifier(firebaseServiceNotifier: firebaseServiceNotifier, activeAssessmentDataNotifier: activeAssessmentDataNotifier, userDataNotifier: userDataNotifier);
   auth.initState();
   return auth;
 });
@@ -36,17 +39,17 @@ final emailpasswordvalidateProvider = StateNotifierProvider<Emailpasswordvalidat
 });
 
 final googlefunctionserviceProvider = StateNotifierProvider<GoogleFunctionService, bool>((ref) {
-  final authNotifier = ref.watch(authfirestoreserviceProvider.notifier);
   final companyInfoNotifer = ref.watch(companyInfoProvider.notifier);
   final emailTemplateNotifer = ref.watch(emailTemplateProvider.notifier);
   final emailListNotifier = ref.watch(emailListProvider.notifier);
   final activeAssessmentDataNotifier = ref.watch(activeAssessmentDataProvider.notifier);
+  final userDataNotifier = ref.watch(userDataProvider.notifier);
 
   return GoogleFunctionService(
     emailListNotifier: emailListNotifier,
     emailTemplateNotifier: emailTemplateNotifer,
     companyInfoNotifier: companyInfoNotifer,
-    authFirestoreServiceNotifier: authNotifier,
+    userDataNotifier: userDataNotifier,
     activeAssessmentDataNotifier: activeAssessmentDataNotifier,
   );
 });
@@ -82,4 +85,9 @@ final firebaseServiceNotifierProvider = StateNotifierProvider<FirebaseServiceNot
 final activeAssessmentDataProvider = StateNotifierProvider<ActiveAssessmentDataNotifier, ActiveAssessmentState>((ref) {
   final FirebaseServiceNotifier firebaseServiceNotifier = ref.watch(firebaseServiceNotifierProvider.notifier);
   return ActiveAssessmentDataNotifier(firebaseservicenotifier: firebaseServiceNotifier);
+});
+
+final userDataProvider = StateNotifierProvider<UserDataNotifier, UserState>((ref) {
+  final activeAssessmentDataNotifier = ref.watch(activeAssessmentDataProvider.notifier);
+  return UserDataNotifier(activeAssessmentDataNotifier: activeAssessmentDataNotifier);
 });

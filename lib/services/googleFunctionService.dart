@@ -1,21 +1,19 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/notifiers/ActiveAssessmentData/ActiveAssessmentDataNotifier.dart';
-import 'package:platform_front/notifiers/auth/authFireStoreServiceNotifier.dart';
 import 'package:platform_front/notifiers/companyInfo/companyInfoNotifer.dart';
 import 'package:platform_front/notifiers/createAssessment/emailListNotifer.dart';
 import 'package:platform_front/notifiers/createAssessment/emailTemplateNotifer.dart';
+import 'package:platform_front/notifiers/userData/userData.dart';
 import 'package:platform_front/services/httpService.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class GoogleFunctionService extends StateNotifier<bool> {
   final Logger logger = Logger("Googlefunctionservice");
   final EmailListNotifier _emailListNotifier;
   final EmailTemplateNotifer _emailTemplateNotifier;
   final CompanyInfoNotifer _companyInfoNotifer;
-  final AuthFirestoreServiceNotifier _authFirestoreServiceNotifier;
+  final UserDataNotifier _userDataNotifier;
   final ActiveAssessmentDataNotifier _activeAssessmentDataNotifier;
 
   List<String> get ceoEmails => _emailListNotifier.state.emailsCeo;
@@ -23,18 +21,18 @@ class GoogleFunctionService extends StateNotifier<bool> {
   List<String> get employeeEmails => _emailListNotifier.state.emailsEmployee;
   String get emailTemplate => _emailTemplateNotifier.state.templateBody;
   Map<String, String> get companyInfo => _companyInfoNotifer.state;
-  User get user => _authFirestoreServiceNotifier.state.currentUser!;
+  String get userUID => _userDataNotifier.state.userUID!;
 
   GoogleFunctionService(
       {required EmailListNotifier emailListNotifier,
       required EmailTemplateNotifer emailTemplateNotifier,
       required CompanyInfoNotifer companyInfoNotifier,
-      required AuthFirestoreServiceNotifier authFirestoreServiceNotifier,
+      required UserDataNotifier userDataNotifier,
       required ActiveAssessmentDataNotifier activeAssessmentDataNotifier})
       : _emailListNotifier = emailListNotifier,
         _emailTemplateNotifier = emailTemplateNotifier,
         _companyInfoNotifer = companyInfoNotifier,
-        _authFirestoreServiceNotifier = authFirestoreServiceNotifier,
+        _userDataNotifier = userDataNotifier,
         _activeAssessmentDataNotifier = activeAssessmentDataNotifier,
         super(true);
 
@@ -58,7 +56,7 @@ class GoogleFunctionService extends StateNotifier<bool> {
       'employeeEmails': employeeEmails,
       'emailTemplate': emailTemplate,
       'companyInfo': companyInfo,
-      'userUID': user.uid,
+      'userUID': userUID,
     };
     print(request);
     return HttpService.postRequest(path: kCreateAssessmentPath, request: request);
