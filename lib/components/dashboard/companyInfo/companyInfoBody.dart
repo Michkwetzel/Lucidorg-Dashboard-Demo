@@ -2,11 +2,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
 import 'package:platform_front/components/buttons/CallToActionButton.dart';
 import 'package:platform_front/components/dashboard/companyInfo/customTextFieldForm.dart';
 import 'package:platform_front/components/dashboard/companyInfo/styledDropdown.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/providers.dart';
+import 'package:platform_front/services/microServices/snackBarService.dart';
 
 class CompanyInfoBody extends ConsumerStatefulWidget {
   const CompanyInfoBody({super.key});
@@ -19,7 +21,7 @@ class _CompanyInfoBodyState extends ConsumerState<CompanyInfoBody> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController companyNameController = TextEditingController();
   late String numEmployees;
-  late String stageFunding;
+  late String fundingStage;
   late String industry;
   late String region;
 
@@ -29,7 +31,7 @@ class _CompanyInfoBodyState extends ConsumerState<CompanyInfoBody> {
     Map<String, String> companyInfo = ref.read(companyInfoProvider);
     companyNameController.text = companyInfo['companyName'] ?? '';
     numEmployees = companyInfo['numberOfEmployees'] ?? '1-50';
-    stageFunding = companyInfo['fundingStage'] ?? 'Pre-seed';
+    fundingStage = companyInfo['fundingStage'] ?? 'Pre-seed';
     industry = companyInfo['industry'] ?? 'Technology & Software';
     region = companyInfo['region'] ?? 'North America';
   }
@@ -76,7 +78,7 @@ class _CompanyInfoBodyState extends ConsumerState<CompanyInfoBody> {
             child: StyledDropdown(
               initalValue: companyInfo['fundingStage'] ?? 'Pre-seed',
               items: const ['Pre-seed', 'Seed Funding', 'Series A', 'Series B', 'Series C and Beyond'],
-              onChanged: (value) => setState(() => stageFunding = value),
+              onChanged: (value) => setState(() => fundingStage = value),
             ),
           ),
           SizedBox(
@@ -143,22 +145,21 @@ class _CompanyInfoBodyState extends ConsumerState<CompanyInfoBody> {
               child: Align(
                   alignment: Alignment.centerRight,
                   child: CallToActionButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           final Map<String, String> formData = {
                             'companyName': companyNameController.text,
-                            'numberOfEmployees': numEmployees,
-                            'fundingStage': stageFunding,
+                            'numEmployees': numEmployees,
+                            'fundingStage': fundingStage,
                             'industry': industry,
                             'region': region,
                           };
-                          ref.read(companyInfoProvider.notifier).saveCompanyInfo(formData);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Company info successfully saved'),
-                              backgroundColor: Colors.blue,
-                            ),
-                          );
+                          try {
+                            await ref.read(companyInfoProvider.notifier).saveCompanyInfo(formData);
+                            SnackBarService.showMessage("Company info successfully saved", Colors.green);
+                          } on Exception catch (e) {
+                            SnackBarService.showMessage("Error whilst saving companyInfo", Colors.red);
+                          }
                         }
                       },
                       buttonText: "Save")))

@@ -78,6 +78,11 @@ class EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLayo
 
             if (!widget.logIn) {
               // Create Account
+
+              if (selectedButton == SelectionButtonType.employee) {
+              }
+
+              //If guest or using token
               await ref.read(authfirestoreserviceProvider.notifier).createUserWithEmailAndPassword(emailController.text, passwordController.text);
               final responseBody = await ref.read(googlefunctionserviceProvider.notifier).createUserProfile(
                     email: emailController.text,

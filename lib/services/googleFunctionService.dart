@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:platform_front/config/constants.dart';
+import 'package:platform_front/config/providers.dart';
 import 'package:platform_front/notifiers/ActiveAssessmentData/ActiveAssessmentDataNotifier.dart';
-import 'package:platform_front/notifiers/companyInfo/companyInfoNotifer.dart';
 import 'package:platform_front/notifiers/createAssessment/emailListNotifer.dart';
 import 'package:platform_front/notifiers/createAssessment/emailTemplateNotifer.dart';
 import 'package:platform_front/notifiers/userData/userData.dart';
@@ -12,7 +12,6 @@ class GoogleFunctionService extends StateNotifier<bool> {
   final Logger logger = Logger("Googlefunctionservice");
   final EmailListNotifier _emailListNotifier;
   final EmailTemplateNotifer _emailTemplateNotifier;
-  final CompanyInfoNotifer _companyInfoNotifer;
   final UserDataNotifier _userDataNotifier;
   final ActiveAssessmentDataNotifier _activeAssessmentDataNotifier;
 
@@ -20,18 +19,17 @@ class GoogleFunctionService extends StateNotifier<bool> {
   List<String> get cSuiteEmails => _emailListNotifier.state.emailsCSuite;
   List<String> get employeeEmails => _emailListNotifier.state.emailsEmployee;
   String get emailTemplate => _emailTemplateNotifier.state.templateBody;
-  Map<String, String> get companyInfo => _companyInfoNotifer.state;
   String get userUID => _userDataNotifier.state.userUID!;
+  String get companyUID => _userDataNotifier.state.companyUID!;
+
 
   GoogleFunctionService(
       {required EmailListNotifier emailListNotifier,
       required EmailTemplateNotifer emailTemplateNotifier,
-      required CompanyInfoNotifer companyInfoNotifier,
       required UserDataNotifier userDataNotifier,
       required ActiveAssessmentDataNotifier activeAssessmentDataNotifier})
       : _emailListNotifier = emailListNotifier,
         _emailTemplateNotifier = emailTemplateNotifier,
-        _companyInfoNotifer = companyInfoNotifier,
         _userDataNotifier = userDataNotifier,
         _activeAssessmentDataNotifier = activeAssessmentDataNotifier,
         super(true);
@@ -55,14 +53,15 @@ class GoogleFunctionService extends StateNotifier<bool> {
       'cSuiteEmails': cSuiteEmails,
       'employeeEmails': employeeEmails,
       'emailTemplate': emailTemplate,
-      'companyInfo': companyInfo,
       'userUID': userUID,
     };
     print(request);
     return HttpService.postRequest(path: kCreateAssessmentPath, request: request);
   }
 
-
+  Future<void> saveCompanyInfo(Map<String, dynamic> companyInfo) async {
+    HttpService.postRequest(path: 'http://127.0.0.1:5001/efficiency-1st/us-central1/saveCompanyInfo', request: {'companyInfo': companyInfo, 'companyUID': companyUID});
+  }
 
   // Future<void> createTokens({int numTokens = 1, int numCompanyUIds = 1}) {
   //   logger.info("Creating Tokens");
