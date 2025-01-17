@@ -16,7 +16,7 @@ class Dashboardscaffold extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const NavBar(),
-            Expanded(child: body),
+            Flexible(child: body),
           ],
         ),
       ),
