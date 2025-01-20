@@ -209,13 +209,17 @@ const String kCreateUserProfilePath = 'https://createuserprofile-rbyavkqn2a-uc.a
 const String kCreateAssessmentPath = 'https://createassessment-rbyavkqn2a-uc.a.run.app';
 // const String kCreateAssessmentPath =  'http://127.0.0.1:5001/efficiency-1st/us-central1/createAssessment';
 
-
-
 // const String kCreateTokensPath = 'http://127.0.0.1:5001/efficiency-1st/us-central1/createTokens';
 
+// ****************************************** Box Decorations ***************************************
 
 BoxDecoration kboxShadowNormal = BoxDecoration(
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.20), blurRadius: 4)],
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-      );
+  boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.20), blurRadius: 4)],
+  color: Colors.white,
+  borderRadius: BorderRadius.circular(12),
+);
+
+BoxDecoration kGrayBoxDecoration = BoxDecoration(
+  color: Color(0xFFEBEBEB),
+  borderRadius: BorderRadius.circular(6),
+);

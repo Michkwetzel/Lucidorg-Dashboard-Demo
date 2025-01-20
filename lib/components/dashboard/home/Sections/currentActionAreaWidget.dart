@@ -10,7 +10,6 @@ class CurrentActionAreaWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 350,
-      height: 200,
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
       decoration: kboxShadowNormal,
       child: Column(children: [
@@ -43,7 +42,7 @@ class CurrentActionAreaWidget extends StatelessWidget {
               ],
             ),
             Column(
-              children: [Text('Differentiation', style: kH6PoppinsLight), DiffTriangleRedWidget(size: Diffsize.H3)],
+              children: [Text('Differentiation', style: kH6PoppinsLight), DiffTriangleRedWidget(size: Diffsize.H3, value: '~38%',)],
             )
           ],
         )

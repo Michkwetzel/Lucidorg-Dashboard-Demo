@@ -4,11 +4,13 @@ import 'package:platform_front/config/enums.dart';
 
 class DiffTriangleRedWidget extends StatelessWidget {
   const DiffTriangleRedWidget({
+    required this.value,
     required this.size,
     super.key,
   });
 
   final Diffsize size;
+  final dynamic value;
 
   @override
   Widget build(BuildContext context) {
@@ -21,19 +23,19 @@ class DiffTriangleRedWidget extends StatelessWidget {
         trianleSize = 50;
       case Diffsize.H2:
         textStyle = kH5PoppinsLight;
-        trianleSize = 20;
+        trianleSize = 40;
       case Diffsize.H3:
         textStyle = kH2Diff;
-        trianleSize = 15;
+        trianleSize = 30;
       default:
         textStyle = kH6PoppinsLight;
-        trianleSize = 15;
+        trianleSize = 25;
     }
 
     return Row(
       children: [
         Icon(Icons.arrow_drop_up, size: trianleSize, color: Colors.red), // or any color you prefer
-        Text('~38%', style: textStyle),
+        Text(value, style: textStyle),
       ],
     );
   }
