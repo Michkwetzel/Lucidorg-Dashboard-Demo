@@ -108,8 +108,8 @@ const kH2TotalScore = TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w5
 
 // ****************************************** Total diff***************************************
 
-const kH1Diff = TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w500, fontSize: 20, color: Color(0xFFF03535));
-const kH2Diff = TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w500, fontSize: 15, color: Color(0xFFF03535));
+const kH1Diff = TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w400, fontSize: 20, color: Color(0xFFF03535));
+const kH2Diff = TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w300, fontSize: 15, color: Color(0xFFF03535));
 
 // Button TextStyles
 const kCallToActionButtonTextStyle = TextStyle(
@@ -214,3 +214,8 @@ const String kCreateAssessmentPath = 'https://createassessment-rbyavkqn2a-uc.a.r
 // const String kCreateTokensPath = 'http://127.0.0.1:5001/efficiency-1st/us-central1/createTokens';
 
 
+BoxDecoration kboxShadowNormal = BoxDecoration(
+        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.20), blurRadius: 4)],
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+      );
