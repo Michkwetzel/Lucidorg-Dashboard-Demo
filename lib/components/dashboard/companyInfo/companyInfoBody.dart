@@ -154,7 +154,7 @@ class _CompanyInfoBodyState extends ConsumerState<CompanyInfoBody> {
                             'industry': industry,
                             'region': region,
                           };
-                          try {
+                          try { 
                             await ref.read(companyInfoProvider.notifier).saveCompanyInfo(formData);
                             SnackBarService.showMessage("Company info successfully saved", Colors.green);
                           } on Exception catch (e) {

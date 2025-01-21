@@ -30,7 +30,7 @@ class EfficiencyScoresWidget extends StatelessWidget {
               Column(mainAxisAlignment: MainAxisAlignment.start, children: [
                 Text('Total Score', style: kH2PoppinsLight),
                 SizedBox(height: 8),
-                Text('55%', style: kH1TotalScore),
+                Text('55%', style: kH1TotalScoreRegular),
                 SizedBox(height: 35),
                 Text('Differentiation', style: kH3PoppinsLight),
                 SizedBox(height: 8),

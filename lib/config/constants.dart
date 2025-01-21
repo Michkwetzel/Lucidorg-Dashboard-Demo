@@ -102,9 +102,12 @@ const kH6PoppinsMedium = TextStyle(
 );
 
 // ****************************************** Total Score***************************************
-
-const kH1TotalScore = TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w500, fontSize: 27, color: Color(0xFF5478ED));
-const kH2TotalScore = TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w500, fontSize: 15, color: Color(0xFF5478ED));
+const kH1TotalScoreLight = TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w400, fontSize: 27, color: Color(0xFF5478ED));
+const kH1TotalScoreRegular = TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w500, fontSize: 27, color: Color(0xFF5478ED));
+const kH3TotalScoreLight = TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w400, fontSize: 24, color: Color(0xFF5478ED));
+const kH3TotalScoreRegular = TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w500, fontSize: 24, color: Color(0xFF5478ED));
+const kH2TotalScoreLight = TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w400, fontSize: 15, color: Color(0xFF5478ED));
+const kH2TotalScoreRegular = TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w500, fontSize: 15, color: Color(0xFF5478ED));
 
 // ****************************************** Total diff***************************************
 

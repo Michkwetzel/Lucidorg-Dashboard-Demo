@@ -33,6 +33,7 @@ class DiffTriangleRedWidget extends StatelessWidget {
     }
 
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Icon(Icons.arrow_drop_up, size: trianleSize, color: Colors.red), // or any color you prefer
         Text(value, style: textStyle),

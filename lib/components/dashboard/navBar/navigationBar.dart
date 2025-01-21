@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/components/dashboard/navBar/navBarButton.dart';
+import 'package:platform_front/components/dashboard/results/resultsBody.dart';
 import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/config/providers.dart';
 import 'package:platform_front/services/microServices/navigationService.dart';
@@ -66,6 +67,7 @@ class NavBar extends ConsumerWidget {
                           NavBarButton(
                             onTap: () {
                               ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.results);
+                              NavigationService.navigateTo('/results');
                             },
                             icon: Icons.format_align_center,
                             label: 'Results',
@@ -91,8 +93,9 @@ class NavBar extends ConsumerWidget {
                             buttonType: NavBarButtonType.companyInfo,
                           ),
                           NavBarButton(
-                            onTap: () {ref.read(authfirestoreserviceProvider.notifier).signOutUser();
-                            NavigationService.navigateTo('/auth');
+                            onTap: () {
+                              ref.read(authfirestoreserviceProvider.notifier).signOutUser();
+                              NavigationService.navigateTo('/auth');
                             },
                             icon: Icons.logout_outlined,
                             label: 'Log out',

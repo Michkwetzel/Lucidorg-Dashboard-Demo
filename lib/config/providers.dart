@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/notifiers/ActiveAssessmentData/ActiveAssessmentDataNotifier.dart';
+import 'package:platform_front/notifiers/Results/resultsDisplayNotifer.dart';
 import 'package:platform_front/notifiers/auth/authDisplayNotifier.dart';
 import 'package:platform_front/notifiers/auth/authFireStoreServiceNotifier.dart';
 import 'package:platform_front/notifiers/auth/authTokenNotifier.dart';
@@ -88,4 +89,8 @@ final activeAssessmentDataProvider = StateNotifierProvider<ActiveAssessmentDataN
 final userDataProvider = StateNotifierProvider<UserDataNotifier, UserState>((ref) {
   final activeAssessmentDataNotifier = ref.watch(activeAssessmentDataProvider.notifier);
   return UserDataNotifier(activeAssessmentDataNotifier: activeAssessmentDataNotifier);
+});
+
+final resultsDisplayProvider = StateNotifierProvider<ResultsSideDisplaynotifer, Widget>((ref) {
+  return ResultsSideDisplaynotifer();
 });

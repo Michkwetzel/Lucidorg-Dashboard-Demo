@@ -60,7 +60,7 @@ class GoogleFunctionService extends StateNotifier<bool> {
   }
 
   Future<void> saveCompanyInfo(Map<String, dynamic> companyInfo) async {
-    HttpService.postRequest(path: 'http://127.0.0.1:5001/efficiency-1st/us-central1/saveCompanyInfo', request: {'companyInfo': companyInfo, 'companyUID': companyUID});
+    await HttpService.postRequest(path: 'http://127.0.0.1:5001/efficiency-1st/us-central1/saveCompanyInfo', request: {'companyInfo': companyInfo, 'companyUID': companyUID});
   }
 
   // Future<void> createTokens({int numTokens = 1, int numCompanyUIds = 1}) {
