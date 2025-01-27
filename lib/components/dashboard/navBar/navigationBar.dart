@@ -66,6 +66,7 @@ class NavBar extends ConsumerWidget {
                           NavBarButton(
                             onTap: () {
                               ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.results);
+                              NavigationService.navigateTo('/results');
                             },
                             icon: Icons.format_align_center,
                             label: 'Results',
@@ -91,8 +92,9 @@ class NavBar extends ConsumerWidget {
                             buttonType: NavBarButtonType.companyInfo,
                           ),
                           NavBarButton(
-                            onTap: () {ref.read(authfirestoreserviceProvider.notifier).signOutUser();
-                            NavigationService.navigateTo('/auth');
+                            onTap: () {
+                              ref.read(authfirestoreserviceProvider.notifier).signOutUser();
+                              NavigationService.navigateTo('/auth');
                             },
                             icon: Icons.logout_outlined,
                             label: 'Log out',

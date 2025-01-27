@@ -4,7 +4,7 @@ import 'package:platform_front/components/buttons/CallToActionButton.dart';
 import 'package:platform_front/components/buttons/secondaryButton.dart';
 import 'package:platform_front/components/dashboard/createAssessment/emailList/radioButton/radioButtonRow.dart';
 import 'package:platform_front/components/dashboard/createAssessment/emailList/emailListAdd/uploadCSVWidget.dart';
-import 'package:platform_front/components/textFields/textfieldGray.dart';
+import 'package:platform_front/components/global/textfieldGray.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/providers.dart';
 

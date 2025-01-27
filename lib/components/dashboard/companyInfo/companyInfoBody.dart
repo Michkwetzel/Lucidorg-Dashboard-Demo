@@ -30,7 +30,7 @@ class _CompanyInfoBodyState extends ConsumerState<CompanyInfoBody> {
     super.initState();
     Map<String, String> companyInfo = ref.read(companyInfoProvider);
     companyNameController.text = companyInfo['companyName'] ?? '';
-    numEmployees = companyInfo['numberOfEmployees'] ?? '1-50';
+    numEmployees = companyInfo['numEmployees'] ?? '1-50';
     fundingStage = companyInfo['fundingStage'] ?? 'Pre-seed';
     industry = companyInfo['industry'] ?? 'Technology & Software';
     region = companyInfo['region'] ?? 'North America';
@@ -64,7 +64,7 @@ class _CompanyInfoBodyState extends ConsumerState<CompanyInfoBody> {
           ConstrainedBox(
             constraints: BoxConstraints(maxWidth: 120),
             child: StyledDropdown(
-              initalValue: companyInfo['numberOfEmployees'] ?? '1-50',
+              initalValue: companyInfo['numEmployees'] ?? '1-50',
               items: const ['1-50', '50-100', '100-200', '200+'],
               onChanged: (value) => setState(() => numEmployees = value),
             ),
@@ -154,7 +154,7 @@ class _CompanyInfoBodyState extends ConsumerState<CompanyInfoBody> {
                             'industry': industry,
                             'region': region,
                           };
-                          try {
+                          try { 
                             await ref.read(companyInfoProvider.notifier).saveCompanyInfo(formData);
                             SnackBarService.showMessage("Company info successfully saved", Colors.green);
                           } on Exception catch (e) {

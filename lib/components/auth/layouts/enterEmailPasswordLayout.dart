@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:platform_front/components/auth/buttons/bottomButtonsRow.dart';
 import 'package:platform_front/components/auth/buttons/tempComponents.dart';
-import 'package:platform_front/components/textFields/textfieldGray.dart';
+import 'package:platform_front/components/global/textfieldGray.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/config/providers.dart';
@@ -35,15 +35,16 @@ class EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLayo
   Future<void>? _pendingGoogleSignRequest;
 
   void succesfullyCreatedAccount() async {
-    User? user = ref.read(authfirestoreserviceProvider);
-    await ref.read(userDataProvider.notifier).getUserInfo(user);
     SnackBarService.showMessage("Successfully created Account", Colors.green);
+    await ref.read(userDataProvider.notifier).getUserInfo(ref.read(authfirestoreserviceProvider));
     NavigationService.navigateTo('/createAssessment');
     ref.read(authDisplayProvider.notifier).changeDisplay(const AppEntryLayout());
   }
 
   void successfullyLogIn() async {
     SnackBarService.showMessage("Successfully Logged in", Colors.green);
+    await ref.read(userDataProvider.notifier).getUserInfo(ref.read(authfirestoreserviceProvider));
+    await ref.read(initDataloadProvider.notifier).initDataload();
     NavigationService.navigateTo('/createAssessment');
     ref.read(authDisplayProvider.notifier).changeDisplay(const AppEntryLayout());
   }
@@ -79,8 +80,7 @@ class EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLayo
             if (!widget.logIn) {
               // Create Account
 
-              if (selectedButton == SelectionButtonType.employee) {
-              }
+              if (selectedButton == SelectionButtonType.employee) {}
 
               //If guest or using token
               await ref.read(authfirestoreserviceProvider.notifier).createUserWithEmailAndPassword(emailController.text, passwordController.text);

@@ -2,7 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/config/enums.dart';
-import 'package:platform_front/notifiers/ActiveAssessmentData/ActiveAssessmentDataNotifier.dart';
+import 'package:platform_front/notifiers/userResultsData/userResultsData.dart';
+import 'package:platform_front/notifiers/Results/resultsDisplayNotifer.dart';
 import 'package:platform_front/notifiers/auth/authDisplayNotifier.dart';
 import 'package:platform_front/notifiers/auth/authFireStoreServiceNotifier.dart';
 import 'package:platform_front/notifiers/auth/authTokenNotifier.dart';
@@ -12,8 +13,9 @@ import 'package:platform_front/notifiers/companyInfo/companyInfoNotifer.dart';
 import 'package:platform_front/notifiers/createAssessment/emailListNotifer.dart';
 import 'package:platform_front/notifiers/createAssessment/emailListRadioButtonNotifier.dart';
 import 'package:platform_front/notifiers/createAssessment/emailTemplateNotifer.dart';
+import 'package:platform_front/notifiers/initDataLoad/initDataLoadProvider.dart';
 import 'package:platform_front/notifiers/navBar/navBarNotifer.dart';
-import 'package:platform_front/notifiers/userData/userData.dart';
+import 'package:platform_front/notifiers/userProfileData/userProfileData.dart';
 import 'package:platform_front/services/firebaseServiceNotifier.dart';
 import 'package:platform_front/services/googleFunctionService.dart';
 
@@ -27,8 +29,8 @@ final selectionButtonProvider = StateNotifierProvider<SelectionButtonNotifier, S
 
 final authfirestoreserviceProvider = StateNotifierProvider<AuthFirestoreServiceNotifier, User?>((ref) {
   final FirebaseServiceNotifier firebaseServiceNotifier = ref.watch(firebaseServiceNotifierProvider.notifier);
-  final ActiveAssessmentDataNotifier activeAssessmentDataNotifier = ref.watch(activeAssessmentDataProvider.notifier);
-  final UserDataNotifier userDataNotifier = ref.watch(userDataProvider.notifier);
+  final UserResultsData activeAssessmentDataNotifier = ref.watch(activeAssessmentDataProvider.notifier);
+  final UserProfileDataNotifier userDataNotifier = ref.watch(userDataProvider.notifier);
   final auth = AuthFirestoreServiceNotifier(firebaseServiceNotifier: firebaseServiceNotifier, activeAssessmentDataNotifier: activeAssessmentDataNotifier, userDataNotifier: userDataNotifier);
   auth.initState();
   return auth;
@@ -80,12 +82,23 @@ final firebaseServiceNotifierProvider = StateNotifierProvider<FirebaseServiceNot
   return FirebaseServiceNotifier();
 });
 
-final activeAssessmentDataProvider = StateNotifierProvider<ActiveAssessmentDataNotifier, ActiveAssessmentState>((ref) {
+final activeAssessmentDataProvider = StateNotifierProvider<UserResultsData, UserResultsDataState>((ref) {
   final FirebaseServiceNotifier firebaseServiceNotifier = ref.watch(firebaseServiceNotifierProvider.notifier);
-  return ActiveAssessmentDataNotifier(firebaseservicenotifier: firebaseServiceNotifier);
+  return UserResultsData(firebaseservicenotifier: firebaseServiceNotifier);
 });
 
-final userDataProvider = StateNotifierProvider<UserDataNotifier, UserState>((ref) {
+final userDataProvider = StateNotifierProvider<UserProfileDataNotifier, UserProfileState>((ref) {
   final activeAssessmentDataNotifier = ref.watch(activeAssessmentDataProvider.notifier);
-  return UserDataNotifier(activeAssessmentDataNotifier: activeAssessmentDataNotifier);
+  return UserProfileDataNotifier(userResultsData: activeAssessmentDataNotifier);
+});
+
+final resultsDisplayProvider = StateNotifierProvider<ResultsSideDisplaynotifer, Widget>((ref) {
+  return ResultsSideDisplaynotifer();
+});
+
+final initDataloadProvider = StateNotifierProvider<InitDataloadProvider, bool>((ref) {
+  final firebaseService = ref.watch(firebaseServiceNotifierProvider.notifier);
+  final userDataNotifier = ref.watch(userDataProvider.notifier);
+  final companyInfoNotifer = ref.watch(companyInfoProvider.notifier);
+  return InitDataloadProvider(firebaseService: firebaseService, userProfileDataNotifier: userDataNotifier, companyInfoNotifer: companyInfoNotifer);
 });
