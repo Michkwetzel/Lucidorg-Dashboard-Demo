@@ -3,28 +3,33 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:platform_front/config/enums.dart';
-import 'package:platform_front/notifiers/ActiveAssessmentData/ActiveAssessmentDataNotifier.dart';
+import 'package:platform_front/notifiers/userResultsData/userResultsData.dart';
 
-class UserState {
+class UserProfileState {
   final String? userUID;
   final String? email;
   final String? companyUID;
   final Permission? permission;
 
-  UserState({this.userUID, this.permission, this.companyUID, this.email});
+  UserProfileState({this.userUID, this.permission, this.companyUID, this.email});
 
-  UserState copyWith({String? userUID, Permission? permission, bool? error, String? companyUID, String? email}) {
-    return UserState(userUID: userUID ?? this.userUID, permission: permission ?? this.permission, companyUID: companyUID ?? this.companyUID, email: email ?? this.email);
+  UserProfileState copyWith({String? userUID, Permission? permission, bool? error, String? companyUID, String? email}) {
+    return UserProfileState(userUID: userUID ?? this.userUID, permission: permission ?? this.permission, companyUID: companyUID ?? this.companyUID, email: email ?? this.email);
   }
 }
 
-class UserDataNotifier extends StateNotifier<UserState> {
+class UserProfileDataNotifier extends StateNotifier<UserProfileState> {
   Logger logger = Logger("UserData");
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  final ActiveAssessmentDataNotifier activeAssessmentDataNotifier;
+  final UserResultsData userResultsData;
 
-  UserDataNotifier({required this.activeAssessmentDataNotifier}) : super(UserState());
+  UserProfileDataNotifier({required this.userResultsData}) : super(UserProfileState());
+
+  String? get userUID => state.userUID;
+  Permission? get permission => state.permission;
+  String? get companyUID => state.companyUID;
+  String? get email => state.email;
 
   Future<void> getUserInfo(User? user) async {
     try {
@@ -37,10 +42,10 @@ class UserDataNotifier extends StateNotifier<UserState> {
       final companyUID = userDocRef.data()?['companyUID'];
 
       //Get latest Survey if it exist
-      await activeAssessmentDataNotifier.setAssessmentDocName(companyUID);
+      await userResultsData.setAssessmentDocName(companyUID);
 
       state = state.copyWith(userUID: user.uid, permission: permission, companyUID: companyUID, email: user.email);
-      logger.info('Current user: ${user.uid}, companyUID: ${state.companyUID}, permission: ${state.permission}, Latest Survey: ${activeAssessmentDataNotifier.activeSurvey}}');
+      logger.info('Current user: ${user.uid}, companyUID: ${state.companyUID}, permission: ${state.permission}, Latest Survey: ${userResultsData.activeSurvey}}');
     } on Exception catch (e) {
       state = state.copyWith(error: true);
       logger.severe("Unable to get permissions ${state.userUID}, Email: ${state.email} $e");
@@ -61,7 +66,7 @@ class UserDataNotifier extends StateNotifier<UserState> {
   }
 
   void clearUserData() {
-    state = UserState();
+    state = UserProfileState();
     logger.info("Cleared user data: ${state.userUID}, ${state.permission}, ${state.companyUID}, ${state.email}");
   }
 }

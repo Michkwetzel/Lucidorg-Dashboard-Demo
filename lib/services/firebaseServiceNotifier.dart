@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
 import 'package:platform_front/config/exceptions.dart';
 
 class FirebaseServiceNotifier extends StateNotifier<bool> {
   //Direct firestore serices
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final Logger logger = Logger("FirebaseServiceNotifier");
 
   FirebaseServiceNotifier() : super(true);
 
@@ -36,6 +38,34 @@ class FirebaseServiceNotifier extends StateNotifier<bool> {
     } catch (e) {
       print('Error in getResultsStream: $e');
       rethrow;
+    }
+  }
+
+  Future<Map<String, String>?> getCompanyInfo(String? companyUID) async {
+    try {
+      if (companyUID == null) {
+        throw CompanyNotFoundException();
+      }
+
+      final docSnapshot = await _firestore.collection('surveyData').doc(companyUID).get();
+
+      if (docSnapshot.exists) {
+        Map<String, dynamic> data = docSnapshot.data() as Map<String, dynamic>;
+        if (data.containsKey('companyInfo')) {
+          Map<String, String> companyInfoMap = (data['companyInfo'] as Map<String, dynamic>).map((key, value) => MapEntry(key, value!.toString()));
+
+          logger.info('Fetched companyInfo: $companyInfoMap');
+          return companyInfoMap;
+        } else {
+          logger.info('No CompanyInfo for companyUID: $companyUID');
+          return null;
+        }
+      } else {
+        throw CompanyNotFoundException();
+      }
+    } catch (e) {
+      logger.severe('Error fetching company Info: $e');
+      return null;
     }
   }
 

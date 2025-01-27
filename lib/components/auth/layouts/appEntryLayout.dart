@@ -49,6 +49,8 @@ class AppEntryLayout extends ConsumerWidget {
               onPressed: () async {
                 try {
                   await ref.read(authfirestoreserviceProvider.notifier).signInWithEmailAndPassword('test@gmail.com', '1234567890');
+                  await ref.read(userDataProvider.notifier).getUserInfo(ref.read(authfirestoreserviceProvider));
+                  await ref.read(initDataloadProvider.notifier).initDataload();
                   SnackBarService.showMessage('Succesfull Test Log in', Colors.green);
                   NavigationService.navigateTo('/createAssessment');
                 } on Exception {

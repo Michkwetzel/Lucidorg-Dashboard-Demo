@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/components/dashboard/navBar/navBarButton.dart';
-import 'package:platform_front/components/dashboard/results/resultsBody.dart';
 import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/config/providers.dart';
 import 'package:platform_front/services/microServices/navigationService.dart';

@@ -2,8 +2,8 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:logging/logging.dart';
-import 'package:platform_front/notifiers/ActiveAssessmentData/ActiveAssessmentDataNotifier.dart';
-import 'package:platform_front/notifiers/userData/userData.dart';
+import 'package:platform_front/notifiers/userResultsData/userResultsData.dart';
+import 'package:platform_front/notifiers/userProfileData/userProfileData.dart';
 import 'package:platform_front/services/firebaseServiceNotifier.dart';
 
 // Auth services. Holds the currently signed in user as its state
@@ -12,8 +12,8 @@ class AuthFirestoreServiceNotifier extends StateNotifier<User?> {
   final logger = Logger("AuthFireStoreService");
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseServiceNotifier firebaseServiceNotifier;
-  final ActiveAssessmentDataNotifier activeAssessmentDataNotifier;
-  final UserDataNotifier userDataNotifier;
+  final UserResultsData activeAssessmentDataNotifier;
+  final UserProfileDataNotifier userDataNotifier;
 
   AuthFirestoreServiceNotifier({required this.activeAssessmentDataNotifier, required this.firebaseServiceNotifier, required this.userDataNotifier}) : super(null);
 
@@ -23,7 +23,6 @@ class AuthFirestoreServiceNotifier extends StateNotifier<User?> {
       if (user != null) {
         state = user;
         logger.info("User signed in with UID: ${user.uid}, Email: ${user.email}}");
-        userDataNotifier.getUserInfo(user);
       } else {
         logger.info("No user signed in");
       }

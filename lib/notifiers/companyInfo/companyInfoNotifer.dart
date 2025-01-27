@@ -6,9 +6,13 @@ class CompanyInfoNotifer extends StateNotifier<Map<String, String>> {
 
   CompanyInfoNotifer({required this.googlefunctionserviceProvider}) : super({'companyName': ''});
 
-  Future<void> saveCompanyInfo(Map<String, String> infoList) async {
-    state = infoList;
+  Future<void> saveCompanyInfo(Map<String, String> companyInfoMap) async {
+    state = companyInfoMap;
     await googlefunctionserviceProvider.saveCompanyInfo(state);
+  }
+
+  void setCompanyInfo(Map<String, String> companyInfoMap) {
+    state = companyInfoMap;
   }
 
   String get companyName => state['companyName'] ?? '';
