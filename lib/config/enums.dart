@@ -7,3 +7,5 @@ enum NavBarButtonType {createAssessment, companyInfo, logOut, home, results, blu
 enum Permission {exec, employee, guest, error}
 
 enum Diffsize {H1, H2, H3, H4}
+
+enum ResultSection {overview, areaScore, diffMatrix, subAreaView}

@@ -92,8 +92,8 @@ final userDataProvider = StateNotifierProvider<UserProfileDataNotifier, UserProf
   return UserProfileDataNotifier(userResultsData: activeAssessmentDataNotifier);
 });
 
-final resultsDisplayProvider = StateNotifierProvider<ResultsSideDisplaynotifer, Widget>((ref) {
-  return ResultsSideDisplaynotifer();
+final resultsDisplayProvider = StateNotifierProvider<ResultsSelectedSection, ResultSection>((ref) {
+  return ResultsSelectedSection();
 });
 
 final initDataloadProvider = StateNotifierProvider<InitDataloadProvider, bool>((ref) {

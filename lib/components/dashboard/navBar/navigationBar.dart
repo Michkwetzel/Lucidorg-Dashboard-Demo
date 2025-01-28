@@ -75,7 +75,13 @@ class NavBar extends ConsumerWidget {
                           NavBarButton(
                             onTap: () => {},
                             icon: Icons.highlight_alt_rounded,
-                            label: 'Blueprints',
+                            label: 'Impact',
+                            buttonType: NavBarButtonType.blueprints,
+                          ),
+                          NavBarButton(
+                            onTap: () => {},
+                            icon: Icons.highlight_alt_rounded,
+                            label: 'The Fix',
                             buttonType: NavBarButtonType.blueprints,
                           ),
                         ],
