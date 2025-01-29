@@ -1,9 +1,9 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:platform_front/components/global/diffTriangleRedWidget.dart';
+import 'package:platform_front/components/dashboard/results/mainView/mainViewBody.dart';
+import 'package:platform_front/components/dashboard/results/sideBar/resultsSideBarBody.dart';
 import 'package:platform_front/config/constants.dart';
-import 'package:platform_front/config/enums.dart';
-import 'package:platform_front/config/providers.dart';
 
 class ResultsBody extends StatelessWidget {
   const ResultsBody({super.key});
@@ -16,10 +16,11 @@ class ResultsBody extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   children: [
-                    const SizedBox(
+                    SizedBox(
                       width: 1008,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -38,7 +39,9 @@ class ResultsBody extends StatelessWidget {
                   ],
                 ),
                 Row(
-                  children: [ResultsSideBar()],
+                  spacing: 32,
+                  children: [ResultsSideBar(),
+                   MainViewBody()],
                 )
               ],
             ),
@@ -47,54 +50,11 @@ class ResultsBody extends StatelessWidget {
   }
 }
 
-class ResultsSideBar extends ConsumerWidget {
-  const ResultsSideBar({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Container(
-      width: 350,
-      height: 650,
-      decoration: kboxShadowNormal,
-      child: ref.watch(resultsDisplayProvider),
-    );
-  }
-}
-
-class ResultsSideOverview extends StatelessWidget {
-  const ResultsSideOverview({super.key});
+class MainSection extends StatelessWidget {
+  const MainSection({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding:  EdgeInsets.only(top: 40, bottom: 20, left: 25, right: 25),
-      child:  Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            "Overall Score",
-            style: kH2PoppinsLight,
-          ),
-          SizedBox(
-            height: 8,
-          ),
-          Text(
-            '55.7%',
-            style: kH3TotalScoreLight,
-          ),
-          SizedBox(
-            height: 40,
-          ),
-          Text(
-            'Overall Differentiation',
-            style: kH3PoppinsLight,
-          ),
-          SizedBox(
-            height: 8,
-          ),
-          DiffTriangleRedWidget(value: '~38%', size: Diffsize.H1)
-        ],
-      ),
-    );
+    return const Placeholder();
   }
 }

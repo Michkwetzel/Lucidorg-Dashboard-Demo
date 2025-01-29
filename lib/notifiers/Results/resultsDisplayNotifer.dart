@@ -1,11 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:platform_front/components/dashboard/results/resultsBody.dart';
+import 'package:platform_front/config/enums.dart';
 
-class ResultsSideDisplaynotifer extends StateNotifier<Widget> {
-  ResultsSideDisplaynotifer() : super(const ResultsSideOverview());
+class ResultsSelectedSection extends StateNotifier<ResultSection> {
+  ResultsSelectedSection() : super(ResultSection.overview);
 
-  void setDisplay(Widget display){
-    state = display;
+  void setDisplay(ResultSection section){
+    state = section;
   }
 }

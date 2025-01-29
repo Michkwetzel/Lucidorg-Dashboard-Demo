@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/config/enums.dart';
+import 'package:platform_front/notifiers/navBar/navBarExpandState.dart';
 import 'package:platform_front/notifiers/userResultsData/userResultsData.dart';
 import 'package:platform_front/notifiers/Results/resultsDisplayNotifer.dart';
 import 'package:platform_front/notifiers/auth/authDisplayNotifier.dart';
@@ -92,8 +93,8 @@ final userDataProvider = StateNotifierProvider<UserProfileDataNotifier, UserProf
   return UserProfileDataNotifier(userResultsData: activeAssessmentDataNotifier);
 });
 
-final resultsDisplayProvider = StateNotifierProvider<ResultsSideDisplaynotifer, Widget>((ref) {
-  return ResultsSideDisplaynotifer();
+final resultsSelectedSectionProvider = StateNotifierProvider<ResultsSelectedSection, ResultSection>((ref) {
+  return ResultsSelectedSection();
 });
 
 final initDataloadProvider = StateNotifierProvider<InitDataloadProvider, bool>((ref) {
@@ -101,4 +102,8 @@ final initDataloadProvider = StateNotifierProvider<InitDataloadProvider, bool>((
   final userDataNotifier = ref.watch(userDataProvider.notifier);
   final companyInfoNotifer = ref.watch(companyInfoProvider.notifier);
   return InitDataloadProvider(firebaseService: firebaseService, userProfileDataNotifier: userDataNotifier, companyInfoNotifer: companyInfoNotifer);
+});
+
+final navBarExpandStateNotifier = StateNotifierProvider<NavBarExpandStateNotifier, bool>((ref) {
+  return NavBarExpandStateNotifier();
 });
