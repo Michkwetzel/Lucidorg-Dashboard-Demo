@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:platform_front/components/dashboard/navBar/navigationBar.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/config/providers.dart';
@@ -35,17 +36,26 @@ class NavBarButton extends ConsumerWidget {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            if (buttonType == NavBarButtonType.closeMenu && ref.watch(navBarExpandStateNotifier)) 
+              SizedBox(
+                width: 4,
+              ),
             Icon(
               icon,
               size: 26.5,
             ),
-            const SizedBox(
-              width: 8,
-            ),
-            Text(
-              label,
-              style: kSidePanelButtonsTextStyle,
-            ),
+            if (ref.watch(navBarExpandStateNotifier))
+              Row(
+                children: [
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  Text(
+                    label,
+                    style: kSidePanelButtonsTextStyle,
+                  ),
+                ],
+              ),
           ],
         ),
       ),

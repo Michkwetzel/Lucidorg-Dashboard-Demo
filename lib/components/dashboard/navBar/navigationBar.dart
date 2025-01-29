@@ -5,22 +5,46 @@ import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/config/providers.dart';
 import 'package:platform_front/services/microServices/navigationService.dart';
 
-class NavBar extends ConsumerWidget {
+class NavBar extends ConsumerStatefulWidget {
   const NavBar({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<NavBar> createState() => _NavBarState();
+}
+
+class _NavBarState extends ConsumerState<NavBar> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _handleResize();
+  }
+
+  void _handleResize() {
+    double width = MediaQuery.of(context).size.width;
+    if (width < 1500 && ref.read(navBarExpandStateNotifier)) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        ref.read(navBarExpandStateNotifier.notifier).shrink();
+      });
+    } else if (width >= 1500 && !ref.read(navBarExpandStateNotifier)) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        ref.read(navBarExpandStateNotifier.notifier).expand();
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(right: 60, bottom: 16),
+      padding: EdgeInsets.only(right: 60, bottom: 16),
       child: Container(
         decoration: BoxDecoration(
           boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.20), blurRadius: 4)],
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
         ),
-        width: 280,
+        width: ref.watch(navBarExpandStateNotifier) ? 200 : 67,
         height: double.infinity,
         child: Padding(
           padding: const EdgeInsets.only(top: 24, bottom: 24, left: 12, right: 12),
@@ -35,16 +59,37 @@ class NavBar extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(left: 4),
-                            child: Image.asset(
-                              'assets/logo/tempLogo.png',
-                              scale: 4,
-                            ),
+                              padding: const EdgeInsets.only(left: 4, right: 4),
+                              child: ref.watch(navBarExpandStateNotifier)
+                                  ? SizedBox(
+                                      height: 35.5,
+                                      child: Image.asset(
+                                        'assets/logo/tempLogo.png',
+                                      ),
+                                    )
+                                  : SizedBox(
+                                      width: 35,
+                                      height: 35.5,
+                                      child: Image.asset(
+                                        'assets/logo/logoImage.png',
+                                      ),
+                                    )),
+                          const SizedBox(height: 4),
+                          NavBarButton(
+                            onTap: () {
+                              if (ref.watch(navBarExpandStateNotifier)) {
+                                ref.read(navBarExpandStateNotifier.notifier).shrink();
+                              } else {
+                                ref.read(navBarExpandStateNotifier.notifier).expand();
+                              }
+                            },
+                            icon: ref.watch(navBarExpandStateNotifier) ? Icons.arrow_back_ios : Icons.menu,
+                            label: '',
+                            buttonType: NavBarButtonType.closeMenu,
                           ),
-                          const SizedBox(height: 24),
                           NavBarButton(
                             onTap: () {
                               ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.home);

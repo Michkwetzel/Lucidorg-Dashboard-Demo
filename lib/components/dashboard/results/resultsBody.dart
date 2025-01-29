@@ -1,9 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:platform_front/components/dashboard/results/mainView/mainViewBody.dart';
 import 'package:platform_front/components/dashboard/results/sideBar/resultsSideBarBody.dart';
 import 'package:platform_front/config/constants.dart';
-
 
 class ResultsBody extends StatelessWidget {
   const ResultsBody({super.key});
@@ -39,10 +39,9 @@ class ResultsBody extends StatelessWidget {
                   ],
                 ),
                 Row(
-                  children: [
-                    ResultsSideBar(),
-
-                  ],
+                  spacing: 32,
+                  children: [ResultsSideBar(),
+                   MainViewBody()],
                 )
               ],
             ),

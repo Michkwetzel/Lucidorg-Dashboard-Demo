@@ -2,7 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:platform_front/components/dashboard/results/sideBar/sections/overviewSBResults.dart';
 import 'package:platform_front/config/constants.dart';
+import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/config/providers.dart';
 
 class ResultsSideBar extends ConsumerWidget {
@@ -10,12 +12,24 @@ class ResultsSideBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.watch(resultsDisplayProvider);
+    ResultSection selectedSection = ref.watch(resultsSelectedSectionProvider);
+
+    Widget _returnSideBarWidget(){
+      switch (selectedSection){
+        case ResultSection.overview:
+          return OverViewSBResults();
+        default:
+          return OverViewSBResults();
+      }
+        
+    }
+
     return Container(
       margin: EdgeInsets.only(left: 5, bottom: 5),
-      width: 400,
+      width: 350,
+      height: 822,
       decoration: kboxShadowNormal,
-      child: Placeholder(),
+      child: _returnSideBarWidget(),
     );
   }
 }
