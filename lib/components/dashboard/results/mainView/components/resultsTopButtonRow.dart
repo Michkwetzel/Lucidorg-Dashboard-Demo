@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:platform_front/components/dashboard/results/mainView/resultsViewRadioButton.dart';
+import 'package:platform_front/components/dashboard/results/mainView/components/resultsViewRadioButton.dart';
 import 'package:platform_front/config/enums.dart';
 
 class ResultsTopButtonRow extends StatelessWidget {

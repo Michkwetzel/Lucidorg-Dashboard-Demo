@@ -13,15 +13,21 @@ class AreaScoresMainView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            'Meeting Efficacy',
-            style: kH3PoppinsMedium,
+        Padding(
+          padding: const EdgeInsets.only(left: 16, right: 16),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              'Meeting Efficacy',
+              style: kH3PoppinsMedium,
+            ),
           ),
         ),
         SizedBox(height: 6),
-        GrayDivider(),
+        Padding(
+          padding: const EdgeInsets.only(left: 16, right: 16),
+          child: GrayDivider(),
+        ),
         SizedBox(height: 32),
         DepartmentTextWidget(),
         SizedBox(height: 8),
@@ -57,13 +63,15 @@ class AreaScoresMainView extends StatelessWidget {
             Flexible(
               child: Padding(
                 padding: EdgeInsets.only(right: 40),
-                child: Text('Purpose driven culture where the purpose becomes apart of both the internal and eternal stakeholders during the onboarding process\n\nPurpose driven culture where the purpose becomes apart of both the internal and eternal stakeholders during the onboarding process'),
+                child: Text(
+                    'Purpose driven culture where the purpose becomes apart of both the internal and eternal stakeholders during the onboarding process\n\nPurpose driven culture where the purpose becomes apart of both the internal and eternal stakeholders during the onboarding process'),
               ),
             ),
             Flexible(
               child: Padding(
                 padding: EdgeInsets.only(right: 40),
-                child: Text('Purpose driven culture where the purpose becomes apart of both the internal and eternal stakeholders during the onboarding process\n\nPurpose driven culture where the purpose becomes apart of both the internal and eternal stakeholders during the onboarding process'),
+                child: Text(
+                    'Purpose driven culture where the purpose becomes apart of both the internal and eternal stakeholders during the onboarding process\n\nPurpose driven culture where the purpose becomes apart of both the internal and eternal stakeholders during the onboarding process'),
               ),
             ),
           ],

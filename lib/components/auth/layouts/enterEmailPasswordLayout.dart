@@ -37,7 +37,7 @@ class EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLayo
   void succesfullyCreatedAccount() async {
     SnackBarService.showMessage("Successfully created Account", Colors.green);
     await ref.read(userDataProvider.notifier).getUserInfo(ref.read(authfirestoreserviceProvider));
-    NavigationService.navigateTo('/createAssessment');
+    NavigationService.navigateTo('/home');
     ref.read(authDisplayProvider.notifier).changeDisplay(const AppEntryLayout());
   }
 
@@ -45,7 +45,7 @@ class EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLayo
     SnackBarService.showMessage("Successfully Logged in", Colors.green);
     await ref.read(userDataProvider.notifier).getUserInfo(ref.read(authfirestoreserviceProvider));
     await ref.read(initDataloadProvider.notifier).initDataload();
-    NavigationService.navigateTo('/createAssessment');
+    NavigationService.navigateTo('/home');
     ref.read(authDisplayProvider.notifier).changeDisplay(const AppEntryLayout());
   }
 

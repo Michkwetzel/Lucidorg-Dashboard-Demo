@@ -23,13 +23,13 @@ class OverViewSBResults extends StatelessWidget {
           Text("Overall Score", style: kH2PoppinsLight),
           SizedBox(height: 8),
           Text('55.7%', style: kH2TotalScoreLight),
-          SizedBox(height: 40),
+          SizedBox(height: 60),
           Text('Overall Differentiation', style: kH3PoppinsLight),
           SizedBox(height: 8),
           DiffTriangleRedWidget(value: 38, size: Diffsize.H2),
-          SizedBox(height: 40),
+          SizedBox(height: 60),
           Text('High Level Scores', style: kH3PoppinsRegular),
-          SizedBox(height: 40),
+          SizedBox(height: 30),
           CatScoreDiffTextHeading(),
           SizedBox(height: 4),
           Divider(color: Color(0xFFC7C7C7), thickness: 1),
@@ -64,7 +64,8 @@ class OverViewSBResults extends StatelessWidget {
             category: 'Overall',
             score: 56.7,
             diff: 18,
-          )
+          ),
+          SizedBox(height: 20,)
         ],
       ),
     );

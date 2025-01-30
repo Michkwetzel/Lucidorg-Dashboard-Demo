@@ -30,7 +30,7 @@ class ResultsSideBar extends ConsumerWidget {
     return Container(
       margin: EdgeInsets.only(left: 5, bottom: 5),
       width: 350,
-      height: 822,
+      height: 850,
       decoration: kboxShadowNormal,
       child: _returnSideBarWidget(),
     );
