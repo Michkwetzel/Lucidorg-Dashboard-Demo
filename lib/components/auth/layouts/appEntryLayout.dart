@@ -52,7 +52,7 @@ class AppEntryLayout extends ConsumerWidget {
                   await ref.read(userDataProvider.notifier).getUserInfo(ref.read(authfirestoreserviceProvider));
                   await ref.read(initDataloadProvider.notifier).initDataload();
                   SnackBarService.showMessage('Succesfull Test Log in', Colors.green);
-                  NavigationService.navigateTo('/createAssessment');
+                  NavigationService.navigateTo('/home');
                 } on Exception {
                   SnackBarService.showMessage('System Error', Colors.red);
                 }
