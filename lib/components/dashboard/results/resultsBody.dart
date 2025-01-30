@@ -38,10 +38,12 @@ class ResultsBody extends StatelessWidget {
                     ),
                   ],
                 ),
+                SizedBox(
+                  height: 16,
+                ),
                 Row(
                   spacing: 32,
-                  children: [ResultsSideBar(),
-                   MainViewBody()],
+                  children: [ResultsSideBar(), MainViewBody()],
                 )
               ],
             ),

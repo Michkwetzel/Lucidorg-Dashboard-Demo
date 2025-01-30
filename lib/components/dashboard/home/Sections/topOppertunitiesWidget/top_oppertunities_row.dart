@@ -34,7 +34,7 @@ class TopOppertunitiesRow extends StatelessWidget {
               ),
               DiffTriangleRedWidget(
                 size: Diffsize.H4,
-                value: '23%',
+                value: 23,
               ),
             ],
           ),

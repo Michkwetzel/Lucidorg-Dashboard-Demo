@@ -36,7 +36,7 @@ class EfficiencyScoresWidget extends StatelessWidget {
                 SizedBox(height: 8),
                 DiffTriangleRedWidget(
                   size: Diffsize.H1,
-                  value: '~38%',
+                  value: 38,
                 )
               ])
             ],

@@ -34,130 +34,144 @@ class _NavBarState extends ConsumerState<NavBar> {
     }
   }
 
+  BoxDecoration decoration = BoxDecoration();
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(right: 60, bottom: 16),
-      child: Container(
-        decoration: BoxDecoration(
-          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.20), blurRadius: 4)],
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-        ),
-        width: ref.watch(navBarExpandStateNotifier) ? 200 : 67,
-        height: double.infinity,
-        child: Padding(
-          padding: const EdgeInsets.only(top: 24, bottom: 24, left: 12, right: 12),
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              return SingleChildScrollView(
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minHeight: constraints.maxHeight,
+      child: MouseRegion(
+        onEnter: (event) {
+          setState(() {
+            decoration = BoxDecoration(
+              boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.20), blurRadius: 4)],
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+            );
+          });
+        },
+        onExit: (event) {
+          setState(() {
+            decoration = BoxDecoration();
+          });
+        },
+        child: Container(
+          decoration: decoration,
+          width: ref.watch(navBarExpandStateNotifier) ? 200 : 67,
+          height: double.infinity,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 24, bottom: 24, left: 12, right: 12),
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                return SingleChildScrollView(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: constraints.maxHeight,
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                                padding: const EdgeInsets.only(left: 4, right: 4),
+                                child: ref.watch(navBarExpandStateNotifier)
+                                    ? SizedBox(
+                                        height: 35.5,
+                                        child: Image.asset(
+                                          'assets/logo/tempLogo.png',
+                                        ),
+                                      )
+                                    : SizedBox(
+                                        width: 35,
+                                        height: 35.5,
+                                        child: Image.asset(
+                                          'assets/logo/logoImage.png',
+                                        ),
+                                      )),
+                            const SizedBox(height: 4),
+                            NavBarButton(
+                              onTap: () {
+                                if (ref.watch(navBarExpandStateNotifier)) {
+                                  ref.read(navBarExpandStateNotifier.notifier).shrink();
+                                } else {
+                                  ref.read(navBarExpandStateNotifier.notifier).expand();
+                                }
+                              },
+                              icon: ref.watch(navBarExpandStateNotifier) ? Icons.arrow_back_ios : Icons.menu,
+                              label: '',
+                              buttonType: NavBarButtonType.closeMenu,
+                            ),
+                            NavBarButton(
+                              onTap: () {
+                                ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.home);
+                                NavigationService.navigateTo('/home');
+                              },
+                              icon: Icons.home,
+                              label: 'Home',
+                              buttonType: NavBarButtonType.home,
+                            ),
+                            NavBarButton(
+                              onTap: () {
+                                ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.createAssessment);
+                                NavigationService.navigateTo('/createAssessment');
+                              },
+                              icon: Icons.layers_outlined,
+                              label: 'Assessment',
+                              buttonType: NavBarButtonType.createAssessment,
+                            ),
+                            NavBarButton(
+                              onTap: () {
+                                ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.results);
+                                NavigationService.navigateTo('/results');
+                              },
+                              icon: Icons.format_align_center,
+                              label: 'Results',
+                              buttonType: NavBarButtonType.results,
+                            ),
+                            NavBarButton(
+                              onTap: () => {},
+                              icon: Icons.highlight_alt_rounded,
+                              label: 'Impact',
+                              buttonType: NavBarButtonType.blueprints,
+                            ),
+                            NavBarButton(
+                              onTap: () => {},
+                              icon: Icons.highlight_alt_rounded,
+                              label: 'The Fix',
+                              buttonType: NavBarButtonType.blueprints,
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            NavBarButton(
+                              onTap: () {
+                                ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.companyInfo);
+                                NavigationService.navigateTo('/companyInfo');
+                              },
+                              icon: Icons.person,
+                              label: 'Company Info',
+                              buttonType: NavBarButtonType.companyInfo,
+                            ),
+                            NavBarButton(
+                              onTap: () {
+                                ref.read(authfirestoreserviceProvider.notifier).signOutUser();
+                                NavigationService.navigateTo('/auth');
+                              },
+                              icon: Icons.logout_outlined,
+                              label: 'Log out',
+                              buttonType: NavBarButtonType.logOut,
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
                   ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Padding(
-                              padding: const EdgeInsets.only(left: 4, right: 4),
-                              child: ref.watch(navBarExpandStateNotifier)
-                                  ? SizedBox(
-                                      height: 35.5,
-                                      child: Image.asset(
-                                        'assets/logo/tempLogo.png',
-                                      ),
-                                    )
-                                  : SizedBox(
-                                      width: 35,
-                                      height: 35.5,
-                                      child: Image.asset(
-                                        'assets/logo/logoImage.png',
-                                      ),
-                                    )),
-                          const SizedBox(height: 4),
-                          NavBarButton(
-                            onTap: () {
-                              if (ref.watch(navBarExpandStateNotifier)) {
-                                ref.read(navBarExpandStateNotifier.notifier).shrink();
-                              } else {
-                                ref.read(navBarExpandStateNotifier.notifier).expand();
-                              }
-                            },
-                            icon: ref.watch(navBarExpandStateNotifier) ? Icons.arrow_back_ios : Icons.menu,
-                            label: '',
-                            buttonType: NavBarButtonType.closeMenu,
-                          ),
-                          NavBarButton(
-                            onTap: () {
-                              ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.home);
-                              NavigationService.navigateTo('/home');
-                            },
-                            icon: Icons.home,
-                            label: 'Home',
-                            buttonType: NavBarButtonType.home,
-                          ),
-                          NavBarButton(
-                            onTap: () {
-                              ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.createAssessment);
-                              NavigationService.navigateTo('/createAssessment');
-                            },
-                            icon: Icons.layers_outlined,
-                            label: 'Assessment',
-                            buttonType: NavBarButtonType.createAssessment,
-                          ),
-                          NavBarButton(
-                            onTap: () {
-                              ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.results);
-                              NavigationService.navigateTo('/results');
-                            },
-                            icon: Icons.format_align_center,
-                            label: 'Results',
-                            buttonType: NavBarButtonType.results,
-                          ),
-                          NavBarButton(
-                            onTap: () => {},
-                            icon: Icons.highlight_alt_rounded,
-                            label: 'Impact',
-                            buttonType: NavBarButtonType.blueprints,
-                          ),
-                          NavBarButton(
-                            onTap: () => {},
-                            icon: Icons.highlight_alt_rounded,
-                            label: 'The Fix',
-                            buttonType: NavBarButtonType.blueprints,
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          NavBarButton(
-                            onTap: () {
-                              ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.companyInfo);
-                              NavigationService.navigateTo('/companyInfo');
-                            },
-                            icon: Icons.person,
-                            label: 'Company Info',
-                            buttonType: NavBarButtonType.companyInfo,
-                          ),
-                          NavBarButton(
-                            onTap: () {
-                              ref.read(authfirestoreserviceProvider.notifier).signOutUser();
-                              NavigationService.navigateTo('/auth');
-                            },
-                            icon: Icons.logout_outlined,
-                            label: 'Log out',
-                            buttonType: NavBarButtonType.logOut,
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
         ),
       ),
