@@ -5,8 +5,8 @@ import 'package:platform_front/config/constants.dart';
 
 class OverallScoresRow extends StatelessWidget {
   final String category;
-  final String score;
-  final String diff;
+  final double score;
+  final double diff;
 
   const OverallScoresRow({
     super.key,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/enums.dart';
 
@@ -7,36 +8,48 @@ class DiffTriangleRedWidget extends StatelessWidget {
     required this.value,
     required this.size,
     super.key,
+    this.allRed = false,
   });
 
   final Diffsize size;
-  final dynamic value;
+  final double value;
+  final bool allRed;
 
   @override
   Widget build(BuildContext context) {
     TextStyle textStyle = kH4PoppinsLight;
     double trianleSize = 15;
+    Color textColor = Colors.black;
+
+    if (allRed) {
+      textColor = Color(0xFFF03535);
+    }
 
     switch (size) {
       case Diffsize.H1:
-        textStyle = kH1Diff;
-        trianleSize = 50;
+        textStyle = TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w400, fontSize: 22, color: textColor);
+        trianleSize = 28;
       case Diffsize.H2:
-        textStyle = kH5PoppinsLight;
-        trianleSize = 40;
+        textStyle = TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w300, fontSize: 22, color: textColor);
+        trianleSize = 24;
       case Diffsize.H3:
-        textStyle = kH2Diff;
-        trianleSize = 30;
+        textStyle = TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w300, fontSize: 16, color: textColor);
+        trianleSize = 20;
       default:
-        textStyle = kH6PoppinsLight;
-        trianleSize = 25;
+        textStyle = TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w300, fontSize: 14, color: textColor);
+        trianleSize = 15;
     }
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Icon(Icons.arrow_drop_up, size: trianleSize, color: Colors.red), // or any color you prefer
-        Text(value, style: textStyle),
+        SvgPicture.asset(
+          'assets/icons/trianlge.svg',
+          width: trianleSize,
+          height: trianleSize,
+          colorFilter: const ColorFilter.mode(Color(0xFFF03535), BlendMode.srcIn),
+        ),
+        Text('~$value%', style: textStyle),
       ],
     );
   }

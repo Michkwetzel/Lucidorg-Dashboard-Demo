@@ -18,7 +18,7 @@ class ResultsViewRadioButton extends ConsumerWidget {
     if (selectedSection == section) {
       return CallToActionButton(onPressed: () {}, buttonText: buttonText);
     } else {
-      return Secondarybutton(onPressed: () {}, buttonText: buttonText);
+      return Secondarybutton(onPressed: () => ref.read(resultsSelectedSectionProvider.notifier).setDisplay(section), buttonText: buttonText);
     }
   }
 }

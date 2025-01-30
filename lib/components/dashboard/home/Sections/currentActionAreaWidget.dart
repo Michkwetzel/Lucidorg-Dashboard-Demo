@@ -42,7 +42,7 @@ class CurrentActionAreaWidget extends StatelessWidget {
               ],
             ),
             Column(
-              children: [Text('Differentiation', style: kH6PoppinsLight), DiffTriangleRedWidget(size: Diffsize.H3, value: '~38%',)],
+              children: [Text('Differentiation', style: kH6PoppinsLight), DiffTriangleRedWidget(size: Diffsize.H3, value: 38,)],
             )
           ],
         )

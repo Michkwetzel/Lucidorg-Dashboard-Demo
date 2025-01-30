@@ -15,35 +15,40 @@ class ResultsBody extends StatelessWidget {
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    SizedBox(
-                      width: 1008,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Results",
-                            style: kH1TextStyle,
-                          ),
-                          Text(
-                            'Assessment: Q1 2025',
-                            style: kH5PoppinsLight,
-                          )
-                        ],
+            child: Padding(
+              padding: EdgeInsets.only(right: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 1008,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Results",
+                              style: kH1TextStyle,
+                            ),
+                            Text(
+                              'Assessment: Q1 2025',
+                              style: kH5PoppinsLight,
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                Row(
-                  spacing: 32,
-                  children: [ResultsSideBar(),
-                   MainViewBody()],
-                )
-              ],
+                    ],
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  Row(
+                    spacing: 32,
+                    children: [ResultsSideBar(), MainViewBody()],
+                  )
+                ],
+              ),
             ),
           ),
         ));
