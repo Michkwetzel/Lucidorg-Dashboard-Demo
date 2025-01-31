@@ -64,14 +64,18 @@ class AreaScoresMainView extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.only(right: 40),
                 child: Text(
-                    'Purpose driven culture where the purpose becomes apart of both the internal and eternal stakeholders during the onboarding process\n\nPurpose driven culture where the purpose becomes apart of both the internal and eternal stakeholders during the onboarding process'),
+                  'Purpose driven culture where the purpose becomes apart of both the internal and eternal stakeholders during the onboarding process\n\nPurpose driven culture where the purpose becomes apart of both the internal and eternal stakeholders during the onboarding process',
+                  style: kH7PoppinsLight,
+                ),
               ),
             ),
             Flexible(
               child: Padding(
                 padding: EdgeInsets.only(right: 40),
                 child: Text(
-                    'Purpose driven culture where the purpose becomes apart of both the internal and eternal stakeholders during the onboarding process\n\nPurpose driven culture where the purpose becomes apart of both the internal and eternal stakeholders during the onboarding process'),
+                  'Purpose driven culture where the purpose becomes apart of both the internal and eternal stakeholders during the onboarding process\n\nPurpose driven culture where the purpose becomes apart of both the internal and eternal stakeholders during the onboarding process',
+                  style: kH7PoppinsLight,
+                ),
               ),
             ),
           ],

@@ -54,12 +54,3 @@ class ResultsBody extends StatelessWidget {
         ));
   }
 }
-
-class MainSection extends StatelessWidget {
-  const MainSection({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
-}

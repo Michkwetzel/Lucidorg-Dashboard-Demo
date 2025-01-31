@@ -39,7 +39,7 @@ class _NavBarState extends ConsumerState<NavBar> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(right: 60, bottom: 16),
+      padding: EdgeInsets.only(right: 32, bottom: 16),
       child: MouseRegion(
         onEnter: (event) {
           setState(() {
@@ -131,16 +131,19 @@ class _NavBarState extends ConsumerState<NavBar> {
                               buttonType: NavBarButtonType.results,
                             ),
                             NavBarButton(
-                              onTap: () => {},
+                              onTap: () {
+                                ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.impact);
+                                NavigationService.navigateTo('/impact');
+                              },
                               icon: Icons.highlight_alt_rounded,
                               label: 'Impact',
-                              buttonType: NavBarButtonType.blueprints,
+                              buttonType: NavBarButtonType.impact,
                             ),
                             NavBarButton(
                               onTap: () => {},
                               icon: Icons.highlight_alt_rounded,
                               label: 'The Fix',
-                              buttonType: NavBarButtonType.blueprints,
+                              buttonType: NavBarButtonType.theFix,
                             ),
                           ],
                         ),
