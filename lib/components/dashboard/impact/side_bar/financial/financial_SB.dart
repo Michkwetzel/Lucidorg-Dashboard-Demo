@@ -45,6 +45,7 @@ class _FinancialSBState extends State<FinancialSB> {
                 ),
               ),
               Slider(
+                  activeColor: Color(0xFFB9D08F),
                   label: sliderValue.toString(),
                   divisions: 3,
                   value: sliderValue,

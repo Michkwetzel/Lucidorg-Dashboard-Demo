@@ -12,8 +12,8 @@ class ResultsTopButtonRow extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         ResultsViewRadioButton(buttonText: 'Overview', section: ResultSection.overview),
-        ResultsViewRadioButton(buttonText: 'Area Scores', section: ResultSection.areaScore),
         ResultsViewRadioButton(buttonText: 'Differentiation Matrix', section: ResultSection.diffMatrix),
+        ResultsViewRadioButton(buttonText: 'Area Scores', section: ResultSection.areaScore),
         ResultsViewRadioButton(buttonText: 'Sub-Area View', section: ResultSection.subAreaView),
       ],
     );

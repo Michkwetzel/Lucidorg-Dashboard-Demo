@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/components/dashboard/results/sideBar/sections/area_scores_side_bar.dart';
+import 'package:platform_front/components/dashboard/results/sideBar/sections/diff_matrix_side_bar.dart';
 import 'package:platform_front/components/dashboard/results/sideBar/sections/overview_side_bar.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/enums.dart';
@@ -21,6 +22,8 @@ class ResultsSideBar extends ConsumerWidget {
           return OverViewSBResults();
         case ResultSection.areaScore:
           return AreaScoresSideBar();
+        case ResultSection.diffMatrix:
+         return DiffMatrixSideBar();
         default:
           return OverViewSBResults();
       }
@@ -30,7 +33,6 @@ class ResultsSideBar extends ConsumerWidget {
     return Container(
       margin: EdgeInsets.only(left: 5, bottom: 5),
       width: 350,
-      height: 850,
       decoration: kboxShadowNormal,
       child: _returnSideBarWidget(),
     );

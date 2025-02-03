@@ -1,13 +1,12 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
+import 'package:platform_front/components/dashboard/impact/side_bar/scores_over_time/scores_over_time_SB.dart';
 import 'package:platform_front/components/dashboard/results/sideBar/components/high_level_scores_widget.dart';
 import 'package:platform_front/components/global/diffTriangleRedWidget.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/enums.dart';
 
-class OverViewSBResults extends StatelessWidget {
-  const OverViewSBResults({
+class DiffMatrixSideBar extends StatelessWidget {
+  const DiffMatrixSideBar({
     super.key,
   });
 
@@ -19,18 +18,13 @@ class OverViewSBResults extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text("Overall Score", style: kH2PoppinsLight),
-          SizedBox(height: 8),
-          Text('55.7%', style: kH2TotalScoreLight),
-          SizedBox(height: 60),
-          Text('Overall Differentiation', style: kH3PoppinsLight),
+          Text('Overall\nDifferentiation', style: kH2PoppinsLight, textAlign: TextAlign.center,),
           SizedBox(height: 8),
           DiffTriangleRedWidget(value: 38, size: Diffsize.H2),
-          SizedBox(height: 60),
-          HighLevelScoresWidget(),
-          SizedBox(
-            height: 20,
-          )
+          SizedBox(height: 45),
+          BestWorstAllignedWidget(heading: 'Best Aligned'),
+          SizedBox(height: 32),
+          BestWorstAllignedWidget(heading: 'Worst Aligned'),
         ],
       ),
     );

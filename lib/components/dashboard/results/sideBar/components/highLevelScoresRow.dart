@@ -7,12 +7,14 @@ class HighLevelScoresRow extends StatelessWidget {
   final String category;
   final double score;
   final double diff;
+  final bool highLevelScore;
 
   const HighLevelScoresRow({
     super.key,
     required this.category,
     required this.score,
     required this.diff,
+    this.highLevelScore = false,
   });
 
   @override
@@ -21,8 +23,8 @@ class HighLevelScoresRow extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         SizedBox(
-          width: 100,
-          child: Text(category, style: TextStyle(color: Colors.black, fontSize: 17, fontFamily: 'Poppins', fontWeight: FontWeight.w300)),
+          width: highLevelScore ? 100 : 120,
+          child: Text(category, style: TextStyle(color: Colors.black, fontSize: highLevelScore ? 17 : 14, fontFamily: 'Poppins', fontWeight: FontWeight.w300)),
         ),
         Container(
           width: 60,

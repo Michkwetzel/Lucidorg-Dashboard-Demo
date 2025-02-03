@@ -120,3 +120,9 @@ BoxDecoration kDiffRedBox = BoxDecoration(
   color: Color(0xFFF19C79),
   borderRadius: BorderRadius.circular(8),
 );
+
+BoxDecoration kBlackOutline = BoxDecoration(
+  color: Colors.white,
+  border: Border.all(color: Colors.black38, width: 0.5),
+  borderRadius: BorderRadius.circular(8),
+);

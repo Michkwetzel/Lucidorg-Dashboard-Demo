@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/components/dashboard/impact/impact_body.dart';
+import 'package:platform_front/components/dashboard/impact/side_bar/diif_over_time/diff_over_time_sb.dart';
 import 'package:platform_front/components/dashboard/impact/side_bar/financial/financial_SB.dart';
 import 'package:platform_front/components/dashboard/impact/side_bar/org_impact/org_impact_SB.dart';
 import 'package:platform_front/components/dashboard/impact/side_bar/scores_over_time/scores_over_time_SB.dart';
@@ -26,7 +27,7 @@ class ImpactSideBar extends ConsumerWidget {
         case ImpactSection.scoreOverTime:
           return ScoresOverTimeSB();
         case ImpactSection.diffOverTime:
-          return Placeholder();
+          return DiffOverTimeSb();
       }
     }
 

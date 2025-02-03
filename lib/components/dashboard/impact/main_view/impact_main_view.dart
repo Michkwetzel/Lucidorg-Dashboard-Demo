@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/components/buttons/CallToActionButton.dart';
 import 'package:platform_front/components/buttons/secondaryButton.dart';
+import 'package:platform_front/components/dashboard/impact/main_view/diff_over_time/diff_over_time_mv.dart';
+import 'package:platform_front/components/dashboard/impact/main_view/financial/financial_mv.dart';
 import 'package:platform_front/components/dashboard/impact/main_view/org_impact/org_impact_main_view.dart';
 import 'package:platform_front/components/dashboard/impact/main_view/score_over_time/score_over_time_MV.dart';
 import 'package:platform_front/config/constants.dart';
@@ -21,10 +23,10 @@ class ImpactMainView extends ConsumerWidget {
           return OrgImpactMainView();
 
         case ImpactSection.financial:
-          return Placeholder();
+          return FinancialMv();
 
         case ImpactSection.diffOverTime:
-          return Placeholder();
+          return DiffOverTimeMv();
 
         case ImpactSection.scoreOverTime:
           return ScoreOverTimeMV();
@@ -33,7 +35,6 @@ class ImpactMainView extends ConsumerWidget {
 
     return Container(
       width: 800,
-      height: selectedSection == ImpactSection.scoreOverTime ? null : 850,
       padding: EdgeInsets.all(32),
       margin: EdgeInsets.only(left: 5, bottom: 5, right: 5),
       decoration: kboxShadowNormal,

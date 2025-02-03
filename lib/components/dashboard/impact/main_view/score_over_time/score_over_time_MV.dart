@@ -4,7 +4,8 @@ import 'package:platform_front/components/global/grayDivider.dart';
 import 'package:platform_front/config/constants.dart';
 
 class ScoreOverTimeMV extends StatelessWidget {
-  const ScoreOverTimeMV({super.key});
+  final bool scores;
+  const ScoreOverTimeMV({super.key, this.scores = true});
 
   @override
   Widget build(BuildContext context) {
@@ -35,17 +36,17 @@ class ScoreOverTimeMV extends StatelessWidget {
           Column(
             spacing: 16,
             children: [
-              ScoreOverTimeRow(category: 'Alignment', score1: 65.7, score2: 45.7),
-              ScoreOverTimeRow(category: 'Process', score1: 65.7, score2: 45.7),
-              ScoreOverTimeRow(category: 'People', score1: 65.7, score2: 45.7),
-              ScoreOverTimeRow(category: 'KIP', score1: 65.7, score2: 45.7),
-              ScoreOverTimeRow(category: 'Purpouse', score1: 65.7, score2: 45.7),
-              ScoreOverTimeRow(category: 'Leadership', score1: 65.7, score2: 45.7),
-              ScoreOverTimeRow(category: 'Engagement', score1: 65.7, score2: 45.7),
-              ScoreOverTimeRow(category: 'Tech', score1: 65.7, score2: 45.7),
-              ScoreOverTimeRow(category: 'Process', score1: 65.7, score2: 45.7),
-              ScoreOverTimeRow(category: 'Process', score1: 65.7, score2: 45.7),
-              ScoreOverTimeRow(category: 'Alignment', score1: 65.7, score2: 45.7),
+              ScoreOverTimeRow(category: 'Alignment', score1: 65.7, score2: 45.7, scores: scores),
+              ScoreOverTimeRow(category: 'Process', score1: 65.7, score2: 45.7, scores: scores),
+              ScoreOverTimeRow(category: 'People', score1: 65.7, score2: 45.7, scores: scores),
+              ScoreOverTimeRow(category: 'KIP', score1: 65.7, score2: 45.7, scores: scores),
+              ScoreOverTimeRow(category: 'Purpouse', score1: 65.7, score2: 45.7, scores: scores),
+              ScoreOverTimeRow(category: 'Leadership', score1: 65.7, score2: 45.7, scores: scores),
+              ScoreOverTimeRow(category: 'Engagement', score1: 65.7, score2: 45.7, scores: scores),
+              ScoreOverTimeRow(category: 'Tech', score1: 65.7, score2: 45.7, scores: scores),
+              ScoreOverTimeRow(category: 'Process', score1: 65.7, score2: 45.7, scores: scores),
+              ScoreOverTimeRow(category: 'Process', score1: 65.7, score2: 45.7, scores: scores),
+              ScoreOverTimeRow(category: 'Alignment', score1: 65.7, score2: 45.7, scores: scores),
             ],
           ),
           SizedBox(
@@ -70,12 +71,14 @@ class ScoreOverTimeRow extends StatelessWidget {
   final String category;
   final double score1;
   final double score2;
+  final bool scores;
 
   const ScoreOverTimeRow({
     super.key,
     required this.category,
     required this.score1,
     required this.score2,
+    this.scores = true,
   });
 
   @override
@@ -96,13 +99,13 @@ class ScoreOverTimeRow extends StatelessWidget {
                 width: 65,
                 height: 38,
                 decoration: kScoreGreenBox,
-                child: Center(child: Text('$score1%', style: TextStyle(color: Colors.black, fontSize: 15, fontFamily: 'Poppins', fontWeight: FontWeight.w300))),
+                child: Center(child: Text(scores ? '$score1%' : '~$score1%', style: TextStyle(color: Colors.black, fontSize: 15, fontFamily: 'Poppins', fontWeight: FontWeight.w300))),
               ),
               Container(
                 width: 65,
                 height: 38,
                 decoration: kDiffRedBox,
-                child: Center(child: Text('~$score2%', style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: 'Poppins', fontWeight: FontWeight.w300))),
+                child: Center(child: Text(scores ? '$score2%' : '~$score2%', style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: 'Poppins', fontWeight: FontWeight.w300))),
               ),
             ],
           ),
