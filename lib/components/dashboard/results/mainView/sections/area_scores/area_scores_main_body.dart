@@ -28,22 +28,19 @@ class AreaScoresMainView extends StatelessWidget {
           padding: const EdgeInsets.only(left: 16, right: 16),
           child: GrayDivider(),
         ),
-        SizedBox(height: 32),
+        SizedBox(height: 40),
         DepartmentTextWidget(),
         SizedBox(height: 8),
         DepartmentScoresWidget(ceo: 49, cSuite: 63, staff: 67),
         SizedBox(
-          height: 32,
+          height: 40,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           spacing: 80,
           children: [
-            AreaScoreBox(
-              text: 'Overall Score',
-              score: 55.7,
-            ),
-            AreaScoreDiffBox(text: 'Differentiation', diff: 38)
+            AreaScoreBox(text: 'Overall Score', score: 55.7),
+            AreaScoreDiffBox(text: 'Differentiation', diff: 38),
           ],
         ),
         SizedBox(height: 60),
@@ -64,14 +61,18 @@ class AreaScoresMainView extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.only(right: 40),
                 child: Text(
-                    'Purpose driven culture where the purpose becomes apart of both the internal and eternal stakeholders during the onboarding process\n\nPurpose driven culture where the purpose becomes apart of both the internal and eternal stakeholders during the onboarding process'),
+                  'Purpose driven culture where the purpose becomes apart of both the internal and eternal stakeholders during the onboarding process\n\nPurpose driven culture where the purpose becomes apart of both the internal and eternal stakeholders during the onboarding process',
+                  style: kH6PoppinsLight,
+                ),
               ),
             ),
             Flexible(
               child: Padding(
                 padding: EdgeInsets.only(right: 40),
                 child: Text(
-                    'Purpose driven culture where the purpose becomes apart of both the internal and eternal stakeholders during the onboarding process\n\nPurpose driven culture where the purpose becomes apart of both the internal and eternal stakeholders during the onboarding process'),
+                  'Purpose driven culture where the purpose becomes apart of both the internal and eternal stakeholders during the onboarding process\n\nPurpose driven culture where the purpose becomes apart of both the internal and eternal stakeholders during the onboarding process',
+                  style: kH6PoppinsLight,
+                ),
               ),
             ),
           ],

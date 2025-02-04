@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/config/enums.dart';
+import 'package:platform_front/notifiers/impact/impact_display_notifier.dart';
 import 'package:platform_front/notifiers/navBar/navBarExpandState.dart';
 import 'package:platform_front/notifiers/userResultsData/userResultsData.dart';
 import 'package:platform_front/notifiers/Results/resultsDisplayNotifer.dart';
@@ -93,8 +94,8 @@ final userDataProvider = StateNotifierProvider<UserProfileDataNotifier, UserProf
   return UserProfileDataNotifier(userResultsData: activeAssessmentDataNotifier);
 });
 
-final resultsSelectedSectionProvider = StateNotifierProvider<ResultsSelectedSection, ResultSection>((ref) {
-  return ResultsSelectedSection();
+final resultsSelectedSectionProvider = StateNotifierProvider<ResultsDisplayNotifier, ResultSection>((ref) {
+  return ResultsDisplayNotifier();
 });
 
 final initDataloadProvider = StateNotifierProvider<InitDataloadProvider, bool>((ref) {
@@ -106,4 +107,8 @@ final initDataloadProvider = StateNotifierProvider<InitDataloadProvider, bool>((
 
 final navBarExpandStateNotifier = StateNotifierProvider<NavBarExpandStateNotifier, bool>((ref) {
   return NavBarExpandStateNotifier();
+});
+
+final impactSelectedSectionProvider = StateNotifierProvider<ImpactDisplayNotifier, ImpactSection>((ref) {
+  return ImpactDisplayNotifier();
 });

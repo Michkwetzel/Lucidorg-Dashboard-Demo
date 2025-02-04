@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 // Results Section Styles Poppins
 
 const kH1PoppinsLight = TextStyle(fontFamily: "OpenSans", fontWeight: FontWeight.w600, fontSize: 32, color: Color(0xFF494949));
-const kH1PoppingRegular = TextStyle(fontFamily: "OpenSans", fontWeight: FontWeight.w600, fontSize: 32, color: Color(0xFF494949));
+const kH1PoppinsRegular = TextStyle(fontFamily: "OpenSans", fontWeight: FontWeight.w600, fontSize: 32, color: Color(0xFF494949));
 const kH1PoppinsMedium = TextStyle(fontFamily: "OpenSans", fontWeight: FontWeight.w600, fontSize: 32, color: Color(0xFF494949));
 
 const kH2PoppinsLight = TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w300, fontSize: 27);
@@ -25,6 +25,10 @@ const kH5PoppinsMedium = TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight
 const kH6PoppinsLight = TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w300, fontSize: 14);
 const kH6PoppinsRegular = TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w400, fontSize: 14);
 const kH6PoppinsMedium = TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w500, fontSize: 14);
+
+const kH7PoppinsLight = TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w300, fontSize: 12);
+const kH7PoppinsRegular = TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w400, fontSize: 12);
+const kH7PoppinsMedium = TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w500, fontSize: 12);
 
 // ****************************************** Total Score***************************************
 const kH1TotalScoreLight = TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w400, fontSize: 27, color: Color(0xFF5478ED));
@@ -102,7 +106,7 @@ BoxDecoration kGrayBoxDecoration = BoxDecoration(
   borderRadius: BorderRadius.circular(6),
 );
 
-BoxDecoration kScoreGreenBox = BoxDecoration(
+BoxDecoration kGreenBox = BoxDecoration(
   color: Color(0xFFB9D08F),
   borderRadius: BorderRadius.circular(8),
 );
@@ -112,7 +116,18 @@ BoxDecoration kGrayBox = BoxDecoration(
   borderRadius: BorderRadius.circular(8),
 );
 
-BoxDecoration kDiffRedBox = BoxDecoration(
+BoxDecoration kRedBox = BoxDecoration(
   color: Color(0xFFF19C79),
+  borderRadius: BorderRadius.circular(8),
+);
+
+BoxDecoration kYellowBox = BoxDecoration(
+  color: Color(0xFFF2C479),
+  borderRadius: BorderRadius.circular(8),
+);
+
+BoxDecoration kBlackOutline = BoxDecoration(
+  color: Colors.white,
+  border: Border.all(color: Colors.black38, width: 0.5),
   borderRadius: BorderRadius.circular(8),
 );

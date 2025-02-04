@@ -1,11 +1,21 @@
-enum SelectionButtonType {token, guest, employee, none }
+enum SelectionButtonType { token, guest, employee, none }
 
-enum EmailListRadioButtonType {ceo, cSuite, employee }
+enum EmailListRadioButtonType { ceo, cSuite, employee }
 
-enum NavBarButtonType {createAssessment, companyInfo, logOut, home, results, blueprints, closeMenu}
+enum NavBarButtonType { createAssessment, companyInfo, logOut, home, results, impact, theFix ,closeMenu }
 
-enum Permission {exec, employee, guest, error}
+enum Permission { exec, employee, guest, error }
 
-enum Diffsize {H1, H2, H3, H4}
+enum Diffsize { H1, H2, H3, H4 }
 
-enum ResultSection {overview, areaScore, diffMatrix, subAreaView}
+enum ResultSection { overview, areaScore, diffMatrix, foundations }
+
+enum ImpactSection { orgImpact, financial, scoreOverTime, diffOverTime }
+
+enum MainArea { alignment, people, process, leadership }
+
+enum SubArea { purposeDriven, growthAlign, orgStructAlign, collabProcesses, collabKPI, techAlign, CrossFuncComms, empoweredLeadership, engagedCommunity, meetingEfficacy, crossFuncAcc }
+
+enum Alligned { best, worst}
+
+enum ScoresOverTime { improvement, decline }

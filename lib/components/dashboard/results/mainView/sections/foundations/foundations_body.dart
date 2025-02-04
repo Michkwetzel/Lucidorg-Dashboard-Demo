@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:platform_front/components/global/grayDivider.dart';
+import 'package:platform_front/components/global/score_boxes/score_box.dart';
 import 'package:platform_front/config/constants.dart';
-import 'package:flutter/material.dart';
 
-class SubAreaViewBody extends StatelessWidget {
-  const SubAreaViewBody({super.key});
+class FoundationsBody extends StatelessWidget {
+  const FoundationsBody({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +16,54 @@ class SubAreaViewBody extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
+                Column(
+                  children: [
+                    SizedBox(
+                      width: 335,
+                      height: 170,
+                      child: Column(
+                        children: [
+                          Text('Operations', style: kH2PoppinsMedium),
+                          SizedBox(
+                            height: 16,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 32),
+                            child: Text(
+                              'Your workforce is in tip top shape.\n\n Everybody is engaged and communication is good',
+                              style: kH6PoppinsMedium,
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 60,
+                    ),
+                    SubAreaBlock(
+                      heading: 'Allignment',
+                      text1: 'Growth\nAlignment',
+                      score1: 65.7,
+                      text2: 'Collaborative\nKPIs',
+                      score2: 20.2,
+                      text3: 'Alligned Org\nStructure',
+                      score3: 80.8,
+                    ),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    SubAreaBlock(
+                      heading: 'Process',
+                      text1: 'Aligned Tech\nStack',
+                      score1: 45.7,
+                      text2: 'Collaborative\nProcesses',
+                      score2: 54.2,
+                      text3: 'Meeting\nEfficacy',
+                      score3: 43.8,
+                    ),
+                  ],
+                ),
                 Column(
                   children: [
                     SizedBox(
@@ -44,7 +92,7 @@ class SubAreaViewBody extends StatelessWidget {
                     SubAreaBlock(
                       heading: 'People',
                       text1: 'Engaged\nCommunity',
-                      score1: 65.7,
+                      score1: 32.7,
                       text2: 'X-Functional\nCommunication',
                       score2: 63.2,
                       text3: 'X-Functional\nAccountability',
@@ -55,58 +103,10 @@ class SubAreaViewBody extends StatelessWidget {
                     ),
                     SubAreaBlock(
                       heading: 'Leadership',
-                      text1: 'Engaged\nCommunity',
-                      score1: 65.7,
-                      text2: 'X-Functional\nCommunication',
-                      score2: 63.2,
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    SizedBox(
-                      width: 335,
-                      height: 170,
-                      child: Column(
-                        children: [
-                          Text('Operations', style: kH2PoppinsMedium),
-                          SizedBox(
-                            height: 16,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 32),
-                            child: Text(
-                              'Your workforce is in tip top shape.\n\n Everybody is engaged and communication is good',
-                              style: kH6PoppinsMedium,
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 60,
-                    ),
-                    SubAreaBlock(
-                      heading: 'Allignment',
-                      text1: 'Engaged\nCommunity',
-                      score1: 65.7,
-                      text2: 'X-Functional\nCommunication',
-                      score2: 63.2,
-                      text3: 'X-Functional\nAccountability',
-                      score3: 61.8,
-                    ),
-                    SizedBox(
-                      height: 40,
-                    ),
-                    SubAreaBlock(
-                      heading: 'Process',
-                      text1: 'Engaged\nCommunity',
-                      score1: 65.7,
-                      text2: 'X-Functional\nCommunication',
-                      score2: 63.2,
-                      text3: 'X-Functional\nAccountability',
-                      score3: 61.8,
+                      text1: 'Empowered\nLeadership',
+                      score1: 45.7,
+                      text2: 'Purpose\nEverything',
+                      score2: 66.2,
                     ),
                   ],
                 ),
@@ -170,16 +170,7 @@ class SubAreaBlock extends StatelessWidget {
                       text1!,
                       style: kH6PoppinsLight,
                     ),
-                    Container(
-                      width: 65,
-                      height: 42,
-                      decoration: kScoreGreenBox,
-                      child: Center(
-                          child: Text(
-                        '$score1%',
-                        style: kH6PoppinsLight,
-                      )),
-                    )
+                    ScoreBox(score: score1!, width: 65, height: 42, textSize: 14, fontWeight: FontWeight.w300),
                   ],
                 ),
                 Row(
@@ -190,16 +181,7 @@ class SubAreaBlock extends StatelessWidget {
                       text2!,
                       style: kH6PoppinsLight,
                     ),
-                    Container(
-                      width: 65,
-                      height: 42,
-                      decoration: kScoreGreenBox,
-                      child: Center(
-                          child: Text(
-                        '$score2%',
-                        style: kH6PoppinsLight,
-                      )),
-                    )
+                    ScoreBox(score: score2!, width: 65, height: 42, textSize: 14, fontWeight: FontWeight.w300),
                   ],
                 ),
                 if (score3 != null)
@@ -210,16 +192,7 @@ class SubAreaBlock extends StatelessWidget {
                         text3!,
                         style: kH6PoppinsLight,
                       ),
-                      Container(
-                        width: 65,
-                        height: 42,
-                        decoration: kScoreGreenBox,
-                        child: Center(
-                            child: Text(
-                          '$score3%',
-                          style: kH6PoppinsLight,
-                        )),
-                      )
+                      ScoreBox(score: score3!, width: 65, height: 42, textSize: 14, fontWeight: FontWeight.w300),
                     ],
                   )
               ],

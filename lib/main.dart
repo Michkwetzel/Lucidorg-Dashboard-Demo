@@ -6,6 +6,7 @@ import 'package:logging/logging.dart';
 import 'package:platform_front/components/dashboard/companyInfo/companyInfoBody.dart';
 import 'package:platform_front/components/dashboard/createAssessment/layouts/createAssessmentBody.dart';
 import 'package:platform_front/components/dashboard/home/homeScreenBody.dart';
+import 'package:platform_front/components/dashboard/impact/impact_body.dart';
 import 'package:platform_front/components/dashboard/results/resultsBody.dart';
 import 'package:platform_front/components/errorScreen/errorScreen.dart';
 import 'package:platform_front/firebase_options.dart';
@@ -64,6 +65,22 @@ GoRouter setupRouter() {
             pageBuilder: (context, state) {
               return const NoTransitionPage(
                 child: ResultsBody(),
+              );
+            },
+          ),
+          GoRoute(
+            path: '/impact',
+            pageBuilder: (context, state) {
+              return const NoTransitionPage(
+                child: ImpactBody(),
+              );
+            },
+          ),
+          GoRoute(
+            path: '/theFix',
+            pageBuilder: (context, state) {
+              return const NoTransitionPage(
+                child: Placeholder(),
               );
             },
           ),

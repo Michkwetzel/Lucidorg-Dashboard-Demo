@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/components/buttons/CallToActionButton.dart';
 import 'package:platform_front/components/buttons/secondaryButton.dart';
 import 'package:platform_front/config/constants.dart';
+import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/config/providers.dart';
 import 'package:platform_front/components/auth/layouts/enterEmailPasswordLayout.dart';
 import 'package:platform_front/components/auth/layouts/userTypeSelectionLayout.dart';
@@ -52,7 +53,8 @@ class AppEntryLayout extends ConsumerWidget {
                   await ref.read(userDataProvider.notifier).getUserInfo(ref.read(authfirestoreserviceProvider));
                   await ref.read(initDataloadProvider.notifier).initDataload();
                   SnackBarService.showMessage('Succesfull Test Log in', Colors.green);
-                  NavigationService.navigateTo('/createAssessment');
+                  ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.home);
+                  NavigationService.navigateTo('/home');
                 } on Exception {
                   SnackBarService.showMessage('System Error', Colors.red);
                 }

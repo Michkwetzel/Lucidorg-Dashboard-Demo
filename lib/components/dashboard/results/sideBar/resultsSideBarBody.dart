@@ -3,7 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/components/dashboard/results/sideBar/sections/area_scores_side_bar.dart';
+import 'package:platform_front/components/dashboard/results/sideBar/sections/diif_matrix_sb/diff_matrix_side_bar.dart';
 import 'package:platform_front/components/dashboard/results/sideBar/sections/overview_side_bar.dart';
+import 'package:platform_front/components/dashboard/results/sideBar/sections/foundations_sb.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/config/providers.dart';
@@ -15,22 +17,22 @@ class ResultsSideBar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     ResultSection selectedSection = ref.watch(resultsSelectedSectionProvider);
 
-    Widget _returnSideBarWidget(){
-      switch (selectedSection){
+    Widget _returnSideBarWidget() {
+      switch (selectedSection) {
         case ResultSection.overview:
           return OverViewSBResults();
         case ResultSection.areaScore:
           return AreaScoresSideBar();
-        default:
-          return OverViewSBResults();
+        case ResultSection.diffMatrix:
+          return DiffMatrixSideBar();
+        case ResultSection.foundations:
+          return FoundationsSB();
       }
-        
     }
 
     return Container(
       margin: EdgeInsets.only(left: 5, bottom: 5),
       width: 350,
-      height: 850,
       decoration: kboxShadowNormal,
       child: _returnSideBarWidget(),
     );

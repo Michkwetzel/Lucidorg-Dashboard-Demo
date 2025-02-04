@@ -44,6 +44,7 @@ class ResultsBody extends StatelessWidget {
                     height: 16,
                   ),
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     spacing: 32,
                     children: [ResultsSideBar(), MainViewBody()],
                   )
@@ -52,14 +53,5 @@ class ResultsBody extends StatelessWidget {
             ),
           ),
         ));
-  }
-}
-
-class MainSection extends StatelessWidget {
-  const MainSection({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
   }
 }
