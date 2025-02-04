@@ -18,11 +18,11 @@ class DiffOverTimeSb extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           SizedBox(height: 16),
-          SideAreasWidget(
+          ImprovDeclineWidget(
             heading: 'Improvement',
           ),
           SizedBox(height: 16),
-          SideAreasWidget(
+          ImprovDeclineWidget(
             heading: 'Decline',
           ),
         ],

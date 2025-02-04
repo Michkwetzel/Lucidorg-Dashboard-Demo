@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 // Results Section Styles Poppins
 
 const kH1PoppinsLight = TextStyle(fontFamily: "OpenSans", fontWeight: FontWeight.w600, fontSize: 32, color: Color(0xFF494949));
-const kH1PoppingRegular = TextStyle(fontFamily: "OpenSans", fontWeight: FontWeight.w600, fontSize: 32, color: Color(0xFF494949));
+const kH1PoppinsRegular = TextStyle(fontFamily: "OpenSans", fontWeight: FontWeight.w600, fontSize: 32, color: Color(0xFF494949));
 const kH1PoppinsMedium = TextStyle(fontFamily: "OpenSans", fontWeight: FontWeight.w600, fontSize: 32, color: Color(0xFF494949));
 
 const kH2PoppinsLight = TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w300, fontSize: 27);
@@ -106,7 +106,7 @@ BoxDecoration kGrayBoxDecoration = BoxDecoration(
   borderRadius: BorderRadius.circular(6),
 );
 
-BoxDecoration kScoreGreenBox = BoxDecoration(
+BoxDecoration kGreenBox = BoxDecoration(
   color: Color(0xFFB9D08F),
   borderRadius: BorderRadius.circular(8),
 );
@@ -116,8 +116,13 @@ BoxDecoration kGrayBox = BoxDecoration(
   borderRadius: BorderRadius.circular(8),
 );
 
-BoxDecoration kDiffRedBox = BoxDecoration(
+BoxDecoration kRedBox = BoxDecoration(
   color: Color(0xFFF19C79),
+  borderRadius: BorderRadius.circular(8),
+);
+
+BoxDecoration kYellowBox = BoxDecoration(
+  color: Color(0xFFF2C479),
   borderRadius: BorderRadius.circular(8),
 );
 

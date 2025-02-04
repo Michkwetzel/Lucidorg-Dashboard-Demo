@@ -77,7 +77,7 @@ class OverviewMainView extends StatelessWidget {
               ),
             ),
             Positioned(
-              bottom: 146,
+              bottom: 1,
               right: 70,
               child: SizedBox(
                 width: 70,
@@ -90,7 +90,7 @@ class OverviewMainView extends StatelessWidget {
               ),
             ),
             Positioned(
-              bottom: 64,
+              bottom: 55,
               right: 70,
               child: SizedBox(
                 width: 70,
@@ -220,6 +220,7 @@ class DoubleSigmoidChart extends StatelessWidget {
               width: 650,
               child: LineChart(
                 LineChartData(
+                  
                   lineTouchData: LineTouchData(
                     enabled: false,
                     getTouchedSpotIndicator: (LineChartBarData barData, List<int> spotIndexes) {

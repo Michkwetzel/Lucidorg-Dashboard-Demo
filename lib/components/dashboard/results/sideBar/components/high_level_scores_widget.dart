@@ -31,14 +31,14 @@ class HighLevelScoresWidget extends StatelessWidget {
         SizedBox(height: 12),
         HighLevelScoresRow(
           highLevelScore: true,
-          category: 'Process',
+          category: 'People',
           score: 70.7,
           diff: 18,
         ),
         SizedBox(height: 12),
         HighLevelScoresRow(
           highLevelScore: true,
-          category: 'People',
+          category: 'Process',
           score: 45.7,
           diff: 18,
         ),

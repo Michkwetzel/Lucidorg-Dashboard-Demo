@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:platform_front/components/dashboard/home/Sections/activeAssessmentWidget.dart';
-import 'package:platform_front/components/dashboard/home/Sections/efficiencyScoresWidget.dart';
+import 'package:platform_front/components/dashboard/home/Sections/benchmark.dart';
 import 'package:platform_front/components/dashboard/home/Sections/currentActionAreaWidget.dart';
 import 'package:platform_front/components/dashboard/home/Sections/nextAssessmentWidget.dart';
 import 'package:platform_front/components/dashboard/home/Sections/topOppertunitiesWidget/TopOppertunitiesWidget.dart';
@@ -41,7 +41,7 @@ class HomeScreenBody extends StatelessWidget {
                 const SizedBox(
                   width: 6,
                 ),
-                EfficiencyScoresWidget(),
+                Benchmark(),
                 const SizedBox(width: 32),
                 ActiveAssessmentWidget(),
               ]),

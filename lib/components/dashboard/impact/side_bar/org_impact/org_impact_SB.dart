@@ -2,12 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:platform_front/components/dashboard/impact/impact_body.dart';
-import 'package:platform_front/components/dashboard/impact/side_bar/org_impact/components/impact_area_widget.dart';
+import 'package:platform_front/components/dashboard/impact/side_bar/org_impact/components/impact_area_sb.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/enums.dart';
 
-class OrgImpactSideBar extends StatelessWidget {
-  const OrgImpactSideBar({super.key});
+class OrgImpactSB extends StatelessWidget {
+  const OrgImpactSB({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +18,10 @@ class OrgImpactSideBar extends StatelessWidget {
           spacing: 20,
           children: [
             Text('Impact Areas', style: kH2PoppinsLight),
-            ImpactAreaWidget(mainArea: MainArea.alignment),
-            ImpactAreaWidget(mainArea: MainArea.leadership),
-            ImpactAreaWidget(mainArea: MainArea.people),
-            ImpactAreaWidget(mainArea: MainArea.process),
+            ImpactAreaSBWidget(mainArea: MainArea.alignment),
+            ImpactAreaSBWidget(mainArea: MainArea.people),
+            ImpactAreaSBWidget(mainArea: MainArea.process),
+            ImpactAreaSBWidget(mainArea: MainArea.leadership),
           ],
         ),
       ),

@@ -4,8 +4,8 @@ import 'package:platform_front/components/global/diffTriangleRedWidget.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/enums.dart';
 
-class EfficiencyScoresWidget extends StatelessWidget {
-  EfficiencyScoresWidget({
+class Benchmark extends StatelessWidget {
+  Benchmark({
     super.key,
   });
 
@@ -17,7 +17,7 @@ class EfficiencyScoresWidget extends StatelessWidget {
       child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Efficiency Scores', style: kH2PoppinsRegular),
+          Text('Benchmark', style: kH2PoppinsRegular),
           SizedBox(height: 24),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,

@@ -21,16 +21,6 @@ class ImpactAreaData {
         ),
       ],
     ),
-    MainArea.leadership: MainAreaData(
-      title: 'Leadership',
-      impactAreas: [
-        ImpactArea(
-          heading: 'Purpose Driven:',
-          body: 'Purpose driven culture where the purpose becomes apart of both the internal and eternal stakeholders during the onboarding process',
-          impactValue: 1,
-        ),
-      ],
-    ),
     MainArea.people: MainAreaData(title: 'People', impactAreas: [
       ImpactArea(
         heading: 'Cross-Functional Communication',
@@ -44,7 +34,16 @@ class ImpactAreaData {
         body: 'Streamline meeting processes agendas, attendees and number of meetings taking place',
         impactValue: 1,
       ),
-    ])
-    // Add other main areas similarly
+    ]),
+    MainArea.leadership: MainAreaData(
+      title: 'Leadership',
+      impactAreas: [
+        ImpactArea(
+          heading: 'Purpose Driven:',
+          body: 'Purpose driven culture where the purpose becomes apart of both the internal and eternal stakeholders during the onboarding process',
+          impactValue: 1,
+        ),
+      ],
+    ),
   };
 }

@@ -7,9 +7,9 @@ import 'package:platform_front/components/dashboard/impact/side_bar/org_impact/c
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/enums.dart';
 
-class ImpactAreaWidget extends StatelessWidget {
+class ImpactAreaSBWidget extends StatelessWidget {
   final MainArea mainArea;
-  const ImpactAreaWidget({super.key, required this.mainArea});
+  const ImpactAreaSBWidget({super.key, required this.mainArea});
 
   @override
   Widget build(BuildContext context) {

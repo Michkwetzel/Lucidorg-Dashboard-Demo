@@ -4,7 +4,7 @@ import 'package:platform_front/components/dashboard/results/mainView/components/
 import 'package:platform_front/components/dashboard/results/mainView/sections/area_scores/area_scores_main_body.dart';
 import 'package:platform_front/components/dashboard/results/mainView/sections/diff_matrix/diff_matrix_body.dart';
 import 'package:platform_front/components/dashboard/results/mainView/sections/over_view/overview_main_body.dart';
-import 'package:platform_front/components/dashboard/results/mainView/sections/sub_area_view/sub_area_view_body.dart';
+import 'package:platform_front/components/dashboard/results/mainView/sections/foundations/foundations_body.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/config/providers.dart';
@@ -27,13 +27,13 @@ class MainViewBody extends ConsumerWidget {
         case ResultSection.diffMatrix:
           return DiffMatrixBody();
 
-        case ResultSection.subAreaView:
-          return SubAreaViewBody();
+        case ResultSection.foundations:
+          return FoundationsBody();
       }
     }
 
     return Container(
-      width: 800,
+      width: selectedSection == ResultSection.diffMatrix ? 900 : 800,
       padding: EdgeInsets.all(32),
       margin: EdgeInsets.only(left: 5, bottom: 5, right: 5),
       decoration: kboxShadowNormal,

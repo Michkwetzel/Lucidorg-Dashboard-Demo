@@ -2,22 +2,23 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class ScoresRadarChart extends StatelessWidget {
-  final List<double> ceoScores = [8.5, 7.2, 9.0, 8.8, 7.5, 8.2, 9.1, 8.4, 7.8, 8.9, 8.6];
-  final List<double> csuiteScores = [7.8, 6.9, 8.5, 8.2, 7.1, 7.8, 8.6, 7.9, 7.4, 8.3, 8.0];
-  final List<double> staffScores = [6.5, 6.0, 7.2, 7.0, 6.2, 6.8, 7.4, 6.8, 6.3, 7.1, 6.9];
+  final List<double> ceoScores = [45.7, 91.3, 33.8, 88.2, 80, 71.4, 89.6, 95.1, 28.4, 76.5, 20, 82.9];
+  final List<double> csuiteScores = [60, 80, 11, 85.1, 39.8, 65.4, 87.2, 92.6, 80, 72.7, 68.9, 78.4];
+  final List<double> staffScores = [60, 86.6, 80, 82.2, 20, 68.5, 84.9, 55, 78, 69.8, 63, 44];
 
   final List<String> categories = [
-    'Leadership',
-    'Innovation',
-    'Strategy',
-    'Execution',
-    'Communication',
-    'Teamwork',
-    'Decision Making',
-    'Problem Solving',
-    'Customer Focus',
-    'Results Orientation',
-    'Change Management',
+    'Efficiency Score',
+    'Org Alignment',
+    'Growth Alignment',
+    'Collaborative KPI',
+    'Engaged Community',
+    'X-Func Communication',
+    'X-Funct Accountability',
+    'Aligned Tech',
+    'Collaborative Processes',
+    'Meeting Efficacy',
+    'Purpose Led Everything',
+    'Empowered Leadership'
   ];
 
   ScoresRadarChart({super.key});
@@ -25,8 +26,8 @@ class ScoresRadarChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 620,
-      height: 620,
+      width: 700,
+      height: 700,
       child: RadarChart(
         RadarChartData(
           radarTouchData: RadarTouchData(enabled: true),
@@ -62,7 +63,7 @@ class ScoresRadarChart extends StatelessWidget {
           getTitle: (index, angle) {
             return RadarChartTitle(text: categories[index], angle: 0);
           },
-          tickCount: 5,
+          tickCount: 2,
           ticksTextStyle: const TextStyle(fontSize: 10, color: Colors.grey),
           tickBorderData: BorderSide(color: Colors.grey),
           gridBorderData: BorderSide(color: Colors.grey),
