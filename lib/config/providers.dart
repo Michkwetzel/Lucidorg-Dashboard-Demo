@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/config/enums.dart';
+import 'package:platform_front/helperObj/scoreData.dart';
 import 'package:platform_front/notifiers/impact/impact_display_notifier.dart';
 import 'package:platform_front/notifiers/navBar/navBarExpandState.dart';
 import 'package:platform_front/notifiers/userResultsData/userResultsData.dart';
@@ -111,4 +112,8 @@ final navBarExpandStateNotifier = StateNotifierProvider<NavBarExpandStateNotifie
 
 final impactSelectedSectionProvider = StateNotifierProvider<ImpactDisplayNotifier, ImpactSection>((ref) {
   return ImpactDisplayNotifier();
+});
+
+final surveyMetricsProvider = StateNotifierProvider<SurveyMetricsProvider, SurveyMetricsState>((ref) {
+  return SurveyMetricsProvider();
 });

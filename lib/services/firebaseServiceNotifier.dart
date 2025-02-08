@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:platform_front/config/exceptions.dart';
+import 'package:platform_front/notifiers/metrics_provider.dart';
 
 class FirebaseServiceNotifier extends StateNotifier<bool> {
   //Direct firestore serices
@@ -75,5 +76,38 @@ class FirebaseServiceNotifier extends StateNotifier<bool> {
 
   Future<void> readToDB() async {
     print(_firestore.collection('testing').doc().get().toString());
+  }
+
+  Future<void> getSurveyData(String companyUID) async {
+    print(companyUID);
+    final data = await _firestore.collection('surveyMetrics').doc(companyUID).get();
+    final allSurveyNames = List<String>.from(data.data()?['allSurveyNames'] ?? []);
+    print(allSurveyNames);
+    MetricsData globalMetricsData = MetricsData();
+
+    for (final surveyName in allSurveyNames) {
+      print(surveyName);
+      final metricsDoc = await _firestore.collection('surveyMetrics/$companyUID/$surveyName').doc('metrics').get();
+      final participationDoc = await _firestore.collection('surveyMetrics/$companyUID/$surveyName').doc('participationStats').get();
+      print('Here');
+
+      final metricsData = metricsDoc.data() as Map<String, dynamic>;
+      final participationData = participationDoc.data() as Map<String, dynamic>;
+      print('Here');
+
+      final SurveyMetric surveyData = SurveyMetric(
+        cSuiteBenchmarks: (metricsData['cSuiteBenchmarks'] as Map<String, dynamic>?)?.map((key, value) => MapEntry(key, (value as num).toDouble())) ?? {},
+        ceoBenchmarks: (metricsData['ceoBenchmarks'] as Map<String, dynamic>?)?.map((key, value) => MapEntry(key, (value as num).toDouble())) ?? {},
+        employeeBenchmarks: (metricsData['employeeBenchmarks'] as Map<String, dynamic>?)?.map((key, value) => MapEntry(key, (value as num).toDouble())) ?? {},
+        nCeoFinished: (metricsData['nCeoFinished'] as num?)?.toDouble() ?? 0.0,
+        nCSuiteFinished: (metricsData['nCSuiteFinished'] as num?)?.toDouble() ?? 0.0,
+        nEmployeeFinished: (metricsData['nEmployeeFinished'] as num?)?.toDouble() ?? 0.0,
+        nSurveys: (participationData['nSurveys'] as num?)?.toDouble() ?? 0.0,
+        nStarted: (participationData['nStarted'] as num?)?.toDouble() ?? 0.0,
+        surveyName: surveyName,
+      );
+
+      globalMetricsData.addSurveyData(surveyData);
+    }
   }
 }

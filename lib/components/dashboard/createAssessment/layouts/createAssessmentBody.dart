@@ -6,6 +6,7 @@ import 'package:platform_front/components/dashboard/createAssessment/emailList/e
 import 'package:platform_front/components/dashboard/createAssessment/emailTemplate/emailTemplateBody.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/providers.dart';
+import 'package:platform_front/notifiers/metrics_provider.dart';
 import 'package:platform_front/services/microServices/snackBarService.dart';
 
 class CreateAssessmentBody extends ConsumerWidget {
@@ -99,6 +100,13 @@ class CreateAssessmentBody extends ConsumerWidget {
             padding: EdgeInsets.only(top: 4, bottom: 4),
             child: EmailTemplateBody(),
           ),
+          TextButton(
+              onPressed: () async {
+                await ref.read(firebaseServiceNotifierProvider.notifier).getSurveyData(ref.read(userDataProvider.notifier).companyUID ?? 'Hello');
+                MetricsData alldata = MetricsData();
+                alldata.printAllSurveyData();
+              },
+              child: Text("Get Survey Data"))
         ],
       ),
     );
