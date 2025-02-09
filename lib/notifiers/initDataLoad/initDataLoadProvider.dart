@@ -21,6 +21,6 @@ class InitDataloadProvider extends StateNotifier<bool> {
       //Company has companyInfo saved. if this is null then nothing has been saved yet.
       companyInfoNotifer.setCompanyInfo(companyInfo);
     }
-    //Set companyInfo data
+    
   }
 }

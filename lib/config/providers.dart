@@ -5,6 +5,7 @@ import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/helperObj/scoreData.dart';
 import 'package:platform_front/notifiers/impact/impact_display_notifier.dart';
 import 'package:platform_front/notifiers/navBar/navBarExpandState.dart';
+import 'package:platform_front/notifiers/surveyMetrics/survey_metrics_provider.dart';
 import 'package:platform_front/notifiers/userResultsData/userResultsData.dart';
 import 'package:platform_front/notifiers/Results/resultsDisplayNotifer.dart';
 import 'package:platform_front/notifiers/auth/authDisplayNotifier.dart';
@@ -114,6 +115,8 @@ final impactSelectedSectionProvider = StateNotifierProvider<ImpactDisplayNotifie
   return ImpactDisplayNotifier();
 });
 
-final surveyMetricsProvider = StateNotifierProvider<SurveyMetricsProvider, SurveyMetricsState>((ref) {
-  return SurveyMetricsProvider();
+final metricsDataProvider = StateNotifierProvider<MetricsDataProvider, MetricsDataState>((ref) {
+  final userProfileDataNotifier = ref.watch(userDataProvider.notifier);
+  return MetricsDataProvider(userProfileData: userProfileDataNotifier);
 });
+

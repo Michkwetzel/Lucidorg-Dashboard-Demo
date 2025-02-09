@@ -10,11 +10,17 @@ class UserProfileState {
   final String? email;
   final String? companyUID;
   final Permission? permission;
+  final String? latestSurveyDocName;
 
-  UserProfileState({this.userUID, this.permission, this.companyUID, this.email});
+  UserProfileState({this.userUID, this.permission, this.companyUID, this.email, this.latestSurveyDocName});
 
-  UserProfileState copyWith({String? userUID, Permission? permission, bool? error, String? companyUID, String? email}) {
-    return UserProfileState(userUID: userUID ?? this.userUID, permission: permission ?? this.permission, companyUID: companyUID ?? this.companyUID, email: email ?? this.email);
+  UserProfileState copyWith({String? userUID, Permission? permission, bool? error, String? companyUID, String? email, String? latestSurveyDocName}) {
+    return UserProfileState(
+        userUID: userUID ?? this.userUID,
+        permission: permission ?? this.permission,
+        companyUID: companyUID ?? this.companyUID,
+        email: email ?? this.email,
+        latestSurveyDocName: latestSurveyDocName ?? this.latestSurveyDocName);
   }
 }
 
@@ -30,6 +36,7 @@ class UserProfileDataNotifier extends StateNotifier<UserProfileState> {
   Permission? get permission => state.permission;
   String? get companyUID => state.companyUID;
   String? get email => state.email;
+  String? get latestSurveyDocName => state.latestSurveyDocName;
 
   Future<void> getUserInfo(User? user) async {
     try {
@@ -42,7 +49,10 @@ class UserProfileDataNotifier extends StateNotifier<UserProfileState> {
       final companyUID = userDocRef.data()?['companyUID'];
 
       //Get latest Survey if it exist
-      await userResultsData.setAssessmentDocName(companyUID);
+      final companyDocSnapshot = await _firestore.collection('surveyData').doc(companyUID).get();
+      final data = companyDocSnapshot.data();
+      state = state.copyWith(latestSurveyDocName: data?['latestSurvey'] as String?);
+      userResultsData.setAssessmentDocName(data?['latestSurvey'] as String?);
 
       state = state.copyWith(userUID: user.uid, permission: permission, companyUID: companyUID, email: user.email);
       logger.info('Current user: ${user.uid}, companyUID: ${state.companyUID}, permission: ${state.permission}, Latest Survey: ${userResultsData.activeSurvey}}');
