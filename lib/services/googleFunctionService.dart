@@ -20,7 +20,6 @@ class GoogleFunctionService extends StateNotifier<bool> {
   String get userUID => _userDataNotifier.state.userUID!;
   String get companyUID => _userDataNotifier.state.companyUID!;
 
-
   GoogleFunctionService(
       {required EmailListNotifier emailListNotifier,
       required EmailTemplateNotifer emailTemplateNotifier,
@@ -29,7 +28,7 @@ class GoogleFunctionService extends StateNotifier<bool> {
       : _emailListNotifier = emailListNotifier,
         _emailTemplateNotifier = emailTemplateNotifier,
         _userDataNotifier = userDataNotifier,
-        super(true);
+        super(false);
 
   Future<dynamic> verifyAuthToken({required String authToken}) {
     Map<String, dynamic> request = {'authToken': authToken};
@@ -41,7 +40,8 @@ class GoogleFunctionService extends StateNotifier<bool> {
     return HttpService.postRequest(path: kCreateUserProfilePath, request: request);
   }
 
-  Future<dynamic> createAssessment() {
+  Future<void> createAssessment() async {
+    state = true;
     logger.info("Creating Assessment");
 
     //TODO: proper userUID input
@@ -53,7 +53,8 @@ class GoogleFunctionService extends StateNotifier<bool> {
       'userUID': userUID,
     };
     print(request);
-    return HttpService.postRequest(path: kCreateAssessmentPath, request: request);
+    await HttpService.postRequest(path: kCreateAssessmentPath, request: request);
+    state = false;
   }
 
   Future<void> saveCompanyInfo(Map<String, dynamic> companyInfo) async {

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/helperObj/scoreData.dart';
 import 'package:platform_front/notifiers/impact/impact_display_notifier.dart';
+import 'package:platform_front/notifiers/loading/loadingNotifer.dart';
 import 'package:platform_front/notifiers/navBar/navBarExpandState.dart';
 import 'package:platform_front/notifiers/surveyMetrics/survey_metrics_provider.dart';
 import 'package:platform_front/notifiers/userResultsData/userResultsData.dart';
@@ -117,6 +118,10 @@ final impactSelectedSectionProvider = StateNotifierProvider<ImpactDisplayNotifie
 
 final metricsDataProvider = StateNotifierProvider<MetricsDataProvider, MetricsDataState>((ref) {
   final userProfileDataNotifier = ref.watch(userDataProvider.notifier);
-  return MetricsDataProvider(userProfileData: userProfileDataNotifier);
+  final loadingnotifier = ref.watch(loadingProvider.notifier);
+  return MetricsDataProvider(userProfileData: userProfileDataNotifier, loadingNotifier: loadingnotifier);
 });
 
+final loadingProvider = StateNotifierProvider<Loadingnotifier, bool>((ref) {
+  return Loadingnotifier();
+});
