@@ -7,11 +7,11 @@ class SurveyMetric {
   final Map<String, double> employeeBenchmarks;
   final Map<String, double> companyBenchmarks;
   final Map<String, double> diffScores;
-  final double nCeoFinished;
-  final double nCSuiteFinished;
-  final double nEmployeeFinished;
-  final double nSurveys;
-  final double nStarted;
+  final int nCeoFinished;
+  final int nCSuiteFinished;
+  final int nEmployeeFinished;
+  final int nSurveys;
+  final int nStarted;
   final String surveyName;
   final bool notEnoughData;
 
@@ -181,11 +181,11 @@ class SurveyMetric {
     required Map<String, double> ceoBenchmarks,
     required Map<String, double> cSuiteBenchmarks,
     required Map<String, double> employeeBenchmarks,
-    required double nCeoFinished,
-    required double nCSuiteFinished,
-    required double nEmployeeFinished,
-    required double nSurveys,
-    required double nStarted,
+    required int nCeoFinished,
+    required int nCSuiteFinished,
+    required int nEmployeeFinished,
+    required int nSurveys,
+    required int nStarted,
     required String surveyName,
   }) {
     //Calculate combined company benchmark
@@ -194,14 +194,17 @@ class SurveyMetric {
 
     if (employeeBenchmarks.isNotEmpty && cSuiteBenchmarks.isNotEmpty && ceoBenchmarks.isNotEmpty) {
       for (final key in ceoBenchmarks.keys) {
-        companyBenchmarks[key] =
-            ((ceoBenchmarks[key]! * nCeoFinished) + (cSuiteBenchmarks[key]! * nCSuiteFinished) + (employeeBenchmarks[key]! * nEmployeeFinished)) / (nCeoFinished + nCSuiteFinished + nEmployeeFinished);
+        companyBenchmarks[key] = ((((ceoBenchmarks[key]! * nCeoFinished) + (cSuiteBenchmarks[key]! * nCSuiteFinished) + (employeeBenchmarks[key]! * nEmployeeFinished)) /
+                        (nCeoFinished + nCSuiteFinished + nEmployeeFinished)) *
+                    10)
+                .roundToDouble() /
+            10;
       }
       for (final key in ceoBenchmarks.keys) {
         double value1 = (ceoBenchmarks[key]! - cSuiteBenchmarks[key]!).abs();
         double value2 = (ceoBenchmarks[key]! - employeeBenchmarks[key]!).abs();
         double value3 = (cSuiteBenchmarks[key]! - employeeBenchmarks[key]!).abs();
-        diffScores[key] = max(value1, max(value2, value3));
+        diffScores[key] = (max(value1, max(value2, value3)) * 10).roundToDouble() / 10;
       }
     }
 

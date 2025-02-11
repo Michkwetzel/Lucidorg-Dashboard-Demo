@@ -70,51 +70,66 @@ class MetricsDataProvider extends StateNotifier<MetricsDataState> {
     try {
       state = state.copyWith(loading: true);
       logger.info('Getting Survey Data for company $companyUID');
-
-      final data = await _firestore.collection('surveyMetrics').doc(companyUID).get();
-
-      final allSurveyNames = List<String>.from(data.data()?['allSurveyNames'] ?? []);
-      print(allSurveyNames);
+      final companyDoc = await _firestore.collection('surveyMetrics').doc(companyUID).get();
+      final allSurveyNames = List<String>.from(companyDoc.data()?['allSurveyNames'] ?? []);
 
       if (allSurveyNames.isEmpty) {
         print('No surveyData');
-        // Load Default Survey metrics
         state = state.copyWith(noSurveyData: true, loading: false, surveyMetric: SurveyMetric.loadDefaultValues());
         state.surveyMetric.printData();
         return;
       }
 
+      // Store futures for all get operations
+      final futures = <Future<DocumentSnapshot>>[];
       for (final surveyName in allSurveyNames) {
-        print(surveyName);
-        final metricsDoc = await _firestore.collection('surveyMetrics/$companyUID/$surveyName').doc('metrics').get();
-        final participationDoc = await _firestore.collection('surveyMetrics/$companyUID/$surveyName').doc('participationStats').get();
+        final metricsRef = _firestore.collection('surveyMetrics/$companyUID/$surveyName').doc('metrics');
+        final participationRef = _firestore.collection('surveyMetrics/$companyUID/$surveyName').doc('participationStats');
+        futures.add(metricsRef.get());
+        futures.add(participationRef.get());
+      }
 
-        final metricsData = metricsDoc.data() as Map<String, dynamic>;
-        final participationData = participationDoc.data() as Map<String, dynamic>;
+      // Await all futures concurrently
+      final snapshots = await Future.wait(futures);
+
+      // Process the snapshots
+      for (int i = 0; i < allSurveyNames.length; i++) {
+        final surveyName = allSurveyNames[i];
+        final metricsData = snapshots[i * 2].data() as Map<String, dynamic>? ?? {};
+        final participationData = snapshots[i * 2 + 1].data() as Map<String, dynamic>? ?? {};
 
         final SurveyMetric surveyData = SurveyMetric.fromFields(
-          cSuiteBenchmarks: (metricsData['cSuiteBenchmarks'] as Map<String, dynamic>?)?.map((key, value) => MapEntry(key, (value as num).toDouble())) ?? {},
-          ceoBenchmarks: (metricsData['ceoBenchmarks'] as Map<String, dynamic>?)?.map((key, value) => MapEntry(key, (value as num).toDouble())) ?? {},
-          employeeBenchmarks: (metricsData['employeeBenchmarks'] as Map<String, dynamic>?)?.map((key, value) => MapEntry(key, (value as num).toDouble())) ?? {},
-          nCeoFinished: (metricsData['nCeoFinished'] as num?)?.toDouble() ?? 0.0,
-          nCSuiteFinished: (metricsData['nCSuiteFinished'] as num?)?.toDouble() ?? 0.0,
-          nEmployeeFinished: (metricsData['nEmployeeFinished'] as num?)?.toDouble() ?? 0.0,
-          nSurveys: (participationData['nSurveys'] as num?)?.toDouble() ?? 0.0,
-          nStarted: (participationData['nStarted'] as num?)?.toDouble() ?? 0.0,
+          cSuiteBenchmarks: _convertBenchmarks(metricsData['cSuiteBenchmarks']),
+          ceoBenchmarks: _convertBenchmarks(metricsData['ceoBenchmarks']),
+          employeeBenchmarks: _convertBenchmarks(metricsData['employeeBenchmarks']),
+          nCeoFinished: (metricsData['nCeoFinished'] as num?)?.toInt() ?? 0,
+          nCSuiteFinished: (metricsData['nCSuiteFinished'] as num?)?.toInt() ?? 0,
+          nEmployeeFinished: (metricsData['nEmployeeFinished'] as num?)?.toInt() ?? 0,
+          nSurveys: (participationData['nSurveys'] as num?)?.toInt() ?? 0,
+          nStarted: (participationData['nStarted'] as num?)?.toInt() ?? 0,
           surveyName: surveyName,
         );
-
         globalMetricsData.addSurveyData(surveyData);
       }
+
       state = state.copyWith(
           loading: false,
           noSurveyData: false,
           surveyMetric: globalMetricsData.getSurveyMetric(userProfileData.latestSurveyDocName!),
           notEnoughData: globalMetricsData.getSurveyMetric(userProfileData.latestSurveyDocName!).notEnoughData);
       state.surveyMetric.printData();
-    } on Exception catch (e) {
-      state = state.copyWith(loading: false);
-      logger.severe('Error Getting Metrics: $e');
+    } catch (e) {
+      logger.severe('Error getting survey data: $e');
+      state = state.copyWith(loading: false, error: true);
     }
+  }
+
+// Helper function to clean up benchmark conversion
+  Map<String, double> _convertBenchmarks(Map<String, dynamic>? benchmarks) {
+    return benchmarks?.map((key, value) {
+          final numValue = value as num?;
+          return MapEntry(key, numValue != null ? (((numValue.toDouble() * 1000).roundToDouble()) / 10) : 0.0);
+        }) ??
+        {};
   }
 }

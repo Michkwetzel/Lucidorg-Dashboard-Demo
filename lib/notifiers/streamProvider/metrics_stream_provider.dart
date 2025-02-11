@@ -14,3 +14,5 @@ final participationStreamProvider = StreamProvider.autoDispose.family<DocumentSn
 
   return FirebaseFirestore.instance.collection('surveyMetrics/$companyUID/$latestSurveyDocName').doc('participationStats').snapshots();
 });
+
+// NOT USED

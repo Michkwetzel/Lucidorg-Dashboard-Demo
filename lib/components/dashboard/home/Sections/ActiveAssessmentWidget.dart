@@ -1,9 +1,13 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/components/dashboard/home/charts/pieChartWidget.dart';
 import 'package:platform_front/config/constants.dart';
+import 'package:platform_front/config/providers.dart';
+import 'package:platform_front/notifiers/surveyMetrics/metrics_data.dart';
+import 'package:platform_front/notifiers/surveyMetrics/survey_metrics_provider.dart';
 
-class ActiveAssessmentWidget extends StatelessWidget {
+class ActiveAssessmentWidget extends ConsumerWidget {
   ActiveAssessmentWidget({super.key});
 
   final List<PieChartSectionData> sections = [
@@ -43,7 +47,13 @@ class ActiveAssessmentWidget extends StatelessWidget {
   ];
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    SurveyMetric displayData = ref.watch(metricsDataProvider).surveyMetric;
+
+    int started = displayData.nStarted;
+    int nSurveys = displayData.nSurveys;
+    int submitted = displayData.nCSuiteFinished;
+
     return Container(
       height: 400,
       width: 400,
@@ -52,10 +62,12 @@ class ActiveAssessmentWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Active Assessment', style: kH2PoppinsRegular),
-          const SizedBox(height: 24),
-          const Text('Participation Rate:', style: kH5PoppinsLight),
-          const Text("73%", style: kH5PoppinsLight),
+          const Text('Participation Rate:', style: kH2PoppinsRegular),
+          const SizedBox(height: 16),
+          Padding(
+            padding: const EdgeInsets.only(left: 12),
+            child: const Text("73%", style: kH2PoppinsLight),
+          ),
           const Flexible(
             child: Align(
               alignment: Alignment.topCenter,

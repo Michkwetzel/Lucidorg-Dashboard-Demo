@@ -19,9 +19,8 @@ class CreateAssessmentBody extends ConsumerStatefulWidget {
   ConsumerState<CreateAssessmentBody> createState() => _CreateAssessmentBodyState();
 }
 
-class _CreateAssessmentBodyState extends ConsumerState<CreateAssessmentBody> with AutomaticKeepAliveClientMixin {
+class _CreateAssessmentBodyState extends ConsumerState<CreateAssessmentBody> {
   @override
-  bool get wantKeepAlive => true;
   final Logger logger = Logger('CreateAssessment');
 
   void startAssessment(BuildContext context, WidgetRef ref) async {
@@ -60,7 +59,6 @@ class _CreateAssessmentBodyState extends ConsumerState<CreateAssessmentBody> wit
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return LoadingOverlay(
       loadingProvider: ref.watch(googlefunctionserviceProvider),
       loadingMessage: 'Creating Assessment!',
