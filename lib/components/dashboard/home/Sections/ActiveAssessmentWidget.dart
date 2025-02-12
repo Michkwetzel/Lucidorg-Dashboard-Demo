@@ -1,49 +1,27 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/components/dashboard/home/charts/pieChartWidget.dart';
 import 'package:platform_front/config/constants.dart';
+import 'package:platform_front/config/providers.dart';
+import 'package:platform_front/notifiers/surveyMetrics/metrics_data.dart';
 
-class ActiveAssessmentWidget extends StatelessWidget {
+class ActiveAssessmentWidget extends ConsumerWidget {
   ActiveAssessmentWidget({super.key});
 
-  final List<PieChartSectionData> sections = [
-    PieChartSectionData(
-      value: 35,
-      title: '35%',
-      color: const Color(0xFFA2B088),
-      radius: 50,
-      titleStyle: const TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.bold,
-        color: Colors.white,
-      ),
-    ),
-    PieChartSectionData(
-      value: 40,
-      title: '40%',
-      color: const Color(0xFFA6A6A6),
-      radius: 50,
-      titleStyle: const TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.bold,
-        color: Colors.white,
-      ),
-    ),
-    PieChartSectionData(
-      value: 25,
-      title: '25%',
-      color: const Color(0xFFD9D9D9),
-      radius: 50,
-      titleStyle: const TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.bold,
-        color: Colors.white,
-      ),
-    ),
-  ];
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    SurveyMetric displayData = ref.watch(metricsDataProvider).surveyMetric;
+
+    double? nStartedButNotFinish = displayData.nStarted - displayData.nSubmitted;
+    double? nSurveys = displayData.nSurveys;
+    double? nSubmitted = displayData.nSubmitted;
+    double? nNotStarted = nSurveys - displayData.nStarted;
+    double? participationRate = (nSubmitted / nSurveys) * 100;
+
+    double startedPercentage = nSurveys > 0 ? (nStartedButNotFinish / nSurveys) * 100 : 5;
+    double submittedPercentage = nSurveys > 0 ? (nSubmitted / nSurveys) * 100 : 5;
+    double notStartedPercentage = nSurveys > 0 ? (nNotStarted / nSurveys) * 100 : 5;
+
     return Container(
       height: 400,
       width: 400,
@@ -52,15 +30,18 @@ class ActiveAssessmentWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Active Assessment', style: kH2PoppinsRegular),
-          const SizedBox(height: 24),
-          const Text('Participation Rate:', style: kH5PoppinsLight),
-          const Text("73%", style: kH5PoppinsLight),
-          const Flexible(
+          const Text('Participation Rate:', style: kH2PoppinsRegular),
+          const SizedBox(height: 16),
+          Padding(
+            padding: const EdgeInsets.only(left: 12),
+            child: Text('$participationRate%', style: kH2PoppinsLight),
+          ),
+          Flexible(
             child: Align(
               alignment: Alignment.topCenter,
               child: PieChartWidget(
-                values: [10, 15, 75],
+                colors: [const Color(0xFFA6A6A6), const Color(0xFFD9D9D9), const Color(0xFFA2B088)],
+                values: [notStartedPercentage, startedPercentage, submittedPercentage],
               ),
             ),
           ),
@@ -70,8 +51,8 @@ class ActiveAssessmentWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               _buildLegendItem('Submitted', const Color(0xFFA2B088)),
-              _buildLegendItem('Started', const Color(0xFFA6A6A6)),
-              _buildLegendItem('Not Started', const Color(0xFFD9D9D9)),
+              _buildLegendItem('Started', const Color(0xFFD9D9D9)),
+              _buildLegendItem('Not Started', const Color(0xFFA6A6A6)),
             ],
           ),
         ],

@@ -21,12 +21,7 @@ class UserResultsData extends StateNotifier<UserResultsDataState> {
   bool get noActiveSurvey => state.latestAssessmentDocName == null;
   String? get activeSurvey => state.latestAssessmentDocName;
 
-  Future<void> setAssessmentDocName(String? companyUID) async {
-    final docName = await firebaseservicenotifier.getLatestAssessment(companyUID);
-    logger.info('Set current Assessment to: $docName');
-
-    state = state.copyWith(latestAssessmentDocName: docName);
+  Future<void> setAssessmentDocName(String? latestDocName) async {
+    state = state.copyWith(latestAssessmentDocName: latestDocName);
   }
-
-
 }

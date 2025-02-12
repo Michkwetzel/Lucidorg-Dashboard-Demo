@@ -1,6 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/services/googleFunctionService.dart';
 
+
+//For Company Info
 class CompanyInfoNotifer extends StateNotifier<Map<String, String>> {
   final GoogleFunctionService googlefunctionserviceProvider;
 

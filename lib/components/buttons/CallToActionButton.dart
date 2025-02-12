@@ -1,21 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/config/constants.dart';
+import 'package:platform_front/config/providers.dart';
 
-class CallToActionButton extends StatelessWidget {
-  final VoidCallback onPressed;
+class CallToActionButton extends ConsumerWidget {
+  final VoidCallback? onPressed;
   final String buttonText;
   final bool isSuccess;
+  final bool disabled;
 
-  const CallToActionButton({super.key, required this.onPressed, required this.buttonText, this.isSuccess = false,});
+  const CallToActionButton({
+    super.key,
+    required this.onPressed,
+    required this.buttonText,
+    this.disabled = false,
+    this.isSuccess = false,
+  });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return SizedBox(
       height: kButtonHeight,
       child: MaterialButton(
-
         padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-        onPressed: onPressed,
+        disabledColor: const Color(0x40A2B185),
+        onPressed: disabled ? null : onPressed,
         color: const Color(0xFFA2B185),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),

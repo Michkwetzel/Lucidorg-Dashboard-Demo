@@ -7,6 +7,7 @@ class AuthScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+
     return Scaffold(
       body: Center(
         child: ref.watch(authDisplayProvider),
