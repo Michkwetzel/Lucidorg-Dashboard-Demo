@@ -7,8 +7,8 @@ import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/config/providers.dart';
 import 'package:platform_front/notifiers/surveyMetrics/metrics_data.dart';
 
-class Benchmark extends ConsumerWidget {
-  Benchmark({
+class BenchmarkWidget extends ConsumerWidget {
+  BenchmarkWidget({
     super.key,
   });
 
@@ -21,8 +21,6 @@ class Benchmark extends ConsumerWidget {
     double employeeIndex = displayData.employeeBenchmarks['index'] ?? 50;
     double companyIndex = displayData.companyBenchmarks['index'] ?? 50;
     double indexDiff = displayData.diffScores['index'] ?? 1;
-
-
 
 
     return Container(

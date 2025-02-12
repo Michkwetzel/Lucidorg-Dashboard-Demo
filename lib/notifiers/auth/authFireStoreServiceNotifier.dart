@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:logging/logging.dart';
+import 'package:platform_front/notifiers/companyInfo/companyInfoNotifer.dart';
+import 'package:platform_front/notifiers/createAssessment/emailListNotifer.dart';
 import 'package:platform_front/notifiers/userResultsData/userResultsData.dart';
 import 'package:platform_front/notifiers/userProfileData/userProfileData.dart';
 import 'package:platform_front/services/firebaseServiceNotifier.dart';
@@ -14,8 +16,12 @@ class AuthFirestoreServiceNotifier extends StateNotifier<User?> {
   final FirebaseServiceNotifier firebaseServiceNotifier;
   final UserResultsData activeAssessmentDataNotifier;
   final UserProfileDataNotifier userDataNotifier;
+  final EmailListNotifier emailListNotifier;
+  final CompanyInfoNotifer companyInfoNotifer;
 
-  AuthFirestoreServiceNotifier({required this.activeAssessmentDataNotifier, required this.firebaseServiceNotifier, required this.userDataNotifier}) : super(null);
+  AuthFirestoreServiceNotifier(
+      {required this.emailListNotifier, required this.companyInfoNotifer, required this.activeAssessmentDataNotifier, required this.firebaseServiceNotifier, required this.userDataNotifier})
+      : super(null);
 
   //Set up listening to user changes. If user logged in set user state
   void initState() {
@@ -56,6 +62,8 @@ class AuthFirestoreServiceNotifier extends StateNotifier<User?> {
   void signOutUser() {
     _auth.signOut();
     userDataNotifier.clearUserData();
+    companyInfoNotifer.clearCompanyInfo();
+    emailListNotifier.clearEmails();
   }
 
   void logState() {

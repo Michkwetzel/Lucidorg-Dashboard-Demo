@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/components/dashboard/results/mainView/components/resultsTopButtonRow.dart';
-import 'package:platform_front/components/dashboard/results/mainView/sections/area_scores/area_scores_main_body.dart';
+import 'package:platform_front/components/dashboard/results/mainView/sections/indicators/indicators_main_view.dart';
 import 'package:platform_front/components/dashboard/results/mainView/sections/diff_matrix/diff_matrix_body.dart';
 import 'package:platform_front/components/dashboard/results/mainView/sections/over_view/overview_main_body.dart';
 import 'package:platform_front/components/dashboard/results/mainView/sections/foundations/foundations_body.dart';
@@ -22,7 +22,7 @@ class MainViewBody extends ConsumerWidget {
           return OverviewMainView();
 
         case ResultSection.areaScore:
-          return AreaScoresMainView();
+          return IndicatorsMainView();
 
         case ResultSection.diffMatrix:
           return DiffMatrixBody();

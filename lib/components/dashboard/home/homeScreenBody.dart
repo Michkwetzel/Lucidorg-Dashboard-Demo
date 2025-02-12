@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/components/dashboard/home/Sections/activeAssessmentWidget.dart';
-import 'package:platform_front/components/dashboard/home/Sections/benchmark.dart';
+import 'package:platform_front/components/dashboard/home/Sections/benchmarkWidget.dart';
 import 'package:platform_front/components/dashboard/home/Sections/currentActionAreaWidget.dart';
 import 'package:platform_front/components/dashboard/home/Sections/nextAssessmentWidget.dart';
 import 'package:platform_front/components/dashboard/home/Sections/topOppertunitiesWidget/TopOppertunitiesWidget.dart';
@@ -48,7 +48,7 @@ class HomeScreenBody extends ConsumerWidget {
                   const SizedBox(
                     width: 6,
                   ),
-                  Benchmark(),
+                  BenchmarkWidget(),
                   const SizedBox(width: 32),
                   ActiveAssessmentWidget(),
                   TextButton(

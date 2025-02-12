@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:platform_front/components/dashboard/results/sideBar/components/high_level_scores_widget.dart';
+import 'package:platform_front/components/dashboard/results/sideBar/sections/overview_sb/high_level_scores_widget.dart';
 import 'package:platform_front/components/global/diffTriangleRedWidget.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/enums.dart';

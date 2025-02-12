@@ -1,40 +1,42 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/config/constants.dart';
+import 'package:platform_front/config/providers.dart';
+import 'package:platform_front/notifiers/surveyMetrics/metrics_data.dart';
 
-class OverallScoresRow extends StatelessWidget {
-  final String category;
-  final double score;
-  final double diff;
+class OverallScoresRow extends ConsumerWidget {
+
 
   const OverallScoresRow({
     super.key,
-    required this.category,
-    required this.score,
-    required this.diff,
+
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    SurveyMetric displayData = ref.watch(metricsDataProvider).surveyMetric;
+    
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         SizedBox(
-          width: 100,
-          child: Text(category, style: TextStyle(color: Colors.black, fontSize: 17, fontFamily: 'Poppins', fontWeight: FontWeight.w300)),
+          width: 130,
+          child: Text('Overall', style: TextStyle(color: Colors.black, fontSize: 17, fontFamily: 'Poppins', fontWeight: FontWeight.w300)),
         ),
         Container(
           width: 60,
-          height: 32,
+          height: 40,
           decoration: kGrayBox,
-          child: Center(child: Text('$score%', style: TextStyle(color: Color(0xFF5478ED), fontSize: 14, fontFamily: 'Poppins', fontWeight: FontWeight.w400))),
+          child: Center(child: Text('${displayData.companyBenchmarks['index']!}%', style: TextStyle(color: Color(0xFF5478ED), fontSize: 14, fontFamily: 'Poppins', fontWeight: FontWeight.w400))),
         ),
         Container(
-          width: 52,
-          height: 30,
+          width: 55,
+          height: 33,
           decoration: kGrayBox,
-          child: Center(child: Text('~$diff%', style: TextStyle(color: Color(0xFFF03535), fontSize: 14, fontFamily: 'Poppins', fontWeight: FontWeight.w300))),
+          child: Center(child: Text('~${displayData.diffScores['index']!}%', style: TextStyle(color: Color(0xFFF03535), fontSize: 14, fontFamily: 'Poppins', fontWeight: FontWeight.w300))),
         )
       ],
     );

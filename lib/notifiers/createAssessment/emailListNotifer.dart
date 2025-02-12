@@ -97,4 +97,8 @@ class EmailListNotifier extends StateNotifier<EmailListState> {
         state = state.copyWith(emailsEmployee: [...state.emailsEmployee, ...emails].toSet().toList());
     }
   }
+
+  void clearEmails(){
+    state = EmailListState();
+  }
 }

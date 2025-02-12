@@ -5,6 +5,7 @@ import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/notifiers/impact/impact_display_notifier.dart';
 import 'package:platform_front/notifiers/loading/loadingNotifer.dart';
 import 'package:platform_front/notifiers/navBar/navBarExpandState.dart';
+import 'package:platform_front/notifiers/selectedIndicator/selected_indicator.dart';
 import 'package:platform_front/notifiers/surveyMetrics/survey_metrics_provider.dart';
 import 'package:platform_front/notifiers/userResultsData/userResultsData.dart';
 import 'package:platform_front/notifiers/Results/resultsDisplayNotifer.dart';
@@ -35,7 +36,14 @@ final authfirestoreserviceProvider = StateNotifierProvider<AuthFirestoreServiceN
   final FirebaseServiceNotifier firebaseServiceNotifier = ref.watch(firebaseServiceNotifierProvider.notifier);
   final UserResultsData activeAssessmentDataNotifier = ref.watch(activeAssessmentDataProvider.notifier);
   final UserProfileDataNotifier userDataNotifier = ref.watch(userDataProvider.notifier);
-  final auth = AuthFirestoreServiceNotifier(firebaseServiceNotifier: firebaseServiceNotifier, activeAssessmentDataNotifier: activeAssessmentDataNotifier, userDataNotifier: userDataNotifier);
+  final CompanyInfoNotifer companyInfoNotifer = ref.watch(companyInfoProvider.notifier);
+  final EmailListNotifier emailListNotifier = ref.watch(emailListProvider.notifier);
+  final auth = AuthFirestoreServiceNotifier(
+      companyInfoNotifer: companyInfoNotifer,
+      emailListNotifier: emailListNotifier,
+      firebaseServiceNotifier: firebaseServiceNotifier,
+      activeAssessmentDataNotifier: activeAssessmentDataNotifier,
+      userDataNotifier: userDataNotifier);
   auth.initState();
   return auth;
 });
@@ -123,4 +131,8 @@ final metricsDataProvider = StateNotifierProvider<MetricsDataProvider, MetricsDa
 
 final loadingProvider = StateNotifierProvider<Loadingnotifier, bool>((ref) {
   return Loadingnotifier();
+});
+
+final selectedIndicatorProvider = StateNotifierProvider<SelectedIndicator, Indicator>((ref) {
+  return SelectedIndicator();
 });

@@ -36,6 +36,7 @@ class MetricsDataProvider extends StateNotifier<MetricsDataState> {
     print('default init');
     SurveyMetric defaultSurvey = SurveyMetric.loadDefaultValues();
     state = state.copyWith(surveyMetric: defaultSurvey, loading: false, notEnoughData: false, noSurveyData: false);
+    state.surveyMetric.printData();
   }
 
   UserProfileDataNotifier userProfileData;

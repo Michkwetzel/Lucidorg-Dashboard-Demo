@@ -1,19 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/components/global/diffTriangleRedWidget.dart';
 import 'package:platform_front/config/enums.dart';
+import 'package:platform_front/config/providers.dart';
+import 'package:platform_front/notifiers/surveyMetrics/metrics_data.dart';
 
-class AreaScoreDiffBox extends StatelessWidget {
+
+class IndicatorDiffBox extends ConsumerWidget {
   final String text;
   final double diff;
 
-  const AreaScoreDiffBox({
+  const IndicatorDiffBox({
     super.key,
     required this.text,
     required this.diff,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    Indicator selectedIndicator = ref.watch(selectedIndicatorProvider);
+    SurveyMetric displayData = ref.watch(metricsDataProvider).surveyMetric;
+    
+    double diff = displayData.diffScores[selectedIndicator.asString]!;
     return Container(
       width: 205,
       height: 105,
