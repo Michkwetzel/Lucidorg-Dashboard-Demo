@@ -5,9 +5,11 @@ class PieChartWidget extends StatefulWidget {
   const PieChartWidget({
     super.key,
     required this.values,
+    required this.colors,
   });
 
   final List<double> values;
+  final List<Color> colors;
 
   @override
   State<PieChartWidget> createState() => _PieChartWidgetState();
@@ -15,8 +17,6 @@ class PieChartWidget extends StatefulWidget {
 
 class _PieChartWidgetState extends State<PieChartWidget> {
   int touchedIndex = -1;
-  final List<String> labels = ['Submitted', 'Started', 'Not Started'];
-  final List<Color> colors = [const Color(0xFFA6A6A6), const Color(0xFFD9D9D9), const Color(0xFFA2B088)];
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +52,7 @@ class _PieChartWidgetState extends State<PieChartWidget> {
       return PieChartSectionData(
         value: widget.values[i],
         title: '${widget.values[i].toString()}%',
-        color: colors[i],
+        color: widget.colors[i],
         radius: radius,
       );
     });

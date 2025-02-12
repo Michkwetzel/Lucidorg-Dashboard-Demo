@@ -46,7 +46,7 @@ class EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLayo
     SnackBarService.showMessage("Successfully Logged in", Colors.green);
     await ref.read(userDataProvider.notifier).getUserInfo(ref.read(authfirestoreserviceProvider));
     ref.read(metricsDataProvider.notifier).getSurveyData(ref.read(userDataProvider.notifier).companyUID!);
-    await ref.read(initDataloadProvider.notifier).initDataload();
+    ref.read(companyInfoService.notifier).getCompanyInfo();
     NavigationService.navigateTo('/home');
     ref.read(authDisplayProvider.notifier).changeDisplay(const AppEntryLayout());
   }

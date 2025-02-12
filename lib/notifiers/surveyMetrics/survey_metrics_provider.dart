@@ -31,6 +31,13 @@ class MetricsDataState {
 class MetricsDataProvider extends StateNotifier<MetricsDataState> {
   MetricsDataProvider({required this.userProfileData, required this.loadingNotifier}) : super(MetricsDataState.empty());
 
+  //DEVELOPMENT FUNCTION
+  void initializeDefault() async {
+    print('default init');
+    SurveyMetric defaultSurvey = SurveyMetric.loadDefaultValues();
+    state = state.copyWith(surveyMetric: defaultSurvey, loading: false, notEnoughData: false, noSurveyData: false);
+  }
+
   UserProfileDataNotifier userProfileData;
   Loadingnotifier loadingNotifier;
   Logger logger = Logger('SurveyMetricsProvider');
@@ -72,6 +79,7 @@ class MetricsDataProvider extends StateNotifier<MetricsDataState> {
       logger.info('Getting Survey Data for company $companyUID');
       final companyDoc = await _firestore.collection('surveyMetrics').doc(companyUID).get();
       final allSurveyNames = List<String>.from(companyDoc.data()?['allSurveyNames'] ?? []);
+      logger.info('All survey names: $allSurveyNames');
 
       if (allSurveyNames.isEmpty) {
         print('No surveyData');
@@ -99,14 +107,14 @@ class MetricsDataProvider extends StateNotifier<MetricsDataState> {
         final participationData = snapshots[i * 2 + 1].data() as Map<String, dynamic>? ?? {};
 
         final SurveyMetric surveyData = SurveyMetric.fromFields(
-          cSuiteBenchmarks: _convertBenchmarks(metricsData['cSuiteBenchmarks']),
-          ceoBenchmarks: _convertBenchmarks(metricsData['ceoBenchmarks']),
-          employeeBenchmarks: _convertBenchmarks(metricsData['employeeBenchmarks']),
-          nCeoFinished: (metricsData['nCeoFinished'] as num?)?.toInt() ?? 0,
-          nCSuiteFinished: (metricsData['nCSuiteFinished'] as num?)?.toInt() ?? 0,
-          nEmployeeFinished: (metricsData['nEmployeeFinished'] as num?)?.toInt() ?? 0,
-          nSurveys: (participationData['nSurveys'] as num?)?.toInt() ?? 0,
-          nStarted: (participationData['nStarted'] as num?)?.toInt() ?? 0,
+          cSuiteBenchmarks: metricsData['cSuiteBenchmarks'],
+          ceoBenchmarks: metricsData['ceoBenchmarks'],
+          employeeBenchmarks: metricsData['employeeBenchmarks'],
+          nCeoFinished: (metricsData['nCeoFinished'] as num?)?.toDouble() ?? 0,
+          nCSuiteFinished: (metricsData['nCSuiteFinished'] as num?)?.toDouble() ?? 0,
+          nEmployeeFinished: (metricsData['nEmployeeFinished'] as num?)?.toDouble() ?? 0,
+          nSurveys: (participationData['nSurveys'] as num?)?.toDouble() ?? 0,
+          nStarted: (participationData['nStarted'] as num?)?.toDouble() ?? 0,
           surveyName: surveyName,
         );
         globalMetricsData.addSurveyData(surveyData);
@@ -122,14 +130,5 @@ class MetricsDataProvider extends StateNotifier<MetricsDataState> {
       logger.severe('Error getting survey data: $e');
       state = state.copyWith(loading: false, error: true);
     }
-  }
-
-// Helper function to clean up benchmark conversion
-  Map<String, double> _convertBenchmarks(Map<String, dynamic>? benchmarks) {
-    return benchmarks?.map((key, value) {
-          final numValue = value as num?;
-          return MapEntry(key, numValue != null ? (((numValue.toDouble() * 1000).roundToDouble()) / 10) : 0.0);
-        }) ??
-        {};
   }
 }

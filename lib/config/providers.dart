@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/config/enums.dart';
-import 'package:platform_front/helperObj/scoreData.dart';
 import 'package:platform_front/notifiers/impact/impact_display_notifier.dart';
 import 'package:platform_front/notifiers/loading/loadingNotifer.dart';
 import 'package:platform_front/notifiers/navBar/navBarExpandState.dart';
@@ -18,7 +17,7 @@ import 'package:platform_front/notifiers/companyInfo/companyInfoNotifer.dart';
 import 'package:platform_front/notifiers/createAssessment/emailListNotifer.dart';
 import 'package:platform_front/notifiers/createAssessment/emailListRadioButtonNotifier.dart';
 import 'package:platform_front/notifiers/createAssessment/emailTemplateNotifer.dart';
-import 'package:platform_front/notifiers/initDataLoad/initDataLoadProvider.dart';
+import 'package:platform_front/services/companyInfoService.dart';
 import 'package:platform_front/notifiers/navBar/navBarNotifer.dart';
 import 'package:platform_front/notifiers/userProfileData/userProfileData.dart';
 import 'package:platform_front/services/firebaseServiceNotifier.dart';
@@ -101,11 +100,11 @@ final resultsSelectedSectionProvider = StateNotifierProvider<ResultsDisplayNotif
   return ResultsDisplayNotifier();
 });
 
-final initDataloadProvider = StateNotifierProvider<InitDataloadProvider, bool>((ref) {
+final companyInfoService = StateNotifierProvider<CompanyInfoService, bool>((ref) {
   final firebaseService = ref.watch(firebaseServiceNotifierProvider.notifier);
   final userDataNotifier = ref.watch(userDataProvider.notifier);
   final companyInfoNotifer = ref.watch(companyInfoProvider.notifier);
-  return InitDataloadProvider(firebaseService: firebaseService, userProfileDataNotifier: userDataNotifier, companyInfoNotifer: companyInfoNotifer);
+  return CompanyInfoService(firebaseService: firebaseService, userProfileDataNotifier: userDataNotifier, companyInfoNotifer: companyInfoNotifer);
 });
 
 final navBarExpandStateNotifier = StateNotifierProvider<NavBarExpandStateNotifier, bool>((ref) {

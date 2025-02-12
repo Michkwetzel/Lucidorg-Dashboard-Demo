@@ -1,11 +1,11 @@
 // // ignore_for_file: prefer_const_constructors
 
-class ImpactArea {
+class Indicator {
   final String heading;
   final String body;
   final int impactValue;
 
-  const ImpactArea({
+  const Indicator({
     required this.heading,
     required this.body,
     required this.impactValue,

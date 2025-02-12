@@ -113,13 +113,6 @@ class _CreateAssessmentBodyState extends ConsumerState<CreateAssessmentBody> {
               padding: EdgeInsets.only(top: 4, bottom: 4),
               child: EmailTemplateBody(),
             ),
-            TextButton(
-                onPressed: () async {
-                  await ref.read(metricsDataProvider.notifier).getSurveyData(ref.read(userDataProvider.notifier).companyUID ?? 'Hello');
-                  MetricsData alldata = MetricsData();
-                  alldata.printAllSurveyData();
-                },
-                child: Text("Get Survey Data"))
           ],
         ),
       ),

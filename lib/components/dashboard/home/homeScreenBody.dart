@@ -8,6 +8,7 @@ import 'package:platform_front/components/dashboard/home/Sections/topOppertuniti
 import 'package:platform_front/components/global/loading_overlay.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/providers.dart';
+import 'package:platform_front/notifiers/surveyMetrics/metrics_data.dart';
 
 class HomeScreenBody extends ConsumerWidget {
   const HomeScreenBody({super.key});
@@ -50,6 +51,12 @@ class HomeScreenBody extends ConsumerWidget {
                   Benchmark(),
                   const SizedBox(width: 32),
                   ActiveAssessmentWidget(),
+                  TextButton(
+                      onPressed: () {
+                        MetricsData alldata = MetricsData();
+                        ref.read(metricsDataProvider.notifier).initializeDefault();
+                      },
+                      child: Text("Load default values"))
                 ]),
                 const SizedBox(height: 32),
                 const SizedBox(
