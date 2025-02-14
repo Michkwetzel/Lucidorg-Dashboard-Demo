@@ -36,6 +36,7 @@ class MetricsDataProvider extends StateNotifier<MetricsDataState> {
     print('default init');
     SurveyMetric defaultSurvey = SurveyMetric.loadDefaultValues();
     state = state.copyWith(surveyMetric: defaultSurvey, loading: false, notEnoughData: false, noSurveyData: false);
+    state.surveyMetric.printData();
   }
 
   UserProfileDataNotifier userProfileData;
@@ -106,7 +107,7 @@ class MetricsDataProvider extends StateNotifier<MetricsDataState> {
         final metricsData = snapshots[i * 2].data() as Map<String, dynamic>? ?? {};
         final participationData = snapshots[i * 2 + 1].data() as Map<String, dynamic>? ?? {};
 
-        final SurveyMetric surveyData = SurveyMetric.fromFields(
+        final SurveyMetric surveyData = SurveyMetric.fromStringFields(
           cSuiteBenchmarks: metricsData['cSuiteBenchmarks'],
           ceoBenchmarks: metricsData['ceoBenchmarks'],
           employeeBenchmarks: metricsData['employeeBenchmarks'],

@@ -20,4 +20,8 @@ class CompanyInfoNotifer extends StateNotifier<Map<String, String>> {
   String get companyName => state['companyName'] ?? '';
 
   bool get companyInfoEmpty => state['companyName'] == '';
+
+  void clearCompanyInfo(){
+    state = {'companyName': ''};
+  }
 }

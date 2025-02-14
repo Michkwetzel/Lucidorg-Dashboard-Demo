@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/components/global/grayDivider.dart';
 import 'package:platform_front/components/global/score_boxes/score_box.dart';
 import 'package:platform_front/config/constants.dart';
+import 'package:platform_front/config/enums.dart';
+import 'package:platform_front/config/providers.dart';
+import 'package:platform_front/dataClasses/all_indicator_data.dart';
+import 'package:platform_front/dataClasses/indicator_data.dart';
+import 'package:platform_front/notifiers/surveyMetrics/metrics_data.dart';
 
 class FoundationsBody extends StatelessWidget {
   const FoundationsBody({super.key});
@@ -16,99 +22,86 @@ class FoundationsBody extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Column(
-                  children: [
-                    SizedBox(
-                      width: 335,
-                      height: 170,
-                      child: Column(
-                        children: [
-                          Text('Operations', style: kH2PoppinsMedium),
-                          SizedBox(
-                            height: 16,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 32),
-                            child: Text(
-                              'Your workforce is in tip top shape.\n\n Everybody is engaged and communication is good',
-                              style: kH6PoppinsMedium,
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ],
+                SizedBox(
+                  width: 335,
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        width: 335,
+                        height: 170,
+                        child: FoundationsTopTextWidget(indicator: Indicator.operations),
                       ),
-                    ),
-                    SizedBox(
-                      height: 60,
-                    ),
-                    SubAreaBlock(
-                      heading: 'Allignment',
-                      text1: 'Growth\nAlignment',
-                      score1: 65.7,
-                      text2: 'Collaborative\nKPIs',
-                      score2: 20.2,
-                      text3: 'Alligned Org\nStructure',
-                      score3: 80.8,
-                    ),
-                    SizedBox(
-                      height: 40,
-                    ),
-                    SubAreaBlock(
-                      heading: 'Process',
-                      text1: 'Aligned Tech\nStack',
-                      score1: 45.7,
-                      text2: 'Collaborative\nProcesses',
-                      score2: 54.2,
-                      text3: 'Meeting\nEfficacy',
-                      score3: 43.8,
-                    ),
-                  ],
+                      SizedBox(
+                        height: 60,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 32),
+                        child: Column(
+                          spacing: 16,
+                          children: [
+                            Text(
+                              'Allignment',
+                              style: kH4PoppinsRegular,
+                            ),
+                            FoundationsRow(indicator: Indicator.growthAlign),
+                            FoundationsRow(indicator: Indicator.collabKPIs),
+                            FoundationsRow(indicator: Indicator.orgAlign),
+                            SizedBox(
+                              height: 24,
+                            ),
+                            Text(
+                              'Process',
+                              style: kH4PoppinsRegular,
+                            ),
+                            FoundationsRow(indicator: Indicator.alignedTech),
+                            FoundationsRow(indicator: Indicator.collabProcesses),
+                            FoundationsRow(indicator: Indicator.meetingEfficacy),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                Column(
-                  children: [
-                    SizedBox(
-                      width: 335,
-                      height: 170,
-                      child: Column(
-                        children: [
-                          Text('Workforce', style: kH2PoppinsMedium),
-                          SizedBox(
-                            height: 16,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 32),
-                            child: Text(
-                              'Your work\n\nforce is in tip top shape. Everybody is engaged and communication is good',
-                              style: kH6PoppinsMedium,
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ],
+                SizedBox(
+                  width: 335,
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        width: 335,
+                        height: 170,
+                        child: FoundationsTopTextWidget(
+                          indicator: Indicator.workforce,
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 60,
-                    ),
-                    SubAreaBlock(
-                      heading: 'People',
-                      text1: 'Engaged\nCommunity',
-                      score1: 32.7,
-                      text2: 'X-Functional\nCommunication',
-                      score2: 63.2,
-                      text3: 'X-Functional\nAccountability',
-                      score3: 61.8,
-                    ),
-                    SizedBox(
-                      height: 40,
-                    ),
-                    SubAreaBlock(
-                      heading: 'Leadership',
-                      text1: 'Empowered\nLeadership',
-                      score1: 45.7,
-                      text2: 'Purpose\nEverything',
-                      score2: 66.2,
-                    ),
-                  ],
+                      SizedBox(
+                        height: 60,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 38),
+                        child: Column(
+                          spacing: 16,
+                          children: [
+                            Text(
+                              'People',
+                              style: kH4PoppinsRegular,
+                            ),
+                            FoundationsRow(indicator: Indicator.engagedCommunity),
+                            FoundationsRow(indicator: Indicator.crossFuncComms),
+                            FoundationsRow(indicator: Indicator.crossFuncAcc),
+                            SizedBox(
+                              height: 24,
+                            ),
+                            Text(
+                              'Leadership',
+                              style: kH4PoppinsRegular,
+                            ),
+                            FoundationsRow(indicator: Indicator.empoweredLeadership),
+                            FoundationsRow(indicator: Indicator.purposeDriven),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -121,7 +114,7 @@ class FoundationsBody extends StatelessWidget {
           color: Colors.grey,
         )),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 32),
+          padding: const EdgeInsets.symmetric(horizontal: 38),
           child: Column(
             children: [
               SizedBox(
@@ -136,70 +129,69 @@ class FoundationsBody extends StatelessWidget {
   }
 }
 
-class SubAreaBlock extends StatelessWidget {
-  final String heading;
-  final String? text1;
-  final double? score1;
-  final String? text2;
-  final double? score2;
-  final String? text3;
-  final double? score3;
-
-  const SubAreaBlock({super.key, required this.heading, this.text1, this.score1, this.text2, this.score2, this.text3, this.score3});
+class FoundationsTopTextWidget extends ConsumerWidget {
+  final Indicator indicator;
+  const FoundationsTopTextWidget({
+    super.key,
+    required this.indicator,
+  });
 
   @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 335,
-      child: Column(
-        spacing: 16,
-        children: [
-          Text(
-            heading,
-            style: kH4PoppinsRegular,
+  Widget build(BuildContext context, WidgetRef ref) {
+    SurveyMetric displayData = ref.watch(metricsDataProvider).surveyMetric;
+    double score = displayData.companyBenchmarks[indicator]!;
+    Map<Indicator, IndicatorData> allIndicatorData = AllIndicatorData.indicatorMap;
+
+    String scoreTextBody = allIndicatorData[indicator]!.getScoreTextBody(score).replaceAll("___", '${score.toString()}%');
+
+    String scoreTextHeading = allIndicatorData[indicator]!.getScoreTextHeading(score);
+
+    return Column(
+      children: [
+        Text(indicator.heading, style: kH2PoppinsMedium),
+        SizedBox(
+          height: 16,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 32),
+          child: Column(
+            spacing: 16,
+            children: [
+              ScoreBox(score: score, width: 75, height: 55, textSize: 18, fontWeight: FontWeight.w300),
+              Text(
+                scoreTextHeading,
+                textAlign: TextAlign.center,
+                style: kH7PoppinsRegular,
+              ),
+            ],
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32),
-            child: Column(
-              spacing: 16,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      text1!,
-                      style: kH6PoppinsLight,
-                    ),
-                    ScoreBox(score: score1!, width: 65, height: 42, textSize: 14, fontWeight: FontWeight.w300),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      softWrap: true,
-                      text2!,
-                      style: kH6PoppinsLight,
-                    ),
-                    ScoreBox(score: score2!, width: 65, height: 42, textSize: 14, fontWeight: FontWeight.w300),
-                  ],
-                ),
-                if (score3 != null)
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        text3!,
-                        style: kH6PoppinsLight,
-                      ),
-                      ScoreBox(score: score3!, width: 65, height: 42, textSize: 14, fontWeight: FontWeight.w300),
-                    ],
-                  )
-              ],
-            ),
-          )
-        ],
-      ),
+        ),
+      ],
+    );
+  }
+}
+
+class FoundationsRow extends ConsumerWidget {
+  final Indicator indicator;
+  const FoundationsRow({super.key, required this.indicator});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    SurveyMetric displayData = ref.watch(metricsDataProvider).surveyMetric;
+    double score = displayData.companyBenchmarks[indicator]!;
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        SizedBox(
+          width: 125,
+          child: Text(
+            indicator.heading,
+            style: kH6PoppinsLight,
+          ),
+        ),
+        ScoreBox(score: score, width: 65, height: 42, textSize: 14, fontWeight: FontWeight.w300),
+      ],
     );
   }
 }

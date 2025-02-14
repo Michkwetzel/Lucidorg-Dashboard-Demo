@@ -33,8 +33,12 @@ class DiffTriangleRedWidget extends StatelessWidget {
         textStyle = TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w300, fontSize: 22, color: textColor);
         trianleSize = 24;
       case Diffsize.H3:
+        textStyle = TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w300, fontSize: 18, color: textColor);
+        trianleSize = 22;
+      case Diffsize.H4:
         textStyle = TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w300, fontSize: 16, color: textColor);
         trianleSize = 20;
+
       default:
         textStyle = TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w300, fontSize: 14, color: textColor);
         trianleSize = 15;

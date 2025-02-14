@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/components/dashboard/results/mainView/sections/over_view/company_trajectory_graph.dart';
 import 'package:platform_front/config/constants.dart';
+import 'package:platform_front/config/enums.dart';
+import 'package:platform_front/config/providers.dart';
+import 'package:platform_front/dataClasses/all_indicator_data.dart';
+import 'package:platform_front/dataClasses/indicator_data.dart';
+import 'package:platform_front/notifiers/surveyMetrics/metrics_data.dart';
 
 class OverviewMainView extends StatelessWidget {
   const OverviewMainView({super.key});
@@ -29,7 +35,7 @@ class OverviewMainView extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         spacing: 2,
                         children: [
-                          ...List.generate(3, (index) { 
+                          ...List.generate(3, (index) {
                             return CircleAvatar(radius: 4, backgroundColor: Colors.green);
                           }),
                           SizedBox(
@@ -48,7 +54,6 @@ class OverviewMainView extends StatelessWidget {
                           ...List.generate(3, (index) {
                             return CircleAvatar(radius: 4, backgroundColor: Colors.blue);
                           }),
-                          
                           SizedBox(
                             width: 8,
                           ),
@@ -122,20 +127,48 @@ class OverviewMainView extends StatelessWidget {
             ),
           ],
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 32),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 8,
-            children: [
-              Text('Overview', style: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w400, fontSize: 24)),
-              Text(
-                  'Your overall efficiency benchmark assessment is 61%, which is slightly above average for companies at your stage of growth, and just 9 points below the 70% threshold for smooth scaling!\n\nYour overall differentiation is at 15% which is average for companies at your current stage of growth\n\nFocussing on areas of high differentiation first is imperative and provides the most impact across the organization',
-                  style: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w300, fontSize: 15)),
-            ],
-          ),
-        ),
+        OverviewTextWidget(),
       ],
+    );
+  }
+}
+
+class OverviewTextWidget extends ConsumerWidget {
+  const OverviewTextWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    Map<Indicator, IndicatorData> indicatorMap = AllIndicatorData.indicatorMap;
+    SurveyMetric displayData = ref.watch(metricsDataProvider).surveyMetric;
+    double companyIndex = displayData.companyBenchmarks[Indicator.companyIndex]!;
+    String body = indicatorMap[Indicator.companyIndex]!.getScoreTextBody(companyIndex).replaceAll("____", '${companyIndex.toString()}%');
+    String suggestions = indicatorMap[Indicator.companyIndex]!.getScoreTextSuggestion(companyIndex);
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 32),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Overview', style: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w400, fontSize: 24)),
+          SizedBox(
+            height: 8,
+          ),
+          Text(
+            body,
+            style: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w300, fontSize: 15),
+          ),
+          SizedBox(
+            height: 8,
+          ),
+          Text('Suggestions:', style: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w400, fontSize: 16)),
+          SizedBox(
+            height: 4,
+          ),
+          Text(suggestions, style: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w300, fontSize: 15)),
+        ],
+      ),
     );
   }
 }

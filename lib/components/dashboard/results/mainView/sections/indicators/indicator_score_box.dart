@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/config/constants.dart';
+import 'package:platform_front/config/enums.dart';
+import 'package:platform_front/config/providers.dart';
+import 'package:platform_front/notifiers/surveyMetrics/metrics_data.dart';
 
-class AreaScoreBox extends StatelessWidget {
+class IndicatorScoreBox extends ConsumerWidget {
   final String text;
-  final double score;
 
-  const AreaScoreBox({
+  const IndicatorScoreBox({
     super.key,
     required this.text,
-    required this.score,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    Indicator selectedIndicator = ref.watch(selectedIndicatorProvider);
+    SurveyMetric displayData = ref.watch(metricsDataProvider).surveyMetric;
+    
+    double score = displayData.companyBenchmarks[selectedIndicator]!;
+
     return Container(
       width: 205,
       height: 105,

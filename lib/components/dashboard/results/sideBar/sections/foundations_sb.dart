@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:platform_front/components/dashboard/results/mainView/sections/foundations/foundations_body.dart';
 import 'package:platform_front/components/global/grayDivider.dart';
-import 'package:platform_front/components/global/score_boxes/score_box.dart';
 import 'package:platform_front/config/constants.dart';
+import 'package:platform_front/config/enums.dart';
+import 'package:platform_front/config/providers.dart';
+import 'package:platform_front/dataClasses/all_indicator_data.dart';
+import 'package:platform_front/dataClasses/indicator_data.dart';
+import 'package:platform_front/notifiers/surveyMetrics/metrics_data.dart';
 
 class FoundationsSB extends StatelessWidget {
   const FoundationsSB({super.key});
@@ -26,7 +32,8 @@ class FoundationsSB extends StatelessWidget {
                   Tooltip(
                     decoration: kboxShadowNormal,
                     textStyle: TextStyle(color: Colors.black),
-                    message: "Most assessments focus solely on productivity (operations) or engagement (workforce) in isolation,\nbut true organizational efficiency emerges when both are measured together",
+                    message:
+                        "Most assessments focus solely on productivity (operations) or engagement (workforce) in isolation,\nbut true organizational efficiency emerges when both are measured together",
                     child: Icon(
                       Icons.info_outline,
                       size: 20,
@@ -40,23 +47,91 @@ class FoundationsSB extends StatelessWidget {
               ),
             ],
           ),
-          Text('Operations', style: kH2PoppinsLight),
-          ScoreBox(height: 50, width: 60, score: 70, textSize: 20, fontWeight: FontWeight.w400),
-          Text(
-              style: kH6PoppinsLight,
-              textAlign: TextAlign.center,
-              'Operational efficiency hinges on the seamless integration of alignment and processes, ensuring that every system, workflow, and strategic initiative moves the organization toward its aligned goals, ensuring that priorities, resources, and teams are strategically coordinated.'),
+          FoundationsSBWidget(
+            indicator: Indicator.operations,
+          ),
           GrayDivider(
             width: 230,
           ),
-          Text("Workforce", style: kH2PoppinsLight),
-          ScoreBox(height: 50, width: 60, score: 40, textSize: 20, fontWeight: FontWeight.w400),
-          Text(
-              style: kH6PoppinsLight,
-              textAlign: TextAlign.center,
-              'A highly efficient workforce is the result of strong leadership and engaged people, where teams are not only skilled and productive but also motivated and aligned with the organization’s vision, and leadership fosters a culture of accountability, empowerment, and continuous development.'),
+          FoundationsSBWidget(
+            indicator: Indicator.workforce,
+          ),
         ],
       ),
+    );
+  }
+}
+
+class FoundationsSBWidget extends ConsumerWidget {
+  final Indicator indicator;
+  const FoundationsSBWidget({super.key, required this.indicator});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    Map<Indicator, IndicatorData> allIndicatorData = AllIndicatorData.indicatorMap;
+    SurveyMetric displayData = ref.watch(metricsDataProvider).surveyMetric;
+    double score = displayData.companyBenchmarks[indicator]!;
+
+    String scoreTextBody = allIndicatorData[indicator]!.getScoreTextBody(score).replaceAll("___", '${score.toString()}%');
+
+    double minValue1 = double.infinity;
+    Indicator minIndicator1 = Indicator.operations;
+    double minValue2 = double.infinity;
+    Indicator minIndicator2 = Indicator.operations;
+
+    if (indicator == Indicator.workforce) {
+      List<Map<Indicator, double>> people = displayData.getSpecificFoundations([Indicator.engagedCommunity, Indicator.crossFuncComms, Indicator.crossFuncAcc]);
+      for (var map in people) {
+        map.forEach((indicator, value) {
+          if (value < minValue1) {
+            minValue1 = value;
+            minIndicator1 = indicator;
+          }
+        });
+      }
+      List<Map<Indicator, double>> leadership = displayData.getSpecificFoundations([Indicator.empoweredLeadership, Indicator.purposeDriven]);
+      for (var map in leadership) {
+        map.forEach((indicator, value) {
+          if (value < minValue2) {
+            minValue2 = value;
+            minIndicator2 = indicator;
+          }
+        });
+      }
+    } else {
+      List<Map<Indicator, double>> allignment = displayData.getSpecificFoundations([Indicator.growthAlign, Indicator.collabKPIs, Indicator.orgAlign]);
+      for (var map in allignment) {
+        map.forEach((indicator, value) {
+          if (value < minValue1) {
+            minValue1 = value;
+            minIndicator1 = indicator;
+          }
+        });
+      }
+      List<Map<Indicator, double>> process = displayData.getSpecificFoundations([Indicator.alignedTech, Indicator.collabProcesses, Indicator.meetingEfficacy]);
+      for (var map in process) {
+        map.forEach((indicator, value) {
+          if (value < minValue2) {
+            minValue2 = value;
+            minIndicator2 = indicator;
+          }
+        });
+      }
+    }
+
+    return Column(
+      spacing: 16,
+      children: [
+        Text(indicator.heading, style: kH2PoppinsLight),
+        Text(
+          scoreTextBody,
+          style: kH7PoppinsLight,
+          textAlign: TextAlign.center,
+        ),
+        Text("Suggested Focus Areas", style: kH4PoppinsLight),
+        SizedBox(width: 230, child: FoundationsRow(indicator: minIndicator1)),
+        SizedBox(width: 230, child: FoundationsRow(indicator: minIndicator2)),
+      ],
     );
   }
 }

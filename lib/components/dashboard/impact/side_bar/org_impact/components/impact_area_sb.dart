@@ -1,8 +1,8 @@
 // // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:platform_front/components/dashboard/impact/side_bar/org_impact/data_class/indicator.dart';
-import 'package:platform_front/components/dashboard/impact/side_bar/org_impact/data_class/impact_area_data.dart';
+import 'package:platform_front/dataClasses/temp/indicator_data_temp.dart';
+import 'package:platform_front/dataClasses/temp/impact_area_data.dart';
 import 'package:platform_front/components/dashboard/impact/side_bar/org_impact/components/impact_area_sub_widget.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/enums.dart';
@@ -22,7 +22,7 @@ class ImpactAreaSBWidget extends StatelessWidget {
         SizedBox(
           height: 8,
         ),
-        for (Indicator impactArea in areaData.impactAreas)
+        for (IndicatorDataTemp impactArea in areaData.impactAreas)
           ImpactAreaSubWidget(
             impactValue: impactArea.impactValue,
             heading: impactArea.heading,

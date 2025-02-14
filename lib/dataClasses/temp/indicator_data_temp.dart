@@ -1,11 +1,12 @@
 // // ignore_for_file: prefer_const_constructors
 
-class Indicator {
+class IndicatorDataTemp {
   final String heading;
   final String body;
   final int impactValue;
 
-  const Indicator({
+
+  const IndicatorDataTemp({
     required this.heading,
     required this.body,
     required this.impactValue,
