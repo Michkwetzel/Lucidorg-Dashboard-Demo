@@ -13,10 +13,10 @@ class AreaDiffRow extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         SizedBox(
-          width: 130,
+          width: 150,
           child: Text(
             heading,
-            style: kH5PoppinsLight,
+            style: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w300, fontSize: 16),
           ),
         ),
         DiffBox(diff: diff, width: 60, height: 45, textSize: 14, fontWeight: FontWeight.w300)

@@ -51,10 +51,12 @@ class AppEntryLayout extends ConsumerWidget {
                 try {
                   await ref.read(authfirestoreserviceProvider.notifier).signInWithEmailAndPassword('test@gmail.com', '1234567890');
                   await ref.read(userDataProvider.notifier).getUserInfo(ref.read(authfirestoreserviceProvider));
-                  await ref.read(companyInfoService.notifier).getCompanyInfo();
-                  SnackBarService.showMessage('Succesfull Test Log in', Colors.green);
+                  ref.read(companyInfoService.notifier).getCompanyInfo();
+                  ref.read(metricsDataProvider.notifier).getSurveyData('testCompany');
                   ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.home);
                   NavigationService.navigateTo('/home');
+                  SnackBarService.showMessage('Succesfull Test Log in', Colors.green);
+                  //ref.read(metricsDataProvider.notifier).initializeDefault();
                 } on Exception {
                   SnackBarService.showMessage('System Error', Colors.red);
                 }

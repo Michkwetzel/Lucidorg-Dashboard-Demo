@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:platform_front/components/dashboard/impact/side_bar/scores_over_time/scores_over_time_SB.dart';
+import 'package:platform_front/components/dashboard/results/mainView/sections/indicators/department_scores_widget.dart';
 import 'package:platform_front/components/dashboard/results/sideBar/sections/diif_matrix_sb/best_worst_alligned_widget.dart';
 import 'package:platform_front/components/global/diffTriangleRedWidget.dart';
 import 'package:platform_front/components/global/grayDivider.dart';
@@ -20,27 +20,23 @@ class DiffMatrixSideBar extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            'Differentiation',
+            'Overall Department Benchmarks',
             style: kH2PoppinsLight,
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 8),
-          Text(style: kH6PoppinsLight, textAlign: TextAlign.center,
-            'Differentation is a measure of how well the departments in your organization align. a Lower differentiation score is better'),
           SizedBox(height: 16),
           GrayDivider(
             width: 200,
           ),
-          SizedBox(height: 16),
-          BestWorstAllignedWidget(
-            type: Alligned.best,
-          ),
+          SizedBox(height: 32),
+          OverallDepertmentBenchmarkWidget(),
           SizedBox(height: 32),
           GrayDivider(
             width: 200,
           ),
-          SizedBox(height: 32),
-          BestWorstAllignedWidget(type: Alligned.worst),
+          SizedBox(height: 16),
+          
+          HighestDiffWidget(),
         ],
       ),
     );

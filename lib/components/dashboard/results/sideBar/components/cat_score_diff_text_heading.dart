@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 
-class CatScoreDiffTextHeading extends StatelessWidget {
-  const CatScoreDiffTextHeading({
+class CategoryScoreDiffTextHeading extends StatelessWidget {
+  const CategoryScoreDiffTextHeading({
     super.key,
   });
 

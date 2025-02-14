@@ -1,10 +1,13 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/components/dashboard/results/sideBar/sections/overview_sb/high_level_scores_widget.dart';
 import 'package:platform_front/components/global/diffTriangleRedWidget.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/enums.dart';
+import 'package:platform_front/config/providers.dart';
+import 'package:platform_front/notifiers/surveyMetrics/metrics_data.dart';
 
 class OverViewSBResults extends StatelessWidget {
   const OverViewSBResults({
@@ -19,13 +22,7 @@ class OverViewSBResults extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text("Overall Score", style: kH2PoppinsLight),
-          SizedBox(height: 8),
-          Text('55.7%', style: kH2TotalScoreLight),
-          SizedBox(height: 60),
-          Text('Overall Differentiation', style: kH3PoppinsLight),
-          SizedBox(height: 8),
-          DiffTriangleRedWidget(value: 38, size: Diffsize.H2),
+          OverallScoreAndDiffWidget(),
           SizedBox(height: 60),
           HighLevelScoresWidget(),
           SizedBox(
@@ -33,6 +30,32 @@ class OverViewSBResults extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+}
+
+class OverallScoreAndDiffWidget extends ConsumerWidget {
+  const OverallScoreAndDiffWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    SurveyMetric displayData = ref.watch(metricsDataProvider).surveyMetric;
+
+    double overallScore = displayData.companyBenchmarks['index']!;
+    double overallDiff = displayData.diffScores['index']!;
+
+    return Column(
+      children: [
+        Text("Overall Score", style: kH2PoppinsLight),
+        SizedBox(height: 8),
+        Text('$overallScore%', style: kH2TotalScoreLight),
+        SizedBox(height: 60),
+        Text('Overall Differentiation', style: kH3PoppinsLight),
+        SizedBox(height: 8),
+        DiffTriangleRedWidget(value: overallDiff, size: Diffsize.H2),
+      ],
     );
   }
 }

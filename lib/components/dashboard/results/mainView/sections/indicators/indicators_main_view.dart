@@ -35,7 +35,7 @@ class IndicatorsMainView extends StatelessWidget {
         SizedBox(height: 40),
         DepartmentTextWidget(),
         SizedBox(height: 8),
-        DepartmentScoresWidget(),
+        IndicatorsDepartmentScoresWidget(),
         SizedBox(
           height: 40,
         ),

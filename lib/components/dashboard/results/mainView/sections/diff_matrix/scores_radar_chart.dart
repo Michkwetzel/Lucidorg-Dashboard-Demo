@@ -1,36 +1,59 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:platform_front/config/enums.dart';
+import 'package:platform_front/config/providers.dart';
+import 'package:platform_front/notifiers/surveyMetrics/metrics_data.dart';
 
-class ScoresRadarChart extends StatelessWidget {
-  final List<double> ceoScores = [45.7, 91.3, 33.8, 88.2, 80, 71.4, 89.6, 95.1, 28.4, 76.5, 20, 82.9];
-  final List<double> csuiteScores = [60, 80, 11, 85.1, 39.8, 65.4, 87.2, 92.6, 80, 72.7, 68.9, 78.4];
-  final List<double> staffScores = [60, 86.6, 80, 82.2, 20, 68.5, 84.9, 55, 78, 69.8, 63, 44];
-
-  final List<String> categories = [
-    'Efficiency Score',
-    'Org Alignment',
-    'Growth Alignment',
-    'Collaborative KPI',
-    'Engaged Community',
-    'X-Func Communication',
-    'X-Funct Accountability',
-    'Aligned Tech',
-    'Collaborative Processes',
-    'Meeting Efficacy',
-    'Purpose Led Everything',
-    'Empowered Leadership'
-  ];
-
+class ScoresRadarChart extends ConsumerStatefulWidget {
   ScoresRadarChart({super.key});
 
   @override
+  ConsumerState<ScoresRadarChart> createState() => _ScoresRadarChartState();
+}
+
+class _ScoresRadarChartState extends ConsumerState<ScoresRadarChart> {
+  String? hoveredValue; // Store the hovered value
+
+  @override
   Widget build(BuildContext context) {
+    SurveyMetric displayData = ref.watch(metricsDataProvider).surveyMetric;
+
+    List<Indicator> indicatorList = Indicator.values.toList();
+
+    final List<String> categories = [];
+    final List<double> ceoScores = [];
+    final List<double> csuiteScores = [];
+    final List<double> staffScores = [];
+
+    for (Indicator indicator in indicatorList) {
+      categories.add(indicator.heading);
+      ceoScores.add(displayData.ceoBenchmarks[indicator.asString]!);
+      csuiteScores.add(displayData.cSuiteBenchmarks[indicator.asString]!);
+      staffScores.add(displayData.employeeBenchmarks[indicator.asString]!);
+    }
+
     return SizedBox(
       width: 700,
       height: 700,
       child: RadarChart(
         RadarChartData(
-          radarTouchData: RadarTouchData(enabled: true),
+          radarTouchData: RadarTouchData(
+            enabled: true,
+            touchCallback: (event, response) {
+              if (response != null && response.touchedSpot != null && response.touchedSpot != null) {
+                final hoveredSpot = response.touchedSpot!;
+                setState(() {
+                  hoveredValue = 'Hovered Value: ${hoveredSpot.touchedRadarEntry.value.toString()}';
+                });
+              } else {
+                setState(() {
+                  hoveredValue = null;
+                });
+              }
+            },
+          ),
+          
           dataSets: [
             // CEO Data
             RadarDataSet(
@@ -58,7 +81,7 @@ class ScoresRadarChart extends StatelessWidget {
           radarBackgroundColor: Colors.transparent,
           borderData: FlBorderData(show: true),
           radarBorderData: BorderSide(color: Colors.grey),
-          //titlePositionPercentageOffset: 0.2,
+          titlePositionPercentageOffset: 0.2,
           titleTextStyle: const TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w300, fontSize: 13),
           getTitle: (index, angle) {
             return RadarChartTitle(text: categories[index], angle: 0);

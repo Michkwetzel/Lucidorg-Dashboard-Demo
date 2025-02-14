@@ -6,71 +6,33 @@ enum NavBarButtonType { createAssessment, companyInfo, logOut, home, results, im
 
 enum Permission { exec, employee, guest, error }
 
-enum Diffsize { H1, H2, H3, H4 }
+enum Diffsize { H1, H2, H3, H4}
 
 enum ResultSection { overview, areaScore, diffMatrix, foundations }
 
 enum ImpactSection { orgImpact, financial, scoreOverTime, diffOverTime }
 
 enum MainArea { alignment, people, process, leadership }
+enum Indicator {
+  purposeDriven('purposeDriven', 'Purpose Driven Organization'),
+  growthAlign('growthAlign', 'Growth Alignment'),
+  orgAlign('alignedOrgStruct', 'Organizational Alignment'),
+  collabProcesses('collabProcess', 'Collaborative Processes'),
+  collabKPI('collabKPIs', 'Collaborative KPIs'),
+  alignedTech('alignedTech', 'Aligned Tech Stack'),
+  crossFuncComms('crossComms', 'Cross-Functional Communications'),
+  empoweredLeadership('empoweredLeadership', 'Empowered Leadership'),
+  engagedCommunity('engagedCommunity', 'Engaged Community'),
+  meetingEfficacy('meetingEfficacy', 'Meeting Efficacy'),
+  crossFuncAcc('crossAcc', 'Cross-Functional Accountability');
 
-enum Indicator { purposeDriven, growthAlign, orgAlign, collabProcesses, collabKPI, alignedTech, crossFuncComms, empoweredLeadership, engagedCommunity, meetingEfficacy, crossFuncAcc }
+  final String value;
+  final String heading;
+  
+  const Indicator(this.value, this.heading);
 
-// This is the text used in SurveyMetric data class. Ideally later switch this in SurveyMetric to be enum Indicator instead of text key
-extension IndicatorDescription on Indicator {
-  String get asString {
-    switch (this) {
-      case Indicator.meetingEfficacy:
-        return "meetingEfficacy";
-      case Indicator.orgAlign:
-        return "alignedOrgStruct";
-      case Indicator.alignedTech:
-        return "alignedTech";
-      case Indicator.growthAlign:
-        return "growthAlign";
-      case Indicator.collabKPI:
-        return "collabKPIs";
-      case Indicator.crossFuncAcc:
-        return "crossAcc";
-      case Indicator.crossFuncComms:
-        return "crossComms";
-      case Indicator.engagedCommunity:
-        return "engagedCommunity";
-      case Indicator.collabProcesses:
-        return "collabProcess";
-      case Indicator.purposeDriven:
-        return "purposeDriven";
-      case Indicator.empoweredLeadership:
-        return "empoweredLeadership";
-    }
-  }
-
-  String get heading {
-    switch (this) {
-      case Indicator.purposeDriven:
-        return "Purpose Driven Organization";
-      case Indicator.growthAlign:
-        return "Growth Alignment";
-      case Indicator.orgAlign:
-        return "Organizational Alignment";
-      case Indicator.collabProcesses:
-        return "Collaborative Processes";
-      case Indicator.collabKPI:
-        return "Collaborative KPIs";
-      case Indicator.alignedTech:
-        return "Aligned Tech Stack";
-      case Indicator.crossFuncComms:
-        return "Cross-Functional Communications";
-      case Indicator.empoweredLeadership:
-        return "Empowered Leadership";
-      case Indicator.engagedCommunity:
-        return "Engaged Community";
-      case Indicator.meetingEfficacy:
-        return "Meeting Efficacy";
-      case Indicator.crossFuncAcc:
-        return "Cross-Functional Accountability";
-    }
-  }
+  // If you still need the asString getter for backward compatibility
+  String get asString => value;
 }
 
 enum Alligned { best, worst }

@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/components/dashboard/results/sideBar/components/cat_score_diff_text_heading.dart';
 import 'package:platform_front/components/dashboard/results/sideBar/sections/overview_sb/highLevelScoresRow.dart';
-import 'package:platform_front/components/dashboard/results/sideBar/sections/overview_sb/overallScoresRow.dart';
-import 'package:platform_front/components/global/grayDivider.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/providers.dart';
 import 'package:platform_front/notifiers/surveyMetrics/metrics_data.dart';
@@ -23,7 +21,7 @@ class HighLevelScoresWidget extends ConsumerWidget {
       children: [
         Text('High Level Scores', style: kH3PoppinsRegular),
         SizedBox(height: 30),
-        CatScoreDiffTextHeading(),
+        CategoryScoreDiffTextHeading(),
         SizedBox(height: 4),
         Divider(color: Color(0xFFC7C7C7), thickness: 1),
         SizedBox(height: 12),
