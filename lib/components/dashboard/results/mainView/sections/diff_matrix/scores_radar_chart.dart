@@ -71,7 +71,7 @@ class _ScoresRadarChartState extends ConsumerState<ScoresRadarChart> {
           getTitle: (index, angle) {
             return RadarChartTitle(text: categories[index], angle: 0);
           },
-          tickCount: 2,
+          tickCount: 5,
           ticksTextStyle: const TextStyle(fontSize: 10, color: Colors.grey),
           tickBorderData: BorderSide(color: Colors.grey),
           gridBorderData: BorderSide(color: Colors.grey),
