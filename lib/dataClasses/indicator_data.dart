@@ -28,6 +28,14 @@ class IndicatorData {
     return scoreTexts[ScoreRange.perfect]!['body']!;
   }
 
+  String getScoreTextSuggestion(double score) {
+    if (score < 40) return scoreTexts[ScoreRange.low]!['suggestions']!;
+    if (score < 50) return scoreTexts[ScoreRange.moderate]!['suggestions']!;
+    if (score < 60) return scoreTexts[ScoreRange.good]!['suggestions']!;
+    if (score < 70) return scoreTexts[ScoreRange.excellent]!['suggestions']!;
+    return scoreTexts[ScoreRange.perfect]!['suggestions']!;
+  }
+
   String getDiffText(double diff) {
     if (diff < 10) return diffTexts[DiffRange.minimal]!;
     if (diff < 20) return diffTexts[DiffRange.moderate]!;

@@ -19,7 +19,7 @@ class _ScoresRadarChartState extends ConsumerState<ScoresRadarChart> {
   Widget build(BuildContext context) {
     SurveyMetric displayData = ref.watch(metricsDataProvider).surveyMetric;
 
-    List<Indicator> indicatorList = Indicator.values.toList();
+    List<Indicator> indicatorList = justIndicators();
 
     final List<String> categories = [];
     final List<double> ceoScores = [];
@@ -28,9 +28,9 @@ class _ScoresRadarChartState extends ConsumerState<ScoresRadarChart> {
 
     for (Indicator indicator in indicatorList) {
       categories.add(indicator.heading);
-      ceoScores.add(displayData.ceoBenchmarks[indicator.asString]!);
-      csuiteScores.add(displayData.cSuiteBenchmarks[indicator.asString]!);
-      staffScores.add(displayData.employeeBenchmarks[indicator.asString]!);
+      ceoScores.add(displayData.ceoBenchmarks[indicator]!);
+      csuiteScores.add(displayData.cSuiteBenchmarks[indicator]!);
+      staffScores.add(displayData.employeeBenchmarks[indicator]!);
     }
 
     return SizedBox(
@@ -38,40 +38,25 @@ class _ScoresRadarChartState extends ConsumerState<ScoresRadarChart> {
       height: 700,
       child: RadarChart(
         RadarChartData(
-          radarTouchData: RadarTouchData(
-            enabled: true,
-            touchCallback: (event, response) {
-              if (response != null && response.touchedSpot != null && response.touchedSpot != null) {
-                final hoveredSpot = response.touchedSpot!;
-                setState(() {
-                  hoveredValue = 'Hovered Value: ${hoveredSpot.touchedRadarEntry.value.toString()}';
-                });
-              } else {
-                setState(() {
-                  hoveredValue = null;
-                });
-              }
-            },
-          ),
-          
+          radarTouchData: RadarTouchData(enabled: true),
           dataSets: [
             // CEO Data
             RadarDataSet(
-              fillColor: Colors.white10,
+              fillColor: Colors.blue.withOpacity(0.2),
               borderColor: Colors.blue,
               entryRadius: 2,
               dataEntries: ceoScores.map((score) => RadarEntry(value: score)).toList(),
             ),
             // CSUITE Data
             RadarDataSet(
-              fillColor: Colors.white10,
+              fillColor: Colors.green.withOpacity(0.2),
               borderColor: Colors.green,
               entryRadius: 2,
               dataEntries: csuiteScores.map((score) => RadarEntry(value: score)).toList(),
             ),
             // STAFF Data
             RadarDataSet(
-              fillColor: Colors.white10,
+              fillColor: Colors.red.withOpacity(0.2),
               borderColor: Colors.red,
               entryRadius: 2,
               dataEntries: staffScores.map((score) => RadarEntry(value: score)).toList(),

@@ -1,6 +1,6 @@
 // // ignore_for_file: prefer_const_constructors
 
-import 'package:platform_front/components/dashboard/impact/side_bar/org_impact/data_class/temp/indicator_data_temp.dart';
+import 'package:platform_front/dataClasses/temp/indicator_data_temp.dart';
 
 class MainAreaData {
   final String title;

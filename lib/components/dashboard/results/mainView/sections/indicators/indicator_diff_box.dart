@@ -21,7 +21,7 @@ class IndicatorDiffBox extends ConsumerWidget {
     Indicator selectedIndicator = ref.watch(selectedIndicatorProvider);
     SurveyMetric displayData = ref.watch(metricsDataProvider).surveyMetric;
     
-    double diff = displayData.diffScores[selectedIndicator.asString]!;
+    double diff = displayData.diffScores[selectedIndicator]!;
     return Container(
       width: 205,
       height: 105,

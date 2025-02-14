@@ -35,7 +35,6 @@ class DiffMatrixSideBar extends StatelessWidget {
             width: 200,
           ),
           SizedBox(height: 16),
-          
           HighestDiffWidget(),
         ],
       ),

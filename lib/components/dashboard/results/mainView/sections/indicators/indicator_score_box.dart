@@ -18,7 +18,7 @@ class IndicatorScoreBox extends ConsumerWidget {
     Indicator selectedIndicator = ref.watch(selectedIndicatorProvider);
     SurveyMetric displayData = ref.watch(metricsDataProvider).surveyMetric;
     
-    double score = displayData.companyBenchmarks[selectedIndicator.asString]!;
+    double score = displayData.companyBenchmarks[selectedIndicator]!;
 
     return Container(
       width: 205,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:platform_front/components/dashboard/impact/side_bar/org_impact/data_class/all_indicator_data.dart';
-import 'package:platform_front/components/dashboard/impact/side_bar/org_impact/data_class/indicator_data.dart';
+import 'package:platform_front/dataClasses/all_indicator_data.dart';
+import 'package:platform_front/dataClasses/indicator_data.dart';
 import 'package:platform_front/components/dashboard/results/mainView/sections/indicators/indicator_score_box.dart';
 import 'package:platform_front/components/dashboard/results/mainView/sections/indicators/indicator_diff_box.dart';
 import 'package:platform_front/components/dashboard/results/mainView/sections/indicators/department_scores_widget.dart';
@@ -79,11 +79,11 @@ class IndicatorDiffBrief extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     Indicator selectedIndicator = ref.watch(selectedIndicatorProvider);
     SurveyMetric displayData = ref.watch(metricsDataProvider).surveyMetric;
-    double diff = displayData.diffScores[selectedIndicator.asString]!;
+    double diff = displayData.diffScores[selectedIndicator]!;
 
     Map<Indicator, IndicatorData> allIndicatorData = AllIndicatorData.indicatorMap;
 
-    String diffTextBody = allIndicatorData[selectedIndicator]!.getScoreTextBody(diff);
+    String diffTextBody = allIndicatorData[selectedIndicator]!.getScoreTextBody(diff).replaceAll("___", '${diff.toString()}%');
 
     return Flexible(
       child: Padding(
@@ -111,11 +111,12 @@ class IndicatorScoreBrief extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     Indicator selectedIndicator = ref.watch(selectedIndicatorProvider);
     SurveyMetric displayData = ref.watch(metricsDataProvider).surveyMetric;
-    double score = displayData.companyBenchmarks[selectedIndicator.asString]!;
+    double score = displayData.companyBenchmarks[selectedIndicator]!;
 
     Map<Indicator, IndicatorData> allIndicatorData = AllIndicatorData.indicatorMap;
 
-    String scoreTextBody = allIndicatorData[selectedIndicator]!.getScoreTextBody(score);
+    String scoreTextBody = allIndicatorData[selectedIndicator]!.getScoreTextBody(score).replaceAll("___", '${score.toString()}%');
+   
     String scoreTextHeading = allIndicatorData[selectedIndicator]!.getScoreTextHeading(score);
 
     return Flexible(

@@ -1,8 +1,8 @@
 // // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:platform_front/components/dashboard/impact/side_bar/org_impact/data_class/temp/indicator_data_temp.dart';
-import 'package:platform_front/components/dashboard/impact/side_bar/org_impact/data_class/temp/impact_area_data.dart';
+import 'package:platform_front/dataClasses/temp/indicator_data_temp.dart';
+import 'package:platform_front/dataClasses/temp/impact_area_data.dart';
 import 'package:platform_front/components/dashboard/impact/side_bar/org_impact/components/impact_area_sub_widget.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/enums.dart';

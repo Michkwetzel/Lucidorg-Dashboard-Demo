@@ -1,8 +1,114 @@
-import 'package:platform_front/components/dashboard/impact/side_bar/org_impact/data_class/indicator_data.dart';
+import 'package:platform_front/dataClasses/indicator_data.dart';
 import 'package:platform_front/config/enums.dart';
 
 class AllIndicatorData {
   static Map<Indicator, IndicatorData> indicatorMap = {
+    Indicator.companyIndex: IndicatorData(
+      heading: 'Index',
+      impactText: '',
+      scoreTexts: {
+        ScoreRange.perfect: {
+          'heading': "Well Done! A Strong Foundation for Success",
+          'body':
+              "Your organization is operating at a ____ organizational efficiency benchmark, placing you above the industry average and demonstrating a solid, well-structured foundation. This reflects strong alignment of organizational efficiency, with optimized processes, and a culture of empowered leadership. ",
+          'suggestions':
+              "Maintain Consistency & Momentum: Efficiency isn’t a one-time achievement, it’s a continuous process. Commit to regular assessments to ensure that strong operational habits remain intact.\n\nIdentify & Strengthen Areas of Opportunity: While your overall efficiency is strong, focus on areas performing just below the benchmark. Addressing these gaps will drive even greater productivity and consistency."
+        },
+        ScoreRange.excellent: {
+          'heading': "Excellent! A Strong Foundation with Room for Growth",
+          'body':
+              "Your organization is operating at a ____ organizational efficiency benchmark, positioning you slightly above the market average and reflecting a strong internal foundation for success. This level of efficiency indicates that organizational efficiency across the company is solid, yet there are opportunities to refine and optimize further.",
+          'suggestions':
+              "Capitalize on Strengths: Leverage your existing efficiencies as a foundation for further improvements. Identify what’s working well and replicate those best practices across the organization.\n\nRefine & Optimize Key Areas: Focus on enhancing processes, systems, or workflows that may be just below peak efficiency. Small adjustments can lead to significant performance gains."
+        },
+        ScoreRange.good: {
+          'heading': "Opportunity Awaits: A Prime Opportunity for Growth",
+          'body':
+              "Your organization is operating at a ____ organizational efficiency benchmark, aligning with the market average. This presents a significant opportunity for impactful improvements that can be achieved in a relatively short period of time. With a strong foundation already in place, targeted refinements can drive meaningful gains in efficiency, productivity, and overall performance.",
+          'suggestions':
+              "Prioritize High-Impact Improvements: Identify key areas where small, strategic changes can yield immediate results. Optimizing processes, eliminating inefficiencies, and enhancing collaboration will create measurable progress\n\nEnhance Organizational Consistency: Find areas to improve organizational efficiency across teams and departments. Strengthening structure and alignment will ensure sustainable growth over time."
+        },
+        ScoreRange.moderate: {
+          'heading': "Time to Focus: Unlocking Opportunities for Improvement",
+          'body':
+              "Your organization is operating at a ____ organizational efficiency benchmark, which falls below the market average. However, this score serves as a valuable indicator of opportunity, highlighting areas that, when addressed, can lead to significant improvements in performance and productivity. Identifying and overcoming existing roadblocks will create a stronger foundation for long-term success.",
+          'suggestions':
+              "Pinpoint & Address Inefficiencies: Conduct a thorough assessment to identify bottlenecks and areas of friction. Resolving these challenges will create immediate gains in organizational efficiency.\n\nStreamline & Strengthen: Focus on quick wins to gain momentum, develop an internal cross-functional team to drive initiatives and hold the organization accountable to address any roadblocks."
+        },
+        ScoreRange.low: {
+          'heading': "Needs Dedication: A Critical Opportunity for Transformation",
+          'body':
+              "Your organization is operating at a ___ organizational efficiency benchmark, signaling significant opportunities for improvement. While this score highlights untapped potential, it also suggests that inefficiencies may be limiting growth. To unlock long-term success, it will be imperative to identify and address key roadblocks that may be impeding progress.",
+          'suggestions':
+              "Identify Root Causes of Organizational Inefficiency: Conduct a deep dive into alignment, people, process and leadership to address bottlenecks, or misalignment. Understanding these factors will be essential for meaningful change.\n\nEstablish a Clear Strategy: Implement structured, high-impact initiatives focused on optimizing operations, enhancing accountability, and fostering a culture of continuous improvement. Small, strategic shifts can create momentum toward lasting efficiency gains."
+        },
+      },
+      diffTexts: {},
+    ),
+    Indicator.operations: IndicatorData(
+      heading: 'Operations',
+      impactText: '',
+      scoreTexts: {
+        ScoreRange.perfect: {
+          'heading': "Well Done! A High-Performing, Scalable, and Aligned Operation",
+          'body':
+              "Your organization is operating at a ___ operations benchmark, placing you well above the industry average. This suggests that your operational structure is not just functional but optimized for efficiency, scalability, and strategic execution. Clear growth alignment ensures that teams understand how their work contributes to overarching goals, while well-defined processes eliminate inefficiencies and create seamless collaboration. Decision-making is streamlined, technology is well-integrated, and operational roadblocks are minimal.",
+        },
+        ScoreRange.excellent: {
+          'heading': "Excellent! A Strong Operational Foundation with Areas for Refinement",
+          'body':
+              "Your organization is operating at a ___ operations benchmark, positioning you above the market average. Your alignment and processes are generally strong, but some areas may lack cohesion or scalability. Teams may be aligned with company objectives but still struggle with inefficiencies in execution, whether due to outdated processes, unclear responsibilities, or inconsistent workflows across departments."
+        },
+        ScoreRange.good: {
+          'heading': "Opportunity Awaits: A Strong Base with Inefficiencies to Resolve",
+          'body':
+              "Your organization is operating at a ___ operations benchmark, aligning with the market average. While there is a solid operational foundation, there may be gaps in how alignment translates into execution. Decision-making may be inconsistent, processes may be outdated, or teams may struggle with unclear accountability. While operational efforts are in place, they may not be fully optimized for speed, scalability, or cross-functional impact."
+        },
+        ScoreRange.moderate: {
+          'heading': "Time to Focus: Strengthening Operational Efficiency and Clarity",
+          'body':
+              "Your organization is operating at a ___ operations benchmark, falling below the market average. This suggests that while there may be some structure in place, inefficiencies, misalignment, or unclear processes are slowing progress. Teams may be working hard but not necessarily in the same direction, and operational breakdowns could be causing delays, confusion, or rework. There may also be a lack of clarity on responsibilities, leading to friction and miscommunication."
+        },
+        ScoreRange.low: {
+          'heading': "Needs Dedication: A Critical Opportunity for Operational Overhaul",
+          'body':
+              "Your organization is operating at a ___ operations benchmark, signaling a lack of alignment, broken processes, and significant inefficiencies. There may be confusion around strategic direction, poor process adherence, or ineffective communication between teams. Execution may feel reactive rather than proactive, leading to frequent roadblocks, redundant efforts, or inconsistent results. Without immediate intervention, growth and scalability will be severely limited."
+        },
+      },
+      diffTexts: {},
+    ),
+    Indicator.workforce: IndicatorData(
+      heading: 'Workforce',
+      impactText: '',
+      scoreTexts: {
+        ScoreRange.perfect: {
+          'heading': "Well Done! A Strong, Motivated, and Strategic Workforce",
+          'body':
+              "Your organization is operating at a ___ workforce benchmark, placing you well above the industry average. This suggests that your workforce is not just engaged but actively aligned with the organization's goals. Leaders at all levels empower employees with clarity, autonomy, and cross-functional collaboration. Employees take ownership of their roles, decision-making is efficient, and strategic execution is seamless. There is a strong culture of trust, accountability, and momentum, enabling the workforce to drive initiatives without unnecessary friction.",
+        },
+        ScoreRange.excellent: {
+          'heading': "Excellent! A Strong Foundation with Areas for Optimization",
+          'body':
+              "Your organization is operating at a ___ workforce benchmark, positioning you above the market average. Your workforce is motivated and aligned, but some areas may lack consistency in leadership effectiveness, accountability, or collaboration. While many employees are engaged and take ownership, others may feel limited by unclear expectations, ineffective communication, or inconsistencies in leadership empowerment.",
+        },
+        ScoreRange.good: {
+          'heading': "Opportunity Awaits: A Workforce with Untapped Potential",
+          'body':
+              "Your organization is operating at a ___ workforce benchmark, aligning with the market average. While employees are engaged in their work, there may be a lack of strategic motivation or ownership at various levels. Leadership empowerment is inconsistent, decision-making may be slow, and employees may feel disengaged from larger organizational goals. Teams might be working hard but not necessarily working together in the most effective way.",
+        },
+        ScoreRange.moderate: {
+          'heading': "Time to Focus: Unlocking Workforce Effectiveness",
+          'body':
+              "Your organization is operating at a ___ workforce benchmark, falling below the market average. This suggests that workforce motivation and leadership effectiveness are misaligned, leading to inefficiencies in execution. Employees may feel they lack the autonomy, support, or strategic clarity needed to take ownership of their work. Leadership may be too centralized, with unclear delegation of decision-making authority, causing frustration and disengagement."
+        },
+        ScoreRange.low: {
+          'heading': "Needs Dedication: A Critical Opportunity for Workforce Transformation",
+          'body':
+              "Your organization is operating at a ___ workforce benchmark, signaling a lack of alignment, empowerment, and strategic engagement. Employees may be disengaged due to unclear leadership, excessive bureaucracy, or a lack of trust in leadership decisions. The workforce may feel reactive rather than proactive, with limited ownership and accountability. Without immediate intervention, this can lead to declining performance, low retention, and an inability to execute on strategic objectives.",
+        },
+      },
+      diffTexts: {},
+    ),
     Indicator.orgAlign: IndicatorData(
       heading: 'Organizational Alignment',
       impactText: 'A well-structured organization enhances efficiency and reduces bottlenecks.',
@@ -85,7 +191,7 @@ class AllIndicatorData {
             "Your organization's differentiation score is ___, indicating significant misalignment in growth strategies. This level of disparity suggests that different teams or leadership groups are operating under conflicting priorities, leading to inconsistent execution and wasted resources. This represents major roadblocks that could hinder strategic execution and must be resolved before pursuing new growth initiatives.",
       },
     ),
-    Indicator.collabKPI: IndicatorData(
+    Indicator.collabKPIs: IndicatorData(
       heading: 'Collaborative KPIs',
       impactText: 'Well-integrated KPIs lead to better decision-making and streamlined execution.',
       scoreTexts: {
@@ -337,30 +443,39 @@ class AllIndicatorData {
       scoreTexts: {
         ScoreRange.perfect: {
           'heading': "Well Done! A Strong Foundation for Success",
-          'body': "Your organization is operating at a ___ meeting efficacy benchmark, placing you above the industry average. This indicates that meetings are well-structured, purposeful, and drive productivity rather than waste time. Employees come prepared, discussions stay on track, and outcomes translate into actionable steps.",
+          'body':
+              "Your organization is operating at a ___ meeting efficacy benchmark, placing you above the industry average. This indicates that meetings are well-structured, purposeful, and drive productivity rather than waste time. Employees come prepared, discussions stay on track, and outcomes translate into actionable steps.",
         },
         ScoreRange.excellent: {
           'heading': "Excellent! A Strong Foundation with Room for Growth",
-          'body': "Your organization is operating at a ___ meeting efficacy benchmark, positioning you slightly above the market average. This suggests that meetings are generally productive, but there may be some inefficiencies, such as unclear follow-ups, overlong discussions, or inconsistent engagement.",
+          'body':
+              "Your organization is operating at a ___ meeting efficacy benchmark, positioning you slightly above the market average. This suggests that meetings are generally productive, but there may be some inefficiencies, such as unclear follow-ups, overlong discussions, or inconsistent engagement.",
         },
         ScoreRange.good: {
           'heading': "Opportunity Awaits: A Prime Opportunity for Growth",
-          'body': "Your organization is operating at a ___ meeting efficacy benchmark, aligning with the market average. This suggests that while meetings serve their purpose, inefficiencies such as unclear agendas, frequent overruns, or lack of follow-through may be reducing their effectiveness.",
+          'body':
+              "Your organization is operating at a ___ meeting efficacy benchmark, aligning with the market average. This suggests that while meetings serve their purpose, inefficiencies such as unclear agendas, frequent overruns, or lack of follow-through may be reducing their effectiveness.",
         },
         ScoreRange.moderate: {
           'heading': "Time to Focus: Unlocking Opportunities for Improvement",
-          'body': "Your organization is operating at a ___ meeting efficacy benchmark, which falls below the market average. This suggests that meetings may be too frequent, lack clear structure, or fail to result in meaningful action, causing wasted time and frustration.",
+          'body':
+              "Your organization is operating at a ___ meeting efficacy benchmark, which falls below the market average. This suggests that meetings may be too frequent, lack clear structure, or fail to result in meaningful action, causing wasted time and frustration.",
         },
         ScoreRange.low: {
           'heading': "Needs Dedication: A Critical Opportunity for Transformation",
-          'body': "Your organization is operating at a ___ meeting efficacy benchmark, signaling significant inefficiencies. This suggests that meetings may be poorly structured, too frequent, lack accountability, or fail to contribute to real business outcomes. Immediate action is required.",
+          'body':
+              "Your organization is operating at a ___ meeting efficacy benchmark, signaling significant inefficiencies. This suggests that meetings may be poorly structured, too frequent, lack accountability, or fail to contribute to real business outcomes. Immediate action is required.",
         },
       },
       diffTexts: {
-        DiffRange.minimal: "Your organization's differentiation score is ___, indicating strong alignment across leadership and staff regarding meeting effectiveness. This suggests that meetings are viewed as valuable, time-efficient, and actionable across all levels of the organization.",
-        DiffRange.moderate: "Your organization's differentiation score is ___, indicating minor misalignment in how meetings are perceived. While meetings generally serve their purpose, some teams may experience more inefficiency or frustration than others.",
-        DiffRange.high: "Your organization's differentiation score is ___, signaling moderate misalignment in meeting efficacy. This suggests that different teams or leadership levels may have inconsistent expectations regarding meeting structure, length, or purpose, leading to inefficiencies. This score indicates critical gaps in meeting execution, engagement, or follow-up accountability that require immediate attention.",
-        DiffRange.extreme: "Your organization's differentiation score is ___, indicating significant misalignment in how meetings are perceived and executed. This suggests that employees and leadership may have vastly different views on the necessity, structure, and value of meetings, leading to wasted time, frustration, and decreased efficiency. Major meeting inefficiencies can lead to disengagement, decision-making delays, and operational slowdowns if not corrected quickly.",
+        DiffRange.minimal:
+            "Your organization's differentiation score is ___, indicating strong alignment across leadership and staff regarding meeting effectiveness. This suggests that meetings are viewed as valuable, time-efficient, and actionable across all levels of the organization.",
+        DiffRange.moderate:
+            "Your organization's differentiation score is ___, indicating minor misalignment in how meetings are perceived. While meetings generally serve their purpose, some teams may experience more inefficiency or frustration than others.",
+        DiffRange.high:
+            "Your organization's differentiation score is ___, signaling moderate misalignment in meeting efficacy. This suggests that different teams or leadership levels may have inconsistent expectations regarding meeting structure, length, or purpose, leading to inefficiencies. This score indicates critical gaps in meeting execution, engagement, or follow-up accountability that require immediate attention.",
+        DiffRange.extreme:
+            "Your organization's differentiation score is ___, indicating significant misalignment in how meetings are perceived and executed. This suggests that employees and leadership may have vastly different views on the necessity, structure, and value of meetings, leading to wasted time, frustration, and decreased efficiency. Major meeting inefficiencies can lead to disengagement, decision-making delays, and operational slowdowns if not corrected quickly.",
       },
     ),
     Indicator.purposeDriven: IndicatorData(
@@ -369,30 +484,39 @@ class AllIndicatorData {
       scoreTexts: {
         ScoreRange.perfect: {
           'heading': "Well Done! A Strong Foundation for Success",
-          'body': "Your organization is operating at a ___ purpose-driven leadership benchmark, placing you above the industry average. This indicates that leadership is deeply aligned with the organization's purpose, consistently communicates a compelling vision, and fosters an environment where employees feel connected to a greater cause.",
+          'body':
+              "Your organization is operating at a ___ purpose-driven leadership benchmark, placing you above the industry average. This indicates that leadership is deeply aligned with the organization's purpose, consistently communicates a compelling vision, and fosters an environment where employees feel connected to a greater cause.",
         },
         ScoreRange.excellent: {
           'heading': "Excellent! A Strong Foundation with Room for Growth",
-          'body': "Your organization is operating at a ___ purpose-driven leadership benchmark, positioning you slightly above the market average. This suggests that the organization is generally aligned with the company's purpose, but there may be opportunities to enhance clarity, motivation, or execution.",
+          'body':
+              "Your organization is operating at a ___ purpose-driven leadership benchmark, positioning you slightly above the market average. This suggests that the organization is generally aligned with the company's purpose, but there may be opportunities to enhance clarity, motivation, or execution.",
         },
         ScoreRange.good: {
           'heading': "Opportunity Awaits: A Prime Opportunity for Growth",
-          'body': "Your organization is operating at a ___ purpose-driven leadership benchmark, aligning with the market average. While leadership is committed to a clear purpose, gaps in communication, cultural reinforcement, or strategic execution across the organization may be limiting the full impact of purpose-driven leadership.",
+          'body':
+              "Your organization is operating at a ___ purpose-driven leadership benchmark, aligning with the market average. While leadership is committed to a clear purpose, gaps in communication, cultural reinforcement, or strategic execution across the organization may be limiting the full impact of purpose-driven leadership.",
         },
         ScoreRange.moderate: {
           'heading': "Time to Focus: Unlocking Opportunities for Improvement",
-          'body': "Your organization is operating at a ___ purpose-driven leadership benchmark, which falls below the market average. This suggests that while a purpose may exist, leadership is not fully integrating it into culture, decision-making, or daily operations, leading to disengagement and strategic misalignment.",
+          'body':
+              "Your organization is operating at a ___ purpose-driven leadership benchmark, which falls below the market average. This suggests that while a purpose may exist, leadership is not fully integrating it into culture, decision-making, or daily operations, leading to disengagement and strategic misalignment.",
         },
         ScoreRange.low: {
           'heading': "Needs Dedication: A Critical Opportunity for Transformation",
-          'body': "Your organization is operating at a ___ purpose-driven leadership benchmark, signaling significant disconnects between the organization and the company's purpose. This score suggests that employees may not see a clear vision, leadership may be misaligned, or purpose-driven decision-making is not actively guiding operations. Immediate action is needed.",
+          'body':
+              "Your organization is operating at a ___ purpose-driven leadership benchmark, signaling significant disconnects between the organization and the company's purpose. This score suggests that employees may not see a clear vision, leadership may be misaligned, or purpose-driven decision-making is not actively guiding operations. Immediate action is needed.",
         },
       },
       diffTexts: {
-        DiffRange.minimal: "Your organization's differentiation score is ___, indicating strong alignment across leadership and staff regarding purpose-driven leadership. This suggests that employees clearly understand and feel connected to the organization's purpose, creating a motivated and engaged workforce.",
-        DiffRange.moderate: "Your organization's differentiation score is ___, indicating minor misalignment in leadership's communication or execution of the company's purpose. While leadership generally embraces purpose-driven strategies, some employees may feel disconnected or unclear about how their work contributes to the larger vision. Addressing these inconsistencies will reinforce the organization's purpose and create stronger cultural cohesion.",
-        DiffRange.high: "Your organization's differentiation score is ___, signaling moderate misalignment in purpose-driven leadership. This suggests that different teams or leadership levels may have varying interpretations of the company's purpose, leading to inconsistencies in engagement, decision-making, and motivation.",
-        DiffRange.extreme: "Your organization's differentiation score is ___, indicating significant misalignment in leadership's ability to communicate and execute a purpose-driven strategy. This suggests that employees and leadership may have vastly different perceptions of the organization's purpose, leading to disengagement, operational inefficiencies, and a lack of direction.  Major leadership misalignment can erode trust, reduce motivation, and hinder strategic execution if not corrected quickly.",
+        DiffRange.minimal:
+            "Your organization's differentiation score is ___, indicating strong alignment across leadership and staff regarding purpose-driven leadership. This suggests that employees clearly understand and feel connected to the organization's purpose, creating a motivated and engaged workforce.",
+        DiffRange.moderate:
+            "Your organization's differentiation score is ___, indicating minor misalignment in leadership's communication or execution of the company's purpose. While leadership generally embraces purpose-driven strategies, some employees may feel disconnected or unclear about how their work contributes to the larger vision. Addressing these inconsistencies will reinforce the organization's purpose and create stronger cultural cohesion.",
+        DiffRange.high:
+            "Your organization's differentiation score is ___, signaling moderate misalignment in purpose-driven leadership. This suggests that different teams or leadership levels may have varying interpretations of the company's purpose, leading to inconsistencies in engagement, decision-making, and motivation.",
+        DiffRange.extreme:
+            "Your organization's differentiation score is ___, indicating significant misalignment in leadership's ability to communicate and execute a purpose-driven strategy. This suggests that employees and leadership may have vastly different perceptions of the organization's purpose, leading to disengagement, operational inefficiencies, and a lack of direction.  Major leadership misalignment can erode trust, reduce motivation, and hinder strategic execution if not corrected quickly.",
       },
     ),
     Indicator.empoweredLeadership: IndicatorData(
@@ -401,30 +525,39 @@ class AllIndicatorData {
       scoreTexts: {
         ScoreRange.perfect: {
           'heading': "Well Done! A Strong Foundation for Success",
-          'body': "Your organization is operating at a ___ empowered leadership benchmark, placing you above the industry average. This indicates that leaders at all levels are trusted to make impactful decisions, have the autonomy to drive initiatives, and are equipped with the tools and support necessary for success. Employees feel confident in leadership, and decision-making is streamlined.",
+          'body':
+              "Your organization is operating at a ___ empowered leadership benchmark, placing you above the industry average. This indicates that leaders at all levels are trusted to make impactful decisions, have the autonomy to drive initiatives, and are equipped with the tools and support necessary for success. Employees feel confident in leadership, and decision-making is streamlined.",
         },
         ScoreRange.excellent: {
           'heading': "Excellent! A Strong Foundation with Room for Growth",
-          'body': "Your organization is operating at a ___ empowered leadership benchmark, positioning you slightly above the market average. This suggests that while leadership autonomy is generally strong, some leaders and employees may still lack the full authority, confidence, or support to drive change effectively.",
+          'body':
+              "Your organization is operating at a ___ empowered leadership benchmark, positioning you slightly above the market average. This suggests that while leadership autonomy is generally strong, some leaders and employees may still lack the full authority, confidence, or support to drive change effectively.",
         },
         ScoreRange.good: {
           'heading': "Opportunity Awaits: A Prime Opportunity for Growth",
-          'body': "Your organization is operating at a ___ empowered leadership benchmark, aligning with the market average. This suggests that while leadership is encouraged to take initiative, bureaucratic hurdles, inconsistent decision-making authority, or lack of leadership development may be limiting full empowerment.",
+          'body':
+              "Your organization is operating at a ___ empowered leadership benchmark, aligning with the market average. This suggests that while leadership is encouraged to take initiative, bureaucratic hurdles, inconsistent decision-making authority, or lack of leadership development may be limiting full empowerment.",
         },
         ScoreRange.moderate: {
           'heading': "Time to Focus: Unlocking Opportunities for Improvement",
-          'body': "Your organization is operating at a ___ empowered leadership benchmark, which falls below the market average. This suggests that leaders may not feel fully trusted, lack the authority to make impactful decisions, or operate within an overly bureaucratic structure that limits agility.",
+          'body':
+              "Your organization is operating at a ___ empowered leadership benchmark, which falls below the market average. This suggests that leaders may not feel fully trusted, lack the authority to make impactful decisions, or operate within an overly bureaucratic structure that limits agility.",
         },
         ScoreRange.low: {
           'heading': "Needs Dedication: A Critical Opportunity for Transformation",
-          'body': "Your organization is operating at a ___ empowered leadership benchmark, signaling significant leadership inefficiencies. This suggests that decision-making may be overly centralized, leaders and employees lack confidence in their authority, or leadership structures do not support independent problem-solving. Immediate action is required.",
+          'body':
+              "Your organization is operating at a ___ empowered leadership benchmark, signaling significant leadership inefficiencies. This suggests that decision-making may be overly centralized, leaders and employees lack confidence in their authority, or leadership structures do not support independent problem-solving. Immediate action is required.",
         },
       },
       diffTexts: {
-        DiffRange.minimal: "Your organization’s differentiation score is ___, indicating strong alignment across leadership and staff regarding leadership empowerment. This suggests that leaders at all levels feel trusted, autonomous, and confident in making impactful decisions.",
-        DiffRange.moderate: "Your organization’s differentiation score is ___, indicating minor misalignment in leadership empowerment. While leadership is generally strong, some leaders and employees may feel they lack the authority, support, or trust needed to drive initiatives effectively. Addressing these gaps will reinforce leadership confidence and drive more agile decision-making.",
-        DiffRange.high: "Your organization’s differentiation score is ___, signaling moderate misalignment in leadership empowerment. This suggests that different levels of leadership and hierarchies may have varying degrees of decision-making autonomy, creating inconsistencies in execution and strategic alignment.",
-        DiffRange.extreme: "Your organization’s differentiation score is ___, indicating significant misalignment in leadership empowerment. This suggests that leaders and employees may not feel trusted, lack decision-making authority, or operate in a culture where initiative is discouraged. These conditions create operational bottlenecks, slow execution, and reduce innovation.",
+        DiffRange.minimal:
+            "Your organization’s differentiation score is ___, indicating strong alignment across leadership and staff regarding leadership empowerment. This suggests that leaders at all levels feel trusted, autonomous, and confident in making impactful decisions.",
+        DiffRange.moderate:
+            "Your organization’s differentiation score is ___, indicating minor misalignment in leadership empowerment. While leadership is generally strong, some leaders and employees may feel they lack the authority, support, or trust needed to drive initiatives effectively. Addressing these gaps will reinforce leadership confidence and drive more agile decision-making.",
+        DiffRange.high:
+            "Your organization’s differentiation score is ___, signaling moderate misalignment in leadership empowerment. This suggests that different levels of leadership and hierarchies may have varying degrees of decision-making autonomy, creating inconsistencies in execution and strategic alignment.",
+        DiffRange.extreme:
+            "Your organization’s differentiation score is ___, indicating significant misalignment in leadership empowerment. This suggests that leaders and employees may not feel trusted, lack decision-making authority, or operate in a culture where initiative is discouraged. These conditions create operational bottlenecks, slow execution, and reduce innovation.",
       },
     ),
   };

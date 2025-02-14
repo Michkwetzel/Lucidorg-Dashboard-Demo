@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/components/dashboard/results/sideBar/components/cat_score_diff_text_heading.dart';
 import 'package:platform_front/components/dashboard/results/sideBar/sections/overview_sb/highLevelScoresRow.dart';
 import 'package:platform_front/config/constants.dart';
+import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/config/providers.dart';
 import 'package:platform_front/notifiers/surveyMetrics/metrics_data.dart';
 
@@ -27,26 +28,26 @@ class HighLevelScoresWidget extends ConsumerWidget {
         SizedBox(height: 12),
         HighLevelScoresRow(
           category: 'Alignment',
-          score: displayData.companyBenchmarks['align']!,
-          diff: displayData.diffScores['align']!,
+          score: displayData.companyBenchmarks[Indicator.align]!,
+          diff: displayData.diffScores[Indicator.align]!,
         ),
         SizedBox(height: 12),
         HighLevelScoresRow(
           category: 'People',
-          score: displayData.companyBenchmarks['people']!,
-          diff: displayData.diffScores['people']!,
+          score: displayData.companyBenchmarks[Indicator.people]!,
+          diff: displayData.diffScores[Indicator.people]!,
         ),
         SizedBox(height: 12),
         HighLevelScoresRow(
           category: 'Process',
-          score: displayData.companyBenchmarks['process']!,
-          diff: displayData.diffScores['process']!,
+          score: displayData.companyBenchmarks[Indicator.process]!,
+          diff: displayData.diffScores[Indicator.process]!,
         ),
         SizedBox(height: 12),
         HighLevelScoresRow(
           category: 'Leadership',
-          score: displayData.companyBenchmarks['leadership']!,
-          diff: displayData.diffScores['leadership']!,
+          score: displayData.companyBenchmarks[Indicator.leadership]!,
+          diff: displayData.diffScores[Indicator.leadership]!,
         ),
         SizedBox(height: 12),
       ],

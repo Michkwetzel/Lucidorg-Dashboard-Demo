@@ -43,8 +43,8 @@ class OverallScoreAndDiffWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     SurveyMetric displayData = ref.watch(metricsDataProvider).surveyMetric;
 
-    double overallScore = displayData.companyBenchmarks['index']!;
-    double overallDiff = displayData.diffScores['index']!;
+    double overallScore = displayData.companyBenchmarks[Indicator.companyIndex]!;
+    double overallDiff = displayData.diffScores[Indicator.companyIndex]!;
 
     return Column(
       children: [

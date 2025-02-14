@@ -1,15 +1,19 @@
 import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/config/constants.dart';
+import 'package:platform_front/config/enums.dart';
+import 'package:platform_front/config/providers.dart';
+import 'package:platform_front/notifiers/surveyMetrics/metrics_data.dart';
 
-class CompanyTrajectoryGraph extends StatelessWidget {
+class CompanyTrajectoryGraph extends ConsumerWidget {
   const CompanyTrajectoryGraph({super.key});
 
   final double efficiencyScore = 55.7;
 
   // Helper function to generate points for both sigmoid curves
-  List<List<FlSpot>> _generateDoubleSigmoidPoints() {
+  List<List<FlSpot>> _generateDoubleSigmoidPoints(double graphAmplitude) {
     List<FlSpot> firstCurve = [];
     List<FlSpot> secondCurve = [];
     List<FlSpot> thirdCurve = [];
@@ -37,7 +41,7 @@ class CompanyTrajectoryGraph extends StatelessWidget {
 
     for (double x = 1; x <= 4; x += 0.1) {
       // First sigmoid
-      double y1 = 30 / (1 + exp(-k1 * (x - x01))) + 5;
+      double y1 = graphAmplitude / (1 + exp(-k1 * (x - x01))) + 5;
       thirdCurve.add(FlSpot(x, y1));
     }
 
@@ -50,8 +54,20 @@ class CompanyTrajectoryGraph extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final curves = _generateDoubleSigmoidPoints();
+  Widget build(BuildContext context, WidgetRef ref) {
+    SurveyMetric displayData = ref.watch(metricsDataProvider).surveyMetric;
+    double companyIndex = displayData.companyBenchmarks[Indicator.companyIndex]!;
+
+    double graphAmplitude = (companyIndex / 100) * 58;
+    if (companyIndex < 70 && companyIndex > 60) {
+      graphAmplitude = graphAmplitude - companyIndex * 0.01;
+    } else if (companyIndex < 60 && companyIndex > 50) {
+      graphAmplitude = graphAmplitude - companyIndex * 0.1;
+    } else if (companyIndex < 50 && companyIndex > 44) {
+      graphAmplitude = graphAmplitude - companyIndex * 0.23;
+    }
+
+    final curves = _generateDoubleSigmoidPoints(graphAmplitude);
 
     // Get Y values at X=4
     final blueValueAtX4 = _getYValueAtX4(curves[2]);
@@ -109,7 +125,7 @@ class CompanyTrajectoryGraph extends StatelessWidget {
                       getTooltipItems: (List<LineBarSpot> touchedBarSpots) {
                         return touchedBarSpots.map((barSpot) {
                           return LineTooltipItem(
-                            '${efficiencyScore.toString()}%',
+                            '${companyIndex.toString()}%',
                             TextStyle(
                               color: Colors.blue,
                               fontWeight: FontWeight.bold,
@@ -122,7 +138,7 @@ class CompanyTrajectoryGraph extends StatelessWidget {
                     ),
                   ),
                   showingTooltipIndicators: [
-                    ShowingTooltipIndicators([LineBarSpot(LineChartBarData(), 0, FlSpot(4.3, (efficiencyScore - 26)))])
+                    ShowingTooltipIndicators([LineBarSpot(LineChartBarData(), 0, FlSpot(4.3, (graphAmplitude)))])
                   ],
                   gridData: FlGridData(
                     show: false,
@@ -219,21 +235,6 @@ class CompanyTrajectoryGraph extends StatelessWidget {
                   ),
                   lineBarsData: [
                     LineChartBarData(
-                      spots: curves[2],
-                      isCurved: true,
-                      barWidth: 0,
-                      dotData: FlDotData(
-                        show: true,
-                        getDotPainter: (spot, percent, barData, index) {
-                          return FlDotCirclePainter(
-                            radius: 4,
-                            color: Colors.blue,
-                          );
-                        },
-                      ),
-                      color: Colors.blue,
-                    ),
-                    LineChartBarData(
                       spots: curves[1],
                       isCurved: true,
                       barWidth: 0,
@@ -247,6 +248,21 @@ class CompanyTrajectoryGraph extends StatelessWidget {
                         },
                       ),
                       color: Colors.red.withOpacity(0.8),
+                    ),
+                    LineChartBarData(
+                      spots: curves[2],
+                      isCurved: true,
+                      barWidth: 0,
+                      dotData: FlDotData(
+                        show: true,
+                        getDotPainter: (spot, percent, barData, index) {
+                          return FlDotCirclePainter(
+                            radius: 4,
+                            color: Colors.blue,
+                          );
+                        },
+                      ),
+                      color: Colors.blue,
                     ),
                   ],
                 ),

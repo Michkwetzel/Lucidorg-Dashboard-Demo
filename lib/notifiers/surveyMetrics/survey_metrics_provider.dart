@@ -107,7 +107,7 @@ class MetricsDataProvider extends StateNotifier<MetricsDataState> {
         final metricsData = snapshots[i * 2].data() as Map<String, dynamic>? ?? {};
         final participationData = snapshots[i * 2 + 1].data() as Map<String, dynamic>? ?? {};
 
-        final SurveyMetric surveyData = SurveyMetric.fromFields(
+        final SurveyMetric surveyData = SurveyMetric.fromStringFields(
           cSuiteBenchmarks: metricsData['cSuiteBenchmarks'],
           ceoBenchmarks: metricsData['ceoBenchmarks'],
           employeeBenchmarks: metricsData['employeeBenchmarks'],

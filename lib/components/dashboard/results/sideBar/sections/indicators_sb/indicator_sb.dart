@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:platform_front/components/dashboard/results/sideBar/components/cat_score_diff_text_heading.dart';
-import 'package:platform_front/components/dashboard/results/sideBar/sections/overview_sb/highLevelScoresRow.dart';
 import 'package:platform_front/components/dashboard/results/sideBar/sections/indicators_sb/indicator_row.dart';
 import 'package:platform_front/components/dashboard/results/sideBar/sections/overview_sb/overallScoresRow.dart';
 import 'package:platform_front/components/global/grayDivider.dart';
@@ -36,7 +35,7 @@ class IndicatorSideBar extends StatelessWidget {
               ),
               IndicatorRow(indicator: Indicator.orgAlign),
               IndicatorRow(indicator: Indicator.growthAlign),
-              IndicatorRow(indicator: Indicator.collabKPI),
+              IndicatorRow(indicator: Indicator.collabKPIs),
               IndicatorRow(indicator: Indicator.engagedCommunity),
               IndicatorRow(indicator: Indicator.crossFuncComms),
               IndicatorRow(indicator: Indicator.crossFuncAcc),

@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:platform_front/components/dashboard/impact/side_bar/org_impact/data_class/all_indicator_data.dart';
-import 'package:platform_front/components/dashboard/impact/side_bar/org_impact/data_class/indicator_data.dart';
+import 'package:platform_front/dataClasses/all_indicator_data.dart';
+import 'package:platform_front/dataClasses/indicator_data.dart';
 import 'package:platform_front/components/global/score_boxes/diff_box.dart';
 import 'package:platform_front/components/global/score_boxes/score_box.dart';
 import 'package:platform_front/config/enums.dart';
@@ -28,8 +28,8 @@ class IndicatorRow extends ConsumerWidget {
     double diff = 0;
 
     heading = allIndicatorData[indicator]!.heading;
-    score = displayData.companyBenchmarks[indicator.asString]!;
-    diff = displayData.diffScores[indicator.asString]!;
+    score = displayData.companyBenchmarks[indicator]!;
+    diff = displayData.diffScores[indicator]!;
 
     SelectedIndicator selectedIndicator = ref.read(selectedIndicatorProvider.notifier);
 

@@ -13,7 +13,7 @@ class CategoryScoreDiffTextHeading extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         SizedBox(
-          width: 95,
+          width: 130,
           child: Text('Category', style: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w400, fontSize: 13)),
         ),
         SizedBox(
@@ -21,7 +21,7 @@ class CategoryScoreDiffTextHeading extends StatelessWidget {
           child: Center(child: Text('Score', style: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w400, fontSize: 14))),
         ),
         SizedBox(
-          width: 52,
+          width: 55,
           child: Center(
             child: Text('Diff', style: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w400, fontSize: 14)),
           ),

@@ -14,9 +14,9 @@ class IndicatorsDepartmentScoresWidget extends ConsumerWidget {
     SurveyMetric displayData = ref.watch(metricsDataProvider).surveyMetric;
 
     Indicator selectedIndicator = ref.watch(selectedIndicatorProvider);
-    double ceoScore = displayData.ceoBenchmarks[selectedIndicator.asString]!;
-    double cSuiteScore = displayData.cSuiteBenchmarks[selectedIndicator.asString]!;
-    double employeeScore = displayData.employeeBenchmarks[selectedIndicator.asString]!;
+    double ceoScore = displayData.ceoBenchmarks[selectedIndicator]!;
+    double cSuiteScore = displayData.cSuiteBenchmarks[selectedIndicator]!;
+    double employeeScore = displayData.employeeBenchmarks[selectedIndicator]!;
 
     return PerDepertmentScoresWidget(ceoScore: ceoScore, cSuiteScore: cSuiteScore, employeeScore: employeeScore);
   }
@@ -29,10 +29,10 @@ class OverallDepertmentBenchmarkWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     SurveyMetric displayData = ref.watch(metricsDataProvider).surveyMetric;
 
-    double ceoScore = displayData.ceoBenchmarks['index']!;
-    double employeeScore = displayData.cSuiteBenchmarks['index']!;
-    double cSuiteScore = displayData.employeeBenchmarks['index']!;
-    double diff = displayData.diffScores['index']!;
+    double ceoScore = displayData.ceoBenchmarks[Indicator.companyIndex]!;
+    double employeeScore = displayData.cSuiteBenchmarks[Indicator.companyIndex]!;
+    double cSuiteScore = displayData.employeeBenchmarks[Indicator.companyIndex]!;
+    double diff = displayData.diffScores[Indicator.companyIndex]!;
 
     return Column(
       children: [

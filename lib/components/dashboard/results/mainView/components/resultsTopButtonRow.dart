@@ -12,9 +12,9 @@ class ResultsTopButtonRow extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         ResultsViewRadioButton(buttonText: 'Overview', section: ResultSection.overview),
-        ResultsViewRadioButton(buttonText: 'Differentiation', section: ResultSection.diffMatrix),
-        ResultsViewRadioButton(buttonText: 'Indicators', section: ResultSection.areaScore),
         ResultsViewRadioButton(buttonText: 'Foundations', section: ResultSection.foundations),
+        ResultsViewRadioButton(buttonText: 'Indicators', section: ResultSection.areaScore),
+        ResultsViewRadioButton(buttonText: 'Differentiation', section: ResultSection.diffMatrix),
       ],
     );
   }

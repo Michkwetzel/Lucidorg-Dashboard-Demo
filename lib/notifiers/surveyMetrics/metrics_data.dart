@@ -1,12 +1,14 @@
 // Create a class for individual survey metrics
 import 'dart:math';
 
+import 'package:platform_front/config/enums.dart';
+
 class SurveyMetric {
-  final Map<String, double> ceoBenchmarks;
-  final Map<String, double> cSuiteBenchmarks;
-  final Map<String, double> employeeBenchmarks;
-  final Map<String, double> companyBenchmarks;
-  final Map<String, double> diffScores;
+  final Map<Indicator, double> ceoBenchmarks;
+  final Map<Indicator, double> cSuiteBenchmarks;
+  final Map<Indicator, double> employeeBenchmarks;
+  final Map<Indicator, double> companyBenchmarks;
+  final Map<Indicator, double> diffScores;
   final double nCeoFinished;
   final double nCSuiteFinished;
   final double nEmployeeFinished;
@@ -55,17 +57,17 @@ class SurveyMetric {
       'align': 0.5828,
       'meetingEfficacy': 1,
       'leadership': 0.5287,
-      'index': 0.5795,
+      'companyIndex': 0.5795,
       'workforce': 0.5558,
-      'alignedOrgStruct': 0.8333,
+      'orgAlign': 0.8333,
       'alignedTech': 1,
       'growthAlign': 0.6667,
       'collabKPIs': 0.5,
-      'crossAcc': 0.6667,
-      'crossComms': 0.1667,
+      'crossFuncAcc': 0.6667,
+      'crossFuncComms': 0.1667,
       'people': 0.5738,
       'engagedCommunity': 0.6667,
-      'collabProcess': 0.5,
+      'collabProcesses': 0.5,
       'process': 0.73,
       'general': 0.44,
       'purposeDriven': 0.8333,
@@ -75,41 +77,41 @@ class SurveyMetric {
     Map<String, double> cSuiteBenchmarks = {
       'purposeDriven': 0.75,
       'meetingEfficacy': 0.9166,
-      'index': 0.6122,
+      'companyIndex': 0.6122,
       'leadership': 0.6185,
       'general': 0.52,
       'engagedCommunity': 0.8334,
       'collabKPIs': 0.5,
       'process': 0.6975,
       'people': 0.5869,
-      'collabProcess': 0.5,
+      'collabProcesses': 0.5,
       'empoweredLeadership': 0.5833,
       'alignedTech': 0.9166,
-      'crossAcc': 0.5834,
-      'crossComms': 0.1667,
+      'crossFuncAcc': 0.5834,
+      'crossFuncComms': 0.1667,
       'growthAlign': 0.8334,
-      'alignedOrgStruct': 0.5833,
+      'orgAlign': 0.5833,
       'align': 0.5898,
       'operations': 0.6544,
       'workforce': 0.5996
     };
     Map<String, double> employeeBenchmarks = {
-      'index': 0.5394,
+      'companyIndex': 0.5394,
       'meetingEfficacy': 0.5,
       'growthAlign': 0.5556,
-      'collabProcess': 0.5556,
+      'collabProcesses': 0.5556,
       'engagedCommunity': 0.5556,
       'operations': 0.5512,
       'general': 0.4667,
-      'crossAcc': 0.5556,
+      'crossFuncAcc': 0.5556,
       'empoweredLeadership': 0.5556,
       'align': 0.5813,
       'workforce': 0.5385,
       'process': 0.5312,
-      'crossComms': 0.5,
+      'crossFuncComms': 0.5,
       'alignedTech': 0.5556,
       'purposeDriven': 0.5555,
-      'alignedOrgStruct': 0.7777,
+      'orgAlign': 0.7777,
       'leadership': 0.5618,
       'people': 0.523,
       'collabKPIs': 0.5556
@@ -122,9 +124,7 @@ class SurveyMetric {
     double nStarted = 18;
     String surveyName = 'Default';
 
-    
-
-    return SurveyMetric.fromFields(
+    return SurveyMetric.fromStringFields(
         ceoBenchmarks: ceoBenchmarks,
         cSuiteBenchmarks: cSuiteBenchmarks,
         employeeBenchmarks: employeeBenchmarks,
@@ -136,7 +136,7 @@ class SurveyMetric {
         surveyName: surveyName);
   }
 
-  factory SurveyMetric.fromFields({
+  factory SurveyMetric.fromStringFields({
     required Map<String, dynamic> ceoBenchmarks,
     required Map<String, dynamic> cSuiteBenchmarks,
     required Map<String, dynamic> employeeBenchmarks,
@@ -147,25 +147,48 @@ class SurveyMetric {
     required double nStarted,
     required String surveyName,
   }) {
-    Map<String, double> companyBenchmarks = {};
-    Map<String, double> diffScores = {};
+    // Get String maps and convert to Enum Indicators.
+    Map<Indicator, double> convertToBenchmarkMap(Map<String, dynamic> rawMap) {
+      Map<Indicator, double> resultMap = {};
+
+      for (Indicator indicator in Indicator.values) {
+        String enumString = indicator.toString();
+        List<String> parts = enumString.split('.');
+        String key = parts.last;
+        dynamic rawValue = rawMap[key];
+        if (rawValue != null) {
+          double value = rawValue.toDouble();
+          if (value != 0.0) {
+            resultMap[indicator] = value;
+          }
+        }
+      }
+
+      return resultMap;
+    }
+
+    Map<Indicator, double> ceoBenchmarksMap = convertToBenchmarkMap(ceoBenchmarks);
+    Map<Indicator, double> cSuiteBenchmarksMap = convertToBenchmarkMap(cSuiteBenchmarks);
+    Map<Indicator, double> employeeBenchmarksMap = convertToBenchmarkMap(employeeBenchmarks);
+    Map<Indicator, double> companyBenchmarksMap = {};
+    Map<Indicator, double> diffScoresMap = {};
 
     //Calculate combined company benchmark
-    if (employeeBenchmarks.isNotEmpty && cSuiteBenchmarks.isNotEmpty && ceoBenchmarks.isNotEmpty) {
-      for (final key in ceoBenchmarks.keys) {
-        companyBenchmarks[key] = (((ceoBenchmarks[key]! * nCeoFinished) + (cSuiteBenchmarks[key]! * nCSuiteFinished) + (employeeBenchmarks[key]! * nEmployeeFinished)) /
+    if (employeeBenchmarksMap.isNotEmpty && cSuiteBenchmarksMap.isNotEmpty && ceoBenchmarksMap.isNotEmpty) {
+      for (final key in ceoBenchmarksMap.keys) {
+        companyBenchmarksMap[key] = (((ceoBenchmarksMap[key]! * nCeoFinished) + (cSuiteBenchmarksMap[key]! * nCSuiteFinished) + (employeeBenchmarksMap[key]! * nEmployeeFinished)) /
             (nCeoFinished + nCSuiteFinished + nEmployeeFinished));
       }
-      for (final key in ceoBenchmarks.keys) {
-        double value1 = (ceoBenchmarks[key]! - cSuiteBenchmarks[key]!).abs();
-        double value2 = (ceoBenchmarks[key]! - employeeBenchmarks[key]!).abs();
-        double value3 = (cSuiteBenchmarks[key]! - employeeBenchmarks[key]!).abs();
-        diffScores[key] = max(value1, max(value2, value3));
+      for (final key in ceoBenchmarksMap.keys) {
+        double value1 = (ceoBenchmarksMap[key]! - cSuiteBenchmarksMap[key]!).abs();
+        double value2 = (ceoBenchmarksMap[key]! - employeeBenchmarksMap[key]!).abs();
+        double value3 = (cSuiteBenchmarksMap[key]! - employeeBenchmarksMap[key]!).abs();
+        diffScoresMap[key] = max(value1, max(value2, value3));
       }
     }
 
     // Convert to percent. from 0.111 to 11.1
-    Map<String, double> convertBenchmarks(Map<String, dynamic>? benchmarks) {
+    Map<Indicator, double> convertBenchmarks(Map<Indicator, dynamic>? benchmarks) {
       return benchmarks?.map((key, value) {
             final numValue = value as num?;
             return MapEntry(key, numValue != null ? (((numValue.toDouble() * 1000).roundToDouble()) / 10) : 0.0);
@@ -174,11 +197,11 @@ class SurveyMetric {
     }
 
     return SurveyMetric(
-      companyBenchmarks: convertBenchmarks(companyBenchmarks),
-      ceoBenchmarks: convertBenchmarks(ceoBenchmarks),
-      cSuiteBenchmarks: convertBenchmarks(cSuiteBenchmarks),
-      employeeBenchmarks: convertBenchmarks(employeeBenchmarks),
-      diffScores: convertBenchmarks(diffScores),
+      companyBenchmarks: convertBenchmarks(companyBenchmarksMap),
+      ceoBenchmarks: convertBenchmarks(ceoBenchmarksMap),
+      cSuiteBenchmarks: convertBenchmarks(cSuiteBenchmarksMap),
+      employeeBenchmarks: convertBenchmarks(employeeBenchmarksMap),
+      diffScores: convertBenchmarks(diffScoresMap),
       nCeoFinished: nCeoFinished,
       nCSuiteFinished: nCSuiteFinished,
       nEmployeeFinished: nEmployeeFinished,
@@ -186,8 +209,45 @@ class SurveyMetric {
       nStarted: nStarted,
       nSubmitted: nCeoFinished + nCSuiteFinished + nEmployeeFinished,
       surveyName: surveyName,
-      notEnoughData: companyBenchmarks.isEmpty ? true : false,
+      notEnoughData: companyBenchmarksMap.isEmpty ? true : false,
     );
+  }
+
+  List<Map<Indicator, double>> getSpecificFoundations(List<Indicator> indicators) {
+    List<Map<Indicator, double>> foundationIndicators = [];
+
+    for (var indicator in indicators) {
+      if (companyBenchmarks.containsKey(indicator)) {
+        foundationIndicators.add({indicator: companyBenchmarks[indicator]!});
+      }
+    }
+
+    return foundationIndicators;
+  }
+
+  Map<Indicator, double> returnJustIndicators(String mapName) {
+    Map<Indicator, double> removeIndicators(Map<Indicator, double> map) {
+      map.remove(Indicator.align);
+      map.remove(Indicator.people);
+      map.remove(Indicator.process);
+      map.remove(Indicator.leadership);
+      map.remove(Indicator.companyIndex);
+      map.remove(Indicator.general);
+      map.remove(Indicator.workforce);
+      map.remove(Indicator.operations);
+      return map;
+    }
+
+    switch (mapName) {
+      case 'ceoBenchmarks':
+        return removeIndicators(cSuiteBenchmarks);
+      case 'cSuiteBenchmarks':
+        return removeIndicators(cSuiteBenchmarks);
+      case 'employeeBenchmarks':
+        return removeIndicators(employeeBenchmarks);
+      default:
+        return {};
+    }
   }
 
   Map<String, dynamic> toMap() => {

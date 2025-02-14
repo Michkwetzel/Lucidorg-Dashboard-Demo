@@ -16,11 +16,11 @@ class BenchmarkWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     SurveyMetric displayData = ref.watch(metricsDataProvider).surveyMetric;
 
-    double ceoIndex = displayData.ceoBenchmarks['index'] ?? 50;
-    double cSuiteIndex = displayData.cSuiteBenchmarks['index'] ?? 50;
-    double employeeIndex = displayData.employeeBenchmarks['index'] ?? 50;
-    double companyIndex = displayData.companyBenchmarks['index'] ?? 50;
-    double indexDiff = displayData.diffScores['index'] ?? 1;
+    double ceoIndex = displayData.ceoBenchmarks[Indicator.companyIndex] ?? 50;
+    double cSuiteIndex = displayData.cSuiteBenchmarks[Indicator.companyIndex] ?? 50;
+    double employeeIndex = displayData.employeeBenchmarks[Indicator.companyIndex] ?? 50;
+    double companyIndex = displayData.companyBenchmarks[Indicator.companyIndex] ?? 50;
+    double indexDiff = displayData.diffScores[Indicator.companyIndex] ?? 1;
 
 
     return Container(

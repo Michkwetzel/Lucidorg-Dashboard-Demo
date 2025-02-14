@@ -6,33 +6,89 @@ enum NavBarButtonType { createAssessment, companyInfo, logOut, home, results, im
 
 enum Permission { exec, employee, guest, error }
 
-enum Diffsize { H1, H2, H3, H4}
+enum Diffsize { H1, H2, H3, H4 }
 
 enum ResultSection { overview, areaScore, diffMatrix, foundations }
 
 enum ImpactSection { orgImpact, financial, scoreOverTime, diffOverTime }
 
 enum MainArea { alignment, people, process, leadership }
+
+// This is technically not correct. All of these are not indicators. but it works super well.
 enum Indicator {
-  purposeDriven('purposeDriven', 'Purpose Driven Organization'),
-  growthAlign('growthAlign', 'Growth Alignment'),
-  orgAlign('alignedOrgStruct', 'Organizational Alignment'),
-  collabProcesses('collabProcess', 'Collaborative Processes'),
-  collabKPI('collabKPIs', 'Collaborative KPIs'),
-  alignedTech('alignedTech', 'Aligned Tech Stack'),
-  crossFuncComms('crossComms', 'Cross-Functional Communications'),
-  empoweredLeadership('empoweredLeadership', 'Empowered Leadership'),
-  engagedCommunity('engagedCommunity', 'Engaged Community'),
-  meetingEfficacy('meetingEfficacy', 'Meeting Efficacy'),
-  crossFuncAcc('crossAcc', 'Cross-Functional Accountability');
+  purposeDriven,
+  growthAlign,
+  orgAlign,
+  collabProcesses,
+  collabKPIs,
+  alignedTech,
+  crossFuncComms,
+  empoweredLeadership,
+  engagedCommunity,
+  meetingEfficacy,
+  crossFuncAcc,
+  companyIndex,
+  workforce,
+  operations,
+  general,
+  align,
+  process,
+  leadership,
+  people
+}
 
-  final String value;
-  final String heading;
-  
-  const Indicator(this.value, this.heading);
+List<Indicator> justIndicators() {
+  return [
+    Indicator.companyIndex,
+    Indicator.orgAlign,
+    Indicator.growthAlign,
+    Indicator.collabKPIs,
+    Indicator.engagedCommunity,
+    Indicator.crossFuncComms,
+    Indicator.crossFuncAcc,
+    Indicator.alignedTech,
+    Indicator.collabProcesses,
+    Indicator.meetingEfficacy,
+    Indicator.purposeDriven,
+    Indicator.empoweredLeadership,
+  ];
+}
 
-  // If you still need the asString getter for backward compatibility
-  String get asString => value;
+extension IndicatorDescription on Indicator {
+  String get heading {
+    switch (this) {
+      case Indicator.purposeDriven:
+        return "Purpose Driven Organization";
+      case Indicator.growthAlign:
+        return "Growth Alignment";
+      case Indicator.orgAlign:
+        return "Organizational Alignment";
+      case Indicator.collabProcesses:
+        return "Collaborative Processes";
+      case Indicator.collabKPIs:
+        return "Collaborative KPIs";
+      case Indicator.alignedTech:
+        return "Aligned Technology";
+      case Indicator.crossFuncComms:
+        return "Cross-Functional Communications";
+      case Indicator.empoweredLeadership:
+        return "Empowered Leadership";
+      case Indicator.engagedCommunity:
+        return "Engaged Community";
+      case Indicator.meetingEfficacy:
+        return "Meeting Efficacy";
+      case Indicator.crossFuncAcc:
+        return "Cross-Functional Accountability";
+      case Indicator.companyIndex:
+        return "Index";
+      case Indicator.workforce:
+        return "Workforce";
+      case Indicator.operations:
+        return "Operations";
+      default:
+        return "Not Indicator";
+    }
+  }
 }
 
 enum Alligned { best, worst }

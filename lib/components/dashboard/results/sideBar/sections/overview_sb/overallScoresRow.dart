@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/config/constants.dart';
+import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/config/providers.dart';
 import 'package:platform_front/notifiers/surveyMetrics/metrics_data.dart';
 
@@ -30,13 +31,13 @@ class OverallScoresRow extends ConsumerWidget {
           width: 60,
           height: 40,
           decoration: kGrayBox,
-          child: Center(child: Text('${displayData.companyBenchmarks['index']!}%', style: TextStyle(color: Color(0xFF5478ED), fontSize: 14, fontFamily: 'Poppins', fontWeight: FontWeight.w400))),
+          child: Center(child: Text('${displayData.companyBenchmarks[Indicator.companyIndex]!}%', style: TextStyle(color: Color(0xFF5478ED), fontSize: 14, fontFamily: 'Poppins', fontWeight: FontWeight.w400))),
         ),
         Container(
           width: 55,
           height: 33,
           decoration: kGrayBox,
-          child: Center(child: Text('~${displayData.diffScores['index']!}%', style: TextStyle(color: Color(0xFFF03535), fontSize: 14, fontFamily: 'Poppins', fontWeight: FontWeight.w300))),
+          child: Center(child: Text('~${displayData.diffScores[Indicator.companyIndex]!}%', style: TextStyle(color: Color(0xFFF03535), fontSize: 14, fontFamily: 'Poppins', fontWeight: FontWeight.w300))),
         )
       ],
     );
