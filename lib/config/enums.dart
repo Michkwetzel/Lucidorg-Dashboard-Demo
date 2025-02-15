@@ -12,7 +12,26 @@ enum ResultSection { overview, areaScore, diffMatrix, foundations }
 
 enum ImpactSection { orgImpact, financial, scoreOverTime, diffOverTime }
 
-enum MainArea { alignment, people, process, leadership }
+enum Pilar { alignment, people, process, leadership, none }
+
+extension PilarHeading on Pilar {
+  String get heading {
+    switch (this) {
+      case Pilar.alignment:
+        return "Aligment";
+      case Pilar.people:
+        return "People";
+      case Pilar.process:
+        return "Process";
+      case Pilar.leadership:
+        return "Leadership";
+      default:
+        return "None";
+    }
+  }
+}
+
+enum ImpactSize { small, medium, large }
 
 // This is technically not correct. All of these are not indicators. but it works super well.
 enum Indicator {
@@ -87,6 +106,35 @@ extension IndicatorDescription on Indicator {
         return "Operations";
       default:
         return "Not Indicator";
+    }
+  }
+
+  Pilar get pilar {
+    switch (this) {
+      case Indicator.purposeDriven:
+        return Pilar.leadership;
+      case Indicator.growthAlign:
+        return Pilar.alignment;
+      case Indicator.orgAlign:
+        return Pilar.alignment;
+      case Indicator.collabProcesses:
+        return Pilar.alignment;
+      case Indicator.collabKPIs:
+        return Pilar.alignment;
+      case Indicator.alignedTech:
+        return Pilar.alignment;
+      case Indicator.crossFuncComms:
+        return Pilar.people;
+      case Indicator.empoweredLeadership:
+        return Pilar.leadership;
+      case Indicator.engagedCommunity:
+        return Pilar.people;
+      case Indicator.meetingEfficacy:
+        return Pilar.alignment;
+      case Indicator.crossFuncAcc:
+        return Pilar.people;
+      default:
+        return Pilar.none;
     }
   }
 }

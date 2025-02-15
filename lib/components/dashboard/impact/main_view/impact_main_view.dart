@@ -34,7 +34,7 @@ class ImpactMainView extends ConsumerWidget {
     }
 
     return Container(
-      width: 800,
+      width: selectedSection == ImpactSection.orgImpact ? 950 : 800,
       padding: EdgeInsets.all(32),
       margin: EdgeInsets.only(left: 5, bottom: 5, right: 5),
       decoration: kboxShadowNormal,

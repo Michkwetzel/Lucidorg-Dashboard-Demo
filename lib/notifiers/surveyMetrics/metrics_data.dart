@@ -226,28 +226,79 @@ class SurveyMetric {
   }
 
   Map<Indicator, double> returnJustIndicators(String mapName) {
-    Map<Indicator, double> removeIndicators(Map<Indicator, double> map) {
-      map.remove(Indicator.align);
-      map.remove(Indicator.people);
-      map.remove(Indicator.process);
-      map.remove(Indicator.leadership);
-      map.remove(Indicator.companyIndex);
-      map.remove(Indicator.general);
-      map.remove(Indicator.workforce);
-      map.remove(Indicator.operations);
-      return map;
+    Map<Indicator, double> removeIndicators(Map<Indicator, double> originalMap) {
+      // Create a new map instead of modifying the reference
+      Map<Indicator, double> returnMap = Map.from(originalMap);
+
+      // List of indicators to remove
+      final indicatorsToRemove = [
+        Indicator.align,
+        Indicator.people,
+        Indicator.process,
+        Indicator.leadership,
+        Indicator.companyIndex,
+        Indicator.general,
+        Indicator.workforce,
+        Indicator.operations,
+      ];
+
+      // Remove all specified indicators
+      indicatorsToRemove.forEach((indicator) => returnMap.remove(indicator));
+
+      return returnMap;
     }
 
+    // Get the appropriate map based on mapName
+    Map<Indicator, double> sourceMap;
     switch (mapName) {
       case 'ceoBenchmarks':
-        return removeIndicators(cSuiteBenchmarks);
+        sourceMap = cSuiteBenchmarks;
+        break;
       case 'cSuiteBenchmarks':
-        return removeIndicators(cSuiteBenchmarks);
+        sourceMap = cSuiteBenchmarks;
+        break;
       case 'employeeBenchmarks':
-        return removeIndicators(employeeBenchmarks);
+        sourceMap = employeeBenchmarks;
+        break;
+      case 'diffScores':
+        sourceMap = diffScores;
+        break;
+      case 'companyBenchmarks':
+        sourceMap = companyBenchmarks;
+        break;
       default:
         return {};
     }
+
+    return removeIndicators(sourceMap);
+  }
+
+  List<Indicator> returnImpactChartIndicators() {
+    List<Indicator> indicators = [];
+
+    List<MapEntry<Indicator, double>> sortedEntries = returnJustIndicators('diffScores').entries.toList()..sort((a, b) => b.value.compareTo(a.value));
+    // List<MapEntry<Indicator, double>> sortedEntries = diffScores.entries.toList()..sort((a, b) => b.value.compareTo(a.value));
+
+    List<MapEntry<Indicator, double>> lowestIndicators = sortedEntries.take(3).toList();
+    for (var diff in lowestIndicators) {
+      if (diff.value > 15) {
+        indicators.add(diff.key);
+      }
+    }
+    sortedEntries = returnJustIndicators('companyBenchmarks').entries.toList()..sort((a, b) => b.value.compareTo(a.value));
+    // sortedEntries = companyBenchmarks.entries.toList()..sort((a, b) => b.value.compareTo(a.value));
+
+    for (var indicator in sortedEntries) {
+      if (sortedEntries.contains(indicator)) {
+        sortedEntries.remove(indicator);
+      }
+    }
+    lowestIndicators = sortedEntries.reversed.take(6 - indicators.length).toList();
+    for (var indicator in lowestIndicators) {
+      indicators.add(indicator.key);
+    }
+    print("Impact Chart Indicators: ${indicators.toString()}");
+    return indicators;
   }
 
   Map<String, dynamic> toMap() => {
