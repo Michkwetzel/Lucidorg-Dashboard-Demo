@@ -85,18 +85,23 @@ class EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLayo
               if (selectedButton == SelectionButtonType.employee) {}
 
               //If guest or using token
-              await ref.read(authfirestoreserviceProvider.notifier).createUserWithEmailAndPassword(emailController.text, passwordController.text);
-              final responseBody = await ref.read(googlefunctionserviceProvider.notifier).createUserProfile(
-                    email: emailController.text,
-                    userUID: FirebaseAuth.instance.currentUser!.uid,
-                    employee: selectedButton == SelectionButtonType.employee ? true : false,
-                    guest: selectedButton == SelectionButtonType.guest ? true : false,
-                    authToken: selectedButton == SelectionButtonType.token ? ref.read(authTokenProvider) : null,
-                  );
+              try {
+                await ref.read(authfirestoreserviceProvider.notifier).createUserWithEmailAndPassword(emailController.text, passwordController.text);
+                final responseBody = await ref.read(googlefunctionserviceProvider.notifier).createUserProfile(
+                      email: emailController.text,
+                      userUID: FirebaseAuth.instance.currentUser!.uid,
+                      employee: selectedButton == SelectionButtonType.employee ? true : false,
+                      guest: selectedButton == SelectionButtonType.guest ? true : false,
+                      authToken: selectedButton == SelectionButtonType.token ? ref.read(authTokenProvider) : null,
+                    );
 
-              if (responseBody['success']) {
-                succesfullyCreatedAccount();
-              } else {
+                if (responseBody['success']) {
+                  succesfullyCreatedAccount();
+                } else {
+                  ref.read(authfirestoreserviceProvider.notifier).deleteAccount();
+                  SnackBarService.showMessage("Internal Error creating account, Please try again later or click feedback button", Colors.red);
+                }
+              } on Exception catch (e) {
                 ref.read(authfirestoreserviceProvider.notifier).deleteAccount();
                 SnackBarService.showMessage("Internal Error creating account, Please try again later or click feedback button", Colors.red);
               }
@@ -151,41 +156,64 @@ class EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLayo
       }
     }
 
-    void googleSignInClicked() async {
-      UserCredential? userCred;
-      Future<void> pendingGoogleSignRequest = Future(() async {
-        try {
-          userCred = await ref.read(authfirestoreserviceProvider.notifier).signinWithGoogle();
+    Future<void> _handleNewUserOnLoginPage(UserCredential? userCred) async {
+      await ref.read(authfirestoreserviceProvider.notifier).deleteAccount();
+      SnackBarService.showMessage("New Account. Please go to Create Account", Colors.red, duration: 4);
+      ref.read(authDisplayProvider.notifier).changeDisplay(AppEntryLayout());
+    }
 
-          if (userCred!.additionalUserInfo!.isNewUser) {
-            //If new google account. Also create profile
-            SnackBarService.showMessage("Creating Account", Colors.blue);
-            final responseBody = await ref.read(googlefunctionserviceProvider.notifier).createUserProfile(
-                  // This logic here actualy takes care of which user it is. Except Employee
-                  email: userCred?.user?.email,
-                  userUID: FirebaseAuth.instance.currentUser!.uid,
-                  employee: selectedButton == SelectionButtonType.employee ? true : false,
-                  guest: selectedButton == SelectionButtonType.guest ? true : false,
-                  authToken: selectedButton == SelectionButtonType.token ? ref.read(authTokenProvider) : null,
-                );
+    Future<void> _handleProfileCreationFailure() async {
+      // Ensure account deletion happens before showing error message
+      try {
+        await ref.read(authfirestoreserviceProvider.notifier).deleteAccount();
+      } finally {
+        SnackBarService.showMessage("Error creating account, Please try again later or click feedback button", Colors.red, duration: 4);
+      }
+    }
 
-            if (responseBody['success']) {
-              succesfullyCreatedAccount();
-            } else {
-              ref.read(authfirestoreserviceProvider.notifier).deleteAccount();
-              SnackBarService.showMessage("Internal Error creating account, Please try again later or click feedback button", Colors.red);
-            }
-          } else {
-            successfullyLogIn();
-          }
-        } on Exception {
-          ref.read(authfirestoreserviceProvider.notifier).deleteAccount();
-          SnackBarService.showMessage("Google sign in error, Please try again later or click feedback button", Colors.red);
-          await Future.delayed(const Duration(seconds: 2));
+    Future<void> _handleNewUserProfileCreation(UserCredential? userCred) async {
+      SnackBarService.showMessage("Creating Account", Colors.blue, duration: 2);
+
+      try {
+        final responseBody = await ref.read(googlefunctionserviceProvider.notifier).createUserProfile(
+              email: userCred?.user?.email,
+              userUID: FirebaseAuth.instance.currentUser!.uid,
+              employee: selectedButton == SelectionButtonType.employee,
+              guest: selectedButton == SelectionButtonType.guest,
+              authToken: selectedButton == SelectionButtonType.token ? ref.read(authTokenProvider) : null,
+            );
+
+        if (responseBody['success']) {
+          succesfullyCreatedAccount();
+        } else {
+          await _handleProfileCreationFailure();
         }
-      });
+      } on Exception catch (e) {
+        await _handleProfileCreationFailure();
+      }
+    }
+
+    Future<void> _handleGoogleSignIn() async {
+      try {
+        final userCred = await ref.read(authfirestoreserviceProvider.notifier).signinWithGoogle();
+
+        if (userCred?.additionalUserInfo?.isNewUser != true) {
+          return successfullyLogIn();
+        }
+
+        if (widget.logIn) {
+          await _handleNewUserOnLoginPage(userCred);
+        } else {
+          await _handleNewUserProfileCreation(userCred);
+        }
+      } on Exception catch (e) {
+        SnackBarService.showMessage("Google sign in error, Please try again later or click feedback button", Colors.red, duration: 3);
+      }
+    }
+
+    Future<void> googleSignInClicked() async {
       setState(() {
-        _pendingGoogleSignRequest = pendingGoogleSignRequest;
+        _pendingGoogleSignRequest = _handleGoogleSignIn();
       });
     }
 

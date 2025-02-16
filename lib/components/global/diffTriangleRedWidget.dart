@@ -5,12 +5,13 @@ import 'package:platform_front/config/enums.dart';
 
 class DiffTriangleRedWidget extends StatelessWidget {
   const DiffTriangleRedWidget({
+    this.noDecimals = false,
     required this.value,
     required this.size,
     super.key,
     this.allRed = false,
   });
-
+  final bool noDecimals;
   final Diffsize size;
   final double value;
   final bool allRed;
@@ -53,6 +54,7 @@ class DiffTriangleRedWidget extends StatelessWidget {
           height: trianleSize,
           colorFilter: const ColorFilter.mode(Color(0xFFF03535), BlendMode.srcIn),
         ),
+        noDecimals ? Text('~${value.toStringAsFixed(0)}%', style: textStyle) :
         Text('~$value%', style: textStyle),
       ],
     );

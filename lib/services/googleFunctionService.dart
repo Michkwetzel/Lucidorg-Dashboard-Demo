@@ -41,20 +41,25 @@ class GoogleFunctionService extends StateNotifier<bool> {
   }
 
   Future<void> createAssessment() async {
-    state = true;
-    logger.info("Creating Assessment");
+    try {
+      state = true;
+      logger.info("Creating Assessment");
 
-    //TODO: proper userUID input
-    Map<String, dynamic> request = {
-      'ceoEmails': ceoEmails,
-      'cSuiteEmails': cSuiteEmails,
-      'employeeEmails': employeeEmails,
-      'emailTemplate': emailTemplate,
-      'userUID': userUID,
-    };
-    print(request);
-    await HttpService.postRequest(path: kCreateAssessmentPath, request: request);
-    state = false;
+      //TODO: proper userUID input
+      Map<String, dynamic> request = {
+        'ceoEmails': ceoEmails,
+        'cSuiteEmails': cSuiteEmails,
+        'employeeEmails': employeeEmails,
+        'emailTemplate': emailTemplate,
+        'userUID': userUID,
+      };
+      print(request);
+      await HttpService.postRequest(path: kCreateAssessmentPath, request: request);
+      state = false;
+    } on Exception catch (e) {
+      state = false;
+      rethrow;
+    }
   }
 
   Future<void> saveCompanyInfo(Map<String, dynamic> companyInfo) async {

@@ -3,23 +3,21 @@
 import 'package:flutter/material.dart';
 import 'package:platform_front/dataClasses/all_indicator_data.dart';
 import 'package:platform_front/dataClasses/indicator_data.dart';
-import 'package:platform_front/dataClasses/temp/indicator_data_temp.dart';
-import 'package:platform_front/dataClasses/temp/impact_area_data.dart';
 import 'package:platform_front/components/dashboard/impact/side_bar/org_impact/components/impact_area_sub_widget.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/enums.dart';
 
 class ImpactAreaSBWidget extends StatelessWidget {
   final Pilar pilar;
-  final List<Indicator> AllIndicatorsToShow;
-  const ImpactAreaSBWidget({super.key, required this.pilar, required this.AllIndicatorsToShow});
+  final List<Indicator> allIndicatorsToShow;
+  const ImpactAreaSBWidget({super.key, required this.pilar, required this.allIndicatorsToShow});
 
   @override
   Widget build(BuildContext context) {
     Map<Indicator, IndicatorData> indicatorMap = AllIndicatorData.indicatorMap;
     List<Indicator> toShow = [];
 
-    for (Indicator indicator in AllIndicatorsToShow) {
+    for (Indicator indicator in allIndicatorsToShow) {
       if (indicator.pilar == pilar) {
         toShow.add(indicator);
       }

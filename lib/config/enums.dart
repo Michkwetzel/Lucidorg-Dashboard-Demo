@@ -118,7 +118,7 @@ extension IndicatorDescription on Indicator {
       case Indicator.orgAlign:
         return Pilar.alignment;
       case Indicator.collabProcesses:
-        return Pilar.alignment;
+        return Pilar.process;
       case Indicator.collabKPIs:
         return Pilar.alignment;
       case Indicator.alignedTech:

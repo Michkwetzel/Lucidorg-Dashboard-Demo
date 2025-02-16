@@ -1,8 +1,6 @@
 // // ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:platform_front/components/dashboard/impact/impact_body.dart';
 import 'package:platform_front/components/dashboard/impact/side_bar/org_impact/components/impact_area_sb.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/enums.dart';
@@ -32,22 +30,22 @@ class OrgImpactSB extends ConsumerWidget {
             if (pillarsToShow.contains(Pilar.alignment))
               ImpactAreaSBWidget(
                 pilar: Pilar.alignment,
-                AllIndicatorsToShow: indicatorsToShow,
+                allIndicatorsToShow: indicatorsToShow,
               ),
             if (pillarsToShow.contains(Pilar.people))
               ImpactAreaSBWidget(
                 pilar: Pilar.people,
-                AllIndicatorsToShow: indicatorsToShow,
+                allIndicatorsToShow: indicatorsToShow,
               ),
             if (pillarsToShow.contains(Pilar.process))
               ImpactAreaSBWidget(
                 pilar: Pilar.process,
-                AllIndicatorsToShow: indicatorsToShow,
+                allIndicatorsToShow: indicatorsToShow,
               ),
             if (pillarsToShow.contains(Pilar.leadership))
               ImpactAreaSBWidget(
                 pilar: Pilar.leadership,
-                AllIndicatorsToShow: indicatorsToShow,
+                allIndicatorsToShow: indicatorsToShow,
               ),
           ],
         ),

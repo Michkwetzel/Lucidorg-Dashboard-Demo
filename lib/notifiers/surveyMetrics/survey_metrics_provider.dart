@@ -35,7 +35,7 @@ class MetricsDataProvider extends StateNotifier<MetricsDataState> {
   void initializeDefault() async {
     print('default init');
     SurveyMetric defaultSurvey = SurveyMetric.loadDefaultValues();
-    state = state.copyWith(surveyMetric: defaultSurvey, loading: false, notEnoughData: false, noSurveyData: false);
+    state = state.copyWith(surveyMetric: defaultSurvey, loading: false, notEnoughData: false, noSurveyData: true);
     state.surveyMetric.printData();
   }
 
@@ -72,6 +72,10 @@ class MetricsDataProvider extends StateNotifier<MetricsDataState> {
 
       state = state.copyWith(notEnoughData: false);
     }
+  }
+
+  void toggleDisplayDummyData(){
+    state = state.copyWith(noSurveyData: false);
   }
 
   Future<void> getSurveyData(String companyUID) async {

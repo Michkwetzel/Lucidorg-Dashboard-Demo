@@ -13,7 +13,9 @@ class ImpactBody extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return LoadingOverlay(
+    return OverlayWidget(
+      noSurveyData: ref.watch(metricsDataProvider).noSurveyData,
+      notEnoughData: ref.watch(metricsDataProvider).notEnoughData,
       loadingProvider: ref.watch(metricsDataProvider).loading,
       showChild: false,
       child: const Padding(

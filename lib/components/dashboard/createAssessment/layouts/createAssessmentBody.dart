@@ -8,6 +8,7 @@ import 'package:platform_front/components/global/loading_overlay.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/providers.dart';
 import 'package:platform_front/notifiers/surveyMetrics/metrics_data.dart';
+import 'package:platform_front/notifiers/userProfileData/userProfileData.dart';
 import 'package:platform_front/services/microServices/snackBarService.dart';
 
 class CreateAssessmentBody extends ConsumerStatefulWidget {
@@ -50,8 +51,9 @@ class _CreateAssessmentBodyState extends ConsumerState<CreateAssessmentBody> {
       try {
         await ref.read(googlefunctionserviceProvider.notifier).createAssessment();
         SnackBarService.showMessage('Successfully Created assessment', Colors.green);
+        ref.read(metricsDataProvider.notifier).getSurveyData(ref.read(userDataProvider.notifier).companyUID!);
       } on Exception catch (e) {
-        SnackBarService.showMessage('Error creating Assessment', Colors.red);
+        SnackBarService.showMessage('Error creating Assessment', Colors.red, duration: 3);
         logger.severe("Failed to create Assessment with error: $e");
       }
     }
@@ -59,7 +61,7 @@ class _CreateAssessmentBodyState extends ConsumerState<CreateAssessmentBody> {
 
   @override
   Widget build(BuildContext context) {
-    return LoadingOverlay(
+    return OverlayWidget(
       loadingProvider: ref.watch(googlefunctionserviceProvider),
       loadingMessage: 'Creating Assessment!',
       child: SingleChildScrollView(

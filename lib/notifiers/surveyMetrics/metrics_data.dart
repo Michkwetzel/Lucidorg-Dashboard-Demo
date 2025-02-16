@@ -273,30 +273,49 @@ class SurveyMetric {
     return removeIndicators(sourceMap);
   }
 
+  List<Indicator> getHighestDiffIndicators(int n) {
+    List<MapEntry<Indicator, double>> sortedEntries = returnJustIndicators('diffScores').entries.toList()..sort((a, b) => b.value.compareTo(a.value));
+    List<Indicator> indicators = [];
+    for (var diff in sortedEntries.take(n)) {
+      indicators.add(diff.key);
+    }
+    return indicators;
+  }
+
+  Indicator getLowestScoreIndicator() {
+    List<MapEntry<Indicator, double>> benchmarkEntries = returnJustIndicators('companyBenchmarks').entries.toList()..sort((a, b) => a.value.compareTo(b.value));
+    return benchmarkEntries.first.key;
+  }
+
+  Indicator getHighestScoreIndicator() {
+    List<MapEntry<Indicator, double>> benchmarkEntries = returnJustIndicators('companyBenchmarks').entries.toList()..sort((a, b) => b.value.compareTo(a.value));
+    return benchmarkEntries.first.key;
+  }
+
   List<Indicator> returnImpactChartIndicators() {
     List<Indicator> indicators = [];
 
+    // Handle diff scores
     List<MapEntry<Indicator, double>> sortedEntries = returnJustIndicators('diffScores').entries.toList()..sort((a, b) => b.value.compareTo(a.value));
-    // List<MapEntry<Indicator, double>> sortedEntries = diffScores.entries.toList()..sort((a, b) => b.value.compareTo(a.value));
 
-    List<MapEntry<Indicator, double>> lowestIndicators = sortedEntries.take(3).toList();
-    for (var diff in lowestIndicators) {
+    // Get top 3 indicators with value > 15
+    for (var diff in sortedEntries.take(3)) {
       if (diff.value > 15) {
         indicators.add(diff.key);
       }
     }
-    sortedEntries = returnJustIndicators('companyBenchmarks').entries.toList()..sort((a, b) => b.value.compareTo(a.value));
-    // sortedEntries = companyBenchmarks.entries.toList()..sort((a, b) => b.value.compareTo(a.value));
 
-    for (var indicator in sortedEntries) {
-      if (sortedEntries.contains(indicator)) {
-        sortedEntries.remove(indicator);
-      }
-    }
-    lowestIndicators = sortedEntries.reversed.take(6 - indicators.length).toList();
-    for (var indicator in lowestIndicators) {
+    // Handle company benchmarks
+    List<MapEntry<Indicator, double>> benchmarkEntries = returnJustIndicators('companyBenchmarks').entries.toList()..sort((a, b) => b.value.compareTo(a.value));
+
+    // Filter out indicators that are already selected
+    benchmarkEntries.removeWhere((entry) => indicators.contains(entry.key));
+
+    // Add remaining indicators up to a total of 6
+    for (var indicator in benchmarkEntries.reversed.take(6 - indicators.length)) {
       indicators.add(indicator.key);
     }
+
     print("Impact Chart Indicators: ${indicators.toString()}");
     return indicators;
   }

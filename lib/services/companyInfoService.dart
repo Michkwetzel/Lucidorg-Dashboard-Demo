@@ -10,15 +10,20 @@ class CompanyInfoService extends StateNotifier<bool> {
   final UserProfileDataNotifier userProfileDataNotifier;
   final CompanyInfoNotifer companyInfoNotifer;
 
-  CompanyInfoService({required this.firebaseService, required this.userProfileDataNotifier, required this.companyInfoNotifer}) : super(true);
+  CompanyInfoService({required this.firebaseService, required this.userProfileDataNotifier, required this.companyInfoNotifer}) : super(false);
 
   Future<void> getCompanyInfo() async {
-    state = true;
-    var companyInfo = await firebaseService.getCompanyInfo(userProfileDataNotifier.companyUID);
-    if (companyInfo != null) {
-      //Company has companyInfo saved. if this is null then nothing has been saved yet.
-      companyInfoNotifer.setCompanyInfo(companyInfo);
+    try {
+      state = true;
+  
+      var companyInfo = await firebaseService.getCompanyInfo(userProfileDataNotifier.companyUID);
+      if (companyInfo != null) {
+        //Company has companyInfo saved. if this is null then nothing has been saved yet.
+        companyInfoNotifer.setCompanyInfo(companyInfo);
+      }
+      state = false;
+    } on Exception catch (e) {
+      state = false;
     }
-    state = false;
   }
 }

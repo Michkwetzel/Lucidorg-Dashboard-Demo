@@ -5,6 +5,7 @@ import 'package:platform_front/components/dashboard/home/Sections/benchmarkWidge
 import 'package:platform_front/components/dashboard/home/Sections/currentActionAreaWidget.dart';
 import 'package:platform_front/components/dashboard/home/Sections/nextAssessmentWidget.dart';
 import 'package:platform_front/components/dashboard/home/Sections/topOppertunitiesWidget/TopOppertunitiesWidget.dart';
+import 'package:platform_front/components/global/blurOverlay.dart';
 import 'package:platform_front/components/global/loading_overlay.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/providers.dart';
@@ -15,7 +16,9 @@ class HomeScreenBody extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return LoadingOverlay(
+    return OverlayWidget(
+      noSurveyData: ref.watch(metricsDataProvider).noSurveyData,
+      notEnoughData: ref.watch(metricsDataProvider).notEnoughData,
       loadingProvider: ref.watch(metricsDataProvider).loading,
       showChild: false,
       child: Padding(
@@ -48,7 +51,9 @@ class HomeScreenBody extends ConsumerWidget {
                   const SizedBox(
                     width: 6,
                   ),
-                  BenchmarkWidget(),
+                  BlurOverlay(
+                    blur: ref.watch(metricsDataProvider).surveyMetric.notEnoughData,
+                    child: BenchmarkWidget()),
                   const SizedBox(width: 32),
                   ActiveAssessmentWidget(),
                   TextButton(
