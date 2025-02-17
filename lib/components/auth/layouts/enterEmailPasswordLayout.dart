@@ -85,26 +85,21 @@ class EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLayo
               if (selectedButton == SelectionButtonType.employee) {}
 
               //If guest or using token
-              try {
-                await ref.read(authfirestoreserviceProvider.notifier).createUserWithEmailAndPassword(emailController.text, passwordController.text);
-                final responseBody = await ref.read(googlefunctionserviceProvider.notifier).createUserProfile(
-                      email: emailController.text,
-                      userUID: FirebaseAuth.instance.currentUser!.uid,
-                      employee: selectedButton == SelectionButtonType.employee ? true : false,
-                      guest: selectedButton == SelectionButtonType.guest ? true : false,
-                      authToken: selectedButton == SelectionButtonType.token ? ref.read(authTokenProvider) : null,
-                    );
 
-                if (responseBody['success']) {
-                  succesfullyCreatedAccount();
-                } else {
-                  ref.read(authfirestoreserviceProvider.notifier).deleteAccount();
-                  SnackBarService.showMessage("Internal Error creating account, Please try again later or click feedback button", Colors.red);
-                }
-              } on Exception catch (e) {
-                ref.read(authfirestoreserviceProvider.notifier).deleteAccount();
-                SnackBarService.showMessage("Internal Error creating account, Please try again later or click feedback button", Colors.red);
-              }
+              print('1.attempting to create account');
+              await ref.read(authfirestoreserviceProvider.notifier).createUserWithEmailAndPassword(emailController.text, passwordController.text);
+              print('2.attempting to create account');
+
+              await ref.read(googlefunctionserviceProvider.notifier).createUserProfile(
+                    email: emailController.text,
+                    userUID: FirebaseAuth.instance.currentUser!.uid,
+                    employee: selectedButton == SelectionButtonType.employee ? true : false,
+                    guest: selectedButton == SelectionButtonType.guest ? true : false,
+                    authToken: selectedButton == SelectionButtonType.token ? ref.read(authTokenProvider) : null,
+                  );
+              print('3.attempting to create account');
+
+              succesfullyCreatedAccount();
             } else {
               // Log in
               // ignore: unused_local_variable
@@ -112,7 +107,6 @@ class EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLayo
               successfullyLogIn();
             }
           } on FirebaseAuthException catch (e) {
-            ref.read(authfirestoreserviceProvider.notifier).deleteAccount();
             logger.info('Error logging in or sign up with Firebase Auth Account: ${e.code}');
             switch (e.code) {
               case 'email-already-in-use':
@@ -144,9 +138,8 @@ class EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLayo
             }
           } on Exception catch (e) {
             ref.read(authfirestoreserviceProvider.notifier).deleteAccount();
-
             logger.info('Error logging in or sign up $e');
-            validationNotifier.setEmailError("Invalid");
+            SnackBarService.showMessage("Internal Error. Please try again later or Leave message in feedback Button", Colors.red, duration: 10);
           }
         });
 

@@ -5,6 +5,7 @@ import 'package:platform_front/components/dashboard/results/mainView/sections/in
 import 'package:platform_front/components/dashboard/results/mainView/sections/diff_matrix/diff_matrix_body.dart';
 import 'package:platform_front/components/dashboard/results/mainView/sections/over_view/overview_main_body.dart';
 import 'package:platform_front/components/dashboard/results/mainView/sections/foundations/foundations_body.dart';
+import 'package:platform_front/components/global/blurOverlay.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/config/providers.dart';
@@ -43,7 +44,7 @@ class MainViewBody extends ConsumerWidget {
           SizedBox(
             height: 32,
           ),
-          _returnMainViewWidget(),
+          BlurOverlay(blur: ref.watch(metricsDataProvider).participationBelow30,child: _returnMainViewWidget()),
         ],
       ),
     );

@@ -1,27 +1,18 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'package:platform_front/components/buttons/secondaryButton.dart';
 import 'package:platform_front/config/constants.dart';
-import 'package:platform_front/config/providers.dart';
-import 'package:platform_front/services/microServices/navigationService.dart';
 
 class OverlayWidget extends ConsumerStatefulWidget {
   final Widget child;
   final bool showChild;
   final String loadingMessage;
   final bool loadingProvider;
-  final bool notEnoughData;
-  final bool noSurveyData;
 
   const OverlayWidget({
     this.loadingProvider = false,
     this.loadingMessage = 'Loading...',
     this.showChild = true,
-    this.noSurveyData = false,
-    this.notEnoughData = false,
     required this.child,
     super.key,
   });
@@ -85,135 +76,8 @@ class _OverlayWidgetState extends ConsumerState<OverlayWidget> with SingleTicker
         return LoadingAnimation(animation: _animation, widget: widget);
       }
     } else {
-      // Widget is loading. check for no survey data or not enough survey data
-      if (widget.noSurveyData) {
-        return Stack(
-          children: [
-            widget.child,
-            Positioned.fill(
-              child: ClipRect(
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 1.5, sigmaY: 1.5),
-                  child: Container(
-                    color: Colors.white.withOpacity(0.1), // This is crucial
-                  ),
-                ),
-              ),
-            ),
-            NoSurveyDataWidget(),
-          ],
-        );
-      }
-
       return widget.child;
     }
-  }
-}
-
-class NoSurveyDataWidget extends ConsumerWidget {
-  const NoSurveyDataWidget({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Positioned(
-      top: 300,
-      left: 300,
-      child: Container(
-        width: 460,
-        height: 180,
-        decoration: BoxDecoration(
-          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.20), blurRadius: 4)],
-          color: Colors.blue[300],
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            spacing: 16,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'No Assessment Available.\nDisplayed is Dummy data.',
-                style: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w400, fontSize: 24, color: Colors.white),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                spacing: 16,
-                children: [
-                  Secondarybutton(
-                      onPressed: () {
-                        NavigationService.navigateTo('/createAssessment');
-                      },
-                      buttonText: "Create Assessment"),
-                  Secondarybutton(
-                      onPressed: () {
-                        ref.read(metricsDataProvider.notifier).toggleDisplayDummyData();
-                      },
-                      buttonText: "View Dummy Results")
-                ],
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-
-class NotEnoughDataWidget extends ConsumerWidget {
-  const NotEnoughDataWidget({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Positioned(
-      top: 300,
-      left: 300,
-      child: Container(
-        width: 460,
-        height: 180,
-        decoration: BoxDecoration(
-          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.20), blurRadius: 4)],
-          color: Colors.blue[300],
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            spacing: 16,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Participation is <30%',
-                style: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w400, fontSize: 24, color: Colors.white),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                spacing: 16,
-                children: [
-                  Secondarybutton(
-                      onPressed: () {
-                        NavigationService.navigateTo('/createAssessment');
-                      },
-                      buttonText: "Create Assessment"),
-                  Secondarybutton(
-                      onPressed: () {
-                        ref.read(metricsDataProvider.notifier).toggleDisplayDummyData();
-                      },
-                      buttonText: "View Dummy Results")
-                ],
-              )
-            ],
-          ),
-        ),
-      ),
-    );
   }
 }
 

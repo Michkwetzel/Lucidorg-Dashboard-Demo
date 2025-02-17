@@ -41,11 +41,11 @@ class AuthFirestoreServiceNotifier extends StateNotifier<User?> {
   }
 
   Future<void> createUserWithEmailAndPassword(String inputEmail, String inputPassword) async {
-    logger.info("Create user Account started inputEmail: $inputEmail");
+    logger.info("Create user Account started inputEmail: $inputEmail, password: $inputPassword");
     _auth.signOut();
 
-    var userCred = await _auth.createUserWithEmailAndPassword(email: inputEmail, password: inputPassword);
-    logger.info("Success creating Google Auth Account, UID: ${userCred.user?.uid}, email: ${userCred.user?.email}");
+    await _auth.createUserWithEmailAndPassword(email: inputEmail, password: inputPassword);
+    logger.info("Success creating Google Auth Account}");
   }
 
   Future<UserCredential> signInWithEmailAndPassword(String email, String password) async {

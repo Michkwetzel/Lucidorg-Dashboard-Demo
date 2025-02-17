@@ -125,8 +125,9 @@ final impactSelectedSectionProvider = StateNotifierProvider<ImpactDisplayNotifie
 
 final metricsDataProvider = StateNotifierProvider<MetricsDataProvider, MetricsDataState>((ref) {
   final userProfileDataNotifier = ref.watch(userDataProvider.notifier);
-  final loadingnotifier = ref.watch(loadingProvider.notifier);
-  return MetricsDataProvider(userProfileData: userProfileDataNotifier, loadingNotifier: loadingnotifier);
+  return MetricsDataProvider(
+    userProfileData: userProfileDataNotifier,
+  );
 });
 
 final loadingProvider = StateNotifierProvider<Loadingnotifier, bool>((ref) {
@@ -136,3 +137,4 @@ final loadingProvider = StateNotifierProvider<Loadingnotifier, bool>((ref) {
 final selectedIndicatorProvider = StateNotifierProvider<SelectedIndicator, Indicator>((ref) {
   return SelectedIndicator();
 });
+

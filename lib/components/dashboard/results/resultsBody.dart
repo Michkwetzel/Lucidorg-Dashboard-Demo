@@ -5,6 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/components/dashboard/results/mainView/mainViewBody.dart';
 import 'package:platform_front/components/dashboard/results/sideBar/resultsSideBarBody.dart';
 import 'package:platform_front/components/global/loading_overlay.dart';
+import 'package:platform_front/components/global/no_data_top_banner.dart';
+import 'package:platform_front/components/global/top_action_banner.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/providers.dart';
 
@@ -14,11 +16,9 @@ class ResultsBody extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return OverlayWidget(
-      noSurveyData: ref.watch(metricsDataProvider).noSurveyData,
-      notEnoughData: ref.watch(metricsDataProvider).notEnoughData,
       loadingProvider: ref.watch(metricsDataProvider).loading,
       showChild: false,
-      child: const Padding(
+      child: Padding(
           padding: EdgeInsets.symmetric(vertical: 16),
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
@@ -48,6 +48,7 @@ class ResultsBody extends ConsumerWidget {
                         ),
                       ],
                     ),
+                  if (ref.watch(metricsDataProvider).noSurveyData || ref.watch(metricsDataProvider).participationBelow30 || ref.watch(metricsDataProvider).participationBelow30) TopActionBanner(),
                     SizedBox(
                       height: 16,
                     ),

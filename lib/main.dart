@@ -95,13 +95,18 @@ GoRouter setupRouter() {
         builder: (context, state) => const AuthScreen(),
       )
     ],
-    redirect: (context, state) {
+    redirect: (context, state) async {
       // If you are not authenticated. You cant access any screens. so take you back to log in
-      // TODO: remove these coments
       final isAuthenticated = FirebaseAuth.instance.currentUser != null;
       if (!isAuthenticated) {
         return '/auth';
       }
+
+      // if (state.extra == null) {
+      //   // Log user out if he reloads page.
+      //   await FirebaseAuth.instance.signOut();
+      //   return '/auth';
+      // }
       return null;
     },
   );

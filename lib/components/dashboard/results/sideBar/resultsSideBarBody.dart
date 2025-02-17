@@ -6,6 +6,7 @@ import 'package:platform_front/components/dashboard/results/sideBar/sections/ind
 import 'package:platform_front/components/dashboard/results/sideBar/sections/diif_matrix_sb/diff_matrix_side_bar.dart';
 import 'package:platform_front/components/dashboard/results/sideBar/sections/overview_sb/overview_side_bar.dart';
 import 'package:platform_front/components/dashboard/results/sideBar/sections/foundations_sb.dart';
+import 'package:platform_front/components/global/blurOverlay.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/config/providers.dart';
@@ -34,7 +35,7 @@ class ResultsSideBar extends ConsumerWidget {
       margin: EdgeInsets.only(left: 5, bottom: 5),
       width: 350,
       decoration: kboxShadowNormal,
-      child: _returnSideBarWidget(),
+      child: BlurOverlay(blur: ref.watch(metricsDataProvider).participationBelow30, child: _returnSideBarWidget()),
     );
   }
 }

@@ -16,7 +16,7 @@ class BlurOverlay extends StatelessWidget {
           Positioned.fill(
             child: ClipRect(
               child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+                filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
                 child: Container(
                   color: Colors.white.withOpacity(0.1), // This is crucial
                 ),

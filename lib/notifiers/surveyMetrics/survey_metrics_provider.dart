@@ -1,81 +1,77 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
-import 'package:platform_front/notifiers/loading/loadingNotifer.dart';
 import 'package:platform_front/notifiers/surveyMetrics/metrics_data.dart';
 import 'package:platform_front/notifiers/userProfileData/userProfileData.dart';
 
 class MetricsDataState {
-  SurveyMetric surveyMetric;
-  bool loading;
-  bool noSurveyData;
-  bool notEnoughData;
-  bool error;
+  final SurveyMetric surveyMetric;
+  final bool loading;
+  final bool noSurveyData;
+  final bool participationBelow30;
+  final bool between30And70;
+  final bool dataReady;
+  final bool needAll3Departments;
+  final bool showPopUp;
 
-  MetricsDataState({required this.surveyMetric, this.loading = false, this.noSurveyData = true, this.notEnoughData = true, this.error = false});
+  MetricsDataState({
+    required this.surveyMetric,
+    required this.loading,
+    required this.noSurveyData,
+    required this.participationBelow30,
+    required this.between30And70,
+    required this.dataReady,
+    required this.needAll3Departments,
+    required this.showPopUp,
+  });
 
-  factory MetricsDataState.empty() {
-    return MetricsDataState(surveyMetric: SurveyMetric.empty());
+  factory MetricsDataState.init() {
+    return MetricsDataState(
+        surveyMetric: SurveyMetric.loadDefaultValues(),
+        needAll3Departments: false,
+        noSurveyData: false,
+        loading: false,
+        participationBelow30: true,
+        dataReady: false,
+        between30And70: false,
+        showPopUp: true);
   }
 
-  MetricsDataState copyWith({SurveyMetric? surveyMetric, bool? loading, bool? noSurveyData, bool? error, bool? notEnoughData}) {
+  MetricsDataState copyWith(
+      {SurveyMetric? surveyMetric, bool? loading, bool? noSurveyData, bool? between30And70, bool? dataReady, bool? participationBelow30, bool? needAll3Departments, bool? showPopUp}) {
     return MetricsDataState(
-        surveyMetric: surveyMetric ?? this.surveyMetric,
-        loading: loading ?? this.loading,
-        noSurveyData: noSurveyData ?? this.noSurveyData,
-        error: error ?? this.error,
-        notEnoughData: notEnoughData ?? this.notEnoughData);
+      surveyMetric: surveyMetric ?? this.surveyMetric,
+      loading: loading ?? this.loading,
+      noSurveyData: noSurveyData ?? this.noSurveyData,
+      participationBelow30: participationBelow30 ?? this.participationBelow30,
+      between30And70: between30And70 ?? this.between30And70,
+      dataReady: dataReady ?? this.dataReady,
+      needAll3Departments: needAll3Departments ?? this.needAll3Departments,
+      showPopUp: showPopUp ?? this.showPopUp,
+    );
   }
 }
 
 class MetricsDataProvider extends StateNotifier<MetricsDataState> {
-  MetricsDataProvider({required this.userProfileData, required this.loadingNotifier}) : super(MetricsDataState.empty());
-
-  //DEVELOPMENT FUNCTION
-  void initializeDefault() async {
-    print('default init');
-    SurveyMetric defaultSurvey = SurveyMetric.loadDefaultValues();
-    state = state.copyWith(surveyMetric: defaultSurvey, loading: false, notEnoughData: false, noSurveyData: true);
-    state.surveyMetric.printData();
-  }
+  MetricsDataProvider({
+    required this.userProfileData,
+  }) : super(MetricsDataState.init());
 
   UserProfileDataNotifier userProfileData;
-  Loadingnotifier loadingNotifier;
   Logger logger = Logger('SurveyMetricsProvider');
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   MetricsData globalMetricsData = MetricsData();
 
-  bool get notEnoughData => state.surveyMetric.notEnoughData;
-
   void setSurveyMetrics(SurveyMetric surveyMetrics) {
-    state.surveyMetric = surveyMetrics;
+    state = state.copyWith(surveyMetric: surveyMetrics);
   }
 
-  bool checkIfSurveyExists() {
-    if (userProfileData.latestSurveyDocName == null) {
-      print('No Survey');
-      state = state.copyWith(noSurveyData: true);
-      return false;
-    } else {
-      print('Survey found');
-      state = state.copyWith(noSurveyData: false);
-      return true;
-    }
+  bool getShowPopUp() {
+    return state.showPopUp;
   }
 
-  void checkifEnoughData() {
-    if (state.surveyMetric.notEnoughData) {
-      print('Not enough Data');
-      state = state.copyWith(notEnoughData: true);
-    } else {
-      print('Enough Data');
-
-      state = state.copyWith(notEnoughData: false);
-    }
-  }
-
-  void toggleDisplayDummyData(){
-    state = state.copyWith(noSurveyData: false);
+  void hidePopUp() {
+    state = state.copyWith(showPopUp: false);
   }
 
   Future<void> getSurveyData(String companyUID) async {
@@ -88,8 +84,7 @@ class MetricsDataProvider extends StateNotifier<MetricsDataState> {
 
       if (allSurveyNames.isEmpty) {
         print('No surveyData');
-        state = state.copyWith(noSurveyData: true, loading: false, surveyMetric: SurveyMetric.loadDefaultValues());
-        state.surveyMetric.printData();
+        state = state.copyWith(loading: false, surveyMetric: SurveyMetric.loadDefaultValues(), noSurveyData: true, showPopUp: true);
         return;
       }
 
@@ -125,15 +120,76 @@ class MetricsDataProvider extends StateNotifier<MetricsDataState> {
         globalMetricsData.addSurveyData(surveyData);
       }
 
-      state = state.copyWith(
+      //Get latest survey data
+      // Check participation rate and set accordingly
+      SurveyMetric latestSurvey = globalMetricsData.getSurveyMetric(userProfileData.latestSurveyDocName!);
+      print(latestSurvey.getSurveyParticipation);
+      if (latestSurvey.getSurveyParticipation < 30) {
+        print(1);
+        state = state.copyWith(
           loading: false,
-          noSurveyData: false,
-          surveyMetric: globalMetricsData.getSurveyMetric(userProfileData.latestSurveyDocName!),
-          notEnoughData: globalMetricsData.getSurveyMetric(userProfileData.latestSurveyDocName!).notEnoughData);
+          participationBelow30: true,
+          between30And70: false,
+          needAll3Departments: false,
+          dataReady: false,
+          surveyMetric: SurveyMetric.loadBlurredData(
+            nCeoFinished: latestSurvey.nCeoFinished,
+            nCSuiteFinished: latestSurvey.nCSuiteFinished,
+            nEmployeeFinished: latestSurvey.nEmployeeFinished,
+            nStarted: latestSurvey.nStarted,
+            nSurveys: latestSurvey.nSurveys,
+          ),
+        );
+      } else if (latestSurvey.getSurveyParticipation < 70) {
+        print(2);
+
+        if (latestSurvey.unableToCalculate) {
+          state = state.copyWith(
+            loading: false,
+            participationBelow30: false,
+            between30And70: true,
+            needAll3Departments: true,
+            dataReady: false,
+            surveyMetric: SurveyMetric.loadDefaultValues(
+              nCeoFinished: latestSurvey.nCeoFinished,
+              nCSuiteFinished: latestSurvey.nCSuiteFinished,
+              nEmployeeFinished: latestSurvey.nEmployeeFinished,
+              nStarted: latestSurvey.nStarted,
+              nSurveys: latestSurvey.nSurveys,
+            ),
+          );
+        } else {
+          print(3);
+
+          state = state.copyWith(
+            loading: false,
+            participationBelow30: false,
+            between30And70: true,
+            needAll3Departments: false,
+            dataReady: false,
+            surveyMetric: latestSurvey,
+          );
+        }
+      } else {
+        print(4);
+
+        state = state.copyWith(
+          loading: false,
+          participationBelow30: false,
+          between30And70: false,
+          dataReady: true,
+          surveyMetric: latestSurvey,
+        );
+      }
+      // at this point we have the state of the latest survey. and can upadte our UI accordingly
       state.surveyMetric.printData();
     } catch (e) {
       logger.severe('Error getting survey data: $e');
-      state = state.copyWith(loading: false, error: true);
+      state = state.copyWith(loading: false, dataReady: true);
     }
+  }
+
+  bool getNoSurveyData() {
+    return state.noSurveyData;
   }
 }
