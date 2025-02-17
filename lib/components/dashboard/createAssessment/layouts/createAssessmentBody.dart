@@ -50,8 +50,9 @@ class _CreateAssessmentBodyState extends ConsumerState<CreateAssessmentBody> {
     } else {
       try {
         await ref.read(googlefunctionserviceProvider.notifier).createAssessment();
+        await ref.read(userDataProvider.notifier).getUserInfo(ref.read(authfirestoreserviceProvider));
+        await ref.read(metricsDataProvider.notifier).getSurveyData(ref.read(userDataProvider.notifier).companyUID!);
         SnackBarService.showMessage('Successfully Created assessment', Colors.green);
-        ref.read(metricsDataProvider.notifier).getSurveyData(ref.read(userDataProvider.notifier).companyUID!);
       } on Exception catch (e) {
         SnackBarService.showMessage('Error creating Assessment', Colors.red, duration: 3);
         logger.severe("Failed to create Assessment with error: $e");

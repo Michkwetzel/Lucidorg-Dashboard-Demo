@@ -182,7 +182,7 @@ class SurveyMetric {
     );
   }
 
-  factory SurveyMetric.loadBlurredData({double nCeoFinished = 1, double nCSuiteFinished = 4, double nEmployeeFinished = 12, double nSurveys = 20, double nStarted = 18}) {
+  factory SurveyMetric.loadBlurredData({String surveyName = 'Default', double nCeoFinished = 1, double nCSuiteFinished = 4, double nEmployeeFinished = 12, double nSurveys = 20, double nStarted = 18}) {
     Map<Indicator, double> ceoBenchmarks = {
       Indicator.align: 58.3,
       Indicator.meetingEfficacy: 100.0,
@@ -293,7 +293,7 @@ class SurveyMetric {
       Indicator.people: 6.4
     };
 
-    String surveyName = 'Default';
+   
 
     return SurveyMetric(
       ceoBenchmarks: ceoBenchmarks,

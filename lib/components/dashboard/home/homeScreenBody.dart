@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:platform_front/components/dashboard/home/Sections/participation_widget.dart';
 import 'package:platform_front/components/dashboard/home/Sections/benchmarkWidget.dart';
 import 'package:platform_front/components/dashboard/home/Sections/currentActionAreaWidget.dart';
@@ -8,11 +9,9 @@ import 'package:platform_front/components/dashboard/home/Sections/topOppertuniti
 import 'package:platform_front/components/global/blurOverlay.dart';
 import 'package:platform_front/components/global/loading_overlay.dart';
 import 'package:platform_front/components/global/no_data_pop_up.dart';
-import 'package:platform_front/components/global/no_data_top_banner.dart';
 import 'package:platform_front/components/global/top_action_banner.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/providers.dart';
-import 'package:platform_front/notifiers/surveyMetrics/survey_metrics_provider.dart';
 
 class HomeScreenBody extends ConsumerWidget {
   const HomeScreenBody({super.key});
@@ -43,15 +42,11 @@ class HomeScreenBody extends ConsumerWidget {
                           "Home",
                           style: kH1TextStyle,
                         ),
-                        if (!ref.watch(metricsDataProvider).noSurveyData)
-                          Text(
-                            'Assessment: Q1 2025',
-                            style: kH5PoppinsLight,
-                          )
+                        if (!ref.read(metricsDataProvider).noSurveyData) ActiveAssessmentTextWidget()
                       ],
                     ),
                   ),
-                  if (ref.watch(metricsDataProvider).noSurveyData || ref.watch(metricsDataProvider).participationBelow30 || ref.watch(metricsDataProvider).participationBelow30) TopActionBanner(),
+                  if (ref.watch(metricsDataProvider).noSurveyData || ref.watch(metricsDataProvider).participationBelow30 || ref.watch(metricsDataProvider).between30And70) TopActionBanner(),
                   const SizedBox(height: 16),
                   Row(children: [
                     const SizedBox(
@@ -81,7 +76,7 @@ class HomeScreenBody extends ConsumerWidget {
                               child: CurrentActionAreaWidget(),
                               blur: blurWidgets,
                             ),
-                            BlurOverlay(
+                            if(!ref.watch(metricsDataProvider).noSurveyData) BlurOverlay(
                               blur: blurWidgets,
                               child: NextAssessmentWidget(
                                 nextAssessmentData: '24 Feb 2025',
@@ -109,6 +104,66 @@ class HomeScreenBody extends ConsumerWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class ActiveAssessmentTextWidget extends ConsumerWidget {
+  const ActiveAssessmentTextWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    List<String> processSurveyDate(String dateString) {
+      try {
+        // Split into date and time parts
+        List<String> parts = dateString.split('T');
+        if (parts.length != 2) {
+          // If we can't split properly, try to parse the string directly
+          throw FormatException('Invalid date format');
+        }
+
+        String datePart = parts[0]; // This is already in YYYY-MM-DD format
+        String timePart = parts[1].replaceAll('-', ':'); // Convert time separators
+
+        // Combine date and time
+        String normalizedDate = '$datePart $timePart';
+
+        // Parse the normalized date string
+        DateTime dateObj = DateTime.parse(normalizedDate);
+
+        // Format to "17 Feb 2025"
+        String formatted = DateFormat('dd MMM yyyy').format(dateObj);
+
+        // Calculate date 4 months in future
+        DateTime futureDate = DateTime(
+          dateObj.year,
+          dateObj.month + 4,
+          dateObj.day,
+          dateObj.hour,
+          dateObj.minute,
+          dateObj.second,
+        );
+        String futureFormatted = DateFormat('dd MMM yyyy').format(futureDate);
+
+        return [formatted, futureFormatted];
+      } catch (e) {
+        // Handle parsing errors by returning a default or current date
+        DateTime now = DateTime.now();
+        String formatted = DateFormat('dd MMM yyyy').format(now);
+        DateTime futureDate = DateTime(now.year, now.month + 4, now.day);
+        String futureFormatted = DateFormat('dd MMM yyyy').format(futureDate);
+
+        print('Error processing date: $dateString'); // For debugging
+        return [formatted, futureFormatted];
+      }
+    }
+
+    String formatedSurveyDate = processSurveyDate(ref.watch(metricsDataProvider).surveyMetric.surveyName)[0];
+    return Text(
+      formatedSurveyDate,
+      style: kH5PoppinsLight,
     );
   }
 }

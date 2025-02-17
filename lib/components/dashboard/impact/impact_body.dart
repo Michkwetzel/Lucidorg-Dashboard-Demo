@@ -48,7 +48,7 @@ class ImpactBody extends ConsumerWidget {
                       ),
                     ],
                   ),
-                  if (ref.watch(metricsDataProvider).noSurveyData || ref.watch(metricsDataProvider).participationBelow30 || ref.watch(metricsDataProvider).participationBelow30) TopActionBanner(),
+                  if (ref.watch(metricsDataProvider).noSurveyData || ref.watch(metricsDataProvider).participationBelow30 || ref.watch(metricsDataProvider).between30And70) TopActionBanner(),
                   SizedBox(
                     height: 16,
                   ),

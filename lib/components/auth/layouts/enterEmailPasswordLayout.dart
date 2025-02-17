@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:platform_front/components/auth/buttons/bottomButtonsRow.dart';
 import 'package:platform_front/components/auth/buttons/tempComponents.dart';
+import 'package:platform_front/components/global/loading_overlay.dart';
 import 'package:platform_front/components/global/textfieldGray.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/enums.dart';
@@ -38,6 +39,8 @@ class EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLayo
     SnackBarService.showMessage("Successfully created Account", Colors.green);
     await ref.read(userDataProvider.notifier).getUserInfo(ref.read(authfirestoreserviceProvider));
     ref.read(metricsDataProvider.notifier).getSurveyData(ref.read(userDataProvider.notifier).companyUID!);
+    ref.read(authloadStateProvider.notifier).finished();
+
     NavigationService.navigateTo('/home');
     ref.read(authDisplayProvider.notifier).changeDisplay(const AppEntryLayout());
   }
@@ -47,6 +50,7 @@ class EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLayo
     await ref.read(userDataProvider.notifier).getUserInfo(ref.read(authfirestoreserviceProvider));
     ref.read(metricsDataProvider.notifier).getSurveyData(ref.read(userDataProvider.notifier).companyUID!);
     ref.read(companyInfoService.notifier).getCompanyInfo();
+    ref.read(authloadStateProvider.notifier).finished();
     NavigationService.navigateTo('/home');
     ref.read(authDisplayProvider.notifier).changeDisplay(const AppEntryLayout());
   }
@@ -70,6 +74,8 @@ class EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLayo
     }
 
     void onPressedNextButton() async {
+      ref.read(authloadStateProvider.notifier).loading();
+
       validationNotifier.validateEmail(emailController.text);
       validationNotifier.validatePassword(passwordController.text);
 
@@ -107,6 +113,8 @@ class EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLayo
               successfullyLogIn();
             }
           } on FirebaseAuthException catch (e) {
+            ref.read(authloadStateProvider.notifier).finished();
+
             logger.info('Error logging in or sign up with Firebase Auth Account: ${e.code}');
             switch (e.code) {
               case 'email-already-in-use':
@@ -137,6 +145,7 @@ class EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLayo
                 break;
             }
           } on Exception catch (e) {
+            ref.read(authloadStateProvider.notifier).finished();
             ref.read(authfirestoreserviceProvider.notifier).deleteAccount();
             logger.info('Error logging in or sign up $e');
             SnackBarService.showMessage("Internal Error. Please try again later or Leave message in feedback Button", Colors.red, duration: 10);
@@ -179,15 +188,21 @@ class EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLayo
         if (responseBody['success']) {
           succesfullyCreatedAccount();
         } else {
+          ref.read(authloadStateProvider.notifier).finished();
+
           await _handleProfileCreationFailure();
         }
+        ref.read(authloadStateProvider.notifier).finished();
       } on Exception catch (e) {
+        ref.read(authloadStateProvider.notifier).finished();
+
         await _handleProfileCreationFailure();
       }
     }
 
     Future<void> _handleGoogleSignIn() async {
       try {
+        ref.read(authloadStateProvider.notifier).loading();
         final userCred = await ref.read(authfirestoreserviceProvider.notifier).signinWithGoogle();
 
         if (userCred?.additionalUserInfo?.isNewUser != true) {
@@ -195,11 +210,18 @@ class EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLayo
         }
 
         if (widget.logIn) {
+          ref.read(authloadStateProvider.notifier).loading();
+
           await _handleNewUserOnLoginPage(userCred);
+          ref.read(authloadStateProvider.notifier).finished();
         } else {
+          ref.read(authloadStateProvider.notifier).loading();
+
           await _handleNewUserProfileCreation(userCred);
+          ref.read(authloadStateProvider.notifier).finished();
         }
       } on Exception catch (e) {
+        ref.read(authloadStateProvider.notifier).finished();
         SnackBarService.showMessage("Google sign in error, Please try again later or click feedback button", Colors.red, duration: 3);
       }
     }
@@ -210,62 +232,69 @@ class EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLayo
       });
     }
 
-    return FutureBuilder(
-        future: _pendingNextButtonRequest,
-        builder: (context, snapshot) {
-          return Container(
-            padding: const EdgeInsets.all(32),
-            width: 350,
-            decoration: BoxDecoration(
-              boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.20), blurRadius: 4)],
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(24),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Image.asset('assets/logo/tempLogo.png', scale: kLogoScale),
-                const SizedBox(height: 12),
-                const Text("Email", style: kTextFieldHeaderTextStyle),
-                const SizedBox(height: 2),
-                TextfieldGray(
-                  height: 50,
-                  controller: emailController,
-                  isLoading: snapshot.connectionState == ConnectionState.waiting,
-                  error: validationState.emailError != null,
-                  errorText: validationState.emailError ?? '',
+    return OverlayWidget(
+      loadingMessage: "Creating Profile!",
+      loadingProvider: ref.watch(authloadStateProvider),
+      showChild: true,
+      child: Center(
+        child: FutureBuilder(
+            future: _pendingNextButtonRequest,
+            builder: (context, snapshot) {
+              return Container(
+                padding: const EdgeInsets.all(32),
+                width: 350,
+                decoration: BoxDecoration(
+                  boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.20), blurRadius: 4)],
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(24),
                 ),
-                validationState.emailError != null ? const SizedBox(height: 4) : const SizedBox(height: 12),
-                const Text("Password", style: kTextFieldHeaderTextStyle),
-                const SizedBox(height: 2),
-                TextfieldGray(
-                  height: 50,
-                  controller: passwordController,
-                  isLoading: snapshot.connectionState == ConnectionState.waiting,
-                  error: validationState.passwordError != null,
-                  errorText: validationState.passwordError ?? '',
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Image.asset('assets/logo/tempLogo.png', scale: kLogoScale),
+                    const SizedBox(height: 12),
+                    const Text("Email", style: kTextFieldHeaderTextStyle),
+                    const SizedBox(height: 2),
+                    TextfieldGray(
+                      height: 50,
+                      controller: emailController,
+                      isLoading: snapshot.connectionState == ConnectionState.waiting,
+                      error: validationState.emailError != null,
+                      errorText: validationState.emailError ?? '',
+                    ),
+                    validationState.emailError != null ? const SizedBox(height: 4) : const SizedBox(height: 12),
+                    const Text("Password", style: kTextFieldHeaderTextStyle),
+                    const SizedBox(height: 2),
+                    TextfieldGray(
+                      height: 50,
+                      controller: passwordController,
+                      isLoading: snapshot.connectionState == ConnectionState.waiting,
+                      error: validationState.passwordError != null,
+                      errorText: validationState.passwordError ?? '',
+                    ),
+                    validationState.emailError != null ? const SizedBox(height: 8) : const SizedBox(height: 12),
+                    const SizedBox(height: 4),
+                    const LineBreak(
+                      colour: 'black',
+                    ),
+                    const SizedBox(height: 4),
+                    GoogleSignInButton(onPressed: () => googleSignInClicked()),
+                    const SizedBox(
+                      height: 18,
+                    ),
+                    BottomButtonsRow(
+                      onPressedBackButton: () => onPressedBackButton(),
+                      onPressedNextButton: () {
+                        snapshot.connectionState != ConnectionState.waiting || snapshot.connectionState == ConnectionState.none ? onPressedNextButton() : null;
+                      },
+                      nextButtonText: widget.logIn ? "Log in" : "Continue",
+                    ),
+                  ],
                 ),
-                validationState.emailError != null ? const SizedBox(height: 8) : const SizedBox(height: 12),
-                const SizedBox(height: 4),
-                const LineBreak(
-                  colour: 'black',
-                ),
-                const SizedBox(height: 4),
-                GoogleSignInButton(onPressed: () => googleSignInClicked()),
-                const SizedBox(
-                  height: 18,
-                ),
-                BottomButtonsRow(
-                  onPressedBackButton: () => onPressedBackButton(),
-                  onPressedNextButton: () {
-                    snapshot.connectionState != ConnectionState.waiting || snapshot.connectionState == ConnectionState.none ? onPressedNextButton() : null;
-                  },
-                  nextButtonText: widget.logIn ? "Log in" : "Continue",
-                ),
-              ],
-            ),
-          );
-        });
+              );
+            }),
+      ),
+    );
   }
 }

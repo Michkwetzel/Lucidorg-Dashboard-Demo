@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/components/buttons/CallToActionButton.dart';
+import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/config/providers.dart';
 import 'package:platform_front/notifiers/surveyMetrics/survey_metrics_provider.dart';
 import 'package:platform_front/services/microServices/navigationService.dart';
@@ -21,15 +22,22 @@ class TopActionBanner extends ConsumerWidget {
     // Change to direct function instead of void function
     void handlePress() {
       if (metricsState.noSurveyData) {
+        ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.createAssessment);
         NavigationService.navigateTo('/createAssessment');
       } else if (metricsState.participationBelow30) {
         // Add your reminder sending logic here
         print('Sending reminder...');
+      } else {
+        print('Can send another Reminder.');
       }
     }
 
     if (metricsState.participationBelow30) {
       text = "Current Assessment participation is $participation%. We need 30% to show data";
+      buttonText = "Send Reminder";
+      borderColor = Colors.purple[300]!;
+    } else if (metricsState.between30And70) {
+      text = "Current Assessment participation: $participation%. Values are not accurate until 70%";
       buttonText = "Send Reminder";
       borderColor = Colors.purple[300]!;
     }

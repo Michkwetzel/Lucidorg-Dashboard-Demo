@@ -31,7 +31,7 @@ class MetricsDataState {
         needAll3Departments: false,
         noSurveyData: false,
         loading: false,
-        participationBelow30: true,
+        participationBelow30: false,
         dataReady: false,
         between30And70: false,
         showPopUp: true);
@@ -84,11 +84,13 @@ class MetricsDataProvider extends StateNotifier<MetricsDataState> {
 
       if (allSurveyNames.isEmpty) {
         print('No surveyData');
-        state = state.copyWith(loading: false, surveyMetric: SurveyMetric.loadDefaultValues(), noSurveyData: true, showPopUp: true);
+        state = state.copyWith(
+            loading: false, surveyMetric: SurveyMetric.loadDefaultValues(), noSurveyData: true, needAll3Departments: false, between30And70: false, participationBelow30: false, showPopUp: true);
         return;
       }
 
       // Store futures for all get operations
+      print('here');
       final futures = <Future<DocumentSnapshot>>[];
       for (final surveyName in allSurveyNames) {
         final metricsRef = _firestore.collection('surveyMetrics/$companyUID/$surveyName').doc('metrics');
@@ -96,15 +98,19 @@ class MetricsDataProvider extends StateNotifier<MetricsDataState> {
         futures.add(metricsRef.get());
         futures.add(participationRef.get());
       }
+      print('here');
 
       // Await all futures concurrently
       final snapshots = await Future.wait(futures);
 
       // Process the snapshots
       for (int i = 0; i < allSurveyNames.length; i++) {
+        print('$i');
+
         final surveyName = allSurveyNames[i];
         final metricsData = snapshots[i * 2].data() as Map<String, dynamic>? ?? {};
         final participationData = snapshots[i * 2 + 1].data() as Map<String, dynamic>? ?? {};
+        print('$i');
 
         final SurveyMetric surveyData = SurveyMetric.fromStringFields(
           cSuiteBenchmarks: metricsData['cSuiteBenchmarks'],
@@ -128,17 +134,18 @@ class MetricsDataProvider extends StateNotifier<MetricsDataState> {
         print(1);
         state = state.copyWith(
           loading: false,
+          noSurveyData: false,
           participationBelow30: true,
           between30And70: false,
           needAll3Departments: false,
           dataReady: false,
           surveyMetric: SurveyMetric.loadBlurredData(
-            nCeoFinished: latestSurvey.nCeoFinished,
-            nCSuiteFinished: latestSurvey.nCSuiteFinished,
-            nEmployeeFinished: latestSurvey.nEmployeeFinished,
-            nStarted: latestSurvey.nStarted,
-            nSurveys: latestSurvey.nSurveys,
-          ),
+              nCeoFinished: latestSurvey.nCeoFinished,
+              nCSuiteFinished: latestSurvey.nCSuiteFinished,
+              nEmployeeFinished: latestSurvey.nEmployeeFinished,
+              nStarted: latestSurvey.nStarted,
+              nSurveys: latestSurvey.nSurveys,
+              surveyName: latestSurvey.surveyName),
         );
       } else if (latestSurvey.getSurveyParticipation < 70) {
         print(2);
@@ -146,6 +153,7 @@ class MetricsDataProvider extends StateNotifier<MetricsDataState> {
         if (latestSurvey.unableToCalculate) {
           state = state.copyWith(
             loading: false,
+            noSurveyData: false,
             participationBelow30: false,
             between30And70: true,
             needAll3Departments: true,
@@ -163,6 +171,7 @@ class MetricsDataProvider extends StateNotifier<MetricsDataState> {
 
           state = state.copyWith(
             loading: false,
+            noSurveyData: false,
             participationBelow30: false,
             between30And70: true,
             needAll3Departments: false,
@@ -175,7 +184,9 @@ class MetricsDataProvider extends StateNotifier<MetricsDataState> {
 
         state = state.copyWith(
           loading: false,
+          noSurveyData: false,
           participationBelow30: false,
+          needAll3Departments: false,
           between30And70: false,
           dataReady: true,
           surveyMetric: latestSurvey,

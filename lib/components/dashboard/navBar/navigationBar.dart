@@ -117,16 +117,17 @@ class _NavBarState extends ConsumerState<NavBar> {
                                 ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.createAssessment);
                                 NavigationService.navigateTo('/createAssessment');
                               },
-                              icon: Icons.layers_outlined,
+                              icon: Icons.layers,
                               label: 'Assessment',
                               buttonType: NavBarButtonType.createAssessment,
                             ),
                             NavBarButton(
+                              
                               onTap: () {
                                 ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.results);
                                 NavigationService.navigateTo('/results');
                               },
-                              icon: Icons.format_align_center,
+                              icon: Icons.assessment,
                               label: 'Results',
                               buttonType: NavBarButtonType.results,
                             ),
@@ -135,13 +136,13 @@ class _NavBarState extends ConsumerState<NavBar> {
                                 ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.impact);
                                 NavigationService.navigateTo('/impact');
                               },
-                              icon: Icons.highlight_alt_rounded,
+                              icon: Icons.electric_bolt,
                               label: 'Impact',
                               buttonType: NavBarButtonType.impact,
                             ),
                             NavBarButton(
                               onTap: () => {},
-                              icon: Icons.highlight_alt_rounded,
+                              icon: Icons.build,
                               label: 'The Fix',
                               buttonType: NavBarButtonType.theFix,
                             ),
@@ -163,7 +164,7 @@ class _NavBarState extends ConsumerState<NavBar> {
                                 ref.read(authfirestoreserviceProvider.notifier).signOutUser();
                                 NavigationService.navigateTo('/auth');
                               },
-                              icon: Icons.logout_outlined,
+                              icon: Icons.logout,
                               label: 'Log out',
                               buttonType: NavBarButtonType.logOut,
                             ),

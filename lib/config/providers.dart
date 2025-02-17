@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/config/enums.dart';
+import 'package:platform_front/notifiers/auth/authLoadState.dart';
 import 'package:platform_front/notifiers/impact/impact_display_notifier.dart';
 import 'package:platform_front/notifiers/loading/loadingNotifer.dart';
 import 'package:platform_front/notifiers/navBar/navBarExpandState.dart';
@@ -138,3 +139,6 @@ final selectedIndicatorProvider = StateNotifierProvider<SelectedIndicator, Indic
   return SelectedIndicator();
 });
 
+final authloadStateProvider = StateNotifierProvider<AuthLoadState, bool>((ref) {
+  return AuthLoadState();
+});
