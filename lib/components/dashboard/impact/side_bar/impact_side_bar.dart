@@ -35,7 +35,10 @@ class ImpactSideBar extends ConsumerWidget {
       margin: EdgeInsets.only(left: 5, bottom: 5),
       width: 350,
       decoration: kboxShadowNormal,
-      child: BlurOverlay(blur: ref.watch(metricsDataProvider).participationBelow30,child: returnSideBarWidget()),
+      child: BlurOverlay(
+        blur: ref.watch(metricsDataProvider).participationBelow30 || ref.watch(metricsDataProvider).needAll3Departments,
+        child: returnSideBarWidget(),
+      ),
     );
   }
 }

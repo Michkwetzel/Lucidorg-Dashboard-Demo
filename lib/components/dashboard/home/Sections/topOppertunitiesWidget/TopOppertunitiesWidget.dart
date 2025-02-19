@@ -24,7 +24,7 @@ class TopOppertunitiesWidget extends ConsumerWidget {
 
     return Container(
       width: 611,
-      padding: EdgeInsets.symmetric(vertical: 16, horizontal: 32),
+      padding: EdgeInsets.only(top: 16, right: 32, left: 32, bottom: 32),
       decoration: kboxShadowNormal,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -35,10 +35,6 @@ class TopOppertunitiesWidget extends ConsumerWidget {
           ),
           TopOppertunitiesRow(text: topOppIndicators[0].heading, diff: diff1, score: score1),
           TopOppertunitiesRow(text: topOppIndicators[1].heading, diff: diff2, score: score2),
-          Text(
-            'Top Concern',
-            style: kH2PoppinsRegular,
-          ),
           TopOppertunitiesRow(text: highestConcernIndicator.heading, diff: surveyMetric.diffScores[highestConcernIndicator]!, score: surveyMetric.companyBenchmarks[highestConcernIndicator]!),
         ],
       ),

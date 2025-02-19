@@ -58,7 +58,7 @@ class CompanyTrajectoryGraph extends ConsumerWidget {
     SurveyMetric displayData = ref.watch(metricsDataProvider).surveyMetric;
     double companyIndex = displayData.companyBenchmarks[Indicator.companyIndex]!;
 
-    double graphAmplitude = (companyIndex / 100) * 58;
+    double graphAmplitude = (companyIndex / 100) * 60;
     if (companyIndex < 70 && companyIndex > 60) {
       graphAmplitude = graphAmplitude - companyIndex * 0.01;
     } else if (companyIndex < 60 && companyIndex > 50) {

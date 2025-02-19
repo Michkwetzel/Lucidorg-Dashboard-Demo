@@ -48,11 +48,15 @@ class OverallScoreAndDiffWidget extends ConsumerWidget {
 
     return Column(
       children: [
-        Text("Overall Score", style: kH2PoppinsLight),
+        Text("Benchmark Score", style: kH2PoppinsLight),
         SizedBox(height: 8),
         Text('$overallScore%', style: kH2TotalScoreLight),
         SizedBox(height: 60),
-        Text('Overall Differentiation', style: kH3PoppinsLight),
+        Text(
+          'Benchmark Differentiation',
+          style: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w300, fontSize: 22),
+          textAlign: TextAlign.center,
+        ),
         SizedBox(height: 8),
         DiffTriangleRedWidget(value: overallDiff, size: Diffsize.H2),
       ],

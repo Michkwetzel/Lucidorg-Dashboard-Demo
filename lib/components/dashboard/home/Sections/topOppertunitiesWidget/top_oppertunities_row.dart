@@ -27,6 +27,7 @@ class TopOppertunitiesRow extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
           decoration: kGrayBoxDecoration,
           child: Row(
+            spacing: 8,
             children: [
               Text(
                 '${score.toStringAsFixed(0)}%',

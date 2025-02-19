@@ -18,7 +18,7 @@ class HomeScreenBody extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    bool blurWidgets = ref.watch(metricsDataProvider).participationBelow30;
+    bool blurWidgets = ref.watch(metricsDataProvider).participationBelow30 || ref.watch(metricsDataProvider).needAll3Departments;
 
     return OverlayWidget(
       loadingProvider: ref.watch(metricsDataProvider).loading,
@@ -46,7 +46,11 @@ class HomeScreenBody extends ConsumerWidget {
                       ],
                     ),
                   ),
-                  if (ref.watch(metricsDataProvider).noSurveyData || ref.watch(metricsDataProvider).participationBelow30 || ref.watch(metricsDataProvider).between30And70) TopActionBanner(),
+                  if (ref.watch(metricsDataProvider).noSurveyData ||
+                      ref.watch(metricsDataProvider).participationBelow30 ||
+                      ref.watch(metricsDataProvider).between30And70 ||
+                      ref.watch(metricsDataProvider).needAll3Departments)
+                    TopActionBanner(),
                   const SizedBox(height: 16),
                   Row(children: [
                     const SizedBox(
@@ -62,7 +66,7 @@ class HomeScreenBody extends ConsumerWidget {
                   const SizedBox(height: 32),
                   SizedBox(
                     width: 1000,
-                    height: 270,
+                    height: 250,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -76,12 +80,13 @@ class HomeScreenBody extends ConsumerWidget {
                               child: CurrentActionAreaWidget(),
                               blur: blurWidgets,
                             ),
-                            if(!ref.watch(metricsDataProvider).noSurveyData) BlurOverlay(
-                              blur: blurWidgets,
-                              child: NextAssessmentWidget(
-                                nextAssessmentData: '24 Feb 2025',
-                              ),
-                            )
+                            if (!ref.watch(metricsDataProvider).noSurveyData)
+                              BlurOverlay(
+                                blur: blurWidgets,
+                                child: NextAssessmentWidget(
+                                  nextAssessmentData: '24 Feb 2025',
+                                ),
+                              )
                           ],
                         ),
                         SizedBox(

@@ -22,10 +22,9 @@ class EmailTemplateState {
 
   factory EmailTemplateState.initial() {
     return EmailTemplateState(
-      templateController: TextEditingController(),
-      templateBody:
-          "To whom this may concern\n\nWe're excited to announce that we're partnering with Efficiency First to take a closer look at how we can improve as an organization.\n\nThe survey is 10-15 minutes, and completely anonymous. What makes this unique is that the results won't just sit on a shelf—we're using your input to create bottom-up solutions that empower each of you to take part in driving improvements across the company.\n\nThis is your chance to help identify the real issues, and more importantly, to be part of the solution. After the survey, we'll be sharing the results to work together on growth opportunities and problem-solving.\n\nHere [assessment link] is the link to the survey. We ask that you complete it honestly within 24 hours, and please keep in mind that it is completely anonymous.\n\nYour insights will play a key role in helping us build a better, more efficient workplace where every voice contributes to our success.\n\nKind Regards\nTest Company",
-    );
+        templateController: TextEditingController(),
+        templateBody:
+            "Hi Team,\n\nLet’s be honest—no one loves surveys. But this one? It’s different.\n\nThis 10-15 minute completely anonymous assessment isn’t about collecting data to ignore later. It’s about uncovering what’s working, what’s not, and actually doing something about it.\nYour input will help spotlight hidden challenges and opportunities so we can turn insights into actions that matter. And no, “have more meetings about meetings” isn’t on the agenda.\n\nThe sooner you share your perspective, the sooner we can start making this place even better.\n\n[assessment link]\n\nThanks for making this happen,\n[Your Name/Leadership Team]");
   }
 }
 

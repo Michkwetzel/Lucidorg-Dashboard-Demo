@@ -90,27 +90,23 @@ class MetricsDataProvider extends StateNotifier<MetricsDataState> {
       }
 
       // Store futures for all get operations
-      print('here');
       final futures = <Future<DocumentSnapshot>>[];
       for (final surveyName in allSurveyNames) {
         final metricsRef = _firestore.collection('surveyMetrics/$companyUID/$surveyName').doc('metrics');
         final participationRef = _firestore.collection('surveyMetrics/$companyUID/$surveyName').doc('participationStats');
+        print('MetricsDoc: surveyMetrics/$companyUID/$surveyName/metrics, ParticipationDoc: surveyMetrics/$companyUID/$surveyName/participationStats ');
         futures.add(metricsRef.get());
         futures.add(participationRef.get());
       }
-      print('here');
 
       // Await all futures concurrently
       final snapshots = await Future.wait(futures);
 
       // Process the snapshots
       for (int i = 0; i < allSurveyNames.length; i++) {
-        print('$i');
-
         final surveyName = allSurveyNames[i];
         final metricsData = snapshots[i * 2].data() as Map<String, dynamic>? ?? {};
         final participationData = snapshots[i * 2 + 1].data() as Map<String, dynamic>? ?? {};
-        print('$i');
 
         final SurveyMetric surveyData = SurveyMetric.fromStringFields(
           cSuiteBenchmarks: metricsData['cSuiteBenchmarks'],
@@ -129,9 +125,9 @@ class MetricsDataProvider extends StateNotifier<MetricsDataState> {
       //Get latest survey data
       // Check participation rate and set accordingly
       SurveyMetric latestSurvey = globalMetricsData.getSurveyMetric(userProfileData.latestSurveyDocName!);
-      print(latestSurvey.getSurveyParticipation);
+      latestSurvey.printData();
       if (latestSurvey.getSurveyParticipation < 30) {
-        print(1);
+        print('<30');
         state = state.copyWith(
           loading: false,
           noSurveyData: false,
@@ -147,41 +143,35 @@ class MetricsDataProvider extends StateNotifier<MetricsDataState> {
               nSurveys: latestSurvey.nSurveys,
               surveyName: latestSurvey.surveyName),
         );
-      } else if (latestSurvey.getSurveyParticipation < 70) {
-        print(2);
+      } else if (latestSurvey.unableToCalculate) {
+        print('Unable to calculate');
 
-        if (latestSurvey.unableToCalculate) {
-          state = state.copyWith(
-            loading: false,
-            noSurveyData: false,
-            participationBelow30: false,
-            between30And70: true,
-            needAll3Departments: true,
-            dataReady: false,
-            surveyMetric: SurveyMetric.loadDefaultValues(
+        state = state.copyWith(
+          loading: false,
+          noSurveyData: false,
+          participationBelow30: false,
+          between30And70: false,
+          needAll3Departments: true,
+          dataReady: false,
+          surveyMetric: SurveyMetric.loadBlurredData(
               nCeoFinished: latestSurvey.nCeoFinished,
               nCSuiteFinished: latestSurvey.nCSuiteFinished,
               nEmployeeFinished: latestSurvey.nEmployeeFinished,
               nStarted: latestSurvey.nStarted,
               nSurveys: latestSurvey.nSurveys,
-            ),
-          );
-        } else {
-          print(3);
-
-          state = state.copyWith(
-            loading: false,
-            noSurveyData: false,
-            participationBelow30: false,
-            between30And70: true,
-            needAll3Departments: false,
-            dataReady: false,
-            surveyMetric: latestSurvey,
-          );
-        }
+              surveyName: latestSurvey.surveyName),
+        );
+      } else if (latestSurvey.getSurveyParticipation < 70) {
+        state = state.copyWith(
+          loading: false,
+          noSurveyData: false,
+          participationBelow30: false,
+          needAll3Departments: false,
+          between30And70: true,
+          dataReady: false,
+          surveyMetric: latestSurvey,
+        );
       } else {
-        print(4);
-
         state = state.copyWith(
           loading: false,
           noSurveyData: false,

@@ -44,7 +44,10 @@ class MainViewBody extends ConsumerWidget {
           SizedBox(
             height: 32,
           ),
-          BlurOverlay(blur: ref.watch(metricsDataProvider).participationBelow30,child: _returnMainViewWidget()),
+          BlurOverlay(
+            blur: ref.watch(metricsDataProvider).participationBelow30 || ref.watch(metricsDataProvider).needAll3Departments,
+            child: _returnMainViewWidget(),
+          ),
         ],
       ),
     );

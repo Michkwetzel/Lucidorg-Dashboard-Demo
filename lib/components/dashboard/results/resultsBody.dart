@@ -48,7 +48,7 @@ class ResultsBody extends ConsumerWidget {
                         ),
                       ],
                     ),
-                  if (ref.watch(metricsDataProvider).noSurveyData || ref.watch(metricsDataProvider).participationBelow30 || ref.watch(metricsDataProvider).between30And70) TopActionBanner(),
+                  if (ref.watch(metricsDataProvider).noSurveyData || ref.watch(metricsDataProvider).participationBelow30 || ref.watch(metricsDataProvider).between30And70|| ref.watch(metricsDataProvider).needAll3Departments) TopActionBanner(),
                     SizedBox(
                       height: 16,
                     ),

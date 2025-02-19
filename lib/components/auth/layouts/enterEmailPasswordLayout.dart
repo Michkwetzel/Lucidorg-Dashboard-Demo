@@ -233,7 +233,6 @@ class EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLayo
     }
 
     return OverlayWidget(
-      loadingMessage: "Creating Profile!",
       loadingProvider: ref.watch(authloadStateProvider),
       showChild: true,
       child: Center(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:intl/intl.dart';
+import 'package:platform_front/config/providers.dart';
 
 class NextAssessmentWidget extends ConsumerWidget {
   final String nextAssessmentData;
@@ -58,7 +59,7 @@ class NextAssessmentWidget extends ConsumerWidget {
       }
     }
 
-    String nextAssessmentDate = processSurveyDate(nextAssessmentData)[1];
+    String nextAssessmentDate = processSurveyDate(ref.read(metricsDataProvider).surveyMetric.surveyName)[1];
 
     return Padding(
       padding: const EdgeInsets.all(16.0),

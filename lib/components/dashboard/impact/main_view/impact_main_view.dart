@@ -46,7 +46,7 @@ class ImpactMainView extends ConsumerWidget {
             height: 32,
           ),
           BlurOverlay(
-            blur: ref.watch(metricsDataProvider).participationBelow30,
+            blur: ref.watch(metricsDataProvider).participationBelow30 || ref.watch(metricsDataProvider).needAll3Departments,
             child: returnMainViewWidget(),
           ),
         ],
