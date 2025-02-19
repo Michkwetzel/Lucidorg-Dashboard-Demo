@@ -66,7 +66,7 @@ class HomeScreenBody extends ConsumerWidget {
                   const SizedBox(height: 32),
                   SizedBox(
                     width: 1000,
-                    height: 250,
+                    height: 280,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [

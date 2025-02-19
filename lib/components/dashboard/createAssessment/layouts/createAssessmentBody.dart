@@ -7,8 +7,6 @@ import 'package:platform_front/components/dashboard/createAssessment/emailTempla
 import 'package:platform_front/components/global/loading_overlay.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/providers.dart';
-import 'package:platform_front/notifiers/surveyMetrics/metrics_data.dart';
-import 'package:platform_front/notifiers/userProfileData/userProfileData.dart';
 import 'package:platform_front/services/microServices/snackBarService.dart';
 
 class CreateAssessmentBody extends ConsumerStatefulWidget {
@@ -21,7 +19,6 @@ class CreateAssessmentBody extends ConsumerStatefulWidget {
 }
 
 class _CreateAssessmentBodyState extends ConsumerState<CreateAssessmentBody> {
-  @override
   final Logger logger = Logger('CreateAssessment');
 
   void startAssessment(BuildContext context, WidgetRef ref) async {
@@ -66,57 +63,51 @@ class _CreateAssessmentBodyState extends ConsumerState<CreateAssessmentBody> {
       loadingProvider: ref.watch(googlefunctionserviceProvider),
       loadingMessage: 'Creating Assessment!',
       child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ConstrainedBox(
-              constraints: const BoxConstraints(
-                maxWidth: 380,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Fixed header section
-
-                  const SizedBox(height: 12),
-                  const Text(
-                    'Create Assessment',
-                    style: kH1TextStyle,
-                  ),
-                  const SizedBox(height: 40),
-
-                  // Scrollable content
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Emaillistbody(),
-                          const SizedBox(height: 32),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              CallToActionButton(
-                                disabled: ref.watch(googlefunctionserviceProvider),
-                                onPressed: () => startAssessment(context, ref),
-                                buttonText: "Start Assessment",
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ConstrainedBox(
+                constraints: const BoxConstraints(
+                  maxWidth: 380,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 12),
+                    const Text(
+                      'Create Assessment',
+                      style: kH1TextStyle,
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 40),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Emaillistbody(),
+                        const SizedBox(height: 32),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            CallToActionButton(
+                              disabled: ref.watch(googlefunctionserviceProvider),
+                              onPressed: () => startAssessment(context, ref),
+                              buttonText: "Start Assessment",
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(width: 32),
-            const Padding(
-              padding: EdgeInsets.only(top: 4, bottom: 4),
-              child: EmailTemplateBody(),
-            ),
-          ],
+              const SizedBox(width: 32),
+              const Padding(
+                padding: EdgeInsets.only(top: 4, bottom: 4),
+                child: EmailTemplateBody(),
+              ),
+            ],
+          ),
         ),
       ),
     );

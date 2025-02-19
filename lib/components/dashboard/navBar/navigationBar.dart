@@ -80,7 +80,7 @@ class _NavBarState extends ConsumerState<NavBar> {
                                     ? SizedBox(
                                         height: 35.5,
                                         child: Image.asset(
-                                          'assets/logo/tempLogo.png',
+                                          'assets/logo/logo.jpg',
                                         ),
                                       )
                                     : SizedBox(

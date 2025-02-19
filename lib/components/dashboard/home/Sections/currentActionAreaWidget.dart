@@ -39,6 +39,7 @@ class CurrentActionAreaWidget extends ConsumerWidget {
           child: Text(
             highestIndicator.heading,
             style: kH5PoppinsLight,
+            textAlign: TextAlign.center,
           ),
         ),
         SizedBox(height: 16),

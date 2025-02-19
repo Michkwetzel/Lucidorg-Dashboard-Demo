@@ -19,6 +19,7 @@ class GoogleFunctionService extends StateNotifier<bool> {
   String get emailTemplate => _emailTemplateNotifier.state.templateBody;
   String get userUID => _userDataNotifier.state.userUID!;
   String get companyUID => _userDataNotifier.state.companyUID!;
+  String get subject => _emailTemplateNotifier.state.subject;
 
   GoogleFunctionService(
       {required EmailListNotifier emailListNotifier,
@@ -52,7 +53,10 @@ class GoogleFunctionService extends StateNotifier<bool> {
         'employeeEmails': employeeEmails,
         'emailTemplate': emailTemplate,
         'userUID': userUID,
+        'subject': subject,
+        'companyUID': companyUID
       };
+      
       print(request);
       await HttpService.postRequest(path: kCreateAssessmentPath, request: request);
       state = false;

@@ -39,7 +39,6 @@ class EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLayo
     SnackBarService.showMessage("Successfully created Account", Colors.green);
     await ref.read(userDataProvider.notifier).getUserInfo(ref.read(authfirestoreserviceProvider));
     ref.read(metricsDataProvider.notifier).getSurveyData(ref.read(userDataProvider.notifier).companyUID!);
-    ref.read(authloadStateProvider.notifier).finished();
 
     NavigationService.navigateTo('/home');
     ref.read(authDisplayProvider.notifier).changeDisplay(const AppEntryLayout());
@@ -50,7 +49,6 @@ class EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLayo
     await ref.read(userDataProvider.notifier).getUserInfo(ref.read(authfirestoreserviceProvider));
     ref.read(metricsDataProvider.notifier).getSurveyData(ref.read(userDataProvider.notifier).companyUID!);
     ref.read(companyInfoService.notifier).getCompanyInfo();
-    ref.read(authloadStateProvider.notifier).finished();
     NavigationService.navigateTo('/home');
     ref.read(authDisplayProvider.notifier).changeDisplay(const AppEntryLayout());
   }
@@ -74,8 +72,6 @@ class EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLayo
     }
 
     void onPressedNextButton() async {
-      ref.read(authloadStateProvider.notifier).loading();
-
       validationNotifier.validateEmail(emailController.text);
       validationNotifier.validatePassword(passwordController.text);
 
@@ -113,8 +109,6 @@ class EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLayo
               successfullyLogIn();
             }
           } on FirebaseAuthException catch (e) {
-            ref.read(authloadStateProvider.notifier).finished();
-
             logger.info('Error logging in or sign up with Firebase Auth Account: ${e.code}');
             switch (e.code) {
               case 'email-already-in-use':
@@ -145,7 +139,6 @@ class EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLayo
                 break;
             }
           } on Exception catch (e) {
-            ref.read(authloadStateProvider.notifier).finished();
             ref.read(authfirestoreserviceProvider.notifier).deleteAccount();
             logger.info('Error logging in or sign up $e');
             SnackBarService.showMessage("Internal Error. Please try again later or Leave message in feedback Button", Colors.red, duration: 10);
@@ -188,21 +181,15 @@ class EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLayo
         if (responseBody['success']) {
           succesfullyCreatedAccount();
         } else {
-          ref.read(authloadStateProvider.notifier).finished();
-
           await _handleProfileCreationFailure();
         }
-        ref.read(authloadStateProvider.notifier).finished();
       } on Exception catch (e) {
-        ref.read(authloadStateProvider.notifier).finished();
-
         await _handleProfileCreationFailure();
       }
     }
 
     Future<void> _handleGoogleSignIn() async {
       try {
-        ref.read(authloadStateProvider.notifier).loading();
         final userCred = await ref.read(authfirestoreserviceProvider.notifier).signinWithGoogle();
 
         if (userCred?.additionalUserInfo?.isNewUser != true) {
@@ -210,18 +197,11 @@ class EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLayo
         }
 
         if (widget.logIn) {
-          ref.read(authloadStateProvider.notifier).loading();
-
           await _handleNewUserOnLoginPage(userCred);
-          ref.read(authloadStateProvider.notifier).finished();
         } else {
-          ref.read(authloadStateProvider.notifier).loading();
-
           await _handleNewUserProfileCreation(userCred);
-          ref.read(authloadStateProvider.notifier).finished();
         }
       } on Exception catch (e) {
-        ref.read(authloadStateProvider.notifier).finished();
         SnackBarService.showMessage("Google sign in error, Please try again later or click feedback button", Colors.red, duration: 3);
       }
     }

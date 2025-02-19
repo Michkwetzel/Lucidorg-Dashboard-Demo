@@ -70,7 +70,23 @@ class _OverlayWidgetState extends ConsumerState<OverlayWidget> with SingleTicker
       // Widget is loading
       if (widget.showChild) {
         return Stack(
-          children: [widget.child, LoadingAnimation(animation: _animation, widget: widget)],
+          children: [
+            widget.child,
+            AbsorbPointer(
+              child: GestureDetector(
+                // Optional: This ensures even transparent areas block touches
+                behavior: HitTestBehavior.opaque,
+                // Using onTap: (){} to ensure the GestureDetector is active
+                onTap: () {},
+                child: Container(
+                  width: double.infinity,
+                  height: double.infinity,
+                  color: Colors.white.withOpacity(0.2),
+                ),
+              ),
+            ),
+            LoadingAnimation(animation: _animation, widget: widget)
+          ],
         );
       } else {
         return LoadingAnimation(animation: _animation, widget: widget);

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/components/auth/buttons/bottomButtonsRow.dart';
+import 'package:platform_front/components/auth/layouts/createAccountScreen.dart';
 import 'package:platform_front/components/buttons/selectionButton.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/enums.dart';
@@ -22,7 +23,7 @@ class UserTypeSelectionLayout extends ConsumerWidget {
       } else if (selectedButton == SelectionButtonType.token) {
         ref.read(authDisplayProvider.notifier).changeDisplay(const EnterTokenLayout());
       } else {
-        ref.read(authDisplayProvider.notifier).changeDisplay(EnterEmailPasswordLayout());
+        ref.read(authDisplayProvider.notifier).changeDisplay(CreateAccountScreen());
       }
     }
 
@@ -44,11 +45,9 @@ class UserTypeSelectionLayout extends ConsumerWidget {
             const SizedBox(height: 12),
             screenWidth < 600
                 ? const Column(
-                  mainAxisSize: MainAxisSize.min,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Selectionbutton(buttonText: 'I have a paid \nsubscription', buttonType: SelectionButtonType.token),
-                      SizedBox(height: 12),
-                      Selectionbutton(buttonText: 'I am viewing \nCompany results', buttonType: SelectionButtonType.employee),
+                      Selectionbutton(buttonText: 'I have a token', buttonType: SelectionButtonType.token),
                       SizedBox(height: 12),
                       Selectionbutton(buttonText: 'I am testing \nthe product', buttonType: SelectionButtonType.guest)
                     ],
@@ -56,16 +55,14 @@ class UserTypeSelectionLayout extends ConsumerWidget {
                 : const Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Selectionbutton(buttonText: 'I have a paid \nsubscription', buttonType: SelectionButtonType.token),
-                      SizedBox(width: 24),
-                      Selectionbutton(buttonText: 'I am viewing \nCompany results', buttonType: SelectionButtonType.employee),
+                      Selectionbutton(buttonText: 'I have a token', buttonType: SelectionButtonType.token),
                       SizedBox(width: 24),
                       Selectionbutton(buttonText: 'I am testing \nthe product', buttonType: SelectionButtonType.guest)
                     ],
                   ),
             const SizedBox(height: 24),
             BottomButtonsRow(
-              width: screenWidth < 600 ? -1 : 500,
+              width: screenWidth < 600 ? -1 : 320,
               onPressedBackButton: () {
                 ref.read(selectionButtonProvider.notifier).onButtonSelect(SelectionButtonType.none);
                 ref.read(authDisplayProvider.notifier).changeDisplay(const AppEntryLayout());

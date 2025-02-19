@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/config/providers.dart';
 
-class BodyEmailTemplateEdit extends ConsumerWidget {
+class SubjectEdit extends ConsumerWidget {
   final String? Function(String?)? validator;
-  
-  const BodyEmailTemplateEdit({
+
+  const SubjectEdit({
     super.key,
     required this.validator,
   });
@@ -16,8 +16,8 @@ class BodyEmailTemplateEdit extends ConsumerWidget {
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: validator,
       enableInteractiveSelection: true,
-      initialValue: ref.read(emailTemplateProvider.notifier).templateBody,
-      onChanged: (value) => ref.read(emailTemplateProvider.notifier).updateEmailTemplate(value),
+      initialValue: ref.read(emailTemplateProvider.notifier).subject,
+      onChanged: (value) => ref.read(emailTemplateProvider.notifier).updateSubjectText(value),
       maxLines: null,
       style: const TextStyle(
         letterSpacing: 0.4,
@@ -37,6 +37,27 @@ class BodyEmailTemplateEdit extends ConsumerWidget {
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
           borderSide: const BorderSide(color: Colors.red, width: 1),
+        ),
+      ),
+    );
+  }
+}
+
+class SubjectView extends ConsumerWidget {
+  const SubjectView({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Container(
+      color: Colors.white,
+      padding: EdgeInsets.zero,
+      child: Text(
+        ref.read(emailTemplateProvider.notifier).subject,
+        style: const TextStyle(
+          letterSpacing: 0.4,
+          fontSize: 16.0,
+          height: 1.5,
+          color: Colors.black87,
         ),
       ),
     );

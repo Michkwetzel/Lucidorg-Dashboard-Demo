@@ -10,9 +10,9 @@ class TemplateView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return SingleChildScrollView(
-      child: Container( // Add Container to match TextFormField's natural padding
-        color: Colors.white, // Match TextFormField's background
-        padding: EdgeInsets.zero, // Match TextFormField's padding
+      child: Container(
+        color: Colors.white,
+        padding: EdgeInsets.zero,
         child: Text(
           ref.read(emailTemplateProvider.notifier).templateBody,
           style: const TextStyle(

@@ -25,6 +25,7 @@ class _CompanyInfoBodyState extends ConsumerState<CompanyInfoBody> {
   late String fundingStage;
   late String industry;
   late String region;
+  bool loading = false;
 
   @override
   void initState() {
@@ -41,7 +42,7 @@ class _CompanyInfoBodyState extends ConsumerState<CompanyInfoBody> {
   Widget build(BuildContext context) {
     Map<String, String> companyInfo = ref.read(companyInfoProvider);
     return OverlayWidget(
-      loadingProvider: ref.watch(companyInfoService),
+      loadingProvider: loading,
       child: SingleChildScrollView(
         child: Form(
           key: _formKey,
@@ -151,6 +152,9 @@ class _CompanyInfoBodyState extends ConsumerState<CompanyInfoBody> {
                       child: CallToActionButton(
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
+                              setState(() {
+                                loading = true;
+                              });
                               final Map<String, String> formData = {
                                 'companyName': companyNameController.text,
                                 'numEmployees': numEmployees,
@@ -161,8 +165,14 @@ class _CompanyInfoBodyState extends ConsumerState<CompanyInfoBody> {
                               try {
                                 await ref.read(companyInfoProvider.notifier).saveCompanyInfo(formData);
                                 SnackBarService.showMessage("Company info successfully saved", Colors.green, duration: 2);
+                                setState(() {
+                                  loading = false;
+                                });
                               } on Exception catch (e) {
-                                SnackBarService.showMessage("Error whilst saving companyInfo", Colors.red, duration: 3);
+                                setState(() {
+                                  loading = false;
+                                });
+                                SnackBarService.showMessage("Error while saving companyInfo", Colors.red, duration: 3);
                               }
                             }
                           },
