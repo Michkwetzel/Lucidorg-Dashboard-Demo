@@ -6,6 +6,7 @@ import 'package:platform_front/components/dashboard/impact/main_view/diff_over_t
 import 'package:platform_front/components/dashboard/impact/main_view/financial/financial_mv.dart';
 import 'package:platform_front/components/dashboard/impact/main_view/org_impact/org_impact_main_view.dart';
 import 'package:platform_front/components/dashboard/impact/main_view/score_over_time/score_over_time_MV.dart';
+import 'package:platform_front/components/global/blurOverlay.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/config/providers.dart';
@@ -34,7 +35,7 @@ class ImpactMainView extends ConsumerWidget {
     }
 
     return Container(
-      width: 800,
+      width: selectedSection == ImpactSection.orgImpact ? 950 : 800,
       padding: EdgeInsets.all(32),
       margin: EdgeInsets.only(left: 5, bottom: 5, right: 5),
       decoration: kboxShadowNormal,
@@ -44,7 +45,10 @@ class ImpactMainView extends ConsumerWidget {
           SizedBox(
             height: 32,
           ),
-          returnMainViewWidget(),
+          BlurOverlay(
+            blur: ref.watch(metricsDataProvider).participationBelow30 || ref.watch(metricsDataProvider).needAll3Departments,
+            child: returnMainViewWidget(),
+          ),
         ],
       ),
     );

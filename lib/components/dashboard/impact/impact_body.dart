@@ -5,6 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/components/dashboard/impact/main_view/impact_main_view.dart';
 import 'package:platform_front/components/dashboard/impact/side_bar/impact_side_bar.dart';
 import 'package:platform_front/components/global/loading_overlay.dart';
+import 'package:platform_front/components/global/no_data_top_banner.dart';
+import 'package:platform_front/components/global/top_action_banner.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/providers.dart';
 
@@ -13,10 +15,10 @@ class ImpactBody extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return LoadingOverlay(
+    return OverlayWidget(
       loadingProvider: ref.watch(metricsDataProvider).loading,
       showChild: false,
-      child: const Padding(
+      child: Padding(
         padding: EdgeInsets.symmetric(vertical: 16),
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
@@ -46,6 +48,7 @@ class ImpactBody extends ConsumerWidget {
                       ),
                     ],
                   ),
+                  if (ref.watch(metricsDataProvider).noSurveyData || ref.watch(metricsDataProvider).participationBelow30 || ref.watch(metricsDataProvider).between30And70|| ref.watch(metricsDataProvider).needAll3Departments) TopActionBanner(),
                   SizedBox(
                     height: 16,
                   ),

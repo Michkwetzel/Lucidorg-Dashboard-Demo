@@ -49,7 +49,7 @@ class AppEntryLayout extends ConsumerWidget {
           Secondarybutton(
               onPressed: () async {
                 try {
-                  await ref.read(authfirestoreserviceProvider.notifier).signInWithEmailAndPassword('test@gmail.com', '1234567890');
+                  await ref.read(authfirestoreserviceProvider.notifier).signInWithEmailAndPassword('test@gmail.com', 'qwertyqwerty');
                   await ref.read(userDataProvider.notifier).getUserInfo(ref.read(authfirestoreserviceProvider));
                   ref.read(companyInfoService.notifier).getCompanyInfo();
                   ref.read(metricsDataProvider.notifier).getSurveyData('testCompany');

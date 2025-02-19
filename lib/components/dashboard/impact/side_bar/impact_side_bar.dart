@@ -6,6 +6,7 @@ import 'package:platform_front/components/dashboard/impact/side_bar/diif_over_ti
 import 'package:platform_front/components/dashboard/impact/side_bar/financial/financial_SB.dart';
 import 'package:platform_front/components/dashboard/impact/side_bar/org_impact/org_impact_SB.dart';
 import 'package:platform_front/components/dashboard/impact/side_bar/scores_over_time/scores_over_time_SB.dart';
+import 'package:platform_front/components/global/blurOverlay.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/config/providers.dart';
@@ -34,7 +35,10 @@ class ImpactSideBar extends ConsumerWidget {
       margin: EdgeInsets.only(left: 5, bottom: 5),
       width: 350,
       decoration: kboxShadowNormal,
-      child: returnSideBarWidget(),
+      child: BlurOverlay(
+        blur: ref.watch(metricsDataProvider).participationBelow30 || ref.watch(metricsDataProvider).needAll3Departments,
+        child: returnSideBarWidget(),
+      ),
     );
   }
 }

@@ -6,7 +6,7 @@ import 'package:platform_front/config/enums.dart';
 
 class ImpactAreaData {
   static final mainAreas = {
-    MainArea.alignment: MainAreaData(
+    Pilar.alignment: MainAreaData(
       title: 'Alignment',
       impactAreas: [
         IndicatorDataTemp(
@@ -21,21 +21,21 @@ class ImpactAreaData {
         ),
       ],
     ),
-    MainArea.people: MainAreaData(title: 'People', impactAreas: [
+    Pilar.people: MainAreaData(title: 'People', impactAreas: [
       IndicatorDataTemp(
         heading: 'Cross-Functional Communication',
         body: 'Develop a plan to ensure 360 degrees communication across the org',
         impactValue: 1,
       ),
     ]),
-    MainArea.process: MainAreaData(title: 'Process', impactAreas: [
+    Pilar.process: MainAreaData(title: 'Process', impactAreas: [
       IndicatorDataTemp(
         heading: 'Meeting Efficacy',
         body: 'Streamline meeting processes agendas, attendees and number of meetings taking place',
         impactValue: 1,
       ),
     ]),
-    MainArea.leadership: MainAreaData(
+    Pilar.leadership: MainAreaData(
       title: 'Leadership',
       impactAreas: [
         IndicatorDataTemp(

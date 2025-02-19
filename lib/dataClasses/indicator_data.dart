@@ -3,12 +3,14 @@ import 'package:platform_front/config/enums.dart';
 class IndicatorData {
   final String heading;
   final String impactText;
+  final int impactNum;
   final Map<ScoreRange, Map<String, String>> scoreTexts;
   final Map<DiffRange, String> diffTexts;
 
   IndicatorData({
     required this.heading,
     required this.impactText,
+    required this.impactNum,
     required this.scoreTexts,
     required this.diffTexts,
   });

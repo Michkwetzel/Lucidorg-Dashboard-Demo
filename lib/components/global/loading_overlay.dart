@@ -1,14 +1,16 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/config/constants.dart';
 
-class LoadingOverlay extends ConsumerStatefulWidget {
+class OverlayWidget extends ConsumerStatefulWidget {
   final Widget child;
   final bool showChild;
   final String loadingMessage;
   final bool loadingProvider;
-  const LoadingOverlay({
-    required this.loadingProvider,
+
+  const OverlayWidget({
+    this.loadingProvider = false,
     this.loadingMessage = 'Loading...',
     this.showChild = true,
     required this.child,
@@ -16,10 +18,10 @@ class LoadingOverlay extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<LoadingOverlay> createState() => _LoadingOverlayState();
+  ConsumerState<OverlayWidget> createState() => _OverlayWidgetState();
 }
 
-class _LoadingOverlayState extends ConsumerState<LoadingOverlay> with SingleTickerProviderStateMixin {
+class _OverlayWidgetState extends ConsumerState<OverlayWidget> with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
   late final Animation<double> _animation;
 
@@ -64,74 +66,63 @@ class _LoadingOverlayState extends ConsumerState<LoadingOverlay> with SingleTick
 
   @override
   Widget build(BuildContext context) {
-    if (widget.showChild) {
-      return Stack(
-        children: [
-          widget.child,
-          if (widget.loadingProvider)
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Center(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                    child: RotationTransition(
-                      turns: _animation,
-                      child: Image.asset(
-                        'assets/logo/3transparent_logo.png',
-                        width: 100,
-                        height: 100,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 8,
-                ),
-                Container(
-                  decoration: kboxShadowNormal,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
-                    child: Text(
-                      widget.loadingMessage,
-                      style: kH5PoppinsLight,
-                    ),
-                  ),
-                )
-              ],
-            )
-        ],
-      );
-    } else {
-      if (widget.loadingProvider) {
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              color: Colors.white.withOpacity(0.8),
-              child: Center(
-                child: RotationTransition(
-                  turns: _animation,
-                  child: Image.asset(
-                    'assets/logo/logoImage.png',
-                    width: 100,
-                    height: 100,
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            Text(
-              'Loading...',
-              style: kH5PoppinsLight,
-            )
-          ],
+    if (widget.loadingProvider) {
+      // Widget is loading
+      if (widget.showChild) {
+        return Stack(
+          children: [widget.child, LoadingAnimation(animation: _animation, widget: widget)],
         );
       } else {
-        return widget.child;
+        return LoadingAnimation(animation: _animation, widget: widget);
       }
+    } else {
+      return widget.child;
     }
+  }
+}
+
+class LoadingAnimation extends StatelessWidget {
+  const LoadingAnimation({
+    super.key,
+    required Animation<double> animation,
+    required this.widget,
+  }) : _animation = animation;
+
+  final Animation<double> _animation;
+  final OverlayWidget widget;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Center(
+          child: ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+            child: RotationTransition(
+              turns: _animation,
+              child: Image.asset(
+                'assets/logo/3transparent_logo.png',
+                width: 100,
+                height: 100,
+              ),
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 8,
+        ),
+        Container(
+          decoration: kboxShadowNormal,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+            child: Text(
+              widget.loadingMessage,
+              style: kH5PoppinsLight,
+            ),
+          ),
+        )
+      ],
+    );
   }
 }

@@ -5,8 +5,8 @@ import 'package:platform_front/config/enums.dart';
 
 class TopOppertunitiesRow extends StatelessWidget {
   final String text;
-  final String diff;
-  final String score;
+  final double diff;
+  final double score;
 
   const TopOppertunitiesRow({required this.text, required this.diff, required this.score, super.key});
 
@@ -27,14 +27,16 @@ class TopOppertunitiesRow extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
           decoration: kGrayBoxDecoration,
           child: Row(
+            spacing: 8,
             children: [
               Text(
-                score,
+                '${score.toStringAsFixed(0)}%',
                 style: kH5PoppinsLight,
               ),
               DiffTriangleRedWidget(
+                noDecimals: true,
                 size: Diffsize.H4,
-                value: 23,
+                value: diff,
               ),
             ],
           ),

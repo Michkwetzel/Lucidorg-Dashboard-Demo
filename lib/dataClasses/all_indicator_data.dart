@@ -4,6 +4,7 @@ import 'package:platform_front/config/enums.dart';
 class AllIndicatorData {
   static Map<Indicator, IndicatorData> indicatorMap = {
     Indicator.companyIndex: IndicatorData(
+      impactNum: 0,
       heading: 'Index',
       impactText: '',
       scoreTexts: {
@@ -46,6 +47,7 @@ class AllIndicatorData {
       diffTexts: {},
     ),
     Indicator.operations: IndicatorData(
+      impactNum: 0,
       heading: 'Operations',
       impactText: '',
       scoreTexts: {
@@ -78,6 +80,7 @@ class AllIndicatorData {
       diffTexts: {},
     ),
     Indicator.workforce: IndicatorData(
+      impactNum: 0,
       heading: 'Workforce',
       impactText: '',
       scoreTexts: {
@@ -110,6 +113,7 @@ class AllIndicatorData {
       diffTexts: {},
     ),
     Indicator.orgAlign: IndicatorData(
+      impactNum: 1,
       heading: 'Organizational Alignment',
       impactText: 'A well-structured organization enhances efficiency and reduces bottlenecks.',
       scoreTexts: {
@@ -151,6 +155,7 @@ class AllIndicatorData {
       },
     ),
     Indicator.growthAlign: IndicatorData(
+      impactNum: 2,
       heading: 'Growth Alignment',
       impactText: 'A well-structured organization enhances efficiency and reduces bottlenecks.',
       scoreTexts: {
@@ -192,6 +197,7 @@ class AllIndicatorData {
       },
     ),
     Indicator.collabKPIs: IndicatorData(
+      impactNum: 3,
       heading: 'Collaborative KPIs',
       impactText: 'Well-integrated KPIs lead to better decision-making and streamlined execution.',
       scoreTexts: {
@@ -233,6 +239,7 @@ class AllIndicatorData {
       },
     ),
     Indicator.engagedCommunity: IndicatorData(
+      impactNum: 4,
       heading: 'Engaged Community',
       impactText: 'An engaged workforce drives productivity, innovation, and overall organizational health.',
       scoreTexts: {
@@ -274,6 +281,7 @@ class AllIndicatorData {
       },
     ),
     Indicator.crossFuncComms: IndicatorData(
+      impactNum: 5,
       heading: 'Cross-Functional Communication',
       impactText: 'Effective communication ensures alignment, reduces inefficiencies, and enhances decision-making.',
       scoreTexts: {
@@ -315,6 +323,7 @@ class AllIndicatorData {
       },
     ),
     Indicator.crossFuncAcc: IndicatorData(
+      impactNum: 6,
       heading: 'Cross-Functional Accountability',
       impactText: 'Strong accountability fosters trust and collaboration.',
       scoreTexts: {
@@ -356,6 +365,7 @@ class AllIndicatorData {
       },
     ),
     Indicator.alignedTech: IndicatorData(
+      impactNum: 7,
       heading: 'Aligned Tech Stack',
       impactText: 'A well-integrated tech ecosystem streamlines processes and minimizes friction.',
       scoreTexts: {
@@ -397,6 +407,7 @@ class AllIndicatorData {
       },
     ),
     Indicator.collabProcesses: IndicatorData(
+      impactNum: 8,
       heading: 'Collaborative Processes',
       impactText: 'Strong collaborative processes improve accountability, reduce redundancies, and enhance agility.',
       scoreTexts: {
@@ -438,6 +449,7 @@ class AllIndicatorData {
       },
     ),
     Indicator.meetingEfficacy: IndicatorData(
+      impactNum: 9,
       heading: 'Meeting Efficacy',
       impactText: 'Streamlined meetings drive productivity, improve morale, and minimize wasted time.',
       scoreTexts: {
@@ -479,6 +491,7 @@ class AllIndicatorData {
       },
     ),
     Indicator.purposeDriven: IndicatorData(
+      impactNum: 10,
       heading: 'Purpose Driven',
       impactText: 'A strong sense of purpose drives engagement, motivation, and long-term success.',
       scoreTexts: {
@@ -520,6 +533,7 @@ class AllIndicatorData {
       },
     ),
     Indicator.empoweredLeadership: IndicatorData(
+      impactNum: 11,
       heading: 'Empowered Leadership',
       impactText: ' Empowered leadership fosters innovation, accountability, and agility.',
       scoreTexts: {

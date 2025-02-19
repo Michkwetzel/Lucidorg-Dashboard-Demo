@@ -40,7 +40,7 @@ class _CompanyInfoBodyState extends ConsumerState<CompanyInfoBody> {
   @override
   Widget build(BuildContext context) {
     Map<String, String> companyInfo = ref.read(companyInfoProvider);
-    return LoadingOverlay(
+    return OverlayWidget(
       loadingProvider: ref.watch(companyInfoService),
       child: SingleChildScrollView(
         child: Form(
@@ -160,9 +160,9 @@ class _CompanyInfoBodyState extends ConsumerState<CompanyInfoBody> {
                               };
                               try {
                                 await ref.read(companyInfoProvider.notifier).saveCompanyInfo(formData);
-                                SnackBarService.showMessage("Company info successfully saved", Colors.green);
+                                SnackBarService.showMessage("Company info successfully saved", Colors.green, duration: 2);
                               } on Exception catch (e) {
-                                SnackBarService.showMessage("Error whilst saving companyInfo", Colors.red);
+                                SnackBarService.showMessage("Error whilst saving companyInfo", Colors.red, duration: 3);
                               }
                             }
                           },

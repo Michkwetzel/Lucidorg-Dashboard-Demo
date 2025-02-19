@@ -131,3 +131,5 @@ BoxDecoration kBlackOutline = BoxDecoration(
   border: Border.all(color: Colors.black38, width: 0.5),
   borderRadius: BorderRadius.circular(8),
 );
+
+Color kSageGreen = Color(0xFFA2B185);

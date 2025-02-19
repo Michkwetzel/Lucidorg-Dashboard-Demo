@@ -65,7 +65,7 @@ class FirebaseServiceNotifier extends StateNotifier<bool> {
       }
     } catch (e) {
       logger.severe('Error fetching company Info: $e');
-      return null;
+      rethrow;
     }
   }
 
@@ -76,5 +76,4 @@ class FirebaseServiceNotifier extends StateNotifier<bool> {
   Future<void> readToDB() async {
     print(_firestore.collection('testing').doc().get().toString());
   }
-
 }

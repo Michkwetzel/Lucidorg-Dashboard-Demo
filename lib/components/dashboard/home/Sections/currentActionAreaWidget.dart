@@ -1,20 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/components/global/diffTriangleRedWidget.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/enums.dart';
+import 'package:platform_front/config/providers.dart';
+import 'package:platform_front/notifiers/surveyMetrics/metrics_data.dart';
 
-class CurrentActionAreaWidget extends StatelessWidget {
+class CurrentActionAreaWidget extends ConsumerWidget {
   const CurrentActionAreaWidget({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    SurveyMetric surveyMetric = ref.watch(metricsDataProvider).surveyMetric;
+    Indicator highestIndicator = surveyMetric.getHighestScoreIndicator();
+
+    double score = surveyMetric.companyBenchmarks[highestIndicator]!;
+    double diff = surveyMetric.diffScores[highestIndicator]!;
+
+
     return Container(
       width: 350,
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
       decoration: kboxShadowNormal,
       child: Column(children: [
         const Text(
-          'Current Action Area',
+          'Healthiest Indicator',
           style: kH2PoppinsRegular,
         ),
         const SizedBox(
@@ -26,23 +36,29 @@ class CurrentActionAreaWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
             color: const Color(0xFFDED6A3),
           ),
-          child: const Text(
-            'Meeting Efficacy',
+          child: Text(
+            highestIndicator.heading,
             style: kH5PoppinsLight,
           ),
         ),
         SizedBox(height: 16),
-        const Row(
+        Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(
               children: [
                 Text('Total Score', style: kH6PoppinsLight),
-                Text('55.7%', style: kH6PoppinsLight),
+                Text('$score%', style: kH6PoppinsLight),
               ],
             ),
             Column(
-              children: [Text('Differentiation', style: kH6PoppinsLight), DiffTriangleRedWidget(size: Diffsize.H4, value: 38,)],
+              children: [
+                Text('Differentiation', style: kH6PoppinsLight),
+                DiffTriangleRedWidget(
+                  size: Diffsize.H4,
+                  value: diff,
+                )
+              ],
             )
           ],
         )

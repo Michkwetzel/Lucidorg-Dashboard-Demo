@@ -5,8 +5,8 @@ import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/providers.dart';
 import 'package:platform_front/notifiers/surveyMetrics/metrics_data.dart';
 
-class ActiveAssessmentWidget extends ConsumerWidget {
-  ActiveAssessmentWidget({super.key});
+class ParticipationWidget extends ConsumerWidget {
+  ParticipationWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -16,11 +16,12 @@ class ActiveAssessmentWidget extends ConsumerWidget {
     double? nSurveys = displayData.nSurveys;
     double? nSubmitted = displayData.nSubmitted;
     double? nNotStarted = nSurveys - displayData.nStarted;
-    double? participationRate = (nSubmitted / nSurveys) * 100;
+    double? participationRate = nSurveys > 0 ? double.parse((nSubmitted / nSurveys * 100).toStringAsFixed(1)) : null;
+    double startedPercentage = nSurveys > 0 ? double.parse((nStartedButNotFinish / nSurveys * 100).toStringAsFixed(1)) : 5.0;
 
-    double startedPercentage = nSurveys > 0 ? (nStartedButNotFinish / nSurveys) * 100 : 5;
-    double submittedPercentage = nSurveys > 0 ? (nSubmitted / nSurveys) * 100 : 5;
-    double notStartedPercentage = nSurveys > 0 ? (nNotStarted / nSurveys) * 100 : 5;
+    double submittedPercentage = nSurveys > 0 ? double.parse((nSubmitted / nSurveys * 100).toStringAsFixed(1)) : 5.0;
+
+    double notStartedPercentage = nSurveys > 0 ? double.parse((nNotStarted / nSurveys * 100).toStringAsFixed(1)) : 5.0;
 
     return Container(
       height: 400,

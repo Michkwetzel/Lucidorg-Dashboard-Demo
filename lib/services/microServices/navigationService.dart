@@ -11,6 +11,6 @@ class NavigationService {
 
   // This method can be called from anywhere to trigger navigation
   static void navigateTo(String route) {
-    router.go(route);
+    router.go(route, extra: {'internal': true});
   }
 }

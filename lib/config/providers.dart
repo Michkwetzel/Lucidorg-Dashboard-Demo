@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/config/enums.dart';
+import 'package:platform_front/notifiers/auth/authLoadState.dart';
 import 'package:platform_front/notifiers/impact/impact_display_notifier.dart';
 import 'package:platform_front/notifiers/loading/loadingNotifer.dart';
 import 'package:platform_front/notifiers/navBar/navBarExpandState.dart';
@@ -125,8 +126,9 @@ final impactSelectedSectionProvider = StateNotifierProvider<ImpactDisplayNotifie
 
 final metricsDataProvider = StateNotifierProvider<MetricsDataProvider, MetricsDataState>((ref) {
   final userProfileDataNotifier = ref.watch(userDataProvider.notifier);
-  final loadingnotifier = ref.watch(loadingProvider.notifier);
-  return MetricsDataProvider(userProfileData: userProfileDataNotifier, loadingNotifier: loadingnotifier);
+  return MetricsDataProvider(
+    userProfileData: userProfileDataNotifier,
+  );
 });
 
 final loadingProvider = StateNotifierProvider<Loadingnotifier, bool>((ref) {
@@ -135,4 +137,8 @@ final loadingProvider = StateNotifierProvider<Loadingnotifier, bool>((ref) {
 
 final selectedIndicatorProvider = StateNotifierProvider<SelectedIndicator, Indicator>((ref) {
   return SelectedIndicator();
+});
+
+final authloadStateProvider = StateNotifierProvider<AuthLoadState, bool>((ref) {
+  return AuthLoadState();
 });

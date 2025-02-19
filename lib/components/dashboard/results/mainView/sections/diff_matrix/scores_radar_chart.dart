@@ -42,21 +42,21 @@ class _ScoresRadarChartState extends ConsumerState<ScoresRadarChart> {
           dataSets: [
             // CEO Data
             RadarDataSet(
-              fillColor: Colors.blue.withOpacity(0.2),
+              fillColor: Colors.white10,
               borderColor: Colors.blue,
               entryRadius: 2,
               dataEntries: ceoScores.map((score) => RadarEntry(value: score)).toList(),
             ),
             // CSUITE Data
             RadarDataSet(
-              fillColor: Colors.green.withOpacity(0.2),
+              fillColor: Colors.white10,
               borderColor: Colors.green,
               entryRadius: 2,
               dataEntries: csuiteScores.map((score) => RadarEntry(value: score)).toList(),
             ),
             // STAFF Data
             RadarDataSet(
-              fillColor: Colors.red.withOpacity(0.2),
+              fillColor: Colors.white10,
               borderColor: Colors.red,
               entryRadius: 2,
               dataEntries: staffScores.map((score) => RadarEntry(value: score)).toList(),
@@ -71,7 +71,7 @@ class _ScoresRadarChartState extends ConsumerState<ScoresRadarChart> {
           getTitle: (index, angle) {
             return RadarChartTitle(text: categories[index], angle: 0);
           },
-          tickCount: 2,
+          tickCount: 5,
           ticksTextStyle: const TextStyle(fontSize: 10, color: Colors.grey),
           tickBorderData: BorderSide(color: Colors.grey),
           gridBorderData: BorderSide(color: Colors.grey),

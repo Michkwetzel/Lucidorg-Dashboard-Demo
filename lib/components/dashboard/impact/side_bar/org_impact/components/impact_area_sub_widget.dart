@@ -1,18 +1,24 @@
 // // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/config/constants.dart';
+import 'package:platform_front/config/enums.dart';
+import 'package:platform_front/config/providers.dart';
+import 'package:platform_front/notifiers/surveyMetrics/metrics_data.dart';
 
 class ImpactAreaSubWidget extends StatelessWidget {
   final int impactValue;
   final String heading;
   final String body;
+  final Indicator indicator;
 
   const ImpactAreaSubWidget({
     super.key,
     required this.impactValue,
     required this.heading,
     required this.body,
+    required this.indicator,
   });
 
   @override
@@ -23,23 +29,7 @@ class ImpactAreaSubWidget extends StatelessWidget {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              width: 24,
-              height: 20,
-              margin: const EdgeInsets.only(right: 11),
-              decoration: BoxDecoration(
-                color: const Color(0xFFCD1717),
-                borderRadius: BorderRadius.circular(6),
-              ),
-              alignment: Alignment.center,
-              child: Text(
-                impactValue.toString(),
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 12,
-                ),
-              ),
-            ),
+            ImpactNumberBox(impactValue: impactValue, indicator: indicator),
             Flexible(
               child: Text(
                 heading,
@@ -59,6 +49,55 @@ class ImpactAreaSubWidget extends StatelessWidget {
         ),
         SizedBox(height: 12)
       ],
+    );
+  }
+}
+
+class ImpactNumberBox extends ConsumerWidget {
+  final Indicator indicator;
+  const ImpactNumberBox({
+    super.key,
+    required this.impactValue,
+    required this.indicator,
+  });
+
+  final int impactValue;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    SurveyMetric displayData = ref.watch(metricsDataProvider).surveyMetric;
+
+    List<Color> returnColor() {
+      double diff = displayData.diffScores[indicator]!;
+      double score = displayData.companyBenchmarks[indicator]!;
+
+      if (score < 40 || diff > 25) {
+        return [Color(0xFFF19C79), Colors.white];
+      } else if (score < 50 || diff > 15) {
+        return [Color(0xFFF2C479), Colors.white];
+      } else if (score < 60 || diff > 5) {
+        return [Color(0xFFEBEBEB), Colors.black];
+      } else {
+        return [Color(0xFFB9D08F), Colors.black];
+      }
+    }
+
+    return Container(
+      width: 24,
+      height: 20,
+      margin: const EdgeInsets.only(right: 11),
+      decoration: BoxDecoration(
+        color: returnColor()[0],
+        borderRadius: BorderRadius.circular(6),
+      ),
+      alignment: Alignment.center,
+      child: Text(
+        impactValue.toString(),
+        style: TextStyle(
+          color: returnColor()[1],
+          fontSize: 12,
+        ),
+      ),
     );
   }
 }
