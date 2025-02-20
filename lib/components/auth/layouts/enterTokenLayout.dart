@@ -102,7 +102,10 @@ class _EnterTokenLayoutState extends ConsumerState<EnterTokenLayout> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Image.asset('assets/logo/tempLogo.png', scale: kLogoScale),
+                    Image.asset(
+                      'assets/logo/logo.jpg',
+                      width: 300,
+                    ),
                     const SizedBox(height: 12),
                     const Text("Token", style: kTextFieldHeaderTextStyle),
                     const SizedBox(height: 2),

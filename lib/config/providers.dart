@@ -7,6 +7,7 @@ import 'package:platform_front/notifiers/auth/emailPasswordProvider.dart';
 import 'package:platform_front/notifiers/impact/impact_display_notifier.dart';
 import 'package:platform_front/notifiers/loading/loadingNotifer.dart';
 import 'package:platform_front/notifiers/navBar/navBarExpandState.dart';
+import 'package:platform_front/notifiers/scoreCompare/score_compare_provider.dart';
 import 'package:platform_front/notifiers/selectedIndicator/selected_indicator.dart';
 import 'package:platform_front/notifiers/surveyMetrics/survey_metrics_provider.dart';
 import 'package:platform_front/notifiers/userResultsData/userResultsData.dart';
@@ -125,9 +126,15 @@ final impactSelectedSectionProvider = StateNotifierProvider<ImpactDisplayNotifie
   return ImpactDisplayNotifier();
 });
 
+final scoreCompareProvider = StateNotifierProvider<ScoreCompareProvider, ScoreCompareState>((ref) {
+  return ScoreCompareProvider();
+});
+
 final metricsDataProvider = StateNotifierProvider<MetricsDataProvider, MetricsDataState>((ref) {
   final userProfileDataNotifier = ref.watch(userDataProvider.notifier);
+  final scoreCompareNotifier = ref.watch(scoreCompareProvider.notifier);
   return MetricsDataProvider(
+    scoreCompareProvider: scoreCompareNotifier,
     userProfileData: userProfileDataNotifier,
   );
 });

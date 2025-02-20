@@ -1,11 +1,13 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:platform_front/config/constants.dart';
 
 class BlurOverlay extends StatelessWidget {
   final Widget child;
   final bool blur;
-  const BlurOverlay({super.key, required this.child, this.blur = false});
+  final String? message;
+  const BlurOverlay({super.key, required this.child, this.blur = false, this.message});
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +25,19 @@ class BlurOverlay extends StatelessWidget {
               ),
             ),
           ),
+          if (message != null)
+            Center(
+              child: Container(
+                decoration: kboxShadowNormal,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric( vertical: 8.0, horizontal: 16),
+                  child: Text(
+                    message!,
+                    style: kH4PoppinsRegular,
+                  ),
+                ),
+              ),
+            )
         ],
       );
     } else {

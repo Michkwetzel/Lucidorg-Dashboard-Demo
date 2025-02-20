@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
+import 'package:platform_front/notifiers/scoreCompare/score_compare_provider.dart';
 import 'package:platform_front/notifiers/surveyMetrics/metrics_data.dart';
 import 'package:platform_front/notifiers/userProfileData/userProfileData.dart';
 
@@ -37,8 +38,16 @@ class MetricsDataState {
         showPopUp: true);
   }
 
-  MetricsDataState copyWith(
-      {SurveyMetric? surveyMetric, bool? loading, bool? noSurveyData, bool? between30And70, bool? dataReady, bool? participationBelow30, bool? needAll3Departments, bool? showPopUp}) {
+  MetricsDataState copyWith({
+    SurveyMetric? surveyMetric,
+    bool? loading,
+    bool? noSurveyData,
+    bool? between30And70,
+    bool? dataReady,
+    bool? participationBelow30,
+    bool? needAll3Departments,
+    bool? showPopUp,
+  }) {
     return MetricsDataState(
       surveyMetric: surveyMetric ?? this.surveyMetric,
       loading: loading ?? this.loading,
@@ -55,10 +64,14 @@ class MetricsDataState {
 class MetricsDataProvider extends StateNotifier<MetricsDataState> {
   MetricsDataProvider({
     required this.userProfileData,
+    required this.scoreCompareProvider,
   }) : super(MetricsDataState.init());
 
-  UserProfileDataNotifier userProfileData;
   Logger logger = Logger('SurveyMetricsProvider');
+
+  UserProfileDataNotifier userProfileData;
+  ScoreCompareProvider scoreCompareProvider;
+  
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   MetricsData globalMetricsData = MetricsData();
 
@@ -85,7 +98,14 @@ class MetricsDataProvider extends StateNotifier<MetricsDataState> {
       if (allSurveyNames.isEmpty) {
         print('No surveyData');
         state = state.copyWith(
-            loading: false, surveyMetric: SurveyMetric.loadDefaultValues(), noSurveyData: true, needAll3Departments: false, between30And70: false, participationBelow30: false, showPopUp: true);
+          loading: false,
+          surveyMetric: SurveyMetric.loadDefaultValues(),
+          noSurveyData: true,
+          needAll3Departments: false,
+          between30And70: false,
+          participationBelow30: false,
+          showPopUp: true,
+        );
         return;
       }
 
@@ -120,9 +140,12 @@ class MetricsDataProvider extends StateNotifier<MetricsDataState> {
           surveyName: surveyName,
         );
         globalMetricsData.addSurveyData(surveyData);
-      }
+      } 
 
-      //Get latest survey data
+      //Init loading of score/diff compare result section
+      scoreCompareProvider.initLoad();
+
+      // Get latest survey
       // Check participation rate and set accordingly
       SurveyMetric latestSurvey = globalMetricsData.getSurveyMetric(userProfileData.latestSurveyDocName!);
       latestSurvey.printData();

@@ -14,6 +14,8 @@ enum ImpactSection { orgImpact, financial, scoreOverTime, diffOverTime }
 
 enum Pilar { alignment, people, process, leadership, none }
 
+enum Compare { score, diff }
+
 extension PilarHeading on Pilar {
   String get heading {
     switch (this) {

@@ -29,7 +29,10 @@ class AppEntryLayout extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Image.asset('assets/logo/tempLogo.png', scale: kLogoScale),
+          Image.asset(
+            'assets/logo/logo.jpg',
+            width: 300,
+          ),
           const SizedBox(height: 24),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -30,6 +30,7 @@ class UserTypeSelectionLayout extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.all(24),
       child: Container(
+        width: 370,
         padding: const EdgeInsets.all(32),
         decoration: BoxDecoration(
           boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.20), blurRadius: 4)],
@@ -39,7 +40,7 @@ class UserTypeSelectionLayout extends ConsumerWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Image.asset('assets/logo/tempLogo.png', scale: kLogoScale),
+            Image.asset('assets/logo/logo.jpg', width: 300,),
             const SizedBox(height: 12),
             const Text("Please select", style: kH3TextStyle),
             const SizedBox(height: 12),

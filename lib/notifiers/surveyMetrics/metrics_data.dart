@@ -293,8 +293,6 @@ class SurveyMetric {
       Indicator.people: 6.4
     };
 
-   
-
     return SurveyMetric(
       ceoBenchmarks: ceoBenchmarks,
       cSuiteBenchmarks: cSuiteBenchmarks,
@@ -390,6 +388,7 @@ class SurveyMetric {
   }
 
   double get getSurveyParticipation => double.parse((nSubmitted * 100 / nSurveys).toStringAsFixed(1));
+  bool get readyToDisplay => getSurveyParticipation >= 70 && unableToCalculate == false;
 
   List<Map<Indicator, double>> getSpecificFoundations(List<Indicator> indicators) {
     List<Map<Indicator, double>> foundationIndicators = [];
@@ -562,6 +561,10 @@ class MetricsData {
   static final MetricsData _instance = MetricsData._internal(
     allSurveyMetrics: {},
   );
+
+  List<String> getSurveyNames(){
+    return allSurveyMetrics.keys.toList();
+  }
 
   factory MetricsData() {
     return _instance;
