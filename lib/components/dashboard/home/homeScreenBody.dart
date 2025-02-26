@@ -34,7 +34,7 @@ class HomeScreenBody extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    width: 1008,
+                    width: 1060,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -65,7 +65,6 @@ class HomeScreenBody extends ConsumerWidget {
                   ]),
                   const SizedBox(height: 32),
                   SizedBox(
-                    width: 1000,
                     height: 280,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,

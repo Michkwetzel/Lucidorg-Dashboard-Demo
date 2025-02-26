@@ -33,26 +33,29 @@ class IndicatorRow extends ConsumerWidget {
 
     SelectedIndicator selectedIndicator = ref.read(selectedIndicatorProvider.notifier);
 
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: () {
-          print('Changed Main display to: $heading');
-          selectedIndicator.changeMainDisplay(indicator);
-        },
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Material(
+        color: ref.watch(selectedIndicatorProvider) == indicator ? Colors.grey[300] : Colors.transparent,
         borderRadius: BorderRadius.circular(8),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 25),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox(
-                width: 130,
-                child: Text(heading, style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: 'Poppins', fontWeight: FontWeight.w300)),
-              ),
-              ScoreBox(height: 40, width: 60, score: score, textSize: 15, fontWeight: FontWeight.w300),
-              DiffBox(height: 33, width: 55, diff: diff, textSize: 14, fontWeight: FontWeight.w300)
-            ],
+        child: InkWell(
+          onTap: () {
+            selectedIndicator.changeMainDisplay(indicator);
+          },
+          borderRadius: BorderRadius.circular(8),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 4),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(
+                  width: 130,
+                  child: Text(heading, style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: 'Poppins', fontWeight: FontWeight.w300)),
+                ),
+                ScoreBox(height: 40, width: 60, score: score, textSize: 15, fontWeight: FontWeight.w300),
+                DiffBox(height: 33, width: 55, diff: diff, textSize: 14, fontWeight: FontWeight.w300)
+              ],
+            ),
           ),
         ),
       ),

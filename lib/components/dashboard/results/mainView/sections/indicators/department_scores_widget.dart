@@ -32,14 +32,35 @@ class OverallDepertmentBenchmarkWidget extends ConsumerWidget {
     double ceoScore = displayData.ceoBenchmarks[Indicator.companyIndex]!;
     double employeeScore = displayData.cSuiteBenchmarks[Indicator.companyIndex]!;
     double cSuiteScore = displayData.employeeBenchmarks[Indicator.companyIndex]!;
-    double diff = displayData.diffScores[Indicator.companyIndex]!;
+
+    return Column(
+      children: [
+        Text('CEO | C-Suite | Staff', style: kH4PoppinsRegular),
+        PerDepertmentScoresWidget(ceoScore: ceoScore, cSuiteScore: cSuiteScore, employeeScore: employeeScore),
+      ],
+    );
+  }
+}
+
+class DepartmentScoresDiffMatrix extends ConsumerWidget {
+  const DepartmentScoresDiffMatrix({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    SurveyMetric displayData = ref.watch(metricsDataProvider).surveyMetric;
+    Indicator selectedIndicator = ref.watch(selectedDiffMatrixProvider);
+
+    double ceoScore = displayData.ceoBenchmarks[selectedIndicator]!;
+    double employeeScore = displayData.cSuiteBenchmarks[selectedIndicator]!;
+    double cSuiteScore = displayData.employeeBenchmarks[selectedIndicator]!;
+    double diff = displayData.diffScores[selectedIndicator]!;
 
     return Column(
       children: [
         Text('CEO | C-Suite | Staff', style: kH4PoppinsRegular),
         PerDepertmentScoresWidget(ceoScore: ceoScore, cSuiteScore: cSuiteScore, employeeScore: employeeScore),
         SizedBox(height: 32),
-        Text('Overall Differentiation', style: kH4PoppinsLight),
+        Text('Differentiation', style: kH4PoppinsLight),
         SizedBox(height: 8),
         DiffTriangleRedWidget(value: diff, size: Diffsize.H3),
       ],

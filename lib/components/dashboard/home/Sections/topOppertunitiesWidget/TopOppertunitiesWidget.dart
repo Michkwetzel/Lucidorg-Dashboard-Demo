@@ -23,7 +23,7 @@ class TopOppertunitiesWidget extends ConsumerWidget {
     double diff2 = surveyMetric.diffScores[topOppIndicators[1]]!;
 
     return Container(
-      width: 611,
+      width: 659,
       padding: EdgeInsets.only(top: 16, right: 32, left: 32, bottom: 32),
       decoration: kboxShadowNormal,
       child: Column(

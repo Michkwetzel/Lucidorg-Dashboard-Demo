@@ -8,6 +8,7 @@ import 'package:platform_front/notifiers/impact/impact_display_notifier.dart';
 import 'package:platform_front/notifiers/loading/loadingNotifer.dart';
 import 'package:platform_front/notifiers/navBar/navBarExpandState.dart';
 import 'package:platform_front/notifiers/scoreCompare/score_compare_provider.dart';
+import 'package:platform_front/notifiers/selectedDiffMatrix/selected_diff_matrix.dart';
 import 'package:platform_front/notifiers/selectedIndicator/selected_indicator.dart';
 import 'package:platform_front/notifiers/surveyMetrics/survey_metrics_provider.dart';
 import 'package:platform_front/notifiers/userResultsData/userResultsData.dart';
@@ -153,4 +154,8 @@ final authloadStateProvider = StateNotifierProvider<AuthLoadState, bool>((ref) {
 
 final emailPasswordProvider = StateNotifierProvider<EmailPasswordProvider, EmailPasswordState>((ref) {
   return EmailPasswordProvider();
+});
+
+final selectedDiffMatrixProvider = StateNotifierProvider<SelectedDiffMatrix, Indicator>((ref) {
+  return SelectedDiffMatrix();
 });

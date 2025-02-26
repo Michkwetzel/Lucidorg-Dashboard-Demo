@@ -102,11 +102,11 @@ GoRouter setupRouter() {
         return '/auth';
       }
 
-      // if (state.extra == null) {
-      //   // Log user out if he reloads page.
-      //   await FirebaseAuth.instance.signOut();
-      //   return '/auth';
-      // }
+      if (state.extra == null) {
+        // Log user out if he reloads page.
+        await FirebaseAuth.instance.signOut();
+        return '/auth';
+      }
       return null;
     },
   );

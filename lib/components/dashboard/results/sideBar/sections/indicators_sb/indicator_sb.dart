@@ -27,7 +27,7 @@ class IndicatorSideBar extends StatelessWidget {
             child: CategoryScoreDiffTextHeading(),
           ),
           Column(
-            spacing: 12,
+            spacing: 8,
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25),

@@ -111,6 +111,41 @@ extension IndicatorDescription on Indicator {
     }
   }
 
+  String get radarChartHeading {
+    switch (this) {
+      case Indicator.purposeDriven:
+        return "Purpose\nDriven";
+      case Indicator.growthAlign:
+        return "Growth\nAlignment";
+      case Indicator.orgAlign:
+        return "Organizational\nAlignment";
+      case Indicator.collabProcesses:
+        return "Collaborative\nProcesses";
+      case Indicator.collabKPIs:
+        return "Collaborative\nKPIs";
+      case Indicator.alignedTech:
+        return "Aligned\nTechnology";
+      case Indicator.crossFuncComms:
+        return "Cross-Functional\nCommunications";
+      case Indicator.empoweredLeadership:
+        return "Empowered\nLeadership";
+      case Indicator.engagedCommunity:
+        return "Engaged\nCommunity";
+      case Indicator.meetingEfficacy:
+        return "Meeting\nEfficacy";
+      case Indicator.crossFuncAcc:
+        return "Cross-Functional\nAccountability";
+      case Indicator.companyIndex:
+        return "Index";
+      case Indicator.workforce:
+        return "Workforce";
+      case Indicator.operations:
+        return "Operations";
+      default:
+        return "Not Indicator";
+    }
+  }
+
   Pilar get pilar {
     switch (this) {
       case Indicator.purposeDriven:
@@ -124,7 +159,7 @@ extension IndicatorDescription on Indicator {
       case Indicator.collabKPIs:
         return Pilar.alignment;
       case Indicator.alignedTech:
-        return Pilar.alignment;
+        return Pilar.process;
       case Indicator.crossFuncComms:
         return Pilar.people;
       case Indicator.empoweredLeadership:
@@ -132,7 +167,7 @@ extension IndicatorDescription on Indicator {
       case Indicator.engagedCommunity:
         return Pilar.people;
       case Indicator.meetingEfficacy:
-        return Pilar.alignment;
+        return Pilar.process;
       case Indicator.crossFuncAcc:
         return Pilar.people;
       default:
