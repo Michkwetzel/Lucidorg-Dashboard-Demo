@@ -28,14 +28,14 @@ class _CreateAccountScreen extends ConsumerState<CreateAccountScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final Logger logger = Logger("LogIn");
+    final Logger logger = Logger("CreateAccount");
     var selectedButton = ref.read(selectionButtonProvider);
 
     Future<void> getDataAndOpenDashboard() async {
       try {
         SnackBarService.showMessage("Successfully Logged in", Colors.green);
         await ref.read(userDataProvider.notifier).getUserInfo(ref.read(authfirestoreserviceProvider));
-        ref.read(metricsDataProvider.notifier).getSurveyData(ref.read(userDataProvider.notifier).companyUID!);
+        ref.read(metricsDataProvider.notifier).getSurveyData();
         ref.read(companyInfoService.notifier).getCompanyInfo();
         NavigationService.navigateTo('/home');
         ref.read(authDisplayProvider.notifier).changeDisplay(const AppEntryLayout());
@@ -64,7 +64,8 @@ class _CreateAccountScreen extends ConsumerState<CreateAccountScreen> {
                 userUID: FirebaseAuth.instance.currentUser!.uid,
                 employee: selectedButton == SelectionButtonType.employee,
                 guest: selectedButton == SelectionButtonType.guest,
-                authToken: selectedButton == SelectionButtonType.token ? ref.read(authTokenProvider) : null,
+                exec: selectedButton == SelectionButtonType.exec,
+                authToken: selectedButton == SelectionButtonType.exec ? ref.read(authTokenProvider) : null,
               );
         }
         getDataAndOpenDashboard();
@@ -102,7 +103,8 @@ class _CreateAccountScreen extends ConsumerState<CreateAccountScreen> {
                 userUID: FirebaseAuth.instance.currentUser!.uid,
                 employee: selectedButton == SelectionButtonType.employee ? true : false,
                 guest: selectedButton == SelectionButtonType.guest ? true : false,
-                authToken: selectedButton == SelectionButtonType.token ? ref.read(authTokenProvider) : null,
+                exec: selectedButton == SelectionButtonType.exec,
+                authToken: selectedButton == SelectionButtonType.exec ? ref.read(authTokenProvider) : null,
               );
 
           print('3.attempting to create account');
@@ -199,7 +201,7 @@ class _CreateAccountScreen extends ConsumerState<CreateAccountScreen> {
                 ),
                 BottomButtonsRow(
                   onPressedBackButton: () {
-                    if (selectedButton == SelectionButtonType.token) {
+                    if (selectedButton == SelectionButtonType.exec) {
                       ref.read(authDisplayProvider.notifier).changeDisplay(const EnterTokenLayout());
                     } else {
                       ref.read(authDisplayProvider.notifier).changeDisplay(const UserTypeSelectionLayout());

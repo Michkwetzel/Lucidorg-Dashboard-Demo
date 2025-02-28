@@ -20,7 +20,7 @@ class UserTypeSelectionLayout extends ConsumerWidget {
       var selectedButton = ref.read(selectionButtonProvider);
       if (selectedButton == SelectionButtonType.none) {
         //TODO: Red Error Text
-      } else if (selectedButton == SelectionButtonType.token) {
+      } else if (selectedButton == SelectionButtonType.exec) {
         ref.read(authDisplayProvider.notifier).changeDisplay(const EnterTokenLayout());
       } else {
         ref.read(authDisplayProvider.notifier).changeDisplay(CreateAccountScreen());
@@ -48,7 +48,7 @@ class UserTypeSelectionLayout extends ConsumerWidget {
                 ? const Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Selectionbutton(buttonText: 'I have a token', buttonType: SelectionButtonType.token),
+                      Selectionbutton(buttonText: 'I have a token', buttonType: SelectionButtonType.exec),
                       SizedBox(height: 12),
                       Selectionbutton(buttonText: 'I am testing \nthe product', buttonType: SelectionButtonType.guest)
                     ],
@@ -56,7 +56,7 @@ class UserTypeSelectionLayout extends ConsumerWidget {
                 : const Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Selectionbutton(buttonText: 'I have a token', buttonType: SelectionButtonType.token),
+                      Selectionbutton(buttonText: 'I have a token', buttonType: SelectionButtonType.exec),
                       SizedBox(width: 24),
                       Selectionbutton(buttonText: 'I am testing \nthe product', buttonType: SelectionButtonType.guest)
                     ],

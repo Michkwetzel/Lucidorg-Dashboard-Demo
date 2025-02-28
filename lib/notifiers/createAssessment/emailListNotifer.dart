@@ -35,6 +35,8 @@ class EmailListNotifier extends StateNotifier<EmailListState> {
 
   bool get emailsEmpty => state.emailsCSuite.isEmpty && state.emailsCeo.isEmpty && state.emailsEmployee.isEmpty;
 
+  bool get moreThan5Emails => state.emailsCSuite.length + state.emailsCeo.length + state.emailsEmployee.length > 5;
+
   Future<void> loadEmails() async {}
 
   Future<void> removeEmail(String emailId) async {}

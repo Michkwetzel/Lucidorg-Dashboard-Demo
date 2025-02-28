@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:platform_front/components/global/diffTriangleRedWidget.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/config/providers.dart';
@@ -18,7 +17,12 @@ class IndicatorsDepartmentScoresWidget extends ConsumerWidget {
     double cSuiteScore = displayData.cSuiteBenchmarks[selectedIndicator]!;
     double employeeScore = displayData.employeeBenchmarks[selectedIndicator]!;
 
-    return PerDepertmentScoresWidget(ceoScore: ceoScore, cSuiteScore: cSuiteScore, employeeScore: employeeScore);
+    return PerDepertmentScoresWidget(
+      ceoScore: ceoScore,
+      cSuiteScore: cSuiteScore,
+      employeeScore: employeeScore,
+      bold: true,
+    );
   }
 }
 
@@ -35,34 +39,7 @@ class OverallDepertmentBenchmarkWidget extends ConsumerWidget {
 
     return Column(
       children: [
-        Text('CEO | C-Suite | Staff', style: kH4PoppinsRegular),
         PerDepertmentScoresWidget(ceoScore: ceoScore, cSuiteScore: cSuiteScore, employeeScore: employeeScore),
-      ],
-    );
-  }
-}
-
-class DepartmentScoresDiffMatrix extends ConsumerWidget {
-  const DepartmentScoresDiffMatrix({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    SurveyMetric displayData = ref.watch(metricsDataProvider).surveyMetric;
-    Indicator selectedIndicator = ref.watch(selectedDiffMatrixProvider);
-
-    double ceoScore = displayData.ceoBenchmarks[selectedIndicator]!;
-    double employeeScore = displayData.cSuiteBenchmarks[selectedIndicator]!;
-    double cSuiteScore = displayData.employeeBenchmarks[selectedIndicator]!;
-    double diff = displayData.diffScores[selectedIndicator]!;
-
-    return Column(
-      children: [
-        Text('CEO | C-Suite | Staff', style: kH4PoppinsRegular),
-        PerDepertmentScoresWidget(ceoScore: ceoScore, cSuiteScore: cSuiteScore, employeeScore: employeeScore),
-        SizedBox(height: 32),
-        Text('Differentiation', style: kH4PoppinsLight),
-        SizedBox(height: 8),
-        DiffTriangleRedWidget(value: diff, size: Diffsize.H3),
       ],
     );
   }
@@ -74,23 +51,48 @@ class PerDepertmentScoresWidget extends StatelessWidget {
     required this.ceoScore,
     required this.cSuiteScore,
     required this.employeeScore,
+    this.bold = false,
   });
 
   final double ceoScore;
   final double cSuiteScore;
   final double employeeScore;
+  final bool bold;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      child: Row(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text('$ceoScore%', style: TextStyle(color: Color(0xFF9FAE82), fontSize: 20, fontFamily: 'Poppins', fontWeight: FontWeight.w300)),
-          Text(' | ', style: TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'Poppins', fontWeight: FontWeight.w300)),
-          Text('$cSuiteScore%', style: TextStyle(color: Color(0xFFB3A986), fontSize: 20, fontFamily: 'Poppins', fontWeight: FontWeight.w300)),
-          Text(' | ', style: TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'Poppins', fontWeight: FontWeight.w300)),
-          Text('$employeeScore%', style: TextStyle(color: Color(0xFF7FAF8C), fontSize: 20, fontFamily: 'Poppins', fontWeight: FontWeight.w300))
+          SizedBox(
+            width: 250,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(width: 60, child: Center(child: Text('CEO', style: bold ? kH3PoppinsRegular : kH3PoppinsLight))),
+                Text('|', style: kH4PoppinsLight),
+                SizedBox(width: 100, child: Center(child: Text('C-Suite', style: bold ? kH3PoppinsRegular : kH3PoppinsLight))),
+                Text('|', style: kH4PoppinsLight),
+                SizedBox(width: 60, child: Center(child: Text('Staff', style: bold ? kH3PoppinsRegular : kH3PoppinsLight))),
+              ],
+            ),
+          ),
+          SizedBox(height: 4),
+          SizedBox(
+            width: 250,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(width: 60, child: Center(child: Text('$ceoScore%', style: TextStyle(color: Color(0xFF9FAE82), fontSize: 20, fontFamily: 'Poppins', fontWeight: FontWeight.w300)))),
+                Text('|', style: kH4PoppinsLight),
+                SizedBox(width: 100, child: Center(child: Text('$cSuiteScore%', style: TextStyle(color: Color(0xFFB3A986), fontSize: 20, fontFamily: 'Poppins', fontWeight: FontWeight.w300)))),
+                Text('|', style: kH4PoppinsLight),
+                SizedBox(width: 60, child: Center(child: Text('$employeeScore%', style: TextStyle(color: Color(0xFF7FAF8C), fontSize: 20, fontFamily: 'Poppins', fontWeight: FontWeight.w300))))
+              ],
+            ),
+          ),
         ],
       ),
     );

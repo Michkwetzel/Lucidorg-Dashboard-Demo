@@ -17,9 +17,9 @@ class GoogleFunctionService extends StateNotifier<bool> {
   List<String> get cSuiteEmails => _emailListNotifier.state.emailsCSuite;
   List<String> get employeeEmails => _emailListNotifier.state.emailsEmployee;
   String get emailTemplate => _emailTemplateNotifier.state.templateBody;
-  String get userUID => _userDataNotifier.state.userUID!;
-  String get companyUID => _userDataNotifier.state.companyUID!;
-  String get subject => _emailTemplateNotifier.state.subject;
+  String? get userUID => _userDataNotifier.state.userUID;
+  String? get companyUID => _userDataNotifier.state.companyUID;
+  String? get subject => _emailTemplateNotifier.state.subject;
 
   GoogleFunctionService(
       {required EmailListNotifier emailListNotifier,
@@ -36,17 +36,16 @@ class GoogleFunctionService extends StateNotifier<bool> {
     return HttpService.postRequest(path: kVerifyAuthTokenPath, request: request);
   }
 
-  Future<dynamic> createUserProfile({required String? email, required String userUID, String? authToken, bool? employee, bool? guest}) {
-    Map<String, dynamic> request = {'token': authToken ?? false, 'userEmail': email, 'userUID': userUID, 'employee': employee ?? false, 'guest': guest ?? false};
+  Future<dynamic> createUserProfile({required String? email, required String userUID, String? authToken, bool? employee, bool? guest, bool? exec}) {
+    Map<String, dynamic> request = {'token': authToken ?? 'none', 'userEmail': email, 'userUID': userUID, 'employee': employee ?? false, 'guest': guest ?? false, 'exec': exec ?? false};
     return HttpService.postRequest(path: kCreateUserProfilePath, request: request);
   }
 
-  Future<void> createAssessment() async {
+  Future<void> createAssessment({bool guest = false}) async {
     try {
       state = true;
       logger.info("Creating Assessment");
 
-      //TODO: proper userUID input
       Map<String, dynamic> request = {
         'ceoEmails': ceoEmails,
         'cSuiteEmails': cSuiteEmails,
@@ -54,7 +53,8 @@ class GoogleFunctionService extends StateNotifier<bool> {
         'emailTemplate': emailTemplate,
         'userUID': userUID,
         'subject': subject,
-        'companyUID': companyUID
+        'companyUID': companyUID,
+        'guest' : guest
       };
       
       print(request);

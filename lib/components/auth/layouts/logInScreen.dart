@@ -6,6 +6,7 @@ import 'package:platform_front/components/auth/buttons/bottomButtonsRow.dart';
 import 'package:platform_front/components/auth/buttons/tempComponents.dart';
 import 'package:platform_front/components/global/loading_overlay.dart';
 import 'package:platform_front/config/constants.dart';
+import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/config/providers.dart';
 import 'package:platform_front/components/auth/layouts/appEntryLayout.dart';
 import 'package:platform_front/services/microServices/navigationService.dart';
@@ -31,7 +32,10 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
       try {
         SnackBarService.showMessage("Successfully Logged in", Colors.green);
         await ref.read(userDataProvider.notifier).getUserInfo(ref.read(authfirestoreserviceProvider));
-        ref.read(metricsDataProvider.notifier).getSurveyData(ref.read(userDataProvider.notifier).companyUID!);
+        if (ref.read(userDataProvider.notifier).permission == Permission.guest) {
+          ref.read(metricsDataProvider.notifier).getSurveyData();
+        }
+        ref.read(metricsDataProvider.notifier).getSurveyData();
         ref.read(companyInfoService.notifier).getCompanyInfo();
         NavigationService.navigateTo('/home');
         ref.read(authDisplayProvider.notifier).changeDisplay(const AppEntryLayout());

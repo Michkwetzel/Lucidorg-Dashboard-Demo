@@ -5,8 +5,11 @@ import 'package:platform_front/components/buttons/CallToActionButton.dart';
 import 'package:platform_front/components/dashboard/createAssessment/emailList/emailListBody.dart';
 import 'package:platform_front/components/dashboard/createAssessment/emailTemplate/emailTemplateBody.dart';
 import 'package:platform_front/components/global/loading_overlay.dart';
+import 'package:platform_front/components/global/top_action_banner.dart';
 import 'package:platform_front/config/constants.dart';
+import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/config/providers.dart';
+import 'package:platform_front/services/microServices/alertService.dart';
 import 'package:platform_front/services/microServices/snackBarService.dart';
 
 class CreateAssessmentBody extends ConsumerStatefulWidget {
@@ -23,13 +26,22 @@ class _CreateAssessmentBodyState extends ConsumerState<CreateAssessmentBody> {
 
   void startAssessment(BuildContext context, WidgetRef ref) async {
     logger.info('Staring Assessment');
-    if (ref.read(emailTemplateProvider.notifier).editEmailTemplateDisplay) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please Save Email Template'),
-          backgroundColor: Colors.red,
-        ),
-      );
+    if (ref.read(userDataProvider.notifier).permission == Permission.guest) {
+      if (ref.read(emailListProvider.notifier).moreThan5Emails) {
+        AlertService.showAlert(title: "More than 5 emails", message: "This is a guest account and thus limited to max 5 emails. Please remove some emails from the list");
+      } else if (ref.read(emailListProvider.notifier).emailsEmpty) {
+        SnackBarService.showMessage('Email list Empty', Colors.red, duration: 3);
+      } else {
+        try {
+          await ref.read(googlefunctionserviceProvider.notifier).createAssessment(guest: true);
+          AlertService.showAlert(
+              title: "Test Assessment sent",
+              message: "An assessment has been sent to the relevent emails. This is for viewing purpouses only and results will not be saved or influence this dashboard");
+        } on Exception catch (e) {
+          SnackBarService.showMessage('Error creating Assessment, Please try again or reload webpage', Colors.red, duration: 4);
+          logger.severe("Failed to create Assessment with error: $e");
+        }
+      }
     } else if (ref.read(emailListProvider.notifier).emailsEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -44,11 +56,18 @@ class _CreateAssessmentBodyState extends ConsumerState<CreateAssessmentBody> {
           backgroundColor: Colors.red,
         ),
       );
+    } else if (ref.read(emailTemplateProvider.notifier).editEmailTemplateDisplay) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please Save Email Template'),
+          backgroundColor: Colors.red,
+        ),
+      );
     } else {
       try {
         await ref.read(googlefunctionserviceProvider.notifier).createAssessment();
         await ref.read(userDataProvider.notifier).getUserInfo(ref.read(authfirestoreserviceProvider));
-        await ref.read(metricsDataProvider.notifier).getSurveyData(ref.read(userDataProvider.notifier).companyUID!);
+        await ref.read(metricsDataProvider.notifier).getSurveyData();
         SnackBarService.showMessage('Successfully Created assessment', Colors.green);
       } on Exception catch (e) {
         SnackBarService.showMessage('Error creating Assessment', Colors.red, duration: 3);
@@ -65,46 +84,61 @@ class _CreateAssessmentBodyState extends ConsumerState<CreateAssessmentBody> {
       child: SingleChildScrollView(
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: Row(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              ConstrainedBox(
-                constraints: const BoxConstraints(
-                  maxWidth: 380,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 12),
-                    const Text(
-                      'Create Assessment',
-                      style: kH1TextStyle,
+              SizedBox(
+                height: 16,
+              ),
+              const Text(
+                'Create Assessment',
+                style: kH1TextStyle,
+              ),
+              if (ref.watch(metricsDataProvider).noSurveyData ||
+                  ref.watch(metricsDataProvider).participationBelow30 ||
+                  ref.watch(metricsDataProvider).between30And70 ||
+                  ref.watch(metricsDataProvider).needAll3Departments ||
+                  ref.watch(metricsDataProvider).testData)
+                TopActionBanner(),
+              SizedBox(
+                height: 24,
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ConstrainedBox(
+                    constraints: const BoxConstraints(
+                      maxWidth: 380,
                     ),
-                    const SizedBox(height: 40),
-                    Column(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Emaillistbody(),
-                        const SizedBox(height: 32),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            CallToActionButton(
-                              disabled: ref.watch(googlefunctionserviceProvider),
-                              onPressed: () => startAssessment(context, ref),
-                              buttonText: "Start Assessment",
+                            const Emaillistbody(),
+                            const SizedBox(height: 32),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                CallToActionButton(
+                                  disabled: ref.watch(googlefunctionserviceProvider),
+                                  onPressed: () => startAssessment(context, ref),
+                                  buttonText: "Start Assessment",
+                                ),
+                              ],
                             ),
                           ],
                         ),
                       ],
                     ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 32),
-              const Padding(
-                padding: EdgeInsets.only(top: 4, bottom: 4),
-                child: EmailTemplateBody(),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 4, bottom: 4),
+                    child: EmailTemplateBody(),
+                  ),
+                ],
               ),
             ],
           ),

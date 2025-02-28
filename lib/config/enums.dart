@@ -1,4 +1,4 @@
-enum SelectionButtonType { token, guest, employee, none }
+enum SelectionButtonType { exec, guest, employee, none }
 
 enum EmailListRadioButtonType { ceo, cSuite, employee }
 

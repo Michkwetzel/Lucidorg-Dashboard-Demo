@@ -31,10 +31,14 @@ class DiffOverTimeSb extends ConsumerWidget {
           SizedBox(height: 16),
           ImprovDeclineWidget(
             heading: 'Improvement',
+            improve: true,
+            score: false,
           ),
           SizedBox(height: 16),
           ImprovDeclineWidget(
             heading: 'Decline',
+            improve: false,
+            score: false,
           ),
         ],
       ),

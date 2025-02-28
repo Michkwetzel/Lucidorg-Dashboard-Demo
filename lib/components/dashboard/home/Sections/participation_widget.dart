@@ -17,11 +17,15 @@ class ParticipationWidget extends ConsumerWidget {
     double? nSubmitted = displayData.nSubmitted;
     double? nNotStarted = nSurveys - displayData.nStarted;
     double? participationRate = nSurveys > 0 ? double.parse((nSubmitted / nSurveys * 100).toStringAsFixed(1)) : null;
-    double startedPercentage = nSurveys > 0 ? double.parse((nStartedButNotFinish / nSurveys * 100).toStringAsFixed(1)) : 5.0;
 
-    double submittedPercentage = nSurveys > 0 ? double.parse((nSubmitted / nSurveys * 100).toStringAsFixed(1)) : 5.0;
+    double startedPercentage = nSurveys > 0 ? double.parse((nStartedButNotFinish / nSurveys * 100).toStringAsFixed(1)) : 30;
+    startedPercentage = startedPercentage < 0 ? 30 : startedPercentage;
 
-    double notStartedPercentage = nSurveys > 0 ? double.parse((nNotStarted / nSurveys * 100).toStringAsFixed(1)) : 5.0;
+    double submittedPercentage = nSurveys > 0 ? double.parse((nSubmitted / nSurveys * 100).toStringAsFixed(1)) : 40;
+    submittedPercentage = submittedPercentage < 0 ? 40 : submittedPercentage;
+
+    double notStartedPercentage = nSurveys > 0 ? double.parse((nNotStarted / nSurveys * 100).toStringAsFixed(1)) : 30;
+    notStartedPercentage = notStartedPercentage < 0 ? 30 : notStartedPercentage;
 
     return Container(
       height: 400,

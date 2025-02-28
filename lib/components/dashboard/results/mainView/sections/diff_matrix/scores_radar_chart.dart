@@ -106,7 +106,6 @@ class ClickableRadarChart extends StatelessWidget {
   }
 }
 
-
 class ClickableTitle extends ConsumerWidget {
   final double height;
   final double width;
@@ -121,8 +120,14 @@ class ClickableTitle extends ConsumerWidget {
 
     return MouseRegion(
       cursor: SystemMouseCursors.click,
+      onEnter: (_) => handleTitleTap(indicator),
+      onExit: (_) => handleTitleTap(indicator),
       child: GestureDetector(
         onTap: () => handleTitleTap(indicator),
+        // Add these to handle touch interactions better
+        onTapDown: (_) => handleTitleTap(indicator),
+        onTapUp: (_) => handleTitleTap(indicator),
+        onTapCancel: () => handleTitleTap(indicator),
         child: Container(
           width: width,
           height: height,

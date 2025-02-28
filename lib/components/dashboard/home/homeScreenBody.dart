@@ -49,7 +49,9 @@ class HomeScreenBody extends ConsumerWidget {
                   if (ref.watch(metricsDataProvider).noSurveyData ||
                       ref.watch(metricsDataProvider).participationBelow30 ||
                       ref.watch(metricsDataProvider).between30And70 ||
-                      ref.watch(metricsDataProvider).needAll3Departments)
+                      ref.watch(metricsDataProvider).needAll3Departments ||
+                      ref.watch(metricsDataProvider).testData
+                      )
                     TopActionBanner(),
                   const SizedBox(height: 16),
                   Row(children: [

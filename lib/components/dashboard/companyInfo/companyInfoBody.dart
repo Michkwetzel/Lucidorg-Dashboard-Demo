@@ -8,6 +8,7 @@ import 'package:platform_front/components/dashboard/companyInfo/customTextFieldF
 import 'package:platform_front/components/dashboard/companyInfo/styledDropdown.dart';
 import 'package:platform_front/components/global/loading_overlay.dart';
 import 'package:platform_front/config/constants.dart';
+import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/config/providers.dart';
 import 'package:platform_front/services/microServices/snackBarService.dart';
 
@@ -150,7 +151,7 @@ class _CompanyInfoBodyState extends ConsumerState<CompanyInfoBody> {
                   child: Align(
                       alignment: Alignment.centerRight,
                       child: CallToActionButton(
-                          onPressed: () async {
+                          onPressed: ref.read(userDataProvider.notifier).permission == Permission.guest ? null : () async {
                             if (_formKey.currentState!.validate()) {
                               setState(() {
                                 loading = true;

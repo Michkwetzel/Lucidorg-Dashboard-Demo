@@ -33,7 +33,10 @@ class DiffMatrixBody extends StatelessWidget {
           SizedBox(
             height: 16,
           ),
-          Align(alignment: Alignment.center, child: ClickableRadarChart()),
+          Align(
+            alignment: Alignment.center,
+            child: ClickableRadarChart(),
+          ),
           SizedBox(height: 16),
         ],
       ),

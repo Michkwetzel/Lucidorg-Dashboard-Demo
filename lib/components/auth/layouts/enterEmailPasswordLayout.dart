@@ -38,7 +38,7 @@ class EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLayo
   void succesfullyCreatedAccount() async {
     SnackBarService.showMessage("Successfully created Account", Colors.green);
     await ref.read(userDataProvider.notifier).getUserInfo(ref.read(authfirestoreserviceProvider));
-    ref.read(metricsDataProvider.notifier).getSurveyData(ref.read(userDataProvider.notifier).companyUID!);
+    ref.read(metricsDataProvider.notifier).getSurveyData();
 
     NavigationService.navigateTo('/home');
     ref.read(authDisplayProvider.notifier).changeDisplay(const AppEntryLayout());
@@ -47,7 +47,7 @@ class EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLayo
   void successfullyLogIn() async {
     SnackBarService.showMessage("Successfully Logged in", Colors.green);
     await ref.read(userDataProvider.notifier).getUserInfo(ref.read(authfirestoreserviceProvider));
-    ref.read(metricsDataProvider.notifier).getSurveyData(ref.read(userDataProvider.notifier).companyUID!);
+    ref.read(metricsDataProvider.notifier).getSurveyData();
     ref.read(companyInfoService.notifier).getCompanyInfo();
     NavigationService.navigateTo('/home');
     ref.read(authDisplayProvider.notifier).changeDisplay(const AppEntryLayout());
@@ -60,7 +60,7 @@ class EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLayo
     var selectedButton = ref.read(selectionButtonProvider);
 
     void onPressedBackButton() {
-      if (selectedButton == SelectionButtonType.token && !widget.logIn) {
+      if (selectedButton == SelectionButtonType.exec && !widget.logIn) {
         ref.read(authDisplayProvider.notifier).changeDisplay(const EnterTokenLayout());
       } else if (widget.logIn) {
         ref.read(authDisplayProvider.notifier).changeDisplay(const AppEntryLayout());
@@ -97,7 +97,7 @@ class EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLayo
                     userUID: FirebaseAuth.instance.currentUser!.uid,
                     employee: selectedButton == SelectionButtonType.employee ? true : false,
                     guest: selectedButton == SelectionButtonType.guest ? true : false,
-                    authToken: selectedButton == SelectionButtonType.token ? ref.read(authTokenProvider) : null,
+                    authToken: selectedButton == SelectionButtonType.exec ? ref.read(authTokenProvider) : null,
                   );
               print('3.attempting to create account');
 
@@ -175,7 +175,7 @@ class EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLayo
               userUID: FirebaseAuth.instance.currentUser!.uid,
               employee: selectedButton == SelectionButtonType.employee,
               guest: selectedButton == SelectionButtonType.guest,
-              authToken: selectedButton == SelectionButtonType.token ? ref.read(authTokenProvider) : null,
+              authToken: selectedButton == SelectionButtonType.exec ? ref.read(authTokenProvider) : null,
             );
 
         if (responseBody['success']) {
