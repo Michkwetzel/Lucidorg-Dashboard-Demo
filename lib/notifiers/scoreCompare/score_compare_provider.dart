@@ -1,152 +1,183 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
 import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/notifiers/surveyMetrics/metrics_data.dart';
 
 class ScoreCompareState {
-  final bool canShow;
-  final SurveyMetric survey1;
-  final SurveyMetric survey2;
-  final String survey1Name;
-  final String survey2Name;
-  final Map<Indicator, double> indicatorsChangeDiff;
-  final Map<Indicator, double> indicatorsChangeScore;
-  final bool initialized; // Add this flag to track initialization
+  // Data to display
+  final SurveyMetric survey1Data;
+  final SurveyMetric survey2Data;
+  final Map<Indicator, double> diffChange;
+  final Map<Indicator, double> scoreChange;
+  final List<Map<Indicator, double>> topDiffImprove;
+  final List<Map<Indicator, double>> topDiffDecline;
+  final List<Map<Indicator, double>> topScoreImprove;
+  final List<Map<Indicator, double>> topScoreDecline;
 
-  ScoreCompareState(
-      {required this.canShow,
-      this.initialized = false, // Default to false
+  // Logic and Data store
+  final bool blur;
+  final Map<String, SurveyMetric> allComparableSurveys; //Here they have the correct name.
 
-      required this.survey1,
-      required this.survey2,
-      required this.indicatorsChangeDiff,
-      required this.indicatorsChangeScore,
-      required this.survey1Name,
-      required this.survey2Name});
+  ScoreCompareState({
+    required this.topDiffImprove,
+    required this.topDiffDecline,
+    required this.topScoreImprove,
+    required this.topScoreDecline,
+    required this.survey1Data,
+    required this.survey2Data,
+    required this.diffChange,
+    required this.scoreChange,
+    required this.blur,
+    required this.allComparableSurveys,
+  });
 
-  ScoreCompareState copyWith(
-      {bool? canShow,
-      SurveyMetric? survey1,
-      SurveyMetric? survey2,
-      bool? initialized,
-      Map<Indicator, double>? indicatorsChangeDiff,
-      Map<Indicator, double>? indicatorsChangeScore,
-      String? survey1Name,
-      String? survey2Name}) {
+  ScoreCompareState copyWith({
+    bool? blur,
+    SurveyMetric? survey1Data,
+    SurveyMetric? survey2Data,
+    Map<Indicator, double>? diffChange,
+    Map<Indicator, double>? scoreChange,
+    Map<String, SurveyMetric>? allComparableSurveys,
+    List<Map<Indicator, double>>? topDiffImprove,
+    List<Map<Indicator, double>>? topDiffDecline,
+    List<Map<Indicator, double>>? topScoreImprove,
+    List<Map<Indicator, double>>? topScoreDecline,
+  }) {
     return ScoreCompareState(
-      canShow: canShow ?? this.canShow,
-      survey1: survey1 ?? this.survey1,
-      survey2: survey2 ?? this.survey2,
-      indicatorsChangeDiff: indicatorsChangeDiff ?? this.indicatorsChangeDiff,
-      indicatorsChangeScore: indicatorsChangeScore ?? this.indicatorsChangeScore,
-      survey1Name: survey1Name ?? this.survey1Name,
-      survey2Name: survey2Name ?? this.survey2Name,
-      initialized: initialized ?? this.initialized,
+      blur: blur ?? this.blur,
+      survey1Data: survey1Data ?? this.survey1Data,
+      survey2Data: survey2Data ?? this.survey2Data,
+      diffChange: diffChange ?? this.diffChange,
+      scoreChange: scoreChange ?? this.scoreChange,
+      allComparableSurveys: allComparableSurveys ?? this.allComparableSurveys,
+      topDiffDecline: topDiffDecline ?? this.topDiffDecline,
+      topDiffImprove: topDiffImprove ?? this.topDiffImprove,
+      topScoreDecline: topScoreDecline ?? this.topScoreDecline,
+      topScoreImprove: topScoreImprove ?? this.topScoreImprove,
     );
   }
 }
 
 class ScoreCompareProvider extends StateNotifier<ScoreCompareState> {
   ScoreCompareProvider()
+      //Set Default empty state
       : super(ScoreCompareState(
-            canShow: false,
-            survey1: SurveyMetric.loadDefaultValues(),
-            survey2: SurveyMetric.loadDefaultValues(),
-            indicatorsChangeDiff: {},
-            indicatorsChangeScore: {},
-            survey1Name: 'Q1',
-            survey2Name: 'Q2'));
+            blur: true,
+            survey1Data: SurveyMetric.empty(),
+            survey2Data: SurveyMetric.empty(),
+            diffChange: {},
+            scoreChange: {},
+            allComparableSurveys: {},
+            topDiffImprove: [],
+            topDiffDecline: [],
+            topScoreImprove: [],
+            topScoreDecline: []));
 
-  void setSurveyNames(String survey1Name, survey2Name) {
-    
-    state = state.copyWith(
-      survey1Name: survey1Name,
-      survey2Name: survey2Name,
-    );
-  }
+  Logger logger = Logger('ScoreCompareNotifier');
 
   void calculateChange() {
-    Map<Indicator, double> indicatorsChangeDiff = {};
-    Map<Indicator, double> indicatorsChangeScore = {};
+    Map<Indicator, double> diffChange = {};
+    Map<Indicator, double> scoreChange = {};
 
-    Map<Indicator, double> companyBenchmark1 = state.survey1.companyBenchmarks;
-    Map<Indicator, double> companyBenchmark2 = state.survey2.companyBenchmarks;
+    Map<Indicator, double> companyBenchmark1 = state.survey1Data.companyBenchmarks;
+    Map<Indicator, double> companyBenchmark2 = state.survey2Data.companyBenchmarks;
 
-    Map<Indicator, double> companyDiff1 = state.survey1.diffScores;
-    Map<Indicator, double> companyDiff2 = state.survey2.diffScores;
+    Map<Indicator, double> companyDiff1 = state.survey1Data.diffScores;
+    Map<Indicator, double> companyDiff2 = state.survey2Data.diffScores;
+
+    List<Indicator> indicators = justIndicators();
 
     companyBenchmark1.forEach((indicator, value) {
-      indicatorsChangeScore[indicator] = companyBenchmark2[indicator]! - value;
-      indicatorsChangeDiff[indicator] = companyDiff2[indicator]! - companyDiff1[indicator]!;
+      if (indicators.contains(indicator)) {
+        scoreChange[indicator] = companyBenchmark2[indicator]! - value;
+        diffChange[indicator] = companyDiff2[indicator]! - companyDiff1[indicator]!;
+      }
     });
 
-    state = state.copyWith(indicatorsChangeDiff: indicatorsChangeDiff, indicatorsChangeScore: indicatorsChangeScore);
-  }
+    List<MapEntry<Indicator, double>> sortedScoreChanges = scoreChange.entries.toList()..sort((a, b) => b.value.compareTo(a.value)); // Sort descendin
+    List<Map<Indicator, double>> topScoreChanges = sortedScoreChanges.take(3).map((entry) => {entry.key: entry.value}).toList();
+    List<Map<Indicator, double>> bottomScoreChanges = sortedScoreChanges.reversed.take(3).map((entry) => {entry.key: entry.value}).toList();
 
-  List<Indicator> returnBiggestScoreIncrease() {
-    final sortedEntries = state.indicatorsChangeScore.entries.toList()..sort((a, b) => b.value.compareTo(a.value)); // Sort in descending order
+    List<MapEntry<Indicator, double>> sortedDiffChanges = diffChange.entries.toList()..sort((a, b) => a.value.compareTo(b.value)); // Sort ascending (smallest values first)
 
-    return sortedEntries.take(3).map((entry) => entry.key).toList();
-  }
-
-  List<Indicator> returnBiggestScoreDecrease() {
-    final sortedEntries = state.indicatorsChangeScore.entries.toList()..sort((a, b) => a.value.compareTo(b.value)); // Sort in ascending order
-
-    return sortedEntries.take(3).map((entry) => entry.key).toList();
-  }
-
-  List<Indicator> returnBiggestdiffDecrease() {
-    final sortedEntries = state.indicatorsChangeScore.entries.toList()..sort((a, b) => b.value.compareTo(a.value)); // Sort in descending order
-
-    return sortedEntries.take(3).map((entry) => entry.key).toList();
-  }
-
-  List<Indicator> returnBiggestdiffIncrease() {
-    final sortedEntries = state.indicatorsChangeScore.entries.toList()..sort((a, b) => a.value.compareTo(b.value)); // Sort in ascending order
-
-    return sortedEntries.take(3).map((entry) => entry.key).toList();
-  }
-
-  void updateSurvey1(SurveyMetric survey) {
-    SurveyMetric newsurvey1 = survey;
+    List<Map<Indicator, double>> topDiffChanges = sortedDiffChanges.take(3).map((entry) => {entry.key: entry.value}).toList();
+    List<Map<Indicator, double>> bottomDiffChanges = sortedDiffChanges.reversed.take(3).map((entry) => {entry.key: entry.value}).toList();
 
     state = state.copyWith(
-      survey1: newsurvey1,
-    );
+        diffChange: diffChange, scoreChange: scoreChange, topDiffDecline: bottomDiffChanges, topDiffImprove: topDiffChanges, topScoreDecline: bottomScoreChanges, topScoreImprove: topScoreChanges);
   }
 
-  void updateSurvey2(SurveyMetric survey) {
-    SurveyMetric newsurvey2 = survey;
-
+  void updateSurvey1(String survey) {
+    SurveyMetric newsurvey1 = state.allComparableSurveys[survey]!;
     state = state.copyWith(
-      survey2: newsurvey2,
+      survey1Data: newsurvey1,
     );
+    calculateChange();
+  }
+
+  void updateSurvey2(String survey) {
+    SurveyMetric newsurvey2 = state.allComparableSurveys[survey]!;
+    state = state.copyWith(
+      survey2Data: newsurvey2,
+    );
+    calculateChange();
+  }
+
+  String formatDate(
+    String timestamp,
+  ) {
+    String datePart = timestamp.split('T')[0];
+    List<String> parts = datePart.split('-');
+    int year = int.parse(parts[0]);
+    int month = int.parse(parts[1]);
+    int day = int.parse(parts[2]);
+
+    String _getMonthAbbreviation(int month) {
+      final List<String> monthAbbreviations = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+      // Adjust for 0-based index
+      return monthAbbreviations[month - 1];
+    }
+
+    String monthAbbr = _getMonthAbbreviation(month);
+
+    // Create the base key
+    return '$day $monthAbbr $year';
   }
 
   void initLoad() {
+    logger.info("Init load for compare score");
+
     Map<String, SurveyMetric> allData = MetricsData().allSurveyMetrics;
+    Map<String, SurveyMetric> allComparableSurveys = {};
 
-    if (allData.length > 1) {
-      print("More than 2 surveys");
-      //There are more than 1 survey
-      SurveyMetric survey1 = allData.values.elementAt(0);
-      SurveyMetric survey2 = allData.values.elementAt(1);
-      survey1.printData();
-      survey2.printData();
-
-      // Both have above 70 participation and all 3 departments fill in
-      if (survey1.readyToDisplay && survey2.readyToDisplay) {
-        print("both are ready");
-        state = state.copyWith(
-          canShow: true,
-          survey1: survey1,
-          survey2: survey2,
-        );
-        calculateChange();
-        return;
+    // Get surveys that can be displayed and change names to what can be displayed
+    allData.forEach((key, value) {
+      if (value.readyToDisplay) {
+        // String formattedName = formatDate(key);
+        // allComparableSurveys[formattedName] = value;
+        allComparableSurveys[key] = value;
       }
+    });
+
+    logger.info("All comparable surveys: $allComparableSurveys");
+    // Check if there are minimum 2 surveys. if yes. now we can calculate diff and score change plus show
+    // if not. put up banner and display default values
+    if (allComparableSurveys.length > 1) {
+      logger.info("More than 2 surveys, Now processing surveys");
+      SurveyMetric survey1 = allComparableSurveys.values.elementAt(0);
+      SurveyMetric survey2 = allComparableSurveys.values.elementAt(1);
+      state = state.copyWith(allComparableSurveys: allComparableSurveys, survey1Data: survey1, survey2Data: survey2, blur: false);
+
+      calculateChange();
+    } else {
+      // Not enough surveys available. Use default surveys to calculate diff and core change values.
+      logger.info("Less than 2 surveys. Loading default values");
+
+      SurveyMetric survey1 = SurveyMetric.loadBlurredData();
+      SurveyMetric survey2 = SurveyMetric.loadDefaultValues();
+      state = state.copyWith(allComparableSurveys: {'Q1 2025': survey1, 'Q2 2025': survey2}, survey1Data: survey1, survey2Data: survey2, blur: true);
+      calculateChange();
     }
-    state = state.copyWith(
-      canShow: false,
-    );
   }
 }

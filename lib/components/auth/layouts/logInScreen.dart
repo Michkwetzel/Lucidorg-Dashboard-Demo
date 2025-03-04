@@ -32,9 +32,6 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
       try {
         SnackBarService.showMessage("Successfully Logged in", Colors.green);
         await ref.read(userDataProvider.notifier).getUserInfo(ref.read(authfirestoreserviceProvider));
-        if (ref.read(userDataProvider.notifier).permission == Permission.guest) {
-          ref.read(metricsDataProvider.notifier).getSurveyData();
-        }
         ref.read(metricsDataProvider.notifier).getSurveyData();
         ref.read(companyInfoService.notifier).getCompanyInfo();
         NavigationService.navigateTo('/home');

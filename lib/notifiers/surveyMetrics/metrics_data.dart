@@ -15,7 +15,7 @@ class SurveyMetric {
   final double nSurveys;
   final double nStarted;
   final double nSubmitted;
-  final String surveyName;
+  final String surveyDevName;
   final bool unableToCalculate; //Not all departments filled in survey
 
   SurveyMetric({
@@ -30,7 +30,7 @@ class SurveyMetric {
     required this.nSurveys,
     required this.nStarted,
     required this.nSubmitted,
-    required this.surveyName,
+    required this.surveyDevName,
     required this.unableToCalculate,
   });
 
@@ -47,7 +47,7 @@ class SurveyMetric {
       nSurveys: 0,
       nStarted: 0,
       nSubmitted: 0,
-      surveyName: '',
+      surveyDevName: '',
       unableToCalculate: true,
     );
   }
@@ -177,120 +177,122 @@ class SurveyMetric {
       nSurveys: nSurveys,
       nStarted: nStarted,
       nSubmitted: nCeoFinished + nEmployeeFinished + nCSuiteFinished,
-      surveyName: surveyName,
+      surveyDevName: surveyName,
       unableToCalculate: false,
     );
   }
 
-  factory SurveyMetric.loadBlurredData({String surveyName = 'Default', double nCeoFinished = 1, double nCSuiteFinished = 4, double nEmployeeFinished = 12, double nSurveys = 20, double nStarted = 18}) {
+  factory SurveyMetric.loadBlurredData(
+      {String surveyName = 'Default', double nCeoFinished = 1, double nCSuiteFinished = 4, double nEmployeeFinished = 12, double nSurveys = 20, double nStarted = 18}) {
     Map<Indicator, double> ceoBenchmarks = {
-      Indicator.align: 58.3,
-      Indicator.meetingEfficacy: 100.0,
-      Indicator.leadership: 52.9,
-      Indicator.companyIndex: 2.0,
-      Indicator.workforce: 55.6,
-      Indicator.orgAlign: 83.3,
-      Indicator.alignedTech: 100.0,
-      Indicator.growthAlign: 66.7,
-      Indicator.collabKPIs: 50.0,
-      Indicator.crossFuncAcc: 66.7,
-      Indicator.crossFuncComms: 16.7,
-      Indicator.people: 57.4,
-      Indicator.engagedCommunity: 66.7,
-      Indicator.collabProcesses: 50.0,
-      Indicator.process: 73.0,
-      Indicator.general: 44.0,
-      Indicator.purposeDriven: 83.3,
-      Indicator.operations: 67.1,
-      Indicator.empoweredLeadership: 33.3
+      Indicator.align: 65.7,
+      Indicator.meetingEfficacy: 91.2,
+      Indicator.leadership: 58.4,
+      Indicator.companyIndex: 2.3,
+      Indicator.workforce: 62.1,
+      Indicator.orgAlign: 88.5,
+      Indicator.alignedTech: 95.0,
+      Indicator.growthAlign: 70.3,
+      Indicator.collabKPIs: 55.8,
+      Indicator.crossFuncAcc: 71.4,
+      Indicator.crossFuncComms: 25.3,
+      Indicator.people: 60.2,
+      Indicator.engagedCommunity: 72.9,
+      Indicator.collabProcesses: 58.6,
+      Indicator.process: 77.8,
+      Indicator.general: 48.5,
+      Indicator.purposeDriven: 86.2,
+      Indicator.operations: 69.7,
+      Indicator.empoweredLeadership: 40.8
     };
 
     Map<Indicator, double> cSuiteBenchmarks = {
-      Indicator.purposeDriven: 75.0,
-      Indicator.meetingEfficacy: 91.7,
-      Indicator.companyIndex: 2.2,
-      Indicator.leadership: 61.9,
-      Indicator.general: 52.0,
-      Indicator.engagedCommunity: 83.3,
-      Indicator.collabKPIs: 50.0,
-      Indicator.process: 69.8,
-      Indicator.people: 58.7,
-      Indicator.collabProcesses: 50.0,
-      Indicator.empoweredLeadership: 58.3,
-      Indicator.alignedTech: 91.7,
-      Indicator.crossFuncAcc: 58.3,
-      Indicator.crossFuncComms: 16.7,
-      Indicator.growthAlign: 83.3,
-      Indicator.orgAlign: 58.3,
-      Indicator.align: 59.0,
-      Indicator.operations: 65.4,
-      Indicator.workforce: 60.0
+      Indicator.purposeDriven: 78.9,
+      Indicator.meetingEfficacy: 87.3,
+      Indicator.companyIndex: 2.5,
+      Indicator.leadership: 65.2,
+      Indicator.general: 55.1,
+      Indicator.engagedCommunity: 80.6,
+      Indicator.collabKPIs: 60.2,
+      Indicator.process: 74.4,
+      Indicator.people: 63.8,
+      Indicator.collabProcesses: 61.5,
+      Indicator.empoweredLeadership: 59.7,
+      Indicator.alignedTech: 85.9,
+      Indicator.crossFuncAcc: 65.7,
+      Indicator.crossFuncComms: 35.2,
+      Indicator.growthAlign: 77.8,
+      Indicator.orgAlign: 63.5,
+      Indicator.align: 64.3,
+      Indicator.operations: 68.2,
+      Indicator.workforce: 66.7
     };
 
     Map<Indicator, double> employeeBenchmarks = {
-      Indicator.companyIndex: 2.9,
-      Indicator.meetingEfficacy: 50.0,
-      Indicator.growthAlign: 55.6,
-      Indicator.collabProcesses: 55.6,
-      Indicator.engagedCommunity: 55.6,
-      Indicator.operations: 55.1,
-      Indicator.general: 46.7,
-      Indicator.crossFuncAcc: 55.6,
-      Indicator.empoweredLeadership: 55.6,
-      Indicator.align: 58.1,
-      Indicator.workforce: 53.9,
-      Indicator.process: 53.1,
-      Indicator.crossFuncComms: 50.0,
-      Indicator.alignedTech: 55.6,
-      Indicator.purposeDriven: 55.6,
-      Indicator.orgAlign: 77.8,
-      Indicator.leadership: 56.2,
-      Indicator.people: 52.3,
-      Indicator.collabKPIs: 55.6
+      Indicator.companyIndex: 3.1,
+      Indicator.meetingEfficacy: 53.6,
+      Indicator.growthAlign: 58.9,
+      Indicator.collabProcesses: 59.4,
+      Indicator.engagedCommunity: 59.2,
+      Indicator.operations: 59.8,
+      Indicator.general: 50.2,
+      Indicator.crossFuncAcc: 58.7,
+      Indicator.empoweredLeadership: 61.3,
+      Indicator.align: 62.8,
+      Indicator.workforce: 57.4,
+      Indicator.process: 57.1,
+      Indicator.crossFuncComms: 42.1,
+      Indicator.alignedTech: 59.3,
+      Indicator.purposeDriven: 60.5,
+      Indicator.orgAlign: 75.1,
+      Indicator.leadership: 59.6,
+      Indicator.people: 56.9,
+      Indicator.collabKPIs: 58.7
     };
 
     Map<Indicator, double> companyBenchmarks = {
-      Indicator.purposeDriven: 61.8,
-      Indicator.growthAlign: 62.8,
-      Indicator.orgAlign: 73.5,
-      Indicator.collabProcesses: 53.9,
-      Indicator.collabKPIs: 53.9,
-      Indicator.alignedTech: 66.7,
-      Indicator.crossFuncComms: 40.2,
-      Indicator.empoweredLeadership: 54.9,
-      Indicator.engagedCommunity: 62.8,
-      Indicator.meetingEfficacy: 62.7,
-      Indicator.crossFuncAcc: 56.9,
-      Indicator.companyIndex: 2.1,
-      Indicator.workforce: 55.4,
-      Indicator.operations: 58.3,
-      Indicator.general: 47.8,
-      Indicator.align: 58.3,
-      Indicator.process: 58.2,
-      Indicator.leadership: 57.3,
-      Indicator.people: 54.1
+      Indicator.purposeDriven: 68.5,
+      Indicator.growthAlign: 65.7,
+      Indicator.orgAlign: 75.7,
+      Indicator.collabProcesses: 59.8,
+      Indicator.collabKPIs: 58.2,
+      Indicator.alignedTech: 72.7,
+      Indicator.crossFuncComms: 36.9,
+      Indicator.empoweredLeadership: 57.3,
+      Indicator.engagedCommunity: 66.9,
+      Indicator.meetingEfficacy: 69.2,
+      Indicator.crossFuncAcc: 63.6,
+      Indicator.companyIndex: 2.7,
+      Indicator.workforce: 61.4,
+      Indicator.operations: 63.9,
+      Indicator.general: 51.3,
+      Indicator.align: 63.9,
+      Indicator.process: 65.1,
+      Indicator.leadership: 60.7,
+      Indicator.people: 59.2
     };
 
+// Calculate difference scores (maximum absolute difference between departments)
     Map<Indicator, double> differenceScores = {
-      Indicator.purposeDriven: 27.8,
-      Indicator.growthAlign: 27.8,
-      Indicator.orgAlign: 25.0,
-      Indicator.collabProcesses: 5.6,
-      Indicator.collabKPIs: 5.6,
-      Indicator.alignedTech: 44.4,
-      Indicator.crossFuncComms: 33.3,
-      Indicator.empoweredLeadership: 25.0,
-      Indicator.engagedCommunity: 27.8,
-      Indicator.meetingEfficacy: 50.0,
-      Indicator.crossFuncAcc: 11.1,
-      Indicator.companyIndex: 7.3,
-      Indicator.workforce: 6.1,
-      Indicator.operations: 12.0,
-      Indicator.general: 8.0,
-      Indicator.align: 0.8,
-      Indicator.process: 19.9,
-      Indicator.leadership: 9.0,
-      Indicator.people: 6.4
+      Indicator.purposeDriven: 25.7, // |86.2 - 60.5| = 25.7
+      Indicator.growthAlign: 18.9, // |77.8 - 58.9| = 18.9
+      Indicator.orgAlign: 25.0, // |88.5 - 63.5| = 25.0
+      Indicator.collabProcesses: 2.9, // |61.5 - 58.6| = 2.9
+      Indicator.collabKPIs: 4.4, // |60.2 - 55.8| = 4.4
+      Indicator.alignedTech: 35.7, // |95.0 - 59.3| = 35.7
+      Indicator.crossFuncComms: 16.9, // |42.1 - 25.3| = 16.8
+      Indicator.empoweredLeadership: 20.5, // |61.3 - 40.8| = 20.5
+      Indicator.engagedCommunity: 21.4, // |80.6 - 59.2| = 21.4
+      Indicator.meetingEfficacy: 37.6, // |91.2 - 53.6| = 37.6
+      Indicator.crossFuncAcc: 12.7, // |71.4 - 58.7| = 12.7
+      Indicator.companyIndex: 0.8, // |3.1 - 2.3| = 0.8
+      Indicator.workforce: 9.3, // |66.7 - 57.4| = 9.3
+      Indicator.operations: 9.9, // |69.7 - 59.8| = 9.9
+      Indicator.general: 6.6, // |55.1 - 48.5| = 6.6
+      Indicator.align: 2.9, // |65.7 - 62.8| = 2.9
+      Indicator.process: 20.7, // |77.8 - 57.1| = 20.7
+      Indicator.leadership: 6.8, // |65.2 - 58.4| = 6.8
+      Indicator.people: 6.9 // |63.8 - 56.9| = 6.9
     };
 
     return SurveyMetric(
@@ -305,7 +307,7 @@ class SurveyMetric {
       nSurveys: nSurveys,
       nStarted: nStarted,
       nSubmitted: nCeoFinished + nEmployeeFinished + nCSuiteFinished,
-      surveyName: surveyName,
+      surveyDevName: surveyName,
       unableToCalculate: false,
     );
   }
@@ -382,7 +384,7 @@ class SurveyMetric {
       nSurveys: nSurveys,
       nStarted: nStarted,
       nSubmitted: nCeoFinished + nCSuiteFinished + nEmployeeFinished,
-      surveyName: surveyName,
+      surveyDevName: surveyName,
       unableToCalculate: companyBenchmarksMap.isEmpty ? true : false,
     );
   }
@@ -510,13 +512,13 @@ class SurveyMetric {
         'nSurveys': nSurveys,
         'nStarted': nStarted,
         'nSubmitted': nSubmitted,
-        'surveyName': surveyName,
+        'surveyName': surveyDevName,
         'notEnoughData': unableToCalculate,
       };
 
   void printData() {
     print('SurveyMetric Data:');
-    print('Survey Name: $surveyName');
+    print('Survey Name: $surveyDevName');
     print('Not Enough Data: $unableToCalculate');
     print('Number of Surveys Finished:');
     print('  CEO: $nCeoFinished');
@@ -562,7 +564,7 @@ class MetricsData {
     allSurveyMetrics: {},
   );
 
-  List<String> getSurveyNames(){
+  List<String> getSurveyNames() {
     return allSurveyMetrics.keys.toList();
   }
 
@@ -571,7 +573,7 @@ class MetricsData {
   }
 
   void addSurveyData(SurveyMetric surveyMetric) {
-    allSurveyMetrics[surveyMetric.surveyName] = surveyMetric;
+    allSurveyMetrics[surveyMetric.surveyDevName] = surveyMetric;
   }
 
   SurveyMetric getSurveyMetric(String surveyName) {

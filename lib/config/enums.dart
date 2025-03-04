@@ -60,7 +60,6 @@ enum Indicator {
 
 List<Indicator> justIndicators() {
   return [
-    Indicator.companyIndex,
     Indicator.orgAlign,
     Indicator.growthAlign,
     Indicator.collabKPIs,

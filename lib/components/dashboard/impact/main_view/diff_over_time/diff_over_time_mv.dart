@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/components/dashboard/companyInfo/styledDropdown.dart';
+import 'package:platform_front/components/dashboard/impact/compare_widgets/overall_score_over_time_row.dart';
+import 'package:platform_front/components/dashboard/impact/compare_widgets/score_over_time_row.dart';
 import 'package:platform_front/components/dashboard/impact/main_view/score_over_time/score_over_time_MV.dart';
 import 'package:platform_front/components/global/blurOverlay.dart';
 import 'package:platform_front/components/global/grayDivider.dart';
@@ -12,62 +14,15 @@ import 'package:platform_front/notifiers/surveyMetrics/metrics_data.dart';
 class DiffOverTimeMv extends ConsumerWidget {
   const DiffOverTimeMv({super.key});
 
-  String getYearAndQuarter(String timestamp, Map<String, int> quarterCount) {
-    String datePart = timestamp.split('T')[0];
-    List<String> parts = datePart.split('-');
-    int year = int.parse(parts[0]);
-    int month = int.parse(parts[1]);
-    int quarter = ((month - 1) ~/ 3) + 1;
-
-    // Create the base key
-    String baseKey = '$year Q$quarter';
-
-    // If this quarter hasn't been seen before, initialize its count
-    quarterCount.putIfAbsent(baseKey, () => 0);
-    // Increment the count for this quarter
-    quarterCount[baseKey] = quarterCount[baseKey]! + 1;
-
-    // If this is not the first survey in this quarter, add the decimal suffix
-    if (quarterCount[baseKey]! > 1) {
-      return '$baseKey.${quarterCount[baseKey]! - 1}';
-    }
-
-    return baseKey;
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    Map<String, SurveyMetric> surveyNames = MetricsData().allSurveyMetrics;
-    bool showBlur = false;
 
-    if (surveyNames.isEmpty || surveyNames.length < 2) {
-      showBlur = true;
-      surveyNames = {
-        '2025-02-20T13-08-49': SurveyMetric.loadDefaultValues(),
-        '2025-06-20T13-08-49': SurveyMetric.loadDefaultValues(),
-      };
-    }
-
-    // Keep track of how many surveys we've seen for each quarter
-    Map<String, int> quarterCount = {};
-    Map<String, SurveyMetric> formattedSurveyNames = {};
-
-    // Sort the original timestamps to ensure consistent ordering
-    List<String> sortedTimestamps = surveyNames.keys.toList()..sort();
-
-    // Create formatted keys while keeping track of duplicates
-    for (String timestamp in sortedTimestamps) {
-      String formattedKey = getYearAndQuarter(timestamp, quarterCount);
-      formattedSurveyNames[formattedKey] = surveyNames[timestamp]!;
-    }
-
-    List<String> sortedKeys = formattedSurveyNames.keys.toList()..sort();
-    String firstKey = sortedKeys[0];
-    String secondKey = sortedKeys.length > 1 ? sortedKeys[1] : firstKey;
+    Map<String, SurveyMetric> surveyMetrics = ref.watch(scoreCompareProvider).allComparableSurveys;
+    List<String> formattedSurveyNames = surveyMetrics.keys.toList(growable: false);
 
     return BlurOverlay(
-      message: "We need atleast 2 surveys to show Score/Diff Comparison",
-      blur: showBlur,
+      message: "We need atleast 2 surveys to show Diff Comparison",
+      blur: ref.watch(scoreCompareProvider).blur,
       child: Padding(
         padding: const EdgeInsets.only(left: 16, right: 16),
         child: Column(
@@ -84,21 +39,21 @@ class DiffOverTimeMv extends ConsumerWidget {
                         height: 40,
                         width: 125,
                         child: StyledDropdown(
-                            items: sortedKeys,
+                            items: formattedSurveyNames,
                             onChanged: (value) {
-                              ref.read(scoreCompareProvider.notifier).updateSurvey1(formattedSurveyNames[value]!);
+                              ref.read(scoreCompareProvider.notifier).updateSurvey1(value);
                             },
-                            initalValue: firstKey)),
+                            initalValue: formattedSurveyNames[0])),
                     Text('vs', style: kH5PoppinsRegular),
                     SizedBox(
                         height: 40,
                         width: 125,
                         child: StyledDropdown(
-                            items: sortedKeys,
+                            items: formattedSurveyNames,
                             onChanged: (value) {
-                              ref.read(scoreCompareProvider.notifier).updateSurvey2(formattedSurveyNames[value]!);
+                              ref.read(scoreCompareProvider.notifier).updateSurvey2(value);
                             },
-                            initalValue: secondKey)),
+                            initalValue: formattedSurveyNames[1])),
                   ],
                 ),
                 SizedBox(width: 125, child: Text('Difference', style: kH3PoppinsRegular)),

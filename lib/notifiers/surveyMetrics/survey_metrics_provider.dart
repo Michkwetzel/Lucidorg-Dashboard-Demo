@@ -110,6 +110,7 @@ class MetricsDataProvider extends StateNotifier<MetricsDataState> {
             participationBelow30: false,
             showPopUp: false,
             testData: true);
+        scoreCompareProvider.initLoad();
       } else {
         logger.info('Getting Survey Data for company $companyUID');
         final companyDoc = await _firestore.collection('surveyMetrics').doc(companyUID).get();
@@ -135,7 +136,6 @@ class MetricsDataProvider extends StateNotifier<MetricsDataState> {
         for (final surveyName in allSurveyNames) {
           final metricsRef = _firestore.collection('surveyMetrics/$companyUID/$surveyName').doc('metrics');
           final participationRef = _firestore.collection('surveyMetrics/$companyUID/$surveyName').doc('participationStats');
-          print('MetricsDoc: surveyMetrics/$companyUID/$surveyName/metrics, ParticipationDoc: surveyMetrics/$companyUID/$surveyName/participationStats ');
           futures.add(metricsRef.get());
           futures.add(participationRef.get());
         }
@@ -169,7 +169,7 @@ class MetricsDataProvider extends StateNotifier<MetricsDataState> {
         // Get latest survey
         // Check participation rate and set accordingly
         SurveyMetric latestSurvey = globalMetricsData.getSurveyMetric(userProfileData.latestSurveyDocName!);
-        latestSurvey.printData();
+        //latestSurvey.printData();
         if (latestSurvey.getSurveyParticipation < 30) {
           print('<30');
           state = state.copyWith(
@@ -185,7 +185,7 @@ class MetricsDataProvider extends StateNotifier<MetricsDataState> {
                 nEmployeeFinished: latestSurvey.nEmployeeFinished,
                 nStarted: latestSurvey.nStarted,
                 nSurveys: latestSurvey.nSurveys,
-                surveyName: latestSurvey.surveyName),
+                surveyName: latestSurvey.surveyDevName),
           );
         } else if (latestSurvey.unableToCalculate) {
           print('Unable to calculate');
@@ -203,7 +203,7 @@ class MetricsDataProvider extends StateNotifier<MetricsDataState> {
                 nEmployeeFinished: latestSurvey.nEmployeeFinished,
                 nStarted: latestSurvey.nStarted,
                 nSurveys: latestSurvey.nSurveys,
-                surveyName: latestSurvey.surveyName),
+                surveyName: latestSurvey.surveyDevName),
           );
         } else if (latestSurvey.getSurveyParticipation < 70) {
           state = state.copyWith(
@@ -227,7 +227,6 @@ class MetricsDataProvider extends StateNotifier<MetricsDataState> {
           );
         }
         // at this point we have the state of the latest survey. and can upadte our UI accordingly
-        state.surveyMetric.printData();
       }
     } catch (e) {
       logger.severe('Error getting survey data: $e');

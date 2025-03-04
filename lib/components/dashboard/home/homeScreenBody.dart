@@ -166,7 +166,7 @@ class ActiveAssessmentTextWidget extends ConsumerWidget {
       }
     }
 
-    String formatedSurveyDate = processSurveyDate(ref.watch(metricsDataProvider).surveyMetric.surveyName)[0];
+    String formatedSurveyDate = processSurveyDate(ref.watch(metricsDataProvider).surveyMetric.surveyDevName)[0];
     return Text(
       formatedSurveyDate,
       style: kH5PoppinsLight,
