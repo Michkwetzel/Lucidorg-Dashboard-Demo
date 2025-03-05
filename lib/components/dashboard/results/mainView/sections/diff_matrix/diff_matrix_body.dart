@@ -3,6 +3,7 @@ import 'package:platform_front/components/dashboard/results/mainView/sections/di
 import 'package:platform_front/components/dashboard/results/mainView/sections/diff_matrix/scores_radar_chart.dart';
 import 'package:platform_front/components/global/grayDivider.dart';
 import 'package:platform_front/config/constants.dart';
+import 'package:platform_front/config/enums.dart';
 
 class DiffMatrixBody extends StatelessWidget {
   const DiffMatrixBody({super.key});
@@ -25,9 +26,9 @@ class DiffMatrixBody extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             spacing: 16,
             children: [
-              LegendItem(label: "CEO", color: Colors.blue),
-              LegendItem(label: "C-Suite", color: Colors.green),
-              LegendItem(label: "Employee", color: Colors.red),
+              LegendItem(department: Department.ceo, color: Colors.blue),
+              LegendItem(department: Department.cSuite, color: Colors.green),
+              LegendItem(department: Department.staff, color: Colors.red),
             ],
           ),
           SizedBox(

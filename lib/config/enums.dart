@@ -14,7 +14,41 @@ enum ImpactSection { orgImpact, financial, scoreOverTime, diffOverTime }
 
 enum Pilar { alignment, people, process, leadership, none }
 
-enum Compare { score, diff }
+enum Compare { score, diff, overall }
+
+enum Alligned { best, worst }
+
+enum ScoresOverTime { improvement, decline }
+
+enum Department { ceo, cSuite, staff }
+
+extension DepartmentHeading on Department {
+  String get heading {
+    switch (this) {
+      case Department.ceo:
+        return "CEO";
+      case Department.cSuite:
+        return "C-Suite";
+      case Department.staff:
+        return "Staff";
+    }
+  }
+}
+
+enum ScoreRange {
+  low, // < 40
+  moderate, // 40-50
+  good, // 50-60
+  excellent, // 60-70
+  perfect // 70+
+}
+
+enum DiffRange {
+  minimal, // < 10
+  moderate, // 10-20
+  high, // 20-30
+  extreme // 30+
+}
 
 extension PilarHeading on Pilar {
   String get heading {
@@ -173,23 +207,4 @@ extension IndicatorDescription on Indicator {
         return Pilar.none;
     }
   }
-}
-
-enum Alligned { best, worst }
-
-enum ScoresOverTime { improvement, decline }
-
-enum ScoreRange {
-  low, // < 40
-  moderate, // 40-50
-  good, // 50-60
-  excellent, // 60-70
-  perfect // 70+
-}
-
-enum DiffRange {
-  minimal, // < 10
-  moderate, // 10-20
-  high, // 20-30
-  extreme // 30+
 }

@@ -1,61 +1,53 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:platform_front/components/dashboard/impact/compare_widgets/change_score_diff_box.dart';
+import 'package:platform_front/components/dashboard/impact/compare_widgets/score_over_time_row.dart';
 import 'package:platform_front/config/constants.dart';
+import 'package:platform_front/config/enums.dart';
+import 'package:platform_front/config/providers.dart';
+import 'package:platform_front/notifiers/surveyMetrics/metrics_data.dart';
 
-class OverallScoreOverTimeRow extends StatelessWidget {
-  final String category;
-  final double score1;
-  final double score2;
+class OverallScoreOverTimeRow extends ConsumerWidget {
+  final Indicator indicator;
+  final Compare type;
 
   const OverallScoreOverTimeRow({
     super.key,
-    required this.category,
-    required this.score1,
-    required this.score2,
+    required this.indicator,
+    required this.type,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    SurveyMetric survey1 = ref.watch(scoreCompareProvider).survey1Data;
+    SurveyMetric survey2 = ref.watch(scoreCompareProvider).survey2Data;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         SizedBox(
           width: 170,
-          child: Text(category, style: TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'Poppins', fontWeight: FontWeight.w300)),
+          child: Text(indicator.heading, style: TextStyle(color: Colors.black, fontSize: 18, fontFamily: 'Poppins', fontWeight: FontWeight.w300)),
         ),
         SizedBox(
-          width: 200.5,
+          width: 300,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                width: 65,
-                height: 38,
-                decoration: kGrayBox,
-                child: Center(child: Text('$score1%', style: TextStyle(color: Color(0xFF5478ED), fontSize: 15, fontFamily: 'Poppins', fontWeight: FontWeight.w300))),
+              Padding(
+                padding: const EdgeInsets.only(left: 12.5),
+                child: CompareScoreMiddleBox(value: type == Compare.score ? survey1.companyBenchmarks[indicator]! : survey1.diffScores[indicator]!, width: 100, height: 40, type: type),
               ),
-              Container(
-                width: 65,
-                height: 38,
-                decoration: kGrayBox,
-                child: Center(child: Text('$score2%', style: TextStyle(color: Color(0xFF5478ED), fontSize: 14, fontFamily: 'Poppins', fontWeight: FontWeight.w300))),
+              Padding(
+                padding: const EdgeInsets.only(right: 12.5),
+                child: CompareScoreMiddleBox(value: type == Compare.score ? survey2.companyBenchmarks[indicator]! : survey2.diffScores[indicator]!, width: 100, height: 40, type: type),
               ),
             ],
           ),
         ),
-        SizedBox(
-          width: 125,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: 60,
-                height: 40,
-                decoration: kGrayBox,
-                child: Center(child: Text('${(score1 - score2).abs().toStringAsFixed(1)}%', style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: 'Poppins', fontWeight: FontWeight.w300))),
-              ),
-            ],
-          ),
-        )
+        ChangeScoreDiffBox(
+            type: type,
+            scoreChange: type == Compare.score ? survey2.companyBenchmarks[indicator]! - survey1.companyBenchmarks[indicator]! : survey2.diffScores[indicator]! - survey1.diffScores[indicator]!)
       ],
     );
   }

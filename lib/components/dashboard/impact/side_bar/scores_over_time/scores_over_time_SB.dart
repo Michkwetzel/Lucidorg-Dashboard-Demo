@@ -19,26 +19,23 @@ class ScoresOverTimeSB extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.all(32).copyWith(top: 40),
       child: Column(
-        spacing: 16,
         children: [
           Text('Scores Over Time', style: kH2PoppinsLight),
-          SizedBox(height: 16),
+          SizedBox(height: 32),
           BlurOverlay(
             blur: ref.watch(scoreCompareProvider).blur,
             child: Column(
               children: [
                 Text('Improvement', style: kH3PoppinsRegular),
-                GrayDivider(
-                  width: 200,
-                ),
+                GrayDivider(width: 200),
+                SizedBox(height: 24),
                 CompareRowSB(type: Compare.score, change: topScoreImprove[0].entries.first.value, indicator: topScoreImprove[0].entries.first.key),
                 CompareRowSB(type: Compare.score, change: topScoreImprove[1].entries.first.value, indicator: topScoreImprove[1].entries.first.key),
                 CompareRowSB(type: Compare.score, change: topScoreImprove[2].entries.first.value, indicator: topScoreImprove[2].entries.first.key),
-                SizedBox(height: 16),
+                SizedBox(height: 24),
                 Text('Decline', style: kH3PoppinsRegular),
-                GrayDivider(
-                  width: 200,
-                ),
+                GrayDivider(width: 200),
+                SizedBox(height: 24),
                 CompareRowSB(type: Compare.score, change: topScoreDecline[0].entries.first.value, indicator: topScoreDecline[0].entries.first.key),
                 CompareRowSB(type: Compare.score, change: topScoreDecline[1].entries.first.value, indicator: topScoreDecline[1].entries.first.key),
                 CompareRowSB(type: Compare.score, change: topScoreDecline[2].entries.first.value, indicator: topScoreDecline[2].entries.first.key),

@@ -7,7 +7,21 @@ import 'package:platform_front/notifiers/createAssessment/emailTemplateNotifer.d
 import 'package:platform_front/notifiers/userProfileData/userProfileData.dart';
 import 'package:platform_front/services/httpService.dart';
 
-class GoogleFunctionService extends StateNotifier<bool> {
+class GoogleFunctionServiceState {
+  bool loading;
+  String loadingMessage;
+
+  GoogleFunctionServiceState({this.loading = false, this.loadingMessage = 'Loading...'});
+
+  GoogleFunctionServiceState copyWith({bool? loading, String? loadingMessage}) {
+    return GoogleFunctionServiceState(
+      loading: loading ?? this.loading,
+      loadingMessage: loadingMessage ?? this.loadingMessage,
+    );
+  }
+}
+
+class GoogleFunctionService extends StateNotifier<GoogleFunctionServiceState> {
   final Logger logger = Logger("Googlefunctionservice");
   final EmailListNotifier _emailListNotifier;
   final EmailTemplateNotifer _emailTemplateNotifier;
@@ -20,6 +34,7 @@ class GoogleFunctionService extends StateNotifier<bool> {
   String? get userUID => _userDataNotifier.state.userUID;
   String? get companyUID => _userDataNotifier.state.companyUID;
   String? get subject => _emailTemplateNotifier.state.subject;
+  String? get latestDocName => _userDataNotifier.latestSurveyDocName;
 
   GoogleFunctionService(
       {required EmailListNotifier emailListNotifier,
@@ -29,7 +44,7 @@ class GoogleFunctionService extends StateNotifier<bool> {
       : _emailListNotifier = emailListNotifier,
         _emailTemplateNotifier = emailTemplateNotifier,
         _userDataNotifier = userDataNotifier,
-        super(false);
+        super(GoogleFunctionServiceState());
 
   Future<dynamic> verifyAuthToken({required String authToken}) {
     Map<String, dynamic> request = {'authToken': authToken};
@@ -43,7 +58,7 @@ class GoogleFunctionService extends StateNotifier<bool> {
 
   Future<void> createAssessment({bool guest = false}) async {
     try {
-      state = true;
+      state = state.copyWith(loadingMessage: 'Creating Assessment!', loading: true);
       logger.info("Creating Assessment");
 
       Map<String, dynamic> request = {
@@ -54,20 +69,27 @@ class GoogleFunctionService extends StateNotifier<bool> {
         'userUID': userUID,
         'subject': subject,
         'companyUID': companyUID,
-        'guest' : guest
+        'guest': guest
       };
-      
+
       print(request);
       await HttpService.postRequest(path: kCreateAssessmentPath, request: request);
-      state = false;
-    } on Exception catch (e) {
-      state = false;
+      state = state.copyWith(loadingMessage: 'Loading!', loading: false);
+    } on Exception {
+      state = state.copyWith(loadingMessage: 'Loading!', loading: false);
       rethrow;
     }
   }
 
   Future<void> saveCompanyInfo(Map<String, dynamic> companyInfo) async {
     await HttpService.postRequest(path: ksaveCompanyInfoPath, request: {'companyInfo': companyInfo, 'companyUID': companyUID});
+  }
+
+  Future<void> sendEmailReminder() async {
+    try {
+      await HttpService.postRequest(path: ksendEmailReminderPath, request: {'currentSurvey': latestDocName, 'companyUID': companyUID});
+    } on Exception catch (e) {
+    }
   }
 
   // Future<void> createTokens({int numTokens = 1, int numCompanyUIds = 1}) {

@@ -93,6 +93,8 @@ const String ksaveCompanyInfoPath = 'https://savecompanyinfo-rbyavkqn2a-uc.a.run
 
 // const String kCreateTokensPath = 'http://127.0.0.1:5001/efficiency-1st/us-central1/createTokens';
 
+const String ksendEmailReminderPath = 'https://sendemailreminder-rbyavkqn2a-uc.a.run.app';
+
 // ****************************************** Box Decorations ***************************************
 
 BoxDecoration kboxShadowNormal = BoxDecoration(

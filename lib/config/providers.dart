@@ -8,6 +8,7 @@ import 'package:platform_front/notifiers/impact/impact_display_notifier.dart';
 import 'package:platform_front/notifiers/loading/loadingNotifer.dart';
 import 'package:platform_front/notifiers/navBar/navBarExpandState.dart';
 import 'package:platform_front/notifiers/scoreCompare/score_compare_provider.dart';
+import 'package:platform_front/notifiers/selectedDiffMatrix/selected_department_diff_matrix_notifer.dart';
 import 'package:platform_front/notifiers/selectedDiffMatrix/selected_diff_matrix.dart';
 import 'package:platform_front/notifiers/selectedIndicator/selected_indicator.dart';
 import 'package:platform_front/notifiers/surveyMetrics/survey_metrics_provider.dart';
@@ -56,7 +57,7 @@ final emailpasswordvalidateProvider = StateNotifierProvider<Emailpasswordvalidat
   return EmailpasswordvalidateNotifer();
 });
 
-final googlefunctionserviceProvider = StateNotifierProvider<GoogleFunctionService, bool>((ref) {
+final googlefunctionserviceProvider = StateNotifierProvider<GoogleFunctionService, GoogleFunctionServiceState>((ref) {
   final emailTemplateNotifer = ref.watch(emailTemplateProvider.notifier);
   final emailListNotifier = ref.watch(emailListProvider.notifier);
   final activeAssessmentDataNotifier = ref.watch(activeAssessmentDataProvider.notifier);
@@ -158,4 +159,8 @@ final emailPasswordProvider = StateNotifierProvider<EmailPasswordProvider, Email
 
 final selectedDiffMatrixProvider = StateNotifierProvider<SelectedDiffMatrix, Indicator>((ref) {
   return SelectedDiffMatrix();
+});
+
+final selectedDepartmentDiffMatrixNotiferProvider = StateNotifierProvider<SelectedDepartmentDiffMatrixNotifer, Department>((ref) {
+  return SelectedDepartmentDiffMatrixNotifer();
 });

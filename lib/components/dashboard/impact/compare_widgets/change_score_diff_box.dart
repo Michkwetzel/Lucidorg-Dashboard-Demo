@@ -16,27 +16,34 @@ class ChangeScoreDiffBox extends StatelessWidget {
   Widget build(BuildContext context) {
     Color arrowColor;
     IconData icon;
+    Decoration boxDecoration;
 
     if (type == Compare.score) {
       if (scoreChange < 0) {
         arrowColor = Colors.red;
+        boxDecoration = kRedBox;
         icon = Icons.arrow_downward;
       } else if (scoreChange > 0) {
         arrowColor = Colors.green;
+        boxDecoration = kGreenBox;
         icon = Icons.arrow_upward;
       } else {
         arrowColor = Colors.grey;
+        boxDecoration = kGrayBox;
         icon = Icons.arrow_upward;
       }
     } else {
       if (scoreChange < 0) {
         arrowColor = Colors.green;
+        boxDecoration = kGreenBox;
         icon = Icons.arrow_upward;
       } else if (scoreChange > 0) {
         arrowColor = Colors.red;
+        boxDecoration = kRedBox;
         icon = Icons.arrow_downward;
       } else {
         arrowColor = Colors.grey;
+        boxDecoration = kGrayBox;
         icon = Icons.arrow_upward;
       }
     }
@@ -57,7 +64,7 @@ class ChangeScoreDiffBox extends StatelessWidget {
           Container(
             width: 60,
             height: 40,
-            decoration: kGrayBox,
+            decoration: boxDecoration,
             child: Center(
               child: Text(
                 scoreChange.toStringAsFixed(1),
@@ -69,8 +76,41 @@ class ChangeScoreDiffBox extends StatelessWidget {
                 ),
               ),
             ),
-          ),
+          )
         ],
+      ),
+    );
+  }
+}
+
+class GrayBox extends StatelessWidget {
+  const GrayBox({
+    super.key,
+    required this.value,
+    required this.width,
+    required this.height,
+  });
+
+  final double value;
+  final double width;
+  final double height;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: width,
+      height: height,
+      decoration: kGrayBox,
+      child: Center(
+        child: Text(
+          value.toStringAsFixed(1),
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 14,
+            fontFamily: 'Poppins',
+            fontWeight: FontWeight.w300,
+          ),
+        ),
       ),
     );
   }

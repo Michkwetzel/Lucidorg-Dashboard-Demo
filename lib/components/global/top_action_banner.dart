@@ -9,6 +9,7 @@ import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/config/providers.dart';
 import 'package:platform_front/notifiers/surveyMetrics/metrics_data.dart';
 import 'package:platform_front/notifiers/surveyMetrics/survey_metrics_provider.dart';
+import 'package:platform_front/services/microServices/alertService.dart';
 import 'package:platform_front/services/microServices/navigationService.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -27,7 +28,6 @@ class TopActionBanner extends ConsumerWidget {
     Color borderColor = Colors.orange[300]!;
     Color backgroundColor = Colors.white;
     Color textColor = Colors.black87;
-
 
     if (metricsState.participationBelow30) {
       text = "Current Assessment participation is $participation%. We need 30% to show data";
@@ -63,13 +63,18 @@ class TopActionBanner extends ConsumerWidget {
       backgroundColor = Colors.white;
     }
 
-    void handlePress() {
+    void handlePress() async {
       if (metricsState.noSurveyData) {
         ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.createAssessment);
         NavigationService.navigateTo('/createAssessment');
       } else if (metricsState.participationBelow30 || metricsState.between30And70 || metricsState.needAll3Departments) {
-        // Add your reminder sending logic here
-        print('Sending reminder...');
+        try {
+          ref.read(googlefunctionserviceProvider.notifier).sendEmailReminder();
+          AlertService.showAlert(title: 'Sent Reminder', message: "A reminder with the survey link has been sent");
+        } on Exception catch (e) {
+          print("Error sending reminder");
+        }
+        print('Finished');
       } else if (metricsState.testData) {
         launchUrl(Uri.parse("https://www.lucidorg.com/contact"));
       }

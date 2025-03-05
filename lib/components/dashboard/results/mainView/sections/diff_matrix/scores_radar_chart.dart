@@ -18,6 +18,7 @@ class _ScoresRadarChartState extends ConsumerState<ScoresRadarChart> {
   @override
   Widget build(BuildContext context) {
     SurveyMetric displayData = ref.watch(metricsDataProvider).surveyMetric;
+    Department selectedDepartment = ref.watch(selectedDepartmentDiffMatrixNotiferProvider);
 
     List<Indicator> indicatorList = justIndicators();
 
@@ -39,21 +40,21 @@ class _ScoresRadarChartState extends ConsumerState<ScoresRadarChart> {
         dataSets: [
           // CEO Data
           RadarDataSet(
-            fillColor: Colors.white10,
+            fillColor: selectedDepartment == Department.ceo ? Colors.blue.withOpacity(0.1) : Colors.transparent,
             borderColor: Colors.blue,
             entryRadius: 2,
             dataEntries: ceoScores.map((score) => RadarEntry(value: score)).toList(),
           ),
           // CSUITE Data
           RadarDataSet(
-            fillColor: Colors.white10,
+            fillColor: selectedDepartment == Department.cSuite ? Colors.green.withOpacity(0.1) : Colors.transparent,
             borderColor: Colors.green,
             entryRadius: 2,
             dataEntries: csuiteScores.map((score) => RadarEntry(value: score)).toList(),
           ),
           // STAFF Data
           RadarDataSet(
-            fillColor: Colors.white10,
+            fillColor: selectedDepartment == Department.staff ? Colors.red.withOpacity(0.1) : Colors.transparent,
             borderColor: Colors.red,
             entryRadius: 2,
             dataEntries: staffScores.map((score) => RadarEntry(value: score)).toList(),

@@ -79,8 +79,8 @@ class _CreateAssessmentBodyState extends ConsumerState<CreateAssessmentBody> {
   @override
   Widget build(BuildContext context) {
     return OverlayWidget(
-      loadingProvider: ref.watch(googlefunctionserviceProvider),
-      loadingMessage: 'Creating Assessment!',
+      loadingProvider: ref.watch(googlefunctionserviceProvider).loading,
+      loadingMessage: "Creating Assessment!",
       child: SingleChildScrollView(
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
@@ -105,6 +105,7 @@ class _CreateAssessmentBodyState extends ConsumerState<CreateAssessmentBody> {
                 height: 24,
               ),
               Row(
+                spacing: 32,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ConstrainedBox(
@@ -123,7 +124,7 @@ class _CreateAssessmentBodyState extends ConsumerState<CreateAssessmentBody> {
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 CallToActionButton(
-                                  disabled: ref.watch(googlefunctionserviceProvider),
+                                  disabled: ref.watch(googlefunctionserviceProvider).loading,
                                   onPressed: () => startAssessment(context, ref),
                                   buttonText: "Start Assessment",
                                 ),

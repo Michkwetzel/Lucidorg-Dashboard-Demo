@@ -16,7 +16,6 @@ class DiffOverTimeMv extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
     Map<String, SurveyMetric> surveyMetrics = ref.watch(scoreCompareProvider).allComparableSurveys;
     List<String> formattedSurveyNames = surveyMetrics.keys.toList(growable: false);
 
@@ -87,9 +86,8 @@ class DiffOverTimeMv extends ConsumerWidget {
               height: 8,
             ),
             OverallScoreOverTimeRow(
-              category: 'Overall',
-              score1: 43.5,
-              score2: 50.6,
+              type: Compare.diff,
+              indicator: Indicator.companyIndex,
             )
           ],
         ),

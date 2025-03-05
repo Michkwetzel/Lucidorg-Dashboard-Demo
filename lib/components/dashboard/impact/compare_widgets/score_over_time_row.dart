@@ -4,6 +4,7 @@ import 'package:platform_front/components/dashboard/impact/compare_widgets/chang
 import 'package:platform_front/components/dashboard/impact/main_view/score_over_time/score_over_time_MV.dart';
 import 'package:platform_front/components/global/score_boxes/diff_box.dart';
 import 'package:platform_front/components/global/score_boxes/score_box.dart';
+import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/config/providers.dart';
 import 'package:platform_front/notifiers/surveyMetrics/metrics_data.dart';
@@ -33,21 +34,64 @@ class ScoreOverTimeRow extends ConsumerWidget {
           child: Text(indicator.heading, style: TextStyle(color: Colors.black, fontSize: 18, fontFamily: 'Poppins', fontWeight: FontWeight.w300)),
         ),
         SizedBox(
-          width: 200.5,
+          width: 300,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              type == Compare.score
-                  ? ScoreBox(score: survey1.companyBenchmarks[indicator]!, width: 65, height: 40, textSize: 15, fontWeight: FontWeight.w300)
-                  : DiffBox(diff: survey1.diffScores[indicator]!, width: 65, height: 40, textSize: 15, fontWeight: FontWeight.w300),
-              type == Compare.score
-                  ? ScoreBox(score: survey2.companyBenchmarks[indicator]!, width: 65, height: 40, textSize: 15, fontWeight: FontWeight.w300)
-                  : DiffBox(diff: survey2.diffScores[indicator]!, width: 65, height: 40, textSize: 15, fontWeight: FontWeight.w300),
+              Padding(
+                padding: const EdgeInsets.only(left: 12.5),
+                child: CompareScoreMiddleBox(value: type == Compare.score ? survey1.companyBenchmarks[indicator]! : survey1.diffScores[indicator]!, width: 100, height: 40, type: type),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 12.5),
+                child: CompareScoreMiddleBox(value: type == Compare.score ? survey2.companyBenchmarks[indicator]! : survey2.diffScores[indicator]!, width: 100, height: 40, type: type),
+              ),
             ],
           ),
         ),
-        type == Compare.score ? ChangeScoreDiffBox(type: type, scoreChange: scoreChange[indicator]!) : ChangeScoreDiffBox(type: type, scoreChange: diffChange[indicator]!)
+        ChangeScoreDiffBox(type: type, scoreChange: type == Compare.score ? scoreChange[indicator]! : diffChange[indicator]!)
       ],
     );
+  }
+}
+
+class CompareScoreMiddleBox extends StatelessWidget {
+  const CompareScoreMiddleBox({
+    super.key,
+    required this.value,
+    required this.width,
+    required this.height,
+    required this.type,
+  });
+
+  final double value;
+  final double width;
+  final double height;
+  final Compare type;
+
+  @override
+  Widget build(BuildContext context) {
+    String valueDisplay = '${value.toStringAsFixed(1)}%';
+    if (type == Compare.diff) {
+      valueDisplay = '~${value.toStringAsFixed(1)}';
+    }
+
+    return Container(
+      width: width,
+      height: height,
+      decoration: kGrayBox,
+      child: Center(
+        child: Text(
+          valueDisplay,
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 14,
+            fontFamily: 'Poppins',
+            fontWeight: FontWeight.w300,
+          ),
+        ),
+      ),
+    );
+    ;
   }
 }

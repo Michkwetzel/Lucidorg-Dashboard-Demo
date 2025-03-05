@@ -10,7 +10,7 @@ class Emaillistbody extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
-      height: 500,
+      height: 600,
       decoration: BoxDecoration(
         border: Border.all(color: const Color(0xFF555353), width: 0.7),
         borderRadius: BorderRadius.circular(24.0),

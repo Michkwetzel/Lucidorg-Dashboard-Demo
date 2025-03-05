@@ -5,8 +5,6 @@ import 'package:platform_front/components/dashboard/impact/compare_widgets/overa
 import 'package:platform_front/components/dashboard/impact/compare_widgets/score_over_time_row.dart';
 import 'package:platform_front/components/global/blurOverlay.dart';
 import 'package:platform_front/components/global/grayDivider.dart';
-import 'package:platform_front/components/global/score_boxes/diff_box.dart';
-import 'package:platform_front/components/global/score_boxes/score_box.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/config/providers.dart';
@@ -89,9 +87,8 @@ class ScoreOverTimeMV extends ConsumerWidget {
               height: 8,
             ),
             OverallScoreOverTimeRow(
-              category: 'Overall',
-              score1: 43.5,
-              score2: 50.6,
+              type: Compare.score,
+              indicator: Indicator.companyIndex,
             )
           ],
         ),
