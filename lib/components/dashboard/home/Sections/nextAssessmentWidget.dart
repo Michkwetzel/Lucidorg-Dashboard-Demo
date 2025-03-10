@@ -59,7 +59,7 @@ class NextAssessmentWidget extends ConsumerWidget {
       }
     }
 
-    String nextAssessmentDate = processSurveyDate(ref.read(metricsDataProvider).surveyMetric.surveyName)[1];
+    String nextAssessmentDate = processSurveyDate(ref.read(metricsDataProvider).surveyMetric.surveyDevName)[1];
 
     return Padding(
       padding: const EdgeInsets.all(16.0),

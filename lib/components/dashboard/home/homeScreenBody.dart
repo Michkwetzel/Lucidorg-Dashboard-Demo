@@ -34,7 +34,7 @@ class HomeScreenBody extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    width: 1008,
+                    width: 1060,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -49,7 +49,9 @@ class HomeScreenBody extends ConsumerWidget {
                   if (ref.watch(metricsDataProvider).noSurveyData ||
                       ref.watch(metricsDataProvider).participationBelow30 ||
                       ref.watch(metricsDataProvider).between30And70 ||
-                      ref.watch(metricsDataProvider).needAll3Departments)
+                      ref.watch(metricsDataProvider).needAll3Departments ||
+                      ref.watch(metricsDataProvider).testData
+                      )
                     TopActionBanner(),
                   const SizedBox(height: 16),
                   Row(children: [
@@ -65,8 +67,7 @@ class HomeScreenBody extends ConsumerWidget {
                   ]),
                   const SizedBox(height: 32),
                   SizedBox(
-                    width: 1000,
-                    height: 250,
+                    height: 280,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -165,7 +166,7 @@ class ActiveAssessmentTextWidget extends ConsumerWidget {
       }
     }
 
-    String formatedSurveyDate = processSurveyDate(ref.watch(metricsDataProvider).surveyMetric.surveyName)[0];
+    String formatedSurveyDate = processSurveyDate(ref.watch(metricsDataProvider).surveyMetric.surveyDevName)[0];
     return Text(
       formatedSurveyDate,
       style: kH5PoppinsLight,

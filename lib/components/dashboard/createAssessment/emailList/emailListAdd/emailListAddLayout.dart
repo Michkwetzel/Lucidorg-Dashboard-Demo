@@ -7,6 +7,7 @@ import 'package:platform_front/components/dashboard/createAssessment/emailList/e
 import 'package:platform_front/components/global/textfieldGray.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/providers.dart';
+import 'package:platform_front/services/microServices/snackBarService.dart';
 
 class Emaillistaddlayout extends ConsumerStatefulWidget {
   Emaillistaddlayout({super.key});
@@ -72,12 +73,13 @@ class _EmaillistaddlayoutState extends ConsumerState<Emaillistaddlayout> {
       print(newValidEmails);
       if (newValidEmails.isNotEmpty) {
         ref.read(emailListProvider.notifier).addEmails(newValidEmails, ref.watch(emailListRadioButtonProvider));
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text(newValidEmails.length == 1
-                  ? 'Successfully loaded ${newValidEmails.length} ${ref.read(emailListRadioButtonProvider.notifier).toString()} email'
-                  : 'Successfully loaded ${newValidEmails.length} ${ref.read(emailListRadioButtonProvider.notifier).toString()} emails')),
-        );
+        SnackBarService.showMessage(
+            newValidEmails.length == 1
+                ? 'Successfully loaded ${newValidEmails.length} ${ref.read(emailListRadioButtonProvider.notifier).toString()} email'
+                : 'Successfully loaded ${newValidEmails.length} ${ref.read(emailListRadioButtonProvider.notifier).toString()} emails',
+            Colors.green,
+            duration: 1);
+
         ref.read(emailListProvider.notifier).changeToViewEmailsDisplay();
       } else {
         setState(() {

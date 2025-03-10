@@ -1,6 +1,19 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/services/googleFunctionService.dart';
 
+class CompanyInfoState {
+  Map<String, String> companyInfo;
+
+  CompanyInfoState({required this.companyInfo});
+
+  CompanyInfoState copyWith({Map<String, String>? companyInfo}) {
+    return CompanyInfoState(
+      companyInfo: companyInfo ?? this.companyInfo,
+    );
+  }
+}
+
+//TODO: finish this.
 
 //For Company Info
 class CompanyInfoNotifer extends StateNotifier<Map<String, String>> {

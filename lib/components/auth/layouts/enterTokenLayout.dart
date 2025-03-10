@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:platform_front/components/auth/buttons/bottomButtonsRow.dart';
+import 'package:platform_front/components/auth/layouts/createAccountScreen.dart';
+import 'package:platform_front/components/global/loading_overlay.dart';
 import 'package:platform_front/components/global/textfieldGray.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/providers.dart';
@@ -57,7 +59,7 @@ class _EnterTokenLayoutState extends ConsumerState<EnterTokenLayout> {
           SnackBarService.showMessage("Token Verified", Colors.green);
           await Future.delayed(const Duration(seconds: 1));
           logger.info("Token Valid. Change to Next Screen");
-          ref.read(authDisplayProvider.notifier).changeDisplay(const EnterEmailPasswordLayout());
+          ref.read(authDisplayProvider.notifier).changeDisplay(const CreateAccountScreen());
         }
         // Token has already been used
         else if (tokenExists == true && tokenUsed == true) {
@@ -82,47 +84,54 @@ class _EnterTokenLayoutState extends ConsumerState<EnterTokenLayout> {
       });
     }
 
-    return Container(
-      padding: const EdgeInsets.all(32),
-      width: 350,
-      decoration: BoxDecoration(
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.20), blurRadius: 4)],
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(24),
-      ),
-      child: FutureBuilder(
-          future: _pendingCheckToken,
-          builder: (context, snapshot) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Image.asset('assets/logo/tempLogo.png', scale: kLogoScale),
-                const SizedBox(height: 12),
-                const Text("Token", style: kTextFieldHeaderTextStyle),
-                const SizedBox(height: 2),
-                TextfieldGray(
-                  height: 50,
-                  onTextChanged: (value) {
-                    token = value;
-                  },
-                  isLoading: snapshot.connectionState == ConnectionState.waiting,
-                  error: error,
-                  errorText: errorText,
-                  onSubmitted: () => onPressedNextButton(),
-                  controller: controller,
+    return FutureBuilder(
+        future: _pendingCheckToken,
+        builder: (context, snapshot) {
+          return OverlayWidget(
+            loadingProvider: snapshot.connectionState == ConnectionState.waiting,
+            child: Center(
+              child: Container(
+                padding: const EdgeInsets.all(32),
+                width: 350,
+                decoration: BoxDecoration(
+                  boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.20), blurRadius: 4)],
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(24),
                 ),
-                const SizedBox(height: 24),
-                BottomButtonsRow(
-                  onPressedBackButton: () => ref.read(authDisplayProvider.notifier).changeDisplay(const UserTypeSelectionLayout()),
-                  onPressedNextButton: () {
-                    snapshot.connectionState != ConnectionState.waiting || snapshot.connectionState == ConnectionState.none ? onPressedNextButton() : null;
-                  },
-                  nextButtonText: "Continue",
-                )
-              ],
-            );
-          }),
-    );
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Image.asset(
+                      'assets/logo/logo.jpg',
+                      width: 300,
+                    ),
+                    const SizedBox(height: 12),
+                    const Text("Token", style: kTextFieldHeaderTextStyle),
+                    const SizedBox(height: 2),
+                    TextfieldGray(
+                      height: 50,
+                      onTextChanged: (value) {
+                        token = value;
+                      },
+                      error: error,
+                      errorText: errorText,
+                      onSubmitted: () => onPressedNextButton(),
+                      controller: controller,
+                    ),
+                    const SizedBox(height: 24),
+                    BottomButtonsRow(
+                      onPressedBackButton: () => ref.read(authDisplayProvider.notifier).changeDisplay(const UserTypeSelectionLayout()),
+                      onPressedNextButton: () {
+                        snapshot.connectionState != ConnectionState.waiting || snapshot.connectionState == ConnectionState.none ? onPressedNextButton() : null;
+                      },
+                      nextButtonText: "Continue",
+                    )
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
   }
 }

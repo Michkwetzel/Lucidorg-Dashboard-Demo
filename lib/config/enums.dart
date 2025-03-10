@@ -1,4 +1,4 @@
-enum SelectionButtonType { token, guest, employee, none }
+enum SelectionButtonType { exec, guest, employee, none }
 
 enum EmailListRadioButtonType { ceo, cSuite, employee }
 
@@ -13,6 +13,42 @@ enum ResultSection { overview, areaScore, diffMatrix, foundations }
 enum ImpactSection { orgImpact, financial, scoreOverTime, diffOverTime }
 
 enum Pilar { alignment, people, process, leadership, none }
+
+enum Compare { score, diff, overall }
+
+enum Alligned { best, worst }
+
+enum ScoresOverTime { improvement, decline }
+
+enum Department { ceo, cSuite, staff }
+
+extension DepartmentHeading on Department {
+  String get heading {
+    switch (this) {
+      case Department.ceo:
+        return "CEO";
+      case Department.cSuite:
+        return "C-Suite";
+      case Department.staff:
+        return "Staff";
+    }
+  }
+}
+
+enum ScoreRange {
+  low, // < 40
+  moderate, // 40-50
+  good, // 50-60
+  excellent, // 60-70
+  perfect // 70+
+}
+
+enum DiffRange {
+  minimal, // < 10
+  moderate, // 10-20
+  high, // 20-30
+  extreme // 30+
+}
 
 extension PilarHeading on Pilar {
   String get heading {
@@ -58,7 +94,6 @@ enum Indicator {
 
 List<Indicator> justIndicators() {
   return [
-    Indicator.companyIndex,
     Indicator.orgAlign,
     Indicator.growthAlign,
     Indicator.collabKPIs,
@@ -109,6 +144,41 @@ extension IndicatorDescription on Indicator {
     }
   }
 
+  String get radarChartHeading {
+    switch (this) {
+      case Indicator.purposeDriven:
+        return "Purpose\nDriven";
+      case Indicator.growthAlign:
+        return "Growth\nAlignment";
+      case Indicator.orgAlign:
+        return "Organizational\nAlignment";
+      case Indicator.collabProcesses:
+        return "Collaborative\nProcesses";
+      case Indicator.collabKPIs:
+        return "Collaborative\nKPIs";
+      case Indicator.alignedTech:
+        return "Aligned\nTechnology";
+      case Indicator.crossFuncComms:
+        return "Cross-Functional\nCommunications";
+      case Indicator.empoweredLeadership:
+        return "Empowered\nLeadership";
+      case Indicator.engagedCommunity:
+        return "Engaged\nCommunity";
+      case Indicator.meetingEfficacy:
+        return "Meeting\nEfficacy";
+      case Indicator.crossFuncAcc:
+        return "Cross-Functional\nAccountability";
+      case Indicator.companyIndex:
+        return "Index";
+      case Indicator.workforce:
+        return "Workforce";
+      case Indicator.operations:
+        return "Operations";
+      default:
+        return "Not Indicator";
+    }
+  }
+
   Pilar get pilar {
     switch (this) {
       case Indicator.purposeDriven:
@@ -122,7 +192,7 @@ extension IndicatorDescription on Indicator {
       case Indicator.collabKPIs:
         return Pilar.alignment;
       case Indicator.alignedTech:
-        return Pilar.alignment;
+        return Pilar.process;
       case Indicator.crossFuncComms:
         return Pilar.people;
       case Indicator.empoweredLeadership:
@@ -130,30 +200,11 @@ extension IndicatorDescription on Indicator {
       case Indicator.engagedCommunity:
         return Pilar.people;
       case Indicator.meetingEfficacy:
-        return Pilar.alignment;
+        return Pilar.process;
       case Indicator.crossFuncAcc:
         return Pilar.people;
       default:
         return Pilar.none;
     }
   }
-}
-
-enum Alligned { best, worst }
-
-enum ScoresOverTime { improvement, decline }
-
-enum ScoreRange {
-  low, // < 40
-  moderate, // 40-50
-  good, // 50-60
-  excellent, // 60-70
-  perfect // 70+
-}
-
-enum DiffRange {
-  minimal, // < 10
-  moderate, // 10-20
-  high, // 20-30
-  extreme // 30+
 }

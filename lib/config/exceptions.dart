@@ -9,9 +9,9 @@ class SurveyException implements Exception {
 }
 
 class CompanyNotFoundException extends SurveyException {
-  CompanyNotFoundException() : super('Incorrect Assessment link. Survey', 'Invalid Company');
+  CompanyNotFoundException() : super('Incorrect Assessment link.', 'Invalid Company');
 }
 
 class NoActiveSurveyException extends SurveyException {
-  NoActiveSurveyException() : super('Incorrect Assessment link. Token', 'No Active Survey');
+  NoActiveSurveyException() : super('Incorrect Assessment link.', 'No Active Survey');
 }

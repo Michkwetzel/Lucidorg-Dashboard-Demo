@@ -3,9 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/notifiers/auth/authLoadState.dart';
+import 'package:platform_front/notifiers/auth/emailPasswordProvider.dart';
 import 'package:platform_front/notifiers/impact/impact_display_notifier.dart';
 import 'package:platform_front/notifiers/loading/loadingNotifer.dart';
 import 'package:platform_front/notifiers/navBar/navBarExpandState.dart';
+import 'package:platform_front/notifiers/scoreCompare/score_compare_provider.dart';
+import 'package:platform_front/notifiers/selectedDiffMatrix/selected_department_diff_matrix_notifer.dart';
+import 'package:platform_front/notifiers/selectedDiffMatrix/selected_diff_matrix.dart';
 import 'package:platform_front/notifiers/selectedIndicator/selected_indicator.dart';
 import 'package:platform_front/notifiers/surveyMetrics/survey_metrics_provider.dart';
 import 'package:platform_front/notifiers/userResultsData/userResultsData.dart';
@@ -53,7 +57,7 @@ final emailpasswordvalidateProvider = StateNotifierProvider<Emailpasswordvalidat
   return EmailpasswordvalidateNotifer();
 });
 
-final googlefunctionserviceProvider = StateNotifierProvider<GoogleFunctionService, bool>((ref) {
+final googlefunctionserviceProvider = StateNotifierProvider<GoogleFunctionService, GoogleFunctionServiceState>((ref) {
   final emailTemplateNotifer = ref.watch(emailTemplateProvider.notifier);
   final emailListNotifier = ref.watch(emailListProvider.notifier);
   final activeAssessmentDataNotifier = ref.watch(activeAssessmentDataProvider.notifier);
@@ -124,9 +128,15 @@ final impactSelectedSectionProvider = StateNotifierProvider<ImpactDisplayNotifie
   return ImpactDisplayNotifier();
 });
 
+final scoreCompareProvider = StateNotifierProvider<ScoreCompareProvider, ScoreCompareState>((ref) {
+  return ScoreCompareProvider();
+});
+
 final metricsDataProvider = StateNotifierProvider<MetricsDataProvider, MetricsDataState>((ref) {
   final userProfileDataNotifier = ref.watch(userDataProvider.notifier);
+  final scoreCompareNotifier = ref.watch(scoreCompareProvider.notifier);
   return MetricsDataProvider(
+    scoreCompareProvider: scoreCompareNotifier,
     userProfileData: userProfileDataNotifier,
   );
 });
@@ -141,4 +151,16 @@ final selectedIndicatorProvider = StateNotifierProvider<SelectedIndicator, Indic
 
 final authloadStateProvider = StateNotifierProvider<AuthLoadState, bool>((ref) {
   return AuthLoadState();
+});
+
+final emailPasswordProvider = StateNotifierProvider<EmailPasswordProvider, EmailPasswordState>((ref) {
+  return EmailPasswordProvider();
+});
+
+final selectedDiffMatrixProvider = StateNotifierProvider<SelectedDiffMatrix, Indicator>((ref) {
+  return SelectedDiffMatrix();
+});
+
+final selectedDepartmentDiffMatrixNotiferProvider = StateNotifierProvider<SelectedDepartmentDiffMatrixNotifer, Department>((ref) {
+  return SelectedDepartmentDiffMatrixNotifer();
 });

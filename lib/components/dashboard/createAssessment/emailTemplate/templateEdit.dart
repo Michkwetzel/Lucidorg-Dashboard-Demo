@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/config/providers.dart';
 
-class TemplateEdit extends ConsumerWidget {
+class BodyEmailTemplateEdit extends ConsumerWidget {
   final String? Function(String?)? validator;
-  const TemplateEdit({
+  
+  const BodyEmailTemplateEdit({
     super.key,
     required this.validator,
   });
@@ -16,7 +17,7 @@ class TemplateEdit extends ConsumerWidget {
       validator: validator,
       enableInteractiveSelection: true,
       initialValue: ref.read(emailTemplateProvider.notifier).templateBody,
-      onChanged: (value) => ref.read(emailTemplateProvider.notifier).updateTemplateText(value),
+      onChanged: (value) => ref.read(emailTemplateProvider.notifier).updateEmailTemplate(value),
       maxLines: null,
       style: const TextStyle(
         letterSpacing: 0.4,

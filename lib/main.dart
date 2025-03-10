@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:platform_front/components/dashboard/companyInfo/companyInfoBody.dart';
-import 'package:platform_front/components/dashboard/createAssessment/layouts/createAssessmentBody.dart';
+import 'package:platform_front/components/dashboard/createAssessment/createAssessmentBody.dart';
 import 'package:platform_front/components/dashboard/home/homeScreenBody.dart';
 import 'package:platform_front/components/dashboard/impact/impact_body.dart';
 import 'package:platform_front/components/dashboard/results/resultsBody.dart';
@@ -102,11 +102,11 @@ GoRouter setupRouter() {
         return '/auth';
       }
 
-      // if (state.extra == null) {
-      //   // Log user out if he reloads page.
-      //   await FirebaseAuth.instance.signOut();
-      //   return '/auth';
-      // }
+      if (state.extra == null) {
+        // Log user out if he reloads page. 
+        await FirebaseAuth.instance.signOut();
+        return '/auth';
+      }
       return null;
     },
   );
@@ -135,6 +135,7 @@ class App extends StatelessWidget {
     return MaterialApp.router(
       scaffoldMessengerKey: SnackBarService.scaffoldKey,
       routerConfig: NavigationService.router,
+      
     );
   }
 }

@@ -65,7 +65,7 @@ const kErrorTextFieldTextStyle = TextStyle(fontFamily: "OpenSans", fontWeight: F
 
 const kH1TextStyle = TextStyle(fontFamily: "OpenSans", fontWeight: FontWeight.w600, fontSize: 32, color: Color(0xFF494949));
 
-const kH2TextStyle = TextStyle(fontFamily: "Poppins", fontWeight: FontWeight.w400, fontSize: 24, color: Color(0xFF323232));
+const kH2TextStyle = TextStyle(fontFamily: "Poppins", fontWeight: FontWeight.w400, fontSize: 26, color: Color(0xFF323232));
 
 const kH3TextStyle = TextStyle(fontFamily: "OpenSans", fontWeight: FontWeight.w400, fontSize: 18, color: Color(0xFF323232));
 
@@ -87,11 +87,13 @@ const String kCreateUserProfilePath = 'https://createuserprofile-rbyavkqn2a-uc.a
 // const String kCreateUserProfilePath = 'http://127.0.0.1:5001/efficiency-1st/us-central1/createUserProfile';
 
 const String kCreateAssessmentPath = 'https://createassessment-rbyavkqn2a-uc.a.run.app';
-// const String kCreateAssessmentPath =  'http://127.0.0.1:5001/efficiency-1st/us-central1/createAssessment';
+// const String kCreateAssessmentPath = 'http://127.0.0.1:5001/efficiency-1st/us-central1/createAssessment';
 
 const String ksaveCompanyInfoPath = 'https://savecompanyinfo-rbyavkqn2a-uc.a.run.app';
 
 // const String kCreateTokensPath = 'http://127.0.0.1:5001/efficiency-1st/us-central1/createTokens';
+
+const String ksendEmailReminderPath = 'https://sendemailreminder-rbyavkqn2a-uc.a.run.app';
 
 // ****************************************** Box Decorations ***************************************
 

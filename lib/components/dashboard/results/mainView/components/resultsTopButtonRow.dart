@@ -9,8 +9,9 @@ class ResultsTopButtonRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       spacing: 32,
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
+        SizedBox(width: 32),
         ResultsViewRadioButton(buttonText: 'Overview', section: ResultSection.overview),
         ResultsViewRadioButton(buttonText: 'Foundations', section: ResultSection.foundations),
         ResultsViewRadioButton(buttonText: 'Indicators', section: ResultSection.areaScore),

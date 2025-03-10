@@ -62,8 +62,9 @@ class ImpactTopButtonRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       spacing: 32,
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
+        SizedBox(width: 32),
         ImpactViewRadioButton(buttonText: 'Org Impact', section: ImpactSection.orgImpact),
         ImpactViewRadioButton(buttonText: 'Financial', section: ImpactSection.financial),
         ImpactViewRadioButton(buttonText: 'Score over time', section: ImpactSection.scoreOverTime),

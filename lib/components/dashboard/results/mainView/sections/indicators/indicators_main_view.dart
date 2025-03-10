@@ -5,7 +5,6 @@ import 'package:platform_front/dataClasses/indicator_data.dart';
 import 'package:platform_front/components/dashboard/results/mainView/sections/indicators/indicator_score_box.dart';
 import 'package:platform_front/components/dashboard/results/mainView/sections/indicators/indicator_diff_box.dart';
 import 'package:platform_front/components/dashboard/results/mainView/sections/indicators/department_scores_widget.dart';
-import 'package:platform_front/components/dashboard/results/mainView/sections/indicators/department_text_widget.dart';
 import 'package:platform_front/components/dashboard/results/mainView/sections/indicators/indicator_text_widget.dart';
 import 'package:platform_front/components/global/grayDivider.dart';
 import 'package:platform_front/config/constants.dart';
@@ -33,8 +32,6 @@ class IndicatorsMainView extends StatelessWidget {
           child: GrayDivider(),
         ),
         SizedBox(height: 40),
-        DepartmentTextWidget(),
-        SizedBox(height: 8),
         IndicatorsDepartmentScoresWidget(),
         SizedBox(
           height: 40,

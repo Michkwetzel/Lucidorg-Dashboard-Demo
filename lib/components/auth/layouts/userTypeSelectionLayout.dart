@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/components/auth/buttons/bottomButtonsRow.dart';
+import 'package:platform_front/components/auth/layouts/createAccountScreen.dart';
 import 'package:platform_front/components/buttons/selectionButton.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/enums.dart';
@@ -19,16 +20,17 @@ class UserTypeSelectionLayout extends ConsumerWidget {
       var selectedButton = ref.read(selectionButtonProvider);
       if (selectedButton == SelectionButtonType.none) {
         //TODO: Red Error Text
-      } else if (selectedButton == SelectionButtonType.token) {
+      } else if (selectedButton == SelectionButtonType.exec) {
         ref.read(authDisplayProvider.notifier).changeDisplay(const EnterTokenLayout());
       } else {
-        ref.read(authDisplayProvider.notifier).changeDisplay(EnterEmailPasswordLayout());
+        ref.read(authDisplayProvider.notifier).changeDisplay(CreateAccountScreen());
       }
     }
 
     return Padding(
       padding: const EdgeInsets.all(24),
       child: Container(
+        width: 370,
         padding: const EdgeInsets.all(32),
         decoration: BoxDecoration(
           boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.20), blurRadius: 4)],
@@ -38,17 +40,15 @@ class UserTypeSelectionLayout extends ConsumerWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Image.asset('assets/logo/tempLogo.png', scale: kLogoScale),
+            Image.asset('assets/logo/logo.jpg', width: 300,),
             const SizedBox(height: 12),
             const Text("Please select", style: kH3TextStyle),
             const SizedBox(height: 12),
             screenWidth < 600
                 ? const Column(
-                  mainAxisSize: MainAxisSize.min,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Selectionbutton(buttonText: 'I have a paid \nsubscription', buttonType: SelectionButtonType.token),
-                      SizedBox(height: 12),
-                      Selectionbutton(buttonText: 'I am viewing \nCompany results', buttonType: SelectionButtonType.employee),
+                      Selectionbutton(buttonText: 'I have a token', buttonType: SelectionButtonType.exec),
                       SizedBox(height: 12),
                       Selectionbutton(buttonText: 'I am testing \nthe product', buttonType: SelectionButtonType.guest)
                     ],
@@ -56,16 +56,14 @@ class UserTypeSelectionLayout extends ConsumerWidget {
                 : const Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Selectionbutton(buttonText: 'I have a paid \nsubscription', buttonType: SelectionButtonType.token),
-                      SizedBox(width: 24),
-                      Selectionbutton(buttonText: 'I am viewing \nCompany results', buttonType: SelectionButtonType.employee),
+                      Selectionbutton(buttonText: 'I have a token', buttonType: SelectionButtonType.exec),
                       SizedBox(width: 24),
                       Selectionbutton(buttonText: 'I am testing \nthe product', buttonType: SelectionButtonType.guest)
                     ],
                   ),
             const SizedBox(height: 24),
             BottomButtonsRow(
-              width: screenWidth < 600 ? -1 : 500,
+              width: screenWidth < 600 ? -1 : 320,
               onPressedBackButton: () {
                 ref.read(selectionButtonProvider.notifier).onButtonSelect(SelectionButtonType.none);
                 ref.read(authDisplayProvider.notifier).changeDisplay(const AppEntryLayout());
