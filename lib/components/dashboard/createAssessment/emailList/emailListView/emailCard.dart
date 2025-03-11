@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/config/providers.dart';
 
 class EmailCard extends ConsumerWidget {
   final String emailText;
   final int index;
+  final AssessmentDisplay display;
 
-  const EmailCard({super.key, required this.emailText, required this.index});
+  const EmailCard({super.key, required this.emailText, required this.index, this.display = AssessmentDisplay.create});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -25,6 +27,7 @@ class EmailCard extends ConsumerWidget {
                 style: const TextStyle(fontFamily: 'Poppins', fontSize: 14, fontWeight: FontWeight.w300, overflow: TextOverflow.ellipsis),
               ),
             ),
+            if (display == AssessmentDisplay.create)
             IconButton(
               onPressed: () => ref.read(emailListProvider.notifier).deleteSingleEmail(index: index, type: ref.read(emailListRadioButtonProvider)),
               icon: const Icon(

@@ -33,11 +33,11 @@ class EmailTemplateNotifer extends StateNotifier<EmailTemplateState> {
   String get subject => state.subject;
   bool get editEmailTemplateDisplay => state.editEmailTemplateDisplay;
 
-  void changeToEditEmailsDisplay() {
+  void changeToEditTemplateDisplay() {
     state = state.copyWith(editEmailTemplateDisplay: true);
   }
 
-  void changeToViewEmailsDisplay() {
+  void changeToViewTemplateDisplay() {
     state = state.copyWith(editEmailTemplateDisplay: false);
   }
 

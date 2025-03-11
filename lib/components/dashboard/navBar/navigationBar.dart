@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:platform_front/components/dashboard/navBar/howToButton.dart';
 import 'package:platform_front/components/dashboard/navBar/navBarButton.dart';
 import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/config/providers.dart';
@@ -114,15 +115,36 @@ class _NavBarState extends ConsumerState<NavBar> {
                             ),
                             NavBarButton(
                               onTap: () {
-                                ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.createAssessment);
-                                NavigationService.navigateTo('/createAssessment');
+                                ref.read(toggleSubMenuProvider.notifier).toggleSubMenu();
                               },
                               icon: Icons.layers,
                               label: 'Assessment',
                               buttonType: NavBarButtonType.createAssessment,
                             ),
+                            if (ref.watch(toggleSubMenuProvider))
+                              Column(
+                                children: [
+                                  NavBarButton(
+                                    onTap: () {
+                                      ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.currentAssessment);
+                                      NavigationService.navigateTo('/currentAssessment');
+                                    },
+                                    icon: null,
+                                    label: 'Current',
+                                    buttonType: NavBarButtonType.currentAssessment,
+                                  ),
+                                  NavBarButton(
+                                    onTap: () {
+                                      ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.newAssessment);
+                                      NavigationService.navigateTo('/createAssessment');
+                                    },
+                                    icon: null,
+                                    label: 'New',
+                                    buttonType: NavBarButtonType.newAssessment,
+                                  ),
+                                ],
+                              ),
                             NavBarButton(
-                              
                               onTap: () {
                                 ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.results);
                                 NavigationService.navigateTo('/results');
@@ -140,16 +162,19 @@ class _NavBarState extends ConsumerState<NavBar> {
                               label: 'Impact',
                               buttonType: NavBarButtonType.impact,
                             ),
-                            NavBarButton(
-                              onTap: () => {},
-                              icon: Icons.build,
-                              label: 'The Fix',
-                              buttonType: NavBarButtonType.theFix,
-                            ),
                           ],
                         ),
                         Column(
                           children: [
+                            HowToButton(
+                              onTap: () {
+                                ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.howTo);
+                                NavigationService.navigateTo('/howTo');
+                              },
+                              icon: Icons.question_mark,
+                              label: 'How To',
+                              buttonType: NavBarButtonType.howTo,
+                            ),
                             NavBarButton(
                               onTap: () {
                                 ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.companyInfo);

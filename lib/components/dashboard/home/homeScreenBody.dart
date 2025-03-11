@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -38,6 +39,47 @@ class HomeScreenBody extends ConsumerWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        TextButton(
+                            onPressed: () async {
+                              final FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+                              // Source document reference
+                              final sourceDocRef = firestore.collection('surveyMetrics/RhBs9nhOWigeGY8wVUEU/2025-02-20T13-09-06').doc('metrics');
+
+                              // Get the source document
+                              final docSnapshot = await sourceDocRef.get();
+
+                              if (docSnapshot.exists) {
+                                // Extract data from source document
+                                final data = docSnapshot.data()!;
+
+                                // Extract specific fields
+                                final cSuite = data['cSuiteBenchmarks'];
+                                final ceo = data['ceoBenchmarks'];
+                                final employee = data['employeeBenchmarks'];
+                                final nCSuite = data['nCSuiteFinished'];
+                                final nCeoSuite = data['nCeoFinished'];
+                                final nEmployeeSuite = data['nEmployeeFinished'];
+
+                                // Target document reference
+                                final targetDocRef = firestore.collection('surveyMetrics/RhBs9nhOWigeGY8wVUEU/2025-03-20T13-09-06').doc('metrics');
+
+                                // Set data in target document
+                                await targetDocRef.set({
+                                  'cSuiteBenchmarks': cSuite,
+                                  'ceoBenchmarks': ceo,
+                                  'employeeBenchmarks': employee,
+                                  'nCSuiteFinished': nCSuite,
+                                  'nCeoFinished': nCeoSuite,
+                                  'nEmployeeFinished': nEmployeeSuite
+                                });
+
+                                print('Survey metrics successfully migrated');
+                              } else {
+                                print('Source document does not exist');
+                              }
+                            },
+                            child: Text("Dev button")),
                         Text(
                           "Home",
                           style: kH1TextStyle,
@@ -50,8 +92,7 @@ class HomeScreenBody extends ConsumerWidget {
                       ref.watch(metricsDataProvider).participationBelow30 ||
                       ref.watch(metricsDataProvider).between30And70 ||
                       ref.watch(metricsDataProvider).needAll3Departments ||
-                      ref.watch(metricsDataProvider).testData
-                      )
+                      ref.watch(metricsDataProvider).testData)
                     TopActionBanner(),
                   const SizedBox(height: 16),
                   Row(children: [
@@ -84,9 +125,7 @@ class HomeScreenBody extends ConsumerWidget {
                             if (!ref.watch(metricsDataProvider).noSurveyData)
                               BlurOverlay(
                                 blur: blurWidgets,
-                                child: NextAssessmentWidget(
-                                  nextAssessmentData: '24 Feb 2025',
-                                ),
+                                child: NextAssessmentWidget(),
                               )
                           ],
                         ),
@@ -121,54 +160,8 @@ class ActiveAssessmentTextWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    List<String> processSurveyDate(String dateString) {
-      try {
-        // Split into date and time parts
-        List<String> parts = dateString.split('T');
-        if (parts.length != 2) {
-          // If we can't split properly, try to parse the string directly
-          throw FormatException('Invalid date format');
-        }
-
-        String datePart = parts[0]; // This is already in YYYY-MM-DD format
-        String timePart = parts[1].replaceAll('-', ':'); // Convert time separators
-
-        // Combine date and time
-        String normalizedDate = '$datePart $timePart';
-
-        // Parse the normalized date string
-        DateTime dateObj = DateTime.parse(normalizedDate);
-
-        // Format to "17 Feb 2025"
-        String formatted = DateFormat('dd MMM yyyy').format(dateObj);
-
-        // Calculate date 4 months in future
-        DateTime futureDate = DateTime(
-          dateObj.year,
-          dateObj.month + 4,
-          dateObj.day,
-          dateObj.hour,
-          dateObj.minute,
-          dateObj.second,
-        );
-        String futureFormatted = DateFormat('dd MMM yyyy').format(futureDate);
-
-        return [formatted, futureFormatted];
-      } catch (e) {
-        // Handle parsing errors by returning a default or current date
-        DateTime now = DateTime.now();
-        String formatted = DateFormat('dd MMM yyyy').format(now);
-        DateTime futureDate = DateTime(now.year, now.month + 4, now.day);
-        String futureFormatted = DateFormat('dd MMM yyyy').format(futureDate);
-
-        print('Error processing date: $dateString'); // For debugging
-        return [formatted, futureFormatted];
-      }
-    }
-
-    String formatedSurveyDate = processSurveyDate(ref.watch(metricsDataProvider).surveyMetric.surveyDevName)[0];
     return Text(
-      formatedSurveyDate,
+      ref.watch(metricsDataProvider).surveyMetric.surveyStartDate,
       style: kH5PoppinsLight,
     );
   }

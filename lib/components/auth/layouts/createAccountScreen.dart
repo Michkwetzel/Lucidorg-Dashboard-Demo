@@ -33,8 +33,11 @@ class _CreateAccountScreen extends ConsumerState<CreateAccountScreen> {
 
     Future<void> getDataAndOpenDashboard() async {
       try {
-        SnackBarService.showMessage("Successfully Logged in", Colors.green);
+        SnackBarService.showMessage("Successfully Created Account", Colors.green);
         await ref.read(userDataProvider.notifier).getUserInfo(ref.read(authfirestoreserviceProvider));
+        if (ref.read(userDataProvider).latestSurveyDocName != null) {
+          ref.read(currentEmailListProvider.notifier).getCurrentEmails();
+        }
         ref.read(metricsDataProvider.notifier).getSurveyData();
         ref.read(companyInfoService.notifier).getCompanyInfo();
         NavigationService.navigateTo('/home');

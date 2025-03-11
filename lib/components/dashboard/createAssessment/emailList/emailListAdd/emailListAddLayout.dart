@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:platform_front/components/buttons/CallToActionButton.dart';
-import 'package:platform_front/components/buttons/secondaryButton.dart';
+import 'package:platform_front/components/global/buttons/CallToActionButton.dart';
+import 'package:platform_front/components/global/buttons/secondaryButton.dart';
 import 'package:platform_front/components/dashboard/createAssessment/emailList/radioButton/radioButtonRow.dart';
 import 'package:platform_front/components/dashboard/createAssessment/emailList/emailListAdd/uploadCSVWidget.dart';
 import 'package:platform_front/components/global/textfieldGray.dart';

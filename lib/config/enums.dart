@@ -2,7 +2,11 @@ enum SelectionButtonType { exec, guest, employee, none }
 
 enum EmailListRadioButtonType { ceo, cSuite, employee }
 
-enum NavBarButtonType { createAssessment, companyInfo, logOut, home, results, impact, theFix, closeMenu }
+enum NavBarButtonType { createAssessment, currentAssessment, newAssessment, companyInfo, logOut, home, results, impact, theFix, closeMenu, howTo }
+
+enum AssessmentDisplay { create, current }
+
+enum financeVariables { b, c, d, }
 
 enum Permission { exec, employee, guest, error }
 
@@ -11,6 +15,8 @@ enum Diffsize { H1, H2, H3, H4 }
 enum ResultSection { overview, areaScore, diffMatrix, foundations }
 
 enum ImpactSection { orgImpact, financial, scoreOverTime, diffOverTime }
+
+enum HomeSection { home, currentAssessment, newAssessment, howTo } 
 
 enum Pilar { alignment, people, process, leadership, none }
 

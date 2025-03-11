@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:platform_front/config/enums.dart';
+import 'package:platform_front/notifiers/assessment/currentAssessment/currentAssessmentEmailProvider.dart';
 import 'package:platform_front/notifiers/scoreCompare/score_compare_provider.dart';
 import 'package:platform_front/notifiers/surveyMetrics/metrics_data.dart';
 import 'package:platform_front/notifiers/userProfileData/userProfileData.dart';
@@ -72,15 +73,22 @@ class MetricsDataProvider extends StateNotifier<MetricsDataState> {
   MetricsDataProvider({
     required this.userProfileData,
     required this.scoreCompareProvider,
+    required this.currentAssessmentProvider,
   }) : super(MetricsDataState.init());
 
   Logger logger = Logger('SurveyMetricsProvider');
 
   UserProfileDataNotifier userProfileData;
   ScoreCompareProvider scoreCompareProvider;
+  CurrentEmailListNotifier currentAssessmentProvider;
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   MetricsData globalMetricsData = MetricsData();
+
+  SurveyMetric getCurrentSurveyMetric() {
+    return state.surveyMetric;
+  }
+
 
   void setSurveyMetrics(SurveyMetric surveyMetrics) {
     state = state.copyWith(surveyMetric: surveyMetrics);
@@ -169,6 +177,7 @@ class MetricsDataProvider extends StateNotifier<MetricsDataState> {
         // Get latest survey
         // Check participation rate and set accordingly
         SurveyMetric latestSurvey = globalMetricsData.getSurveyMetric(userProfileData.latestSurveyDocName!);
+        currentAssessmentProvider.getCurrentEmails();
         //latestSurvey.printData();
         if (latestSurvey.getSurveyParticipation < 30) {
           print('<30');

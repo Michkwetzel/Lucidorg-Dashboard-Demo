@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:platform_front/components/buttons/CallToActionButton.dart';
-import 'package:platform_front/components/buttons/secondaryButton.dart';
+import 'package:platform_front/components/global/buttons/CallToActionButton.dart';
+import 'package:platform_front/components/global/buttons/secondaryButton.dart';
 import 'package:platform_front/components/dashboard/impact/main_view/diff_over_time/diff_over_time_mv.dart';
 import 'package:platform_front/components/dashboard/impact/main_view/financial/financial_mv.dart';
 import 'package:platform_front/components/dashboard/impact/main_view/org_impact/org_impact_main_view.dart';

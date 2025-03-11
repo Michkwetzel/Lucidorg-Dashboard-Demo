@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
 import 'package:platform_front/components/dashboard/companyInfo/styledDropdown.dart';
 import 'package:platform_front/components/dashboard/impact/compare_widgets/overall_score_over_time_row.dart';
 import 'package:platform_front/components/dashboard/impact/compare_widgets/score_over_time_row.dart';
@@ -18,7 +19,16 @@ class ScoreOverTimeMV extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     Map<String, SurveyMetric> surveyMetrics = ref.watch(scoreCompareProvider).allComparableSurveys;
-    List<String> formattedSurveyNames = surveyMetrics.keys.toList(growable: false);
+    List<String> surveyDevNames = [];
+    List<String> surveyDisplayNames = [];
+
+    for (var value in surveyMetrics.entries) {
+      surveyDevNames.add(value.key);
+      surveyDisplayNames.add(value.value.surveyStartDate);
+    }
+
+    print('$surveyDevNames');
+    print('$surveyDisplayNames');
 
     return BlurOverlay(
       message: "We need atleast 2 surveys to show Score Comparison",
@@ -39,21 +49,23 @@ class ScoreOverTimeMV extends ConsumerWidget {
                         height: 40,
                         width: 125,
                         child: StyledDropdown(
-                            items: formattedSurveyNames,
+                            items: surveyDisplayNames,
                             onChanged: (value) {
-                              ref.read(scoreCompareProvider.notifier).updateSurvey1(value);
+                              int index = surveyDisplayNames.indexOf(value);
+                              ref.read(scoreCompareProvider.notifier).updateSurvey2(surveyDevNames[index]);
                             },
-                            initalValue: formattedSurveyNames[0])),
+                            initalValue: surveyDisplayNames[0])),
                     Text('vs', style: kH5PoppinsRegular),
                     SizedBox(
                         height: 40,
                         width: 125,
                         child: StyledDropdown(
-                            items: formattedSurveyNames,
+                            items: surveyDisplayNames,
                             onChanged: (value) {
-                              ref.read(scoreCompareProvider.notifier).updateSurvey2(value);
+                              int index = surveyDisplayNames.indexOf(value);
+                              ref.read(scoreCompareProvider.notifier).updateSurvey2(surveyDevNames[index]);
                             },
-                            initalValue: formattedSurveyNames[1])),
+                            initalValue: surveyDisplayNames[1])),
                   ],
                 ),
                 SizedBox(width: 125, child: Text('Difference', style: kH3PoppinsRegular)),

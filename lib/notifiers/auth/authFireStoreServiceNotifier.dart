@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:logging/logging.dart';
 import 'package:platform_front/notifiers/companyInfo/companyInfoNotifer.dart';
-import 'package:platform_front/notifiers/createAssessment/emailListNotifer.dart';
+import 'package:platform_front/notifiers/assessment/createAssessment/emailListNotifer.dart';
 import 'package:platform_front/notifiers/userResultsData/userResultsData.dart';
 import 'package:platform_front/notifiers/userProfileData/userProfileData.dart';
 import 'package:platform_front/services/firebaseServiceNotifier.dart';

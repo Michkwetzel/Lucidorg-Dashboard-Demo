@@ -1,17 +1,12 @@
-import 'dart:math';
-
+import 'dart:html' as html;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:platform_front/components/buttons/CallToActionButton.dart';
-import 'package:platform_front/components/buttons/blueButton.dart';
-import 'package:platform_front/components/buttons/secondaryButton.dart';
+import 'package:platform_front/components/global/buttons/CallToActionButton.dart';
 import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/config/providers.dart';
 import 'package:platform_front/notifiers/surveyMetrics/metrics_data.dart';
 import 'package:platform_front/notifiers/surveyMetrics/survey_metrics_provider.dart';
-import 'package:platform_front/services/microServices/alertService.dart';
 import 'package:platform_front/services/microServices/navigationService.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class TopActionBanner extends ConsumerWidget {
   const TopActionBanner({
@@ -69,14 +64,15 @@ class TopActionBanner extends ConsumerWidget {
         NavigationService.navigateTo('/createAssessment');
       } else if (metricsState.participationBelow30 || metricsState.between30And70 || metricsState.needAll3Departments) {
         try {
-          ref.read(googlefunctionserviceProvider.notifier).sendEmailReminder();
-          AlertService.showAlert(title: 'Sent Reminder', message: "A reminder with the survey link has been sent");
+          NavigationService.navigateTo('/currentAssessment');
+          ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.currentAssessment);
+          ref.read(toggleSubMenuProvider.notifier).expand();
         } on Exception catch (e) {
-          print("Error sending reminder");
+          print("Error sending reminde $e");
         }
         print('Finished');
       } else if (metricsState.testData) {
-        launchUrl(Uri.parse("https://www.lucidorg.com/contact"));
+        html.window.open("https://www.lucidorg.com/contact", '_blank');
       }
     }
 
@@ -99,6 +95,7 @@ class TopActionBanner extends ConsumerWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
           child: Row(
+            spacing: 16,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Flexible(
@@ -107,7 +104,6 @@ class TopActionBanner extends ConsumerWidget {
                   style: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w300, fontSize: 18, color: textColor),
                 ),
               ),
-              // Direct function call instead of arrow function
               CallToActionButton(onPressed: handlePress, buttonText: buttonText),
             ],
           ),

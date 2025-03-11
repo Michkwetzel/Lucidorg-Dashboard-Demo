@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
-import 'package:platform_front/components/buttons/CallToActionButton.dart';
+import 'package:platform_front/components/global/buttons/CallToActionButton.dart';
 import 'package:platform_front/components/dashboard/createAssessment/emailList/emailListBody.dart';
 import 'package:platform_front/components/dashboard/createAssessment/emailTemplate/emailTemplateBody.dart';
 import 'package:platform_front/components/global/loading_overlay.dart';
@@ -66,9 +66,10 @@ class _CreateAssessmentBodyState extends ConsumerState<CreateAssessmentBody> {
     } else {
       try {
         await ref.read(googlefunctionserviceProvider.notifier).createAssessment();
+        AlertService.showAlert(message: 'Successfully Created assessment', title: 'Success');
         await ref.read(userDataProvider.notifier).getUserInfo(ref.read(authfirestoreserviceProvider));
         await ref.read(metricsDataProvider.notifier).getSurveyData();
-        SnackBarService.showMessage('Successfully Created assessment', Colors.green);
+        await ref.read(currentEmailListProvider.notifier).getCurrentEmails();
       } on Exception catch (e) {
         SnackBarService.showMessage('Error creating Assessment', Colors.red, duration: 3);
         logger.severe("Failed to create Assessment with error: $e");
