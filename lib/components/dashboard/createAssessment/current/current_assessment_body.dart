@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/components/dashboard/createAssessment/current/current_email_list_body.dart';
 import 'package:platform_front/components/dashboard/createAssessment/current/reminder_email.template.dart';
+import 'package:platform_front/components/global/grayDivider.dart';
 import 'package:platform_front/components/global/top_action_banner.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/providers.dart';
@@ -39,9 +40,23 @@ class CurrentAssessmentBody extends ConsumerWidget {
                   ),
                   child: const CurrentEmaillistbody(),
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(top: 4, bottom: 4),
-                  child: ReminderEmailTemplateBody(),
+                Padding(
+                  padding: const EdgeInsets.only(left: 32, right: 32, bottom: 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Sent: ${ref.read(metricsDataProvider).surveyMetric.surveyStartDate}", style: kH3TextStyle),
+                      SizedBox(height: 12),
+                      Text("Number of emails sent: ${ref.read(currentEmailListProvider.notifier).getTotalEmails()}", style: kH3TextStyle),
+                      SizedBox(height: 20),
+                      GrayDivider(width: 570),
+                      SizedBox(height: 20),
+                      const Padding(
+                        padding: EdgeInsets.only(bottom: 4),
+                        child: ReminderEmailTemplateBody(),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

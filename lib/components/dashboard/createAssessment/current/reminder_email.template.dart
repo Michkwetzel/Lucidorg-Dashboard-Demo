@@ -21,7 +21,6 @@ class ReminderEmailTemplateBody extends ConsumerWidget {
     final isEditMode = ref.watch(reminderEmailTemplateProvider.select((it) => it.editEmailTemplateDisplay));
 
     return Container(
-      padding: const EdgeInsets.only(left: 32, right: 32, bottom: 16),
       decoration: isEditMode
           ? BoxDecoration(
               boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.20), blurRadius: 4)],

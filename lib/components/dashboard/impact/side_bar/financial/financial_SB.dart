@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/config/constants.dart';
+import 'package:platform_front/config/providers.dart';
 
-class FinancialSB extends StatefulWidget {
+class FinancialSB extends ConsumerStatefulWidget {
   const FinancialSB({super.key});
 
   @override
-  State<FinancialSB> createState() => _FinancialSBState();
+  ConsumerState<FinancialSB> createState() => _FinancialSBState();
 }
 
-class _FinancialSBState extends State<FinancialSB> {
+class _FinancialSBState extends ConsumerState<FinancialSB> {
+  late double sliderValue;
+
   @override
-  double sliderValue = 2;
+  void initState() {
+    super.initState();
+    sliderValue = ref.read(financeModelProvider.notifier).getCurrentTimeFrame();
+  }
 
   Widget build(BuildContext context) {
     return Padding(
@@ -22,10 +29,11 @@ class _FinancialSBState extends State<FinancialSB> {
             'Projected Org Impact',
             style: kH2PoppinsLight,
           ),
-          FinancialSBRow(heading: 'Increased Profit', value: 15),
-          FinancialSBRow(heading: 'Decreased Cost', value: 34),
-          FinancialSBRow(heading: 'increase Margin', value: 43),
-          FinancialSBRow(heading: 'Increased NPS', value: 8),
+          FinancialSBRow(heading: 'Increased Profit', value: ref.watch(financeModelProvider).profitIncrease * 100),
+          FinancialSBRow(heading: 'Decreased Cost', value: ref.watch(financeModelProvider).costDecrease * 100),
+          FinancialSBRow(heading: 'increase Margin', value: ref.watch(financeModelProvider).marginIncrease * 100),
+          FinancialSBRow(heading: 'Productivity Increase', value: ref.watch(financeModelProvider).employeProductivityIncrease * 100),
+          FinancialSBRow(heading: 'Turnover Decrease', value: ref.watch(financeModelProvider).turnoverDecrease * 100),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -52,6 +60,7 @@ class _FinancialSBState extends State<FinancialSB> {
                   min: 0,
                   max: 3,
                   onChanged: (value) {
+                    ref.read(financeModelProvider.notifier).timeFrameChange(value);
                     setState(() {
                       sliderValue = value;
                     });
@@ -66,7 +75,7 @@ class _FinancialSBState extends State<FinancialSB> {
 
 class FinancialSBRow extends StatelessWidget {
   final String heading;
-  final int value;
+  final double value;
   const FinancialSBRow({super.key, required this.heading, required this.value});
 
   @override
@@ -81,10 +90,10 @@ class FinancialSBRow extends StatelessWidget {
           height: 16,
         ),
         Container(
-          width: 80,
+          width: 100,
           height: 60,
           decoration: kGrayBox,
-          child: Center(child: Text('$value%', style: TextStyle(color: Colors.black, fontSize: 24, fontFamily: 'Poppins', fontWeight: FontWeight.w400))),
+          child: Center(child: Text('${value.toStringAsFixed(1)}%', style: TextStyle(color: Colors.black, fontSize: 24, fontFamily: 'Poppins', fontWeight: FontWeight.w400))),
         ),
       ],
     );

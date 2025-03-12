@@ -6,7 +6,55 @@ enum NavBarButtonType { createAssessment, currentAssessment, newAssessment, comp
 
 enum AssessmentDisplay { create, current }
 
-enum financeVariables { b, c, d, }
+// All constants given by Vandie
+enum Finance { profit, cost, margin, productivity, turnover }
+
+extension Value on Finance {
+  double get b {
+    switch (this) {
+      case Finance.profit:
+        return 0.3;
+      case Finance.cost:
+        return 0.3;
+      case Finance.margin:
+        return 0.3;
+      case Finance.productivity:
+        return 0.5;
+      case Finance.turnover:
+        return 0.5;
+    }
+  }
+
+  double get c {
+    switch (this) {
+      case Finance.profit:
+        return -0.15;
+      case Finance.cost:
+        return 0.15;
+      case Finance.margin:
+        return -0.15;
+      case Finance.productivity:
+        return -0.15;
+      case Finance.turnover:
+        return -0.15;
+    }
+  }
+
+  double get d {
+    switch (this) {
+      case Finance.profit:
+        return 3;
+      case Finance.cost:
+        return 3;
+      case Finance.margin:
+        return 3;
+      case Finance.productivity:
+        return 3;
+      case Finance.turnover:
+        return 3;
+    }
+  }
+}
 
 enum Permission { exec, employee, guest, error }
 
@@ -16,7 +64,7 @@ enum ResultSection { overview, areaScore, diffMatrix, foundations }
 
 enum ImpactSection { orgImpact, financial, scoreOverTime, diffOverTime }
 
-enum HomeSection { home, currentAssessment, newAssessment, howTo } 
+enum HomeSection { home, currentAssessment, newAssessment, howTo }
 
 enum Pilar { alignment, people, process, leadership, none }
 

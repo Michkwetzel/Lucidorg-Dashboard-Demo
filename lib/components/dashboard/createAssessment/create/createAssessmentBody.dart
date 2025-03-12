@@ -65,7 +65,13 @@ class _CreateAssessmentBodyState extends ConsumerState<CreateAssessmentBody> {
       );
     } else {
       try {
-        await ref.read(googlefunctionserviceProvider.notifier).createAssessment();
+        AlertService.showAlert(
+          title: "You are about to send out an Assessment",
+          message: "This is an awesome moment! Just one last check: Did you double check the email list? After starting an assessment you wont be able to start one for the next month.",
+          onConfirm: () async {
+            await ref.read(googlefunctionserviceProvider.notifier).createAssessment();
+          },
+        );
         AlertService.showAlert(message: 'Successfully Created assessment', title: 'Success');
         await ref.read(userDataProvider.notifier).getUserInfo(ref.read(authfirestoreserviceProvider));
         await ref.read(metricsDataProvider.notifier).getSurveyData();
@@ -100,7 +106,8 @@ class _CreateAssessmentBodyState extends ConsumerState<CreateAssessmentBody> {
                   ref.watch(metricsDataProvider).participationBelow30 ||
                   ref.watch(metricsDataProvider).between30And70 ||
                   ref.watch(metricsDataProvider).needAll3Departments ||
-                  ref.watch(metricsDataProvider).testData)
+                  ref.watch(metricsDataProvider).testData ||
+                  !ref.watch(metricsDataProvider).canSendNewAssessment )
                 TopActionBanner(),
               SizedBox(
                 height: 24,
@@ -126,7 +133,7 @@ class _CreateAssessmentBodyState extends ConsumerState<CreateAssessmentBody> {
                               children: [
                                 CallToActionButton(
                                   disabled: ref.watch(googlefunctionserviceProvider).loading,
-                                  onPressed: () => startAssessment(context, ref),
+                                  onPressed: !ref.watch(metricsDataProvider).canSendNewAssessment ? null : () => startAssessment(context, ref),
                                   buttonText: "Start Assessment",
                                 ),
                               ],
@@ -147,59 +154,5 @@ class _CreateAssessmentBodyState extends ConsumerState<CreateAssessmentBody> {
         ),
       ),
     );
-
-    // int counter = 0;
-    // List<int> tempNumbers = [];
-    // Map<String, int> tempMap = {};
-    // Map<String, Map<String, int>> finalMap = {};
-
-    // List<String> terms = [
-    //   "align",
-    //   "leadership",
-    //   "people",
-    //   "process",
-    //   "general",
-    //   "alignedOrgStruct",
-    //   "alignedTech",
-    //   "collabKPIs",
-    //   "collabProcess",
-    //   "crossAcc",
-    //   "crossComms",
-    //   "empoweredLeadership",
-    //   "engagedCommunity",
-    //   "growthAlign",
-    //   "index",
-    //   "meetingEfficacy",
-    //   "purposeDriven",
-    //   "operations",
-    //   "workforce"
-    // ];
-    // int counter2 = 0;
-    // for (final number in numbers) {
-    //   counter++;
-
-    //   tempNumbers.add(number);
-    //   if (counter == 19) {
-    //     counter2++;
-    //     for (int i = 0; i < tempNumbers.length; i++) {
-    //       tempMap[terms[i]] = tempNumbers[i];
-    //     }
-    //     counter = 0;
-    //     finalMap['survey$counter2'] = tempMap;
-    //     tempMap = {};
-    //     tempNumbers = [];
-    //   }
-    // }
-    // void printFinalMap(Map<String, Map<String, int>> finalMap) {
-    //   for (var entry in finalMap.entries) {
-    //     print('${entry.key}:');
-    //     entry.value.forEach((key, value) {
-    //       print('  $key: $value');
-    //     });
-    //     print(''); // Add spacing between surveys
-    //   }
-    // }
-
-    // printFinalMap(finalMap);
   }
 }

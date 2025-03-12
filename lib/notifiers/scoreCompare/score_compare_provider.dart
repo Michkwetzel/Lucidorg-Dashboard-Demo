@@ -58,8 +58,8 @@ class ScoreCompareState {
   }
 }
 
-class ScoreCompareProvider extends StateNotifier<ScoreCompareState> {
-  ScoreCompareProvider()
+class ScoreCompareNotifier extends StateNotifier<ScoreCompareState> {
+  ScoreCompareNotifier()
       //Set Default empty state
       : super(ScoreCompareState(
             blur: true,

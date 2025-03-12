@@ -41,8 +41,8 @@ class DiffOverTimeMv extends ConsumerWidget {
                   spacing: 16,
                   children: [
                     SizedBox(
-                        height: 40,
-                        width: 125,
+                        height: 50,
+                        width: 110,
                         child: StyledDropdown(
                             items: surveyDisplayNames,
                             onChanged: (value) {
@@ -52,8 +52,8 @@ class DiffOverTimeMv extends ConsumerWidget {
                             initalValue: surveyDisplayNames[0])),
                     Text('vs', style: kH5PoppinsRegular),
                     SizedBox(
-                        height: 40,
-                        width: 125,
+                        height: 50,
+                        width: 110,
                         child: StyledDropdown(
                             items: surveyDisplayNames,
                             onChanged: (value) {

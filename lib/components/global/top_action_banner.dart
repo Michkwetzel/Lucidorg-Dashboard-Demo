@@ -56,13 +56,17 @@ class TopActionBanner extends ConsumerWidget {
       textColor = Color(0xFFDD1155);
       borderColor = Color(0xFFBEBEBE);
       backgroundColor = Colors.white;
+    } else if (!metricsState.canSendNewAssessment) {
+      text = "Assessments are limited to one per month. You can send another assessment after:";
+      buttonText = "Send Reminder";
+      borderColor = Colors.purple[300]!;
     }
 
     void handlePress() async {
       if (metricsState.noSurveyData) {
         ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.createAssessment);
         NavigationService.navigateTo('/createAssessment');
-      } else if (metricsState.participationBelow30 || metricsState.between30And70 || metricsState.needAll3Departments) {
+      } else if (metricsState.participationBelow30 || metricsState.between30And70 || metricsState.needAll3Departments || !metricsState.canSendNewAssessment) {
         try {
           NavigationService.navigateTo('/currentAssessment');
           ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.currentAssessment);

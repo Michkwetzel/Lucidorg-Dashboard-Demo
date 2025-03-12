@@ -36,6 +36,10 @@ class CurrentEmailListNotifier extends StateNotifier<CurrentEmailListState> {
           emailsEmployee: [],
         ));
 
+  int getTotalEmails() {
+    return state.emailsCSuite.length + state.emailsCeo.length + state.emailsEmployee.length;
+  }
+
   Future<void> getCurrentEmails() async {
     final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -64,7 +68,6 @@ class CurrentEmailListNotifier extends StateNotifier<CurrentEmailListState> {
       emailsEmployee: employeeEmails,
       emailsCeo: ceoEmails,
     );
-    
   }
 
   bool get emailsEmpty => state.emailsCSuite.isEmpty && state.emailsCeo.isEmpty && state.emailsEmployee.isEmpty;

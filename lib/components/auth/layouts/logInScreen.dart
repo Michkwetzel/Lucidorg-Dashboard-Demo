@@ -35,7 +35,9 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
         if (ref.read(userDataProvider).latestSurveyDocName != null) {
           ref.read(currentEmailListProvider.notifier).getCurrentEmails();
         }
-        ref.read(metricsDataProvider.notifier).getSurveyData();
+        // Load survey data then load finance
+        await ref.read(metricsDataProvider.notifier).getSurveyData();
+        ref.read(financeModelProvider.notifier).calculateInitialValues();
         ref.read(companyInfoService.notifier).getCompanyInfo();
         NavigationService.navigateTo('/home');
         ref.read(authDisplayProvider.notifier).changeDisplay(const AppEntryLayout());

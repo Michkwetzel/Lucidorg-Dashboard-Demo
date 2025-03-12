@@ -187,6 +187,7 @@ class _NavBarState extends ConsumerState<NavBar> {
                             NavBarButton(
                               onTap: () {
                                 ref.read(authfirestoreserviceProvider.notifier).signOutUser();
+                                ref.read(metricsDataProvider.notifier).resetToInitialState();
                                 NavigationService.navigateTo('/auth');
                               },
                               icon: Icons.logout,

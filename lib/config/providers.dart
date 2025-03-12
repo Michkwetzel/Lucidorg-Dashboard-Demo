@@ -135,8 +135,8 @@ final impactSelectedSectionProvider = StateNotifierProvider<ImpactDisplayNotifie
   return ImpactDisplayNotifier();
 });
 
-final scoreCompareProvider = StateNotifierProvider<ScoreCompareProvider, ScoreCompareState>((ref) {
-  return ScoreCompareProvider();
+final scoreCompareProvider = StateNotifierProvider<ScoreCompareNotifier, ScoreCompareState>((ref) {
+  return ScoreCompareNotifier();
 });
 
 final metricsDataProvider = StateNotifierProvider<MetricsDataProvider, MetricsDataState>((ref) {
