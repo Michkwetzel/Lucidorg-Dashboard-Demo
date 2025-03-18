@@ -36,22 +36,22 @@ extension Value on Finance {
       case Finance.productivity:
         return -0.15;
       case Finance.turnover:
-        return -0.15;
+        return 0.15;
     }
   }
 
   double get d {
     switch (this) {
       case Finance.profit:
-        return 3;
+        return -3;
       case Finance.cost:
-        return 3;
+        return -3;
       case Finance.margin:
-        return 3;
+        return -3;
       case Finance.productivity:
-        return 3;
+        return -3;
       case Finance.turnover:
-        return 3;
+        return -3;
     }
   }
 }
@@ -65,6 +65,8 @@ enum ResultSection { overview, areaScore, diffMatrix, foundations }
 enum ImpactSection { orgImpact, financial, scoreOverTime, diffOverTime }
 
 enum HomeSection { home, currentAssessment, newAssessment, howTo }
+
+enum DashboardSection { home, currentAssessment, createAssessment, results, impact }
 
 enum Pilar { alignment, people, process, leadership, none }
 

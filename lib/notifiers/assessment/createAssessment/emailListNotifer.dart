@@ -1,5 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/config/enums.dart';
+import 'package:platform_front/notifiers/userProfileData/userProfileData.dart';
+import 'package:platform_front/services/email_storage.dart';
 
 class EmailListState {
   final List<String> emailsCeo;
@@ -26,7 +28,9 @@ class EmailListState {
 }
 
 class EmailListNotifier extends StateNotifier<EmailListState> {
-  EmailListNotifier()
+  UserProfileDataNotifier userProfileDataNotifier;
+
+  EmailListNotifier(this.userProfileDataNotifier)
       : super(EmailListState(
           emailsCeo: [],
           emailsCSuite: [],
@@ -45,12 +49,15 @@ class EmailListNotifier extends StateNotifier<EmailListState> {
     switch (type) {
       case EmailListRadioButtonType.cSuite:
         state = state.copyWith(emailsCSuite: List.from(state.emailsCSuite)..removeAt(index));
+        EmailStorage.saveEmails(EmailStorage.KEY_CSUITE_EMAILS, state.emailsCSuite, userID: userProfileDataNotifier.userUID);
         break;
       case EmailListRadioButtonType.ceo:
         state = state.copyWith(emailsCeo: List.from(state.emailsCeo)..removeAt(index));
+        EmailStorage.saveEmails(EmailStorage.KEY_CEO_EMAILS, state.emailsCeo, userID: userProfileDataNotifier.userUID);
         break;
       case EmailListRadioButtonType.employee:
         state = state.copyWith(emailsEmployee: List.from(state.emailsEmployee)..removeAt(index));
+        EmailStorage.saveEmails(EmailStorage.KEY_EMPLOYEE_EMAILS, state.emailsEmployee, userID: userProfileDataNotifier.userUID);
         break;
     }
   }
@@ -74,10 +81,13 @@ class EmailListNotifier extends StateNotifier<EmailListState> {
     switch (type) {
       case EmailListRadioButtonType.cSuite:
         state = state.copyWith(emailsCSuite: []);
+        EmailStorage.clearDepartmentEmails(EmailStorage.KEY_CSUITE_EMAILS, userID: userProfileDataNotifier.userUID);
       case EmailListRadioButtonType.ceo:
         state = state.copyWith(emailsCeo: []);
+        EmailStorage.clearDepartmentEmails(EmailStorage.KEY_CEO_EMAILS, userID: userProfileDataNotifier.userUID);
       case EmailListRadioButtonType.employee:
         state = state.copyWith(emailsEmployee: []);
+        EmailStorage.clearDepartmentEmails(EmailStorage.KEY_EMPLOYEE_EMAILS, userID: userProfileDataNotifier.userUID);
     }
   }
 
@@ -93,14 +103,25 @@ class EmailListNotifier extends StateNotifier<EmailListState> {
     switch (type) {
       case EmailListRadioButtonType.cSuite:
         state = state.copyWith(emailsCSuite: [...state.emailsCSuite, ...emails].toSet().toList());
+        print('Saving csuite emails: ${state.emailsCSuite} to storage');
+        EmailStorage.saveEmails(EmailStorage.KEY_CSUITE_EMAILS, state.emailsCSuite, userID: userProfileDataNotifier.userUID);
       case EmailListRadioButtonType.ceo:
         state = state.copyWith(emailsCeo: [...state.emailsCeo, ...emails].toSet().toList());
+        EmailStorage.saveEmails(EmailStorage.KEY_CEO_EMAILS, state.emailsCeo, userID: userProfileDataNotifier.userUID);
       case EmailListRadioButtonType.employee:
         state = state.copyWith(emailsEmployee: [...state.emailsEmployee, ...emails].toSet().toList());
+        EmailStorage.saveEmails(EmailStorage.KEY_EMPLOYEE_EMAILS, state.emailsEmployee, userID: userProfileDataNotifier.userUID);
     }
   }
 
-  void clearEmails(){
+  void loadEmailsFromCache() {
+    state = state.copyWith(
+        emailsCSuite: EmailStorage.loadEmails(EmailStorage.KEY_CSUITE_EMAILS, userID: userProfileDataNotifier.userUID),
+        emailsCeo: EmailStorage.loadEmails(EmailStorage.KEY_CEO_EMAILS, userID: userProfileDataNotifier.userUID),
+        emailsEmployee: EmailStorage.loadEmails(EmailStorage.KEY_EMPLOYEE_EMAILS, userID: userProfileDataNotifier.userUID));
+  }
+
+  void clearEmails() {
     state = EmailListState();
   }
 }

@@ -5,6 +5,7 @@ import 'package:platform_front/components/dashboard/createAssessment/current/rem
 import 'package:platform_front/components/global/grayDivider.dart';
 import 'package:platform_front/components/global/top_action_banner.dart';
 import 'package:platform_front/config/constants.dart';
+import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/config/providers.dart';
 
 class CurrentAssessmentBody extends ConsumerWidget {
@@ -26,7 +27,10 @@ class CurrentAssessmentBody extends ConsumerWidget {
               'Current Assessment',
               style: kH1TextStyle,
             ),
-            if (ref.watch(metricsDataProvider).noSurveyData || ref.watch(metricsDataProvider).testData) TopActionBanner(),
+            if (ref.watch(metricsDataProvider).noSurveyData || ref.watch(metricsDataProvider).testData)
+              TopActionBanner(
+                section: DashboardSection.currentAssessment,
+              ),
             SizedBox(
               height: 24,
             ),
@@ -45,7 +49,7 @@ class CurrentAssessmentBody extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Sent: ${ref.read(metricsDataProvider).surveyMetric.surveyStartDate}", style: kH3TextStyle),
+                      Text("Sent: ${ref.watch(metricsDataProvider).surveyMetric.surveyStartDate}", style: kH3TextStyle),
                       SizedBox(height: 12),
                       Text("Number of emails sent: ${ref.read(currentEmailListProvider.notifier).getTotalEmails()}", style: kH3TextStyle),
                       SizedBox(height: 20),

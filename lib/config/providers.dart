@@ -87,7 +87,8 @@ final emailListRadioButtonProvider = StateNotifierProvider<EmailListRadioButtonN
 });
 
 final emailListProvider = StateNotifierProvider<EmailListNotifier, EmailListState>((ref) {
-  return EmailListNotifier();
+  final userDataNotifier = ref.watch(userDataProvider.notifier);
+  return EmailListNotifier(userDataNotifier);
 });
 
 final navBarProvider = StateNotifierProvider<Navbarnotifer, NavBarButtonType>((ref) {

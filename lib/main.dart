@@ -9,7 +9,6 @@ import 'package:platform_front/components/dashboard/createAssessment/current/cur
 import 'package:platform_front/components/dashboard/home/homeScreenBody.dart';
 import 'package:platform_front/components/dashboard/howTo/how_to_body.dart';
 import 'package:platform_front/components/dashboard/impact/impact_body.dart';
-import 'package:platform_front/components/dashboard/new_Home/new_home_body.dart';
 import 'package:platform_front/components/dashboard/results/resultsBody.dart';
 import 'package:platform_front/components/global/errorScreen/errorScreen.dart';
 import 'package:platform_front/firebase_options.dart';
@@ -121,11 +120,11 @@ GoRouter setupRouter() {
         return '/auth';
       }
 
-      // if (state.extra == null) {
-      //   // Log user out if he reloads page. Always include an extra state if navigating using navigator. thus if reload you can notice it
-      //   await FirebaseAuth.instance.signOut();
-      //   return '/auth';
-      // }
+      if (state.extra == null) {
+        // Log user out if he reloads page. Always include an extra state if navigating using navigator. thus if reload you can notice it
+        await FirebaseAuth.instance.signOut();
+        return '/auth';
+      }
       return null;
     },
   );

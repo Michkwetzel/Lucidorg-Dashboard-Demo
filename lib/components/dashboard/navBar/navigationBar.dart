@@ -136,6 +136,7 @@ class _NavBarState extends ConsumerState<NavBar> {
                                   NavBarButton(
                                     onTap: () {
                                       ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.newAssessment);
+                                      ref.read(emailListProvider.notifier).loadEmailsFromCache();
                                       NavigationService.navigateTo('/createAssessment');
                                     },
                                     icon: null,
@@ -188,6 +189,7 @@ class _NavBarState extends ConsumerState<NavBar> {
                               onTap: () {
                                 ref.read(authfirestoreserviceProvider.notifier).signOutUser();
                                 ref.read(metricsDataProvider.notifier).resetToInitialState();
+                                ref.read(currentEmailListProvider.notifier).clearEmails();
                                 NavigationService.navigateTo('/auth');
                               },
                               icon: Icons.logout,

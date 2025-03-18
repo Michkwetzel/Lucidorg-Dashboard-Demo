@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
 import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/notifiers/assessment/currentAssessment/currentAssessmentEmailProvider.dart';
-import 'package:platform_front/notifiers/financials/finance_model_notifer.dart';
 import 'package:platform_front/notifiers/scoreCompare/score_compare_provider.dart';
 import 'package:platform_front/notifiers/surveyMetrics/metrics_data.dart';
 import 'package:platform_front/notifiers/userProfileData/userProfileData.dart';
@@ -147,7 +147,6 @@ class MetricsDataProvider extends StateNotifier<MetricsDataState> {
         }
 
         // Store futures for all get operations
-        print("hi");
         final futures = <Future<DocumentSnapshot>>[];
         for (final surveyName in allSurveyNames) {
           final metricsRef = _firestore.collection('surveyMetrics/$companyUID/$surveyName').doc('metrics');
@@ -158,7 +157,6 @@ class MetricsDataProvider extends StateNotifier<MetricsDataState> {
 
         // Await all futures concurrently
         final snapshots = await Future.wait(futures);
-        print("hi2");
         // Process the snapshots
         for (int i = 0; i < allSurveyNames.length; i++) {
           final surveyName = allSurveyNames[i];
@@ -198,6 +196,7 @@ class MetricsDataProvider extends StateNotifier<MetricsDataState> {
             needAll3Departments: false,
             dataReady: false,
             surveyMetric: SurveyMetric.loadBlurredData(
+                surveyStartDate: processSurveyDate(latestSurvey.surveyDevName)[0],
                 nCeoFinished: latestSurvey.nCeoFinished,
                 nCSuiteFinished: latestSurvey.nCSuiteFinished,
                 nEmployeeFinished: latestSurvey.nEmployeeFinished,
@@ -217,6 +216,7 @@ class MetricsDataProvider extends StateNotifier<MetricsDataState> {
             needAll3Departments: true,
             dataReady: false,
             surveyMetric: SurveyMetric.loadBlurredData(
+                surveyStartDate: processSurveyDate(latestSurvey.surveyDevName)[0],
                 nCeoFinished: latestSurvey.nCeoFinished,
                 nCSuiteFinished: latestSurvey.nCSuiteFinished,
                 nEmployeeFinished: latestSurvey.nEmployeeFinished,
@@ -252,6 +252,52 @@ class MetricsDataProvider extends StateNotifier<MetricsDataState> {
     } catch (e) {
       logger.severe('Error getting survey data: $e');
       state = state.copyWith(loading: false, dataReady: true);
+    }
+  }
+
+  List<String> processSurveyDate(String dateString) {
+    try {
+      // Split into date and time parts
+      List<String> parts = dateString.split('T');
+      if (parts.length != 2) {
+        // If we can't split properly, try to parse the string directly
+        throw FormatException('Invalid date format');
+      }
+
+      String datePart = parts[0]; // This is already in YYYY-MM-DD format
+      String timePart = parts[1].replaceAll('-', ':'); // Convert time separators
+
+      // Combine date and time
+      String normalizedDate = '$datePart $timePart';
+
+      // Parse the normalized date string
+      DateTime dateObj = DateTime.parse(normalizedDate);
+
+      // Format to "17 Feb 2025"
+      String formatted = DateFormat('dd MMM yyyy').format(dateObj);
+
+      // Calculate date 4 months in future
+      DateTime futureDate = DateTime(
+        dateObj.year,
+        dateObj.month + 4,
+        dateObj.day,
+        dateObj.hour,
+        dateObj.minute,
+        dateObj.second,
+      );
+      String futureFormatted = DateFormat('dd MMM yyyy').format(futureDate);
+      print('Formatted: $formatted');
+
+      return [formatted, futureFormatted];
+    } catch (e) {
+      // Handle parsing errors by returning a default or current date
+      DateTime now = DateTime.now();
+      String formatted = DateFormat('dd MMM yyyy').format(now);
+      DateTime futureDate = DateTime(now.year, now.month + 4, now.day);
+      String futureFormatted = DateFormat('dd MMM yyyy').format(futureDate);
+
+      print('Error processing date: $dateString'); // For debugging
+      return [formatted, futureFormatted];
     }
   }
 

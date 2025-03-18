@@ -65,17 +65,17 @@ class _CreateAssessmentBodyState extends ConsumerState<CreateAssessmentBody> {
       );
     } else {
       try {
-        AlertService.showAlert(
+        await AlertService.showAlert(
           title: "You are about to send out an Assessment",
           message: "This is an awesome moment! Just one last check: Did you double check the email list? After starting an assessment you wont be able to start one for the next month.",
           onConfirm: () async {
             await ref.read(googlefunctionserviceProvider.notifier).createAssessment();
+            AlertService.showAlert(message: 'Successfully Created assessment', title: 'Success');
+            await ref.read(userDataProvider.notifier).getUserInfo(ref.read(authfirestoreserviceProvider));
+            await ref.read(metricsDataProvider.notifier).getSurveyData();
+            await ref.read(currentEmailListProvider.notifier).getCurrentEmails();
           },
         );
-        AlertService.showAlert(message: 'Successfully Created assessment', title: 'Success');
-        await ref.read(userDataProvider.notifier).getUserInfo(ref.read(authfirestoreserviceProvider));
-        await ref.read(metricsDataProvider.notifier).getSurveyData();
-        await ref.read(currentEmailListProvider.notifier).getCurrentEmails();
       } on Exception catch (e) {
         SnackBarService.showMessage('Error creating Assessment', Colors.red, duration: 3);
         logger.severe("Failed to create Assessment with error: $e");
@@ -102,13 +102,10 @@ class _CreateAssessmentBodyState extends ConsumerState<CreateAssessmentBody> {
                 'Create Assessment',
                 style: kH1TextStyle,
               ),
-              if (ref.watch(metricsDataProvider).noSurveyData ||
-                  ref.watch(metricsDataProvider).participationBelow30 ||
-                  ref.watch(metricsDataProvider).between30And70 ||
-                  ref.watch(metricsDataProvider).needAll3Departments ||
-                  ref.watch(metricsDataProvider).testData ||
-                  !ref.watch(metricsDataProvider).canSendNewAssessment )
-                TopActionBanner(),
+              if (ref.watch(metricsDataProvider).noSurveyData || ref.watch(metricsDataProvider).testData || !ref.watch(metricsDataProvider).canSendNewAssessment)
+                TopActionBanner(
+                  section: DashboardSection.createAssessment,
+                ),
               SizedBox(
                 height: 24,
               ),
