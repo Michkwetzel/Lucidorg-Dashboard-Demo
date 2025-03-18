@@ -8,6 +8,7 @@ import 'package:platform_front/components/global/loading_overlay.dart';
 import 'package:platform_front/components/global/no_data_top_banner.dart';
 import 'package:platform_front/components/global/top_action_banner.dart';
 import 'package:platform_front/config/constants.dart';
+import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/config/providers.dart';
 
 class ImpactBody extends ConsumerWidget {
@@ -53,7 +54,7 @@ class ImpactBody extends ConsumerWidget {
                       ref.watch(metricsDataProvider).between30And70 ||
                       ref.watch(metricsDataProvider).needAll3Departments ||
                       ref.watch(metricsDataProvider).testData)
-                    TopActionBanner(),
+                    TopActionBanner(section: DashboardSection.impact,),
                   SizedBox(
                     height: 16,
                   ),

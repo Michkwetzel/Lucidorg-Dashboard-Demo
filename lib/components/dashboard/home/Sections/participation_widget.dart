@@ -6,7 +6,7 @@ import 'package:platform_front/config/providers.dart';
 import 'package:platform_front/notifiers/surveyMetrics/metrics_data.dart';
 
 class ParticipationWidget extends ConsumerWidget {
-  ParticipationWidget({super.key});
+   const ParticipationWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

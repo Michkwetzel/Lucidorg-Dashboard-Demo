@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/components/auth/buttons/bottomButtonsRow.dart';
 import 'package:platform_front/components/auth/layouts/createAccountScreen.dart';
-import 'package:platform_front/components/buttons/selectionButton.dart';
+import 'package:platform_front/components/global/buttons/selectionButton.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/config/providers.dart';
 import 'package:platform_front/components/auth/layouts/appEntryLayout.dart';
-import 'package:platform_front/components/auth/layouts/enterEmailPasswordLayout.dart';
 import 'package:platform_front/components/auth/layouts/enterTokenLayout.dart';
 
 class UserTypeSelectionLayout extends ConsumerWidget {

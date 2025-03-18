@@ -5,10 +5,8 @@ import 'package:intl/intl.dart';
 import 'package:platform_front/config/providers.dart';
 
 class NextAssessmentWidget extends ConsumerWidget {
-  final String nextAssessmentData;
 
   const NextAssessmentWidget({
-    required this.nextAssessmentData,
     super.key,
   });
 

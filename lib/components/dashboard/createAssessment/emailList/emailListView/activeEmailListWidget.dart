@@ -23,8 +23,10 @@ class ActiveEmailListWidget extends ConsumerWidget {
         selectedEmailList = activeEmailList.emailsCSuite;
         break;
       case EmailListRadioButtonType.employee:
-      default:
         selectedEmailList = activeEmailList.emailsEmployee;
+        break;
+      default:
+        selectedEmailList = [];
         break;
     }
 

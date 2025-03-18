@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:platform_front/components/buttons/CallToActionButton.dart';
-import 'package:platform_front/components/buttons/primaryButton.dart';
+import 'package:platform_front/components/dashboard/createAssessment/emailTemplate/subjectView.dart';
+import 'package:platform_front/components/global/buttons/CallToActionButton.dart';
+import 'package:platform_front/components/global/buttons/primaryButton.dart';
 import 'package:platform_front/components/dashboard/createAssessment/emailTemplate/subjectEdit.dart';
 import 'package:platform_front/components/dashboard/createAssessment/emailTemplate/templateEdit.dart';
 import 'package:platform_front/components/dashboard/createAssessment/emailTemplate/templateView.dart';
@@ -35,6 +36,7 @@ class EmailTemplateBody extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            if (isEditMode) SizedBox(height: 24),
             const Text("Email Template", style: kH2TextStyle),
             SizedBox(height: 24),
             Row(
@@ -117,13 +119,13 @@ class EditEmailTemplateBUtton extends ConsumerWidget {
           ? CallToActionButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
-                  ref.read(emailTemplateProvider.notifier).changeToViewEmailsDisplay();
+                  ref.read(emailTemplateProvider.notifier).changeToViewTemplateDisplay();
                 }
               },
               buttonText: 'Save',
             )
           : Primarybutton(
-              onPressed: () => ref.read(emailTemplateProvider.notifier).changeToEditEmailsDisplay(),
+              onPressed: () => ref.read(emailTemplateProvider.notifier).changeToEditTemplateDisplay(),
               buttonText: "Edit Email Template",
             ),
     );

@@ -17,7 +17,13 @@ class DiffOverTimeMv extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     Map<String, SurveyMetric> surveyMetrics = ref.watch(scoreCompareProvider).allComparableSurveys;
-    List<String> formattedSurveyNames = surveyMetrics.keys.toList(growable: false);
+    List<String> surveyDevNames = [];
+    List<String> surveyDisplayNames = [];
+
+    for (var value in surveyMetrics.entries) {
+      surveyDevNames.add(value.key);
+      surveyDisplayNames.add(value.value.surveyStartDate);
+    }
 
     return BlurOverlay(
       message: "We need atleast 2 surveys to show Diff Comparison",
@@ -35,24 +41,26 @@ class DiffOverTimeMv extends ConsumerWidget {
                   spacing: 16,
                   children: [
                     SizedBox(
-                        height: 40,
-                        width: 125,
+                        height: 50,
+                        width: 110,
                         child: StyledDropdown(
-                            items: formattedSurveyNames,
+                            items: surveyDisplayNames,
                             onChanged: (value) {
-                              ref.read(scoreCompareProvider.notifier).updateSurvey1(value);
+                              int index = surveyDisplayNames.indexOf(value);
+                              ref.read(scoreCompareProvider.notifier).updateSurvey2(surveyDevNames[index]);
                             },
-                            initalValue: formattedSurveyNames[0])),
+                            initalValue: surveyDisplayNames[0])),
                     Text('vs', style: kH5PoppinsRegular),
                     SizedBox(
-                        height: 40,
-                        width: 125,
+                        height: 50,
+                        width: 110,
                         child: StyledDropdown(
-                            items: formattedSurveyNames,
+                            items: surveyDisplayNames,
                             onChanged: (value) {
-                              ref.read(scoreCompareProvider.notifier).updateSurvey2(value);
+                              int index = surveyDisplayNames.indexOf(value);
+                              ref.read(scoreCompareProvider.notifier).updateSurvey2(surveyDevNames[index]);
                             },
-                            initalValue: formattedSurveyNames[1])),
+                            initalValue: surveyDisplayNames[1])),
                   ],
                 ),
                 SizedBox(width: 125, child: Text('Difference', style: kH3PoppinsRegular)),

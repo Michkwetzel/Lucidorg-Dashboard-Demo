@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/components/global/grayDivider.dart';
 import 'package:platform_front/config/constants.dart';
+import 'package:platform_front/config/enums.dart';
+import 'package:platform_front/config/providers.dart';
 
 class FinancialMv extends StatelessWidget {
   const FinancialMv({super.key});
@@ -40,42 +43,46 @@ class FinancialMv extends StatelessWidget {
               ),
             ],
           ),
-          HeadingSliderWidget(heading: 'Org Alignment'),
-          SizedBox(height: 16),
-          HeadingSliderWidget(heading: 'Growth Alignment'),
-          SizedBox(height: 16),
-          HeadingSliderWidget(heading: 'Collaborative KPI'),
-          SizedBox(height: 16),
-          HeadingSliderWidget(heading: 'Engaged Community'),
-          HeadingSliderWidget(heading: 'X-Func Communication'),
-          SizedBox(height: 16),
-          HeadingSliderWidget(heading: 'X-Funct Accountability'),
-          SizedBox(height: 16),
-          HeadingSliderWidget(heading: 'Aligned Tech'),
-          SizedBox(height: 16),
-          HeadingSliderWidget(heading: 'Collaborative Processes'),
-          HeadingSliderWidget(heading: 'Meeting Efficacy'),
-          SizedBox(height: 16),
-          HeadingSliderWidget(heading: 'Purpose Led Everything'),
-          SizedBox(height: 16),
-          HeadingSliderWidget(heading: 'Empowered Leadership')
+          Column(
+            spacing: 16,
+            children: [
+              HeadingSliderWidget(indicator: Indicator.orgAlign),
+              HeadingSliderWidget(indicator: Indicator.growthAlign),
+              HeadingSliderWidget(indicator: Indicator.collabKPIs),
+              HeadingSliderWidget(indicator: Indicator.engagedCommunity),
+              HeadingSliderWidget(indicator: Indicator.crossFuncComms),
+              HeadingSliderWidget(indicator: Indicator.crossFuncAcc),
+              HeadingSliderWidget(indicator: Indicator.alignedTech),
+              HeadingSliderWidget(indicator: Indicator.collabProcesses),
+              HeadingSliderWidget(indicator: Indicator.meetingEfficacy),
+              HeadingSliderWidget(indicator: Indicator.purposeDriven),
+              HeadingSliderWidget(indicator: Indicator.empoweredLeadership),
+            ],
+          )
         ],
       ),
     );
   }
 }
 
-class HeadingSliderWidget extends StatefulWidget {
-  final String heading;
+class HeadingSliderWidget extends ConsumerStatefulWidget {
   final double value;
-  const HeadingSliderWidget({super.key, required this.heading, this.value = 20});
+  final Indicator indicator;
+  const HeadingSliderWidget({super.key, required this.indicator, this.value = 20});
 
   @override
-  State<HeadingSliderWidget> createState() => _HeadingSliderWidgetState();
+  ConsumerState<HeadingSliderWidget> createState() => _HeadingSliderWidgetState();
 }
 
-class _HeadingSliderWidgetState extends State<HeadingSliderWidget> {
-  double sliderValue = 20;
+class _HeadingSliderWidgetState extends ConsumerState<HeadingSliderWidget> {
+  late double sliderValue;
+
+  @override
+  void initState() {
+    sliderValue = ref.read(financeModelProvider.notifier).getCurrentValue(widget.indicator);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -83,7 +90,7 @@ class _HeadingSliderWidgetState extends State<HeadingSliderWidget> {
         SizedBox(
           width: 200,
           child: Text(
-            widget.heading,
+            widget.indicator.heading,
             style: TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'Poppins', fontWeight: FontWeight.w300),
           ),
         ),
@@ -97,6 +104,7 @@ class _HeadingSliderWidgetState extends State<HeadingSliderWidget> {
               min: 0,
               max: 100,
               onChanged: (value) {
+                ref.read(financeModelProvider.notifier).sliderChange(widget.indicator, value / 100);
                 setState(() {
                   sliderValue = value;
                 });

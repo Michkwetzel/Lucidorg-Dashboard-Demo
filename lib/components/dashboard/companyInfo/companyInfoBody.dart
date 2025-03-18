@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
-import 'package:platform_front/components/buttons/CallToActionButton.dart';
+import 'package:platform_front/components/global/buttons/CallToActionButton.dart';
 import 'package:platform_front/components/dashboard/companyInfo/customTextFieldForm.dart';
 import 'package:platform_front/components/dashboard/companyInfo/styledDropdown.dart';
 import 'package:platform_front/components/global/loading_overlay.dart';

@@ -76,4 +76,5 @@ class FirebaseServiceNotifier extends StateNotifier<bool> {
   Future<void> readToDB() async {
     print(_firestore.collection('testing').doc().get().toString());
   }
+
 }

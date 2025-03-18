@@ -58,8 +58,8 @@ class ScoreCompareState {
   }
 }
 
-class ScoreCompareProvider extends StateNotifier<ScoreCompareState> {
-  ScoreCompareProvider()
+class ScoreCompareNotifier extends StateNotifier<ScoreCompareState> {
+  ScoreCompareNotifier()
       //Set Default empty state
       : super(ScoreCompareState(
             blur: true,
@@ -174,7 +174,7 @@ class ScoreCompareProvider extends StateNotifier<ScoreCompareState> {
       // Not enough surveys available. Use default surveys to calculate diff and core change values.
       logger.info("Less than 2 surveys. Loading default values");
 
-      SurveyMetric survey1 = SurveyMetric.loadBlurredData();
+      SurveyMetric survey1 = SurveyMetric.loadBlurredData(surveyStartDate: '25 March 2025');
       SurveyMetric survey2 = SurveyMetric.loadDefaultValues();
       state = state.copyWith(allComparableSurveys: {'Q1 2025': survey1, 'Q2 2025': survey2}, survey1Data: survey1, survey2Data: survey2, blur: true);
       calculateChange();

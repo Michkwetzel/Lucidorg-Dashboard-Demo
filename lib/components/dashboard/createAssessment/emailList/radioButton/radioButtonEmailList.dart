@@ -5,9 +5,10 @@ import 'package:platform_front/config/providers.dart';
 
 class RadioButtonEmailList extends ConsumerWidget {
   final String text;
+  final AssessmentDisplay display;
   final EmailListRadioButtonType buttonType;
 
-  const RadioButtonEmailList({required this.buttonType, required this.text, super.key});
+  const RadioButtonEmailList({required this.buttonType, required this.text, required this.display, super.key});
 
   BorderRadiusGeometry buttonBorder() {
     if (buttonType == EmailListRadioButtonType.ceo) {
@@ -24,13 +25,24 @@ class RadioButtonEmailList extends ConsumerWidget {
     final isSelected = ref.watch(emailListRadioButtonProvider) == buttonType;
 
     String listLength() {
-      if (buttonType == EmailListRadioButtonType.ceo) {
-        return ref.watch(emailListProvider).emailsCeo.length.toString();
-      } else if (buttonType == EmailListRadioButtonType.cSuite) {
-        return ref.watch(emailListProvider).emailsCSuite.length.toString();
+      if (display == AssessmentDisplay.current) {
+        if (buttonType == EmailListRadioButtonType.ceo) {
+          return ref.watch(currentEmailListProvider).emailsCeo.length.toString();
+        } else if (buttonType == EmailListRadioButtonType.cSuite) {
+          return ref.watch(currentEmailListProvider).emailsCSuite.length.toString();
+        } else {
+          return ref.watch(currentEmailListProvider).emailsEmployee.length.toString();
+        }
       } else {
-        return ref.watch(emailListProvider).emailsEmployee.length.toString();
+        if (buttonType == EmailListRadioButtonType.ceo) {
+          return ref.watch(emailListProvider).emailsCeo.length.toString();
+        } else if (buttonType == EmailListRadioButtonType.cSuite) {
+          return ref.watch(emailListProvider).emailsCSuite.length.toString();
+        } else {
+          return ref.watch(emailListProvider).emailsEmployee.length.toString();
+        }
       }
+
     }
 
     return MaterialButton(

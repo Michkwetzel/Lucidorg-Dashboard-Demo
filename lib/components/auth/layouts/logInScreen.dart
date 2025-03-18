@@ -32,7 +32,12 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
       try {
         SnackBarService.showMessage("Successfully Logged in", Colors.green);
         await ref.read(userDataProvider.notifier).getUserInfo(ref.read(authfirestoreserviceProvider));
-        ref.read(metricsDataProvider.notifier).getSurveyData();
+        if (ref.read(userDataProvider).latestSurveyDocName != null) {
+          ref.read(currentEmailListProvider.notifier).getCurrentEmails();
+        }
+        // Load survey data then load finance
+        await ref.read(metricsDataProvider.notifier).getSurveyData();
+        ref.read(financeModelProvider.notifier).calculateInitialValues();
         ref.read(companyInfoService.notifier).getCompanyInfo();
         NavigationService.navigateTo('/home');
         ref.read(authDisplayProvider.notifier).changeDisplay(const AppEntryLayout());

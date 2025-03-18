@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:platform_front/components/buttons/CallToActionButton.dart';
+import 'package:platform_front/components/global/buttons/CallToActionButton.dart';
 import 'package:platform_front/components/auth/buttons/CustomBackButton.dart';
 
 // Row containing back button and next button. Customizable.

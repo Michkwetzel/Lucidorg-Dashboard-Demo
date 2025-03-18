@@ -3,20 +3,21 @@ import 'package:platform_front/components/dashboard/createAssessment/emailList/r
 import 'package:platform_front/config/enums.dart';
 
 class RadioButtonRow extends StatelessWidget {
-  const RadioButtonRow({super.key});
+  final AssessmentDisplay display;
+  const RadioButtonRow({super.key, this.display = AssessmentDisplay.create});
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
+    return Row(
       children: [
         Flexible(
-          child: RadioButtonEmailList(buttonType: EmailListRadioButtonType.ceo, text: 'CEO'),
+          child: RadioButtonEmailList(buttonType: EmailListRadioButtonType.ceo, text: 'CEO', display: display),
         ),
         Flexible(
-          child: RadioButtonEmailList(buttonType: EmailListRadioButtonType.cSuite, text: 'C-Suite'),
+          child: RadioButtonEmailList(buttonType: EmailListRadioButtonType.cSuite, text: 'C-Suite', display: display),
         ),
         Flexible(
-          child: RadioButtonEmailList(buttonType: EmailListRadioButtonType.employee, text: 'Employee'),
+          child: RadioButtonEmailList(buttonType: EmailListRadioButtonType.employee, text: 'Employee', display: display),
         ),
       ],
     );

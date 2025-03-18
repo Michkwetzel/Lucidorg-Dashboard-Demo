@@ -67,3 +67,4 @@ class BenchmarkWidget extends ConsumerWidget {
     );
   }
 }
+

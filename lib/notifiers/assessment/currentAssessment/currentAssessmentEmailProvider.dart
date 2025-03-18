@@ -1,22 +1,24 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/config/enums.dart';
+import 'package:platform_front/notifiers/userProfileData/userProfileData.dart';
 
-class EmailListState {
+class CurrentEmailListState {
   final List<String> emailsCeo;
   final List<String> emailsCSuite;
   final List<String> emailsEmployee;
   final bool addEmailDisplay;
 
-  EmailListState({this.emailsCeo = const [], this.emailsCSuite = const [], this.emailsEmployee = const [], this.addEmailDisplay = false});
+  CurrentEmailListState({this.emailsCeo = const [], this.emailsCSuite = const [], this.emailsEmployee = const [], this.addEmailDisplay = false});
 
   // CopyWith function to create a new instance with optional parameter changes
-  EmailListState copyWith({
+  CurrentEmailListState copyWith({
     List<String>? emailsCeo,
     List<String>? emailsCSuite,
     List<String>? emailsEmployee,
     bool? addEmailDisplay,
   }) {
-    return EmailListState(
+    return CurrentEmailListState(
       emailsCeo: emailsCeo ?? this.emailsCeo,
       emailsCSuite: emailsCSuite ?? this.emailsCSuite,
       emailsEmployee: emailsEmployee ?? this.emailsEmployee,
@@ -25,13 +27,48 @@ class EmailListState {
   }
 }
 
-class EmailListNotifier extends StateNotifier<EmailListState> {
-  EmailListNotifier()
-      : super(EmailListState(
+class CurrentEmailListNotifier extends StateNotifier<CurrentEmailListState> {
+  UserProfileDataNotifier userData;
+  CurrentEmailListNotifier({required this.userData})
+      : super(CurrentEmailListState(
           emailsCeo: [],
           emailsCSuite: [],
           emailsEmployee: [],
         ));
+
+  int getTotalEmails() {
+    return state.emailsCSuite.length + state.emailsCeo.length + state.emailsEmployee.length;
+  }
+
+  Future<void> getCurrentEmails() async {
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    String companyUID = userData.companyUID!;
+    String currentAssessment = userData.latestSurveyDocName!;
+
+    final collectionRef = firestore.collection('surveyData/$companyUID/$currentAssessment');
+
+    List<String> ceoEmails = [];
+    List<String> cSuiteEmails = [];
+    List<String> employeeEmails = [];
+
+    final collectionSnapshot = await collectionRef.get();
+    for (var doc in collectionSnapshot.docs) {
+      String emailType = doc.data()['emailType']!;
+      if (emailType == 'employee') {
+        employeeEmails.add(doc.data()['email']!);
+      } else if (emailType == 'cSuite') {
+        cSuiteEmails.add(doc.data()['email']!);
+      } else {
+        ceoEmails.add(doc.data()['email']!);
+      }
+    }
+    state = state.copyWith(
+      emailsCSuite: cSuiteEmails,
+      emailsEmployee: employeeEmails,
+      emailsCeo: ceoEmails,
+    );
+  }
 
   bool get emailsEmpty => state.emailsCSuite.isEmpty && state.emailsCeo.isEmpty && state.emailsEmployee.isEmpty;
 
@@ -100,7 +137,7 @@ class EmailListNotifier extends StateNotifier<EmailListState> {
     }
   }
 
-  void clearEmails(){
-    state = EmailListState();
+  void clearEmails() {
+    state = CurrentEmailListState();
   }
 }

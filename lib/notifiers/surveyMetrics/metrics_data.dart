@@ -1,7 +1,9 @@
 // Create a class for individual survey metrics
 import 'dart:math';
 
+import 'package:intl/intl.dart';
 import 'package:platform_front/config/enums.dart';
+import 'package:platform_front/config/providers.dart';
 
 class SurveyMetric {
   final Map<Indicator, double> ceoBenchmarks;
@@ -16,6 +18,7 @@ class SurveyMetric {
   final double nStarted;
   final double nSubmitted;
   final String surveyDevName;
+  final String surveyStartDate;
   final bool unableToCalculate; //Not all departments filled in survey
 
   SurveyMetric({
@@ -31,6 +34,7 @@ class SurveyMetric {
     required this.nStarted,
     required this.nSubmitted,
     required this.surveyDevName,
+    required this.surveyStartDate,
     required this.unableToCalculate,
   });
 
@@ -48,6 +52,7 @@ class SurveyMetric {
       nStarted: 0,
       nSubmitted: 0,
       surveyDevName: '',
+      surveyStartDate: '',
       unableToCalculate: true,
     );
   }
@@ -178,12 +183,19 @@ class SurveyMetric {
       nStarted: nStarted,
       nSubmitted: nCeoFinished + nEmployeeFinished + nCSuiteFinished,
       surveyDevName: surveyName,
+      surveyStartDate: '',
       unableToCalculate: false,
     );
   }
 
   factory SurveyMetric.loadBlurredData(
-      {String surveyName = 'Default', double nCeoFinished = 1, double nCSuiteFinished = 4, double nEmployeeFinished = 12, double nSurveys = 20, double nStarted = 18}) {
+      {String surveyName = 'Default',
+      double nCeoFinished = 1,
+      double nCSuiteFinished = 4,
+      double nEmployeeFinished = 12,
+      double nSurveys = 20,
+      double nStarted = 18,
+      required String surveyStartDate}) {
     Map<Indicator, double> ceoBenchmarks = {
       Indicator.align: 65.7,
       Indicator.meetingEfficacy: 91.2,
@@ -308,6 +320,7 @@ class SurveyMetric {
       nStarted: nStarted,
       nSubmitted: nCeoFinished + nEmployeeFinished + nCSuiteFinished,
       surveyDevName: surveyName,
+      surveyStartDate: surveyStartDate,
       unableToCalculate: false,
     );
   }
@@ -372,6 +385,55 @@ class SurveyMetric {
           {};
     }
 
+    List<String> processSurveyDate(String dateString) {
+      try {
+        // Split into date and time parts
+        List<String> parts = dateString.split('T');
+        if (parts.length != 2) {
+          // If we can't split properly, try to parse the string directly
+          throw FormatException('Invalid date format');
+        }
+
+        String datePart = parts[0]; // This is already in YYYY-MM-DD format
+        String timePart = parts[1].replaceAll('-', ':'); // Convert time separators
+
+        // Combine date and time
+        String normalizedDate = '$datePart $timePart';
+
+        // Parse the normalized date string
+        DateTime dateObj = DateTime.parse(normalizedDate);
+
+        // Format to "17 Feb 2025"
+        String formatted = DateFormat('dd MMM yyyy').format(dateObj);
+
+        // Calculate date 4 months in future
+        DateTime futureDate = DateTime(
+          dateObj.year,
+          dateObj.month + 4,
+          dateObj.day,
+          dateObj.hour,
+          dateObj.minute,
+          dateObj.second,
+        );
+        String futureFormatted = DateFormat('dd MMM yyyy').format(futureDate);
+        print('Formatted: $formatted');
+
+        return [formatted, futureFormatted];
+      } catch (e) {
+        // Handle parsing errors by returning a default or current date
+        DateTime now = DateTime.now();
+        String formatted = DateFormat('dd MMM yyyy').format(now);
+        DateTime futureDate = DateTime(now.year, now.month + 4, now.day);
+        String futureFormatted = DateFormat('dd MMM yyyy').format(futureDate);
+
+        print('Error processing date: $dateString'); // For debugging
+        return [formatted, futureFormatted];
+      }
+    }
+
+    String surveyStartDate = processSurveyDate(surveyName)[0];
+    print("SurveyStartDate: $surveyStartDate");
+
     return SurveyMetric(
       companyBenchmarks: convertBenchmarks(companyBenchmarksMap),
       ceoBenchmarks: convertBenchmarks(ceoBenchmarksMap),
@@ -385,12 +447,14 @@ class SurveyMetric {
       nStarted: nStarted,
       nSubmitted: nCeoFinished + nCSuiteFinished + nEmployeeFinished,
       surveyDevName: surveyName,
+      surveyStartDate: surveyStartDate,
       unableToCalculate: companyBenchmarksMap.isEmpty ? true : false,
     );
   }
 
   double get getSurveyParticipation => double.parse((nSubmitted * 100 / nSurveys).toStringAsFixed(1));
   bool get readyToDisplay => getSurveyParticipation >= 70 && unableToCalculate == false;
+  String get getSurveyStartDate => surveyStartDate;
 
   List<Map<Indicator, double>> getSpecificFoundations(List<Indicator> indicators) {
     List<Map<Indicator, double>> foundationIndicators = [];

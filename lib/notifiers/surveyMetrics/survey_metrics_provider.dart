@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
 import 'package:platform_front/config/enums.dart';
+import 'package:platform_front/notifiers/assessment/currentAssessment/currentAssessmentEmailProvider.dart';
 import 'package:platform_front/notifiers/scoreCompare/score_compare_provider.dart';
 import 'package:platform_front/notifiers/surveyMetrics/metrics_data.dart';
 import 'package:platform_front/notifiers/userProfileData/userProfileData.dart';
@@ -16,6 +18,7 @@ class MetricsDataState {
   final bool needAll3Departments;
   final bool showPopUp;
   final bool testData;
+  final bool canSendNewAssessment;
 
   MetricsDataState({
     required this.surveyMetric,
@@ -27,6 +30,7 @@ class MetricsDataState {
     required this.needAll3Departments,
     required this.showPopUp,
     required this.testData,
+    required this.canSendNewAssessment,
   });
 
   factory MetricsDataState.init() {
@@ -40,6 +44,7 @@ class MetricsDataState {
       between30And70: false,
       showPopUp: true,
       testData: false,
+      canSendNewAssessment: true,
     );
   }
 
@@ -53,6 +58,7 @@ class MetricsDataState {
     bool? needAll3Departments,
     bool? showPopUp,
     bool? testData,
+    bool? canSendNewAssessment,
   }) {
     return MetricsDataState(
       surveyMetric: surveyMetric ?? this.surveyMetric,
@@ -64,6 +70,7 @@ class MetricsDataState {
       needAll3Departments: needAll3Departments ?? this.needAll3Departments,
       showPopUp: showPopUp ?? this.showPopUp,
       testData: testData ?? this.testData,
+      canSendNewAssessment: canSendNewAssessment ?? this.canSendNewAssessment,
     );
   }
 }
@@ -72,15 +79,21 @@ class MetricsDataProvider extends StateNotifier<MetricsDataState> {
   MetricsDataProvider({
     required this.userProfileData,
     required this.scoreCompareProvider,
+    required this.currentAssessmentProvider,
   }) : super(MetricsDataState.init());
 
   Logger logger = Logger('SurveyMetricsProvider');
 
   UserProfileDataNotifier userProfileData;
-  ScoreCompareProvider scoreCompareProvider;
+  ScoreCompareNotifier scoreCompareProvider;
+  CurrentEmailListNotifier currentAssessmentProvider;
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   MetricsData globalMetricsData = MetricsData();
+
+  SurveyMetric getCurrentSurveyMetric() {
+    return state.surveyMetric;
+  }
 
   void setSurveyMetrics(SurveyMetric surveyMetrics) {
     state = state.copyWith(surveyMetric: surveyMetrics);
@@ -109,8 +122,10 @@ class MetricsDataProvider extends StateNotifier<MetricsDataState> {
             between30And70: false,
             participationBelow30: false,
             showPopUp: false,
-            testData: true);
+            testData: true,
+            canSendNewAssessment: true);
         scoreCompareProvider.initLoad();
+        return;
       } else {
         logger.info('Getting Survey Data for company $companyUID');
         final companyDoc = await _firestore.collection('surveyMetrics').doc(companyUID).get();
@@ -120,14 +135,14 @@ class MetricsDataProvider extends StateNotifier<MetricsDataState> {
         if (allSurveyNames.isEmpty) {
           print('No surveyData');
           state = state.copyWith(
-            loading: false,
-            surveyMetric: SurveyMetric.loadDefaultValues(),
-            noSurveyData: true,
-            needAll3Departments: false,
-            between30And70: false,
-            participationBelow30: false,
-            showPopUp: true,
-          );
+              loading: false,
+              surveyMetric: SurveyMetric.loadDefaultValues(),
+              noSurveyData: true,
+              needAll3Departments: false,
+              between30And70: false,
+              participationBelow30: false,
+              showPopUp: true,
+              canSendNewAssessment: true);
           return;
         }
 
@@ -142,7 +157,6 @@ class MetricsDataProvider extends StateNotifier<MetricsDataState> {
 
         // Await all futures concurrently
         final snapshots = await Future.wait(futures);
-
         // Process the snapshots
         for (int i = 0; i < allSurveyNames.length; i++) {
           final surveyName = allSurveyNames[i];
@@ -162,24 +176,27 @@ class MetricsDataProvider extends StateNotifier<MetricsDataState> {
           );
           globalMetricsData.addSurveyData(surveyData);
         }
-
         //Init loading of score/diff compare result section
         scoreCompareProvider.initLoad();
-
         // Get latest survey
         // Check participation rate and set accordingly
         SurveyMetric latestSurvey = globalMetricsData.getSurveyMetric(userProfileData.latestSurveyDocName!);
+        bool canSendAssessment = isOneMonthPassed(latestSurvey.surveyDevName)[0];
+        currentAssessmentProvider.getCurrentEmails();
         //latestSurvey.printData();
+        print("hi5");
         if (latestSurvey.getSurveyParticipation < 30) {
           print('<30');
           state = state.copyWith(
             loading: false,
+            canSendNewAssessment: canSendAssessment,
             noSurveyData: false,
             participationBelow30: true,
             between30And70: false,
             needAll3Departments: false,
             dataReady: false,
             surveyMetric: SurveyMetric.loadBlurredData(
+                surveyStartDate: processSurveyDate(latestSurvey.surveyDevName)[0],
                 nCeoFinished: latestSurvey.nCeoFinished,
                 nCSuiteFinished: latestSurvey.nCSuiteFinished,
                 nEmployeeFinished: latestSurvey.nEmployeeFinished,
@@ -192,12 +209,14 @@ class MetricsDataProvider extends StateNotifier<MetricsDataState> {
 
           state = state.copyWith(
             loading: false,
+            canSendNewAssessment: canSendAssessment,
             noSurveyData: false,
             participationBelow30: false,
             between30And70: false,
             needAll3Departments: true,
             dataReady: false,
             surveyMetric: SurveyMetric.loadBlurredData(
+                surveyStartDate: processSurveyDate(latestSurvey.surveyDevName)[0],
                 nCeoFinished: latestSurvey.nCeoFinished,
                 nCSuiteFinished: latestSurvey.nCSuiteFinished,
                 nEmployeeFinished: latestSurvey.nEmployeeFinished,
@@ -208,6 +227,7 @@ class MetricsDataProvider extends StateNotifier<MetricsDataState> {
         } else if (latestSurvey.getSurveyParticipation < 70) {
           state = state.copyWith(
             loading: false,
+            canSendNewAssessment: canSendAssessment,
             noSurveyData: false,
             participationBelow30: false,
             needAll3Departments: false,
@@ -218,6 +238,7 @@ class MetricsDataProvider extends StateNotifier<MetricsDataState> {
         } else {
           state = state.copyWith(
             loading: false,
+            canSendNewAssessment: canSendAssessment,
             noSurveyData: false,
             participationBelow30: false,
             needAll3Departments: false,
@@ -234,7 +255,102 @@ class MetricsDataProvider extends StateNotifier<MetricsDataState> {
     }
   }
 
+  List<String> processSurveyDate(String dateString) {
+    try {
+      // Split into date and time parts
+      List<String> parts = dateString.split('T');
+      if (parts.length != 2) {
+        // If we can't split properly, try to parse the string directly
+        throw FormatException('Invalid date format');
+      }
+
+      String datePart = parts[0]; // This is already in YYYY-MM-DD format
+      String timePart = parts[1].replaceAll('-', ':'); // Convert time separators
+
+      // Combine date and time
+      String normalizedDate = '$datePart $timePart';
+
+      // Parse the normalized date string
+      DateTime dateObj = DateTime.parse(normalizedDate);
+
+      // Format to "17 Feb 2025"
+      String formatted = DateFormat('dd MMM yyyy').format(dateObj);
+
+      // Calculate date 4 months in future
+      DateTime futureDate = DateTime(
+        dateObj.year,
+        dateObj.month + 4,
+        dateObj.day,
+        dateObj.hour,
+        dateObj.minute,
+        dateObj.second,
+      );
+      String futureFormatted = DateFormat('dd MMM yyyy').format(futureDate);
+      print('Formatted: $formatted');
+
+      return [formatted, futureFormatted];
+    } catch (e) {
+      // Handle parsing errors by returning a default or current date
+      DateTime now = DateTime.now();
+      String formatted = DateFormat('dd MMM yyyy').format(now);
+      DateTime futureDate = DateTime(now.year, now.month + 4, now.day);
+      String futureFormatted = DateFormat('dd MMM yyyy').format(futureDate);
+
+      print('Error processing date: $dateString'); // For debugging
+      return [formatted, futureFormatted];
+    }
+  }
+
+  List<dynamic> isOneMonthPassed(String dateString) {
+    // Parse the date string
+    List<String> parts = dateString.split('T');
+
+    String datePart = parts[0]; // "2012-02-27"
+    String timePart = parts[1];
+    String newTimePart = timePart.replaceAll("-", ":");
+    String newDateString = "$datePart $newTimePart";
+
+    DateTime assessmentDate = DateTime.parse(newDateString);
+
+    // Get current date
+    final currentDate = DateTime.now();
+
+    // Calculate one month after the assessment date
+    DateTime oneMonthAfter;
+
+    // Handle month rollover properly
+    if (assessmentDate.month == 12) {
+      // If December, move to January of next year
+      oneMonthAfter = DateTime(assessmentDate.year + 1, 1, assessmentDate.day <= DateTime(assessmentDate.year + 1, 1 + 1, 0).day ? assessmentDate.day : DateTime(assessmentDate.year + 1, 1 + 1, 0).day,
+          assessmentDate.hour, assessmentDate.minute, assessmentDate.second);
+    } else {
+      // For other months
+      oneMonthAfter = DateTime(
+          assessmentDate.year,
+          assessmentDate.month + 1,
+          assessmentDate.day <= DateTime(assessmentDate.year, assessmentDate.month + 2, 0).day ? assessmentDate.day : DateTime(assessmentDate.year, assessmentDate.month + 2, 0).day,
+          assessmentDate.hour,
+          assessmentDate.minute,
+          assessmentDate.second);
+    }
+
+    // Format the date as "20 March 2025"
+    List<String> months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+    String formattedDate = "${oneMonthAfter.day} ${months[oneMonthAfter.month - 1]} ${oneMonthAfter.year}";
+
+    // Check if current date is after one month since assessment
+    bool isPassed = currentDate.isAfter(oneMonthAfter);
+
+    // Return both the boolean result and the formatted date
+    return [isPassed, formattedDate];
+  }
+
   bool getNoSurveyData() {
     return state.noSurveyData;
+  }
+
+  void resetToInitialState() {
+    state = MetricsDataState.init();
   }
 }

@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:platform_front/components/dashboard/companyInfo/companyInfoBody.dart';
-import 'package:platform_front/components/dashboard/createAssessment/createAssessmentBody.dart';
+import 'package:platform_front/components/dashboard/createAssessment/create/createAssessmentBody.dart';
+import 'package:platform_front/components/dashboard/createAssessment/current/current_assessment_body.dart';
 import 'package:platform_front/components/dashboard/home/homeScreenBody.dart';
+import 'package:platform_front/components/dashboard/howTo/how_to_body.dart';
 import 'package:platform_front/components/dashboard/impact/impact_body.dart';
 import 'package:platform_front/components/dashboard/results/resultsBody.dart';
-import 'package:platform_front/components/errorScreen/errorScreen.dart';
+import 'package:platform_front/components/global/errorScreen/errorScreen.dart';
 import 'package:platform_front/firebase_options.dart';
 import 'package:go_router/go_router.dart';
 import 'package:platform_front/mainSections/authscreen.dart';
@@ -41,6 +43,14 @@ GoRouter setupRouter() {
             pageBuilder: (context, state) {
               return NoTransitionPage(
                 child: CreateAssessmentBody(),
+              );
+            },
+          ),
+          GoRoute(
+            path: '/currentAssessment',
+            pageBuilder: (context, state) {
+              return const NoTransitionPage(
+                child: CurrentAssessmentBody(),
               );
             },
           ),
@@ -84,6 +94,14 @@ GoRouter setupRouter() {
               );
             },
           ),
+          GoRoute(
+            path: '/howTo',
+            pageBuilder: (context, state) {
+              return NoTransitionPage(
+                child: HowToBody(),
+              );
+            },
+          ),
         ],
       ),
       GoRoute(
@@ -103,7 +121,7 @@ GoRouter setupRouter() {
       }
 
       if (state.extra == null) {
-        // Log user out if he reloads page. 
+        // Log user out if he reloads page. Always include an extra state if navigating using navigator. thus if reload you can notice it
         await FirebaseAuth.instance.signOut();
         return '/auth';
       }
@@ -135,7 +153,6 @@ class App extends StatelessWidget {
     return MaterialApp.router(
       scaffoldMessengerKey: SnackBarService.scaffoldKey,
       routerConfig: NavigationService.router,
-      
     );
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:platform_front/components/buttons/CallToActionButton.dart';
-import 'package:platform_front/components/buttons/secondaryButton.dart';
+import 'package:platform_front/components/global/buttons/CallToActionButton.dart';
+import 'package:platform_front/components/global/buttons/secondaryButton.dart';
 
 class NoDataTopBanner extends StatelessWidget {
   const NoDataTopBanner({

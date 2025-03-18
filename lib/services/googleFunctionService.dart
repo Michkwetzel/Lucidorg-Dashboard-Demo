@@ -1,9 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:platform_front/config/constants.dart';
+import 'package:platform_front/notifiers/assessment/currentAssessment/reminderEmailTemplateProvider.dart';
 import 'package:platform_front/notifiers/userResultsData/userResultsData.dart';
-import 'package:platform_front/notifiers/createAssessment/emailListNotifer.dart';
-import 'package:platform_front/notifiers/createAssessment/emailTemplateNotifer.dart';
+import 'package:platform_front/notifiers/assessment/createAssessment/emailListNotifer.dart';
+import 'package:platform_front/notifiers/assessment/createAssessment/emailTemplateNotifer.dart';
 import 'package:platform_front/notifiers/userProfileData/userProfileData.dart';
 import 'package:platform_front/services/httpService.dart';
 
@@ -25,12 +26,15 @@ class GoogleFunctionService extends StateNotifier<GoogleFunctionServiceState> {
   final Logger logger = Logger("Googlefunctionservice");
   final EmailListNotifier _emailListNotifier;
   final EmailTemplateNotifer _emailTemplateNotifier;
+  final ReminderEmailTemplateNotifer _reminderEmailTemplateNotifer;
   final UserProfileDataNotifier _userDataNotifier;
 
   List<String> get ceoEmails => _emailListNotifier.state.emailsCeo;
   List<String> get cSuiteEmails => _emailListNotifier.state.emailsCSuite;
   List<String> get employeeEmails => _emailListNotifier.state.emailsEmployee;
   String get emailTemplate => _emailTemplateNotifier.state.templateBody;
+  String? get reminderTemplate => _reminderEmailTemplateNotifer.state.templateBody;
+  String? get reminderSubject => _reminderEmailTemplateNotifer.state.subject;
   String? get userUID => _userDataNotifier.state.userUID;
   String? get companyUID => _userDataNotifier.state.companyUID;
   String? get subject => _emailTemplateNotifier.state.subject;
@@ -40,10 +44,12 @@ class GoogleFunctionService extends StateNotifier<GoogleFunctionServiceState> {
       {required EmailListNotifier emailListNotifier,
       required EmailTemplateNotifer emailTemplateNotifier,
       required UserProfileDataNotifier userDataNotifier,
-      required UserResultsData activeAssessmentDataNotifier})
+      required UserResultsData activeAssessmentDataNotifier,
+      required ReminderEmailTemplateNotifer reminderEmailTemplateNotifer})
       : _emailListNotifier = emailListNotifier,
         _emailTemplateNotifier = emailTemplateNotifier,
         _userDataNotifier = userDataNotifier,
+        _reminderEmailTemplateNotifer = reminderEmailTemplateNotifer,
         super(GoogleFunctionServiceState());
 
   Future<dynamic> verifyAuthToken({required String authToken}) {
@@ -72,7 +78,6 @@ class GoogleFunctionService extends StateNotifier<GoogleFunctionServiceState> {
         'guest': guest
       };
 
-      print(request);
       await HttpService.postRequest(path: kCreateAssessmentPath, request: request);
       state = state.copyWith(loadingMessage: 'Loading!', loading: false);
     } on Exception {
@@ -87,8 +92,14 @@ class GoogleFunctionService extends StateNotifier<GoogleFunctionServiceState> {
 
   Future<void> sendEmailReminder() async {
     try {
-      await HttpService.postRequest(path: ksendEmailReminderPath, request: {'currentSurvey': latestDocName, 'companyUID': companyUID});
+      await HttpService.postRequest(path: ksendEmailReminderPath, request: {
+        'currentSurvey': latestDocName,
+        'companyUID': companyUID,
+        'emailTemplate': reminderTemplate,
+        'subject': reminderSubject,
+      });
     } on Exception catch (e) {
+      logger.severe('Error sending email reminder');
     }
   }
 
