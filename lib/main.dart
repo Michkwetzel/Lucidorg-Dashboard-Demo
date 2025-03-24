@@ -129,11 +129,11 @@ GoRouter setupRouter() {
         return '/auth';
       }
 
-      if (state.extra == null) {
-        // Log user out if he reloads page. Always include an extra state if navigating using navigator. thus if reload you can notice it
-        await FirebaseAuth.instance.signOut();
-        return '/auth';
-      }
+      // if (state.extra == null) {
+      //   // Log user out if he reloads page. Always include an extra state if navigating using navigator. thus if reload you can notice it
+      //   await FirebaseAuth.instance.signOut();
+      //   return '/auth';
+      // }
       return null;
     },
   );
