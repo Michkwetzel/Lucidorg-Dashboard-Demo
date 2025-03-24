@@ -1,6 +1,7 @@
 import 'dart:html' as html;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:platform_front/components/global/buttons/CallToActionButton.dart';
 import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/config/providers.dart';
@@ -37,7 +38,17 @@ class TopActionBanner extends ConsumerWidget {
         borderColor = Color(0xFFBEBEBE);
         backgroundColor = Colors.white;
       } else if (!metricsState.canSendNewAssessment) {
-        text = "Assessments are limited to one per month. You can send another assessment after:";
+        SurveyMetric metric = metricsState.surveyMetric;
+        String startDate = metric.surveyStartDate;
+
+        DateTime date = DateFormat("d MMM yyy").parse(startDate);
+
+        // Now you can add months
+        DateTime newDate = DateTime(date.year, date.month + 1, date.day);
+
+        // Format back to string if needed
+        String newDateString = DateFormat("d MMM yyyy").format(newDate);
+        text = "Assessments are limited to one per month. You can send another assessment after: $newDateString";
         buttonText = "Send Reminder";
         borderColor = Colors.purple[300]!;
       }

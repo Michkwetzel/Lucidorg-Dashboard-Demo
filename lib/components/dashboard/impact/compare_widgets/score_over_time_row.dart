@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/components/dashboard/impact/compare_widgets/change_score_diff_box.dart';
-import 'package:platform_front/components/dashboard/impact/main_view/score_over_time/score_over_time_MV.dart';
-import 'package:platform_front/components/global/score_boxes/diff_box.dart';
-import 'package:platform_front/components/global/score_boxes/score_box.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/config/providers.dart';
@@ -92,6 +89,6 @@ class CompareScoreMiddleBox extends StatelessWidget {
         ),
       ),
     );
-    ;
+    
   }
 }

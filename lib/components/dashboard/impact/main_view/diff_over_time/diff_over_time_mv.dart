@@ -93,10 +93,7 @@ class DiffOverTimeMv extends ConsumerWidget {
             SizedBox(
               height: 8,
             ),
-            OverallScoreOverTimeRow(
-              type: Compare.diff,
-              indicator: Indicator.companyIndex,
-            )
+            ScoreOverTimeRow(indicator: Indicator.companyIndex, type: Compare.diff),
           ],
         ),
       ),

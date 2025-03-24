@@ -43,15 +43,15 @@ extension Value on Finance {
   double get d {
     switch (this) {
       case Finance.profit:
-        return -3;
+        return 3;
       case Finance.cost:
-        return -3;
+        return 3;
       case Finance.margin:
-        return -3;
+        return 3;
       case Finance.productivity:
-        return -3;
+        return 3;
       case Finance.turnover:
-        return -3;
+        return 3;
     }
   }
 }
@@ -150,6 +150,7 @@ enum Indicator {
 
 List<Indicator> justIndicators() {
   return [
+    Indicator.companyIndex,
     Indicator.orgAlign,
     Indicator.growthAlign,
     Indicator.collabKPIs,
