@@ -151,32 +151,34 @@ class _CompanyInfoBodyState extends ConsumerState<CompanyInfoBody> {
                   child: Align(
                       alignment: Alignment.centerRight,
                       child: CallToActionButton(
-                          onPressed: ref.read(userDataProvider.notifier).permission == Permission.guest ? null : () async {
-                            if (_formKey.currentState!.validate()) {
-                              setState(() {
-                                loading = true;
-                              });
-                              final Map<String, String> formData = {
-                                'companyName': companyNameController.text,
-                                'numEmployees': numEmployees,
-                                'fundingStage': fundingStage,
-                                'industry': industry,
-                                'region': region,
-                              };
-                              try {
-                                await ref.read(companyInfoProvider.notifier).saveCompanyInfo(formData);
-                                SnackBarService.showMessage("Company info successfully saved", Colors.green, duration: 2);
-                                setState(() {
-                                  loading = false;
-                                });
-                              } on Exception catch (e) {
-                                setState(() {
-                                  loading = false;
-                                });
-                                SnackBarService.showMessage("Error while saving companyInfo", Colors.red, duration: 3);
-                              }
-                            }
-                          },
+                          onPressed: ref.read(userDataProvider.notifier).permission == Permission.guest
+                              ? null
+                              : () async {
+                                  if (_formKey.currentState!.validate()) {
+                                    setState(() {
+                                      loading = true;
+                                    });
+                                    final Map<String, String> formData = {
+                                      'companyName': companyNameController.text,
+                                      'numEmployees': numEmployees,
+                                      'fundingStage': fundingStage,
+                                      'industry': industry,
+                                      'region': region,
+                                    };
+                                    try {
+                                      await ref.read(companyInfoProvider.notifier).saveCompanyInfo(formData);
+                                      SnackBarService.showMessage("Company info successfully saved", Colors.green, duration: 2);
+                                      setState(() {
+                                        loading = false;
+                                      });
+                                    } on Exception catch (e) {
+                                      setState(() {
+                                        loading = false;
+                                      });
+                                      SnackBarService.showMessage("Error while saving companyInfo", Colors.red, duration: 3);
+                                    }
+                                  }
+                                },
                           buttonText: "Save")))
             ],
           ),

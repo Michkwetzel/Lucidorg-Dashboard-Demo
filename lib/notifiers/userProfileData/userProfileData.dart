@@ -11,6 +11,7 @@ class UserProfileState {
   final String? companyUID;
   final Permission? permission;
   final String? latestSurveyDocName;
+  bool initLoad = true;
 
   UserProfileState({this.userUID, this.permission, this.companyUID, this.email, this.latestSurveyDocName});
 
@@ -30,13 +31,23 @@ class UserProfileDataNotifier extends StateNotifier<UserProfileState> {
 
   final UserResultsData userResultsData;
 
-  UserProfileDataNotifier({required this.userResultsData}) : super(UserProfileState());
+  UserProfileDataNotifier({required this.userResultsData}) : super(UserProfileState()) {
+    initialStateSetup();
+  }
+
+  Future<void> initialStateSetup() async {
+    state.initLoad = true;
+    User? user = FirebaseAuth.instance.currentUser;
+    await getUserInfo(user);
+    state.initLoad = false;
+  }
 
   String? get userUID => state.userUID;
   Permission? get permission => state.permission;
   String? get companyUID => state.companyUID;
   String? get email => state.email;
   String? get latestSurveyDocName => state.latestSurveyDocName;
+  bool get initLoad => state.initLoad;
 
   Future<void> getUserInfo(User? user) async {
     try {

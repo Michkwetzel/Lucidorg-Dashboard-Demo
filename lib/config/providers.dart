@@ -199,7 +199,7 @@ final financeModelProvider = StateNotifierProvider<FinanceModelNotifer, FinanceM
   return FinanceModelNotifer(metricsDataProvider: metricsDataNotifer);
 });
 
-final exportStatusProvider = StateNotifierProvider<ExportStatusNotifier, ExportState>((ref) {
+final exportStatusProvider = StateNotifierProvider<ExportStatusNotifier, ExportStatus>((ref) {
   return ExportStatusNotifier();
 });
 

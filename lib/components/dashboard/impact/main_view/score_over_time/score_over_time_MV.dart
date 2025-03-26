@@ -25,9 +25,6 @@ class ScoreOverTimeMV extends ConsumerWidget {
       surveyDisplayNames.add(value.value.surveyStartDate);
     }
 
-    print('$surveyDevNames');
-    print('$surveyDisplayNames');
-
     return BlurOverlay(
       message: "We need atleast 2 surveys to show Score Comparison",
       blur: ref.watch(scoreCompareProvider).blur,

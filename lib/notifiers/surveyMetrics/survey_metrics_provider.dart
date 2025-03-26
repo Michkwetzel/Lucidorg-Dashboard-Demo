@@ -19,6 +19,7 @@ class MetricsDataState {
   final bool showPopUp;
   final bool testData;
   final bool canSendNewAssessment;
+  bool initLoad;
 
   MetricsDataState({
     required this.surveyMetric,
@@ -31,6 +32,7 @@ class MetricsDataState {
     required this.showPopUp,
     required this.testData,
     required this.canSendNewAssessment,
+    this.initLoad = false,
   });
 
   factory MetricsDataState.init() {
@@ -80,7 +82,16 @@ class MetricsDataProvider extends StateNotifier<MetricsDataState> {
     required this.userProfileData,
     required this.scoreCompareProvider,
     required this.currentAssessmentProvider,
-  }) : super(MetricsDataState.init());
+  }) : super(MetricsDataState.init()) {
+    initialStateSetup();
+  }
+
+  Future<void> initialStateSetup() async {
+    if (userProfileData.initLoad) {
+      Future.delayed(Duration(seconds: 2));
+      await getSurveyData();
+    }
+  }
 
   Logger logger = Logger('SurveyMetricsProvider');
 

@@ -560,7 +560,6 @@ class SurveyMetric {
       indicators.add(indicator.key);
     }
 
-    print("Impact Chart Indicators: ${indicators.toString()}");
     return indicators;
   }
 
