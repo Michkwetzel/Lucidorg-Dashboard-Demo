@@ -7,6 +7,8 @@ import 'package:platform_front/notifiers/assessment/currentAssessment/reminderEm
 import 'package:platform_front/notifiers/assessment/toggle_sub_menu_provider.dart';
 import 'package:platform_front/notifiers/auth/authLoadState.dart';
 import 'package:platform_front/notifiers/auth/emailPasswordProvider.dart';
+import 'package:platform_front/notifiers/exportPDF/exportStatusNotifier.dart';
+import 'package:platform_front/notifiers/exportPDF/exportWidgetsNotifier.dart';
 import 'package:platform_front/notifiers/financials/finance_model_notifer.dart';
 import 'package:platform_front/notifiers/impact/impact_display_notifier.dart';
 import 'package:platform_front/notifiers/loading/loadingNotifer.dart';
@@ -195,4 +197,13 @@ final toggleSubMenuProvider = StateNotifierProvider<ToggleSubMenuProvider, bool>
 final financeModelProvider = StateNotifierProvider<FinanceModelNotifer, FinanceModelState>((ref) {
   final metricsDataNotifer = ref.watch(metricsDataProvider.notifier);
   return FinanceModelNotifer(metricsDataProvider: metricsDataNotifer);
+});
+
+final exportStatusProvider = StateNotifierProvider<ExportStatusNotifier, ExportStatus>((ref) {
+  return ExportStatusNotifier();
+});
+
+final exportsWidgetsProvider = StateNotifierProvider<ExportsWidgetNotifier, ExportsWidgetState>((ref) {
+  final exportStatusNotifier = ref.watch(exportStatusProvider.notifier);
+  return ExportsWidgetNotifier(exportStatusNotifier: exportStatusNotifier);
 });

@@ -56,22 +56,31 @@ class ScoreCompareState {
       topScoreImprove: topScoreImprove ?? this.topScoreImprove,
     );
   }
+
+  factory ScoreCompareState.initial() {
+    SurveyMetric survey1 = SurveyMetric.loadBlurredData(surveyStartDate: '25 March 2025');
+    SurveyMetric survey2 = SurveyMetric.loadDefaultValues();
+
+    return ScoreCompareState(
+        blur: true,
+        survey1Data: survey1,
+        survey2Data: survey2,
+        diffChange: {},
+        scoreChange: {},
+        allComparableSurveys: {'Q1 2025': survey1, 'Q2 2025': survey2},
+        topDiffImprove: [],
+        topDiffDecline: [],
+        topScoreImprove: [],
+        topScoreDecline: []);
+  }
 }
 
 class ScoreCompareNotifier extends StateNotifier<ScoreCompareState> {
   ScoreCompareNotifier()
       //Set Default empty state
-      : super(ScoreCompareState(
-            blur: true,
-            survey1Data: SurveyMetric.empty(),
-            survey2Data: SurveyMetric.empty(),
-            diffChange: {},
-            scoreChange: {},
-            allComparableSurveys: {},
-            topDiffImprove: [],
-            topDiffDecline: [],
-            topScoreImprove: [],
-            topScoreDecline: []));
+      : super(ScoreCompareState.initial()) {
+    calculateChange();
+  }
 
   Logger logger = Logger('ScoreCompareNotifier');
 

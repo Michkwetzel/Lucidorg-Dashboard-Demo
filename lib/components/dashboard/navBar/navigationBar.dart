@@ -187,6 +187,15 @@ class _NavBarState extends ConsumerState<NavBar> {
                             ),
                             NavBarButton(
                               onTap: () {
+                                ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.results);
+                                NavigationService.navigateTo('/export');
+                              },
+                              icon: Icons.assessment,
+                              label: 'Export',
+                              buttonType: NavBarButtonType.results,
+                            ),
+                            NavBarButton(
+                              onTap: () {
                                 ref.read(authfirestoreserviceProvider.notifier).signOutUser();
                                 ref.read(metricsDataProvider.notifier).resetToInitialState();
                                 ref.read(currentEmailListProvider.notifier).clearEmails();

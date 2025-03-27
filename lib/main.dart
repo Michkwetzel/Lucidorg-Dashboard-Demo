@@ -6,6 +6,7 @@ import 'package:logging/logging.dart';
 import 'package:platform_front/components/dashboard/companyInfo/companyInfoBody.dart';
 import 'package:platform_front/components/dashboard/createAssessment/create/createAssessmentBody.dart';
 import 'package:platform_front/components/dashboard/createAssessment/current/current_assessment_body.dart';
+import 'package:platform_front/components/dashboard/export/export_main_layout.dart';
 import 'package:platform_front/components/dashboard/home/homeScreenBody.dart';
 import 'package:platform_front/components/dashboard/howTo/how_to_body.dart';
 import 'package:platform_front/components/dashboard/impact/impact_body.dart';
@@ -102,6 +103,14 @@ GoRouter setupRouter() {
               );
             },
           ),
+          GoRoute(
+            path: '/export',
+            pageBuilder: (context, state) {
+              return NoTransitionPage(
+                child: ExportMainLayout(),
+              );
+            },
+          ),
         ],
       ),
       GoRoute(
@@ -120,11 +129,11 @@ GoRouter setupRouter() {
         return '/auth';
       }
 
-      if (state.extra == null) {
-        // Log user out if he reloads page. Always include an extra state if navigating using navigator. thus if reload you can notice it
-        await FirebaseAuth.instance.signOut();
-        return '/auth';
-      }
+      // if (state.extra == null) {
+      //   // Log user out if he reloads page. Always include an extra state if navigating using navigator. thus if reload you can notice it
+      //   await FirebaseAuth.instance.signOut();
+      //   return '/auth';
+      // }
       return null;
     },
   );

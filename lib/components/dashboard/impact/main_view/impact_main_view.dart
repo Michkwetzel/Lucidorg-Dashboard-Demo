@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:platform_front/components/global/buttons/CallToActionButton.dart';
-import 'package:platform_front/components/global/buttons/secondaryButton.dart';
+import 'package:platform_front/components/dashboard/impact/main_view/buttons/impact_top_button_row.dart';
 import 'package:platform_front/components/dashboard/impact/main_view/diff_over_time/diff_over_time_mv.dart';
 import 'package:platform_front/components/dashboard/impact/main_view/financial/financial_mv.dart';
 import 'package:platform_front/components/dashboard/impact/main_view/org_impact/org_impact_main_view.dart';
@@ -52,42 +51,5 @@ class ImpactMainView extends ConsumerWidget {
         ],
       ),
     );
-  }
-}
-
-class ImpactTopButtonRow extends StatelessWidget {
-  const ImpactTopButtonRow({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      spacing: 32,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        SizedBox(width: 32),
-        ImpactViewRadioButton(buttonText: 'Org Impact', section: ImpactSection.orgImpact),
-        ImpactViewRadioButton(buttonText: 'Financial', section: ImpactSection.financial),
-        ImpactViewRadioButton(buttonText: 'Score over time', section: ImpactSection.scoreOverTime),
-        ImpactViewRadioButton(buttonText: 'Diff over time', section: ImpactSection.diffOverTime),
-      ],
-    );
-  }
-}
-
-class ImpactViewRadioButton extends ConsumerWidget {
-  final String buttonText;
-  final ImpactSection section;
-
-  const ImpactViewRadioButton({super.key, required this.buttonText, required this.section});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    ImpactSection selectedSection = ref.watch(impactSelectedSectionProvider);
-
-    if (selectedSection == section) {
-      return CallToActionButton(onPressed: () {}, buttonText: buttonText);
-    } else {
-      return Secondarybutton(onPressed: () => ref.read(impactSelectedSectionProvider.notifier).setDisplay(section), buttonText: buttonText);
-    }
   }
 }

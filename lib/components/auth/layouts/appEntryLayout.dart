@@ -7,7 +7,6 @@ import 'package:platform_front/components/global/buttons/secondaryButton.dart';
 import 'package:platform_front/config/constants.dart';
 import 'package:platform_front/config/enums.dart';
 import 'package:platform_front/config/providers.dart';
-import 'package:platform_front/components/auth/layouts/enterEmailPasswordLayout.dart';
 import 'package:platform_front/components/auth/layouts/userTypeSelectionLayout.dart';
 import 'package:platform_front/services/microServices/navigationService.dart';
 import 'package:platform_front/services/microServices/snackBarService.dart';

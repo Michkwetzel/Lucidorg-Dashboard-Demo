@@ -47,7 +47,7 @@ class ImpactGraphKey extends StatelessWidget {
           children: [
             Text(
               'KEY | ',
-              style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w600),
+              style: TextStyle(color: Colors.black, fontFamily: 'Open Sans', fontWeight: FontWeight.w600, fontSize: 14),
             ),
             Text('ORG IMPACT MAGNITUDE'),
           ],
@@ -122,7 +122,6 @@ class ImpactChart extends ConsumerWidget {
     List<ImpactCircle> circlesToShow = [];
 
     for (Indicator indicator in indicatorsToShow) {
-      print(indicator.heading);
       double diff = displayData.diffScores[indicator]!;
       double score = displayData.companyBenchmarks[indicator]!;
       circlesToShow.add(ImpactCircle(indicator: indicator, score: score, diff: diff));

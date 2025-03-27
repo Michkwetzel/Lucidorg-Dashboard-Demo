@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:logging/logging.dart';
 import 'package:platform_front/components/dashboard/companyInfo/styledDropdown.dart';
-import 'package:platform_front/components/dashboard/impact/compare_widgets/overall_score_over_time_row.dart';
 import 'package:platform_front/components/dashboard/impact/compare_widgets/score_over_time_row.dart';
 import 'package:platform_front/components/global/blurOverlay.dart';
 import 'package:platform_front/components/global/grayDivider.dart';
@@ -26,9 +24,6 @@ class ScoreOverTimeMV extends ConsumerWidget {
       surveyDevNames.add(value.key);
       surveyDisplayNames.add(value.value.surveyStartDate);
     }
-
-    print('$surveyDevNames');
-    print('$surveyDisplayNames');
 
     return BlurOverlay(
       message: "We need atleast 2 surveys to show Score Comparison",
@@ -98,10 +93,7 @@ class ScoreOverTimeMV extends ConsumerWidget {
             SizedBox(
               height: 8,
             ),
-            OverallScoreOverTimeRow(
-              type: Compare.score,
-              indicator: Indicator.companyIndex,
-            )
+            ScoreOverTimeRow(indicator: Indicator.companyIndex, type: Compare.score),
           ],
         ),
       ),
