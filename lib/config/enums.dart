@@ -141,7 +141,6 @@ enum Indicator {
   companyIndex,
   workforce,
   operations,
-  general,
   align,
   process,
   leadership,

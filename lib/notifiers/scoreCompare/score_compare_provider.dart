@@ -62,7 +62,7 @@ class ScoreCompareState {
     SurveyMetric survey2 = SurveyMetric.loadDefaultValues();
 
     return ScoreCompareState(
-        blur: false,
+        blur: true,
         survey1Data: survey1,
         survey2Data: survey2,
         diffChange: {},

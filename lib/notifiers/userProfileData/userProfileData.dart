@@ -32,7 +32,7 @@ class UserProfileDataNotifier extends StateNotifier<UserProfileState> {
   final UserResultsData userResultsData;
 
   UserProfileDataNotifier({required this.userResultsData}) : super(UserProfileState()) {
-    initialStateSetup();
+    // initialStateSetup();
   }
 
   Future<void> initialStateSetup() async {

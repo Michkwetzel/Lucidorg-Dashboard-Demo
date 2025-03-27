@@ -74,7 +74,6 @@ class SurveyMetric {
       Indicator.engagedCommunity: 66.7,
       Indicator.collabProcesses: 50.0,
       Indicator.process: 73.0,
-      Indicator.general: 44.0,
       Indicator.purposeDriven: 83.3,
       Indicator.operations: 67.1,
       Indicator.empoweredLeadership: 33.3
@@ -85,7 +84,6 @@ class SurveyMetric {
       Indicator.meetingEfficacy: 91.7,
       Indicator.companyIndex: 61.2,
       Indicator.leadership: 61.9,
-      Indicator.general: 52.0,
       Indicator.engagedCommunity: 83.3,
       Indicator.collabKPIs: 50.0,
       Indicator.process: 69.8,
@@ -109,7 +107,6 @@ class SurveyMetric {
       Indicator.collabProcesses: 55.6,
       Indicator.engagedCommunity: 55.6,
       Indicator.operations: 55.1,
-      Indicator.general: 46.7,
       Indicator.crossFuncAcc: 55.6,
       Indicator.empoweredLeadership: 55.6,
       Indicator.align: 58.1,
@@ -139,7 +136,6 @@ class SurveyMetric {
       Indicator.companyIndex: 55.9,
       Indicator.workforce: 55.4,
       Indicator.operations: 58.3,
-      Indicator.general: 47.8,
       Indicator.align: 58.3,
       Indicator.process: 58.2,
       Indicator.leadership: 57.3,
@@ -161,7 +157,6 @@ class SurveyMetric {
       Indicator.companyIndex: 7.3,
       Indicator.workforce: 6.1,
       Indicator.operations: 12.0,
-      Indicator.general: 8.0,
       Indicator.align: 0.8,
       Indicator.process: 19.9,
       Indicator.leadership: 9.0,
@@ -212,7 +207,6 @@ class SurveyMetric {
       Indicator.engagedCommunity: 72.9,
       Indicator.collabProcesses: 58.6,
       Indicator.process: 77.8,
-      Indicator.general: 48.5,
       Indicator.purposeDriven: 86.2,
       Indicator.operations: 69.7,
       Indicator.empoweredLeadership: 40.8
@@ -223,7 +217,6 @@ class SurveyMetric {
       Indicator.meetingEfficacy: 87.3,
       Indicator.companyIndex: 2.5,
       Indicator.leadership: 65.2,
-      Indicator.general: 55.1,
       Indicator.engagedCommunity: 80.6,
       Indicator.collabKPIs: 60.2,
       Indicator.process: 74.4,
@@ -247,7 +240,6 @@ class SurveyMetric {
       Indicator.collabProcesses: 59.4,
       Indicator.engagedCommunity: 59.2,
       Indicator.operations: 59.8,
-      Indicator.general: 50.2,
       Indicator.crossFuncAcc: 58.7,
       Indicator.empoweredLeadership: 61.3,
       Indicator.align: 62.8,
@@ -277,7 +269,6 @@ class SurveyMetric {
       Indicator.companyIndex: 2.7,
       Indicator.workforce: 61.4,
       Indicator.operations: 63.9,
-      Indicator.general: 51.3,
       Indicator.align: 63.9,
       Indicator.process: 65.1,
       Indicator.leadership: 60.7,
@@ -300,7 +291,6 @@ class SurveyMetric {
       Indicator.companyIndex: 0.8, // |3.1 - 2.3| = 0.8
       Indicator.workforce: 9.3, // |66.7 - 57.4| = 9.3
       Indicator.operations: 9.9, // |69.7 - 59.8| = 9.9
-      Indicator.general: 6.6, // |55.1 - 48.5| = 6.6
       Indicator.align: 2.9, // |65.7 - 62.8| = 2.9
       Indicator.process: 20.7, // |77.8 - 57.1| = 20.7
       Indicator.leadership: 6.8, // |65.2 - 58.4| = 6.8
@@ -480,7 +470,6 @@ class SurveyMetric {
         Indicator.process,
         Indicator.leadership,
         Indicator.companyIndex,
-        Indicator.general,
         Indicator.workforce,
         Indicator.operations,
       ];

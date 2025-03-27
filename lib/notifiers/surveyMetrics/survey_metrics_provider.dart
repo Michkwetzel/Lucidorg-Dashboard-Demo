@@ -83,7 +83,7 @@ class MetricsDataProvider extends StateNotifier<MetricsDataState> {
     required this.scoreCompareProvider,
     required this.currentAssessmentProvider,
   }) : super(MetricsDataState.init()) {
-    initialStateSetup();
+    // initialStateSetup();
   }
 
   Future<void> initialStateSetup() async {
@@ -189,6 +189,7 @@ class MetricsDataProvider extends StateNotifier<MetricsDataState> {
         }
         //Init loading of score/diff compare result section
         scoreCompareProvider.initLoad();
+
         // Get latest survey
         // Check participation rate and set accordingly
         SurveyMetric latestSurvey = globalMetricsData.getSurveyMetric(userProfileData.latestSurveyDocName!);
