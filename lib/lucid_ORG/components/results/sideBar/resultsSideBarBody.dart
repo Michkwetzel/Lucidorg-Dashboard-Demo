@@ -6,7 +6,7 @@ import 'package:platform_front/lucid_ORG/components/results/sideBar/sections/ind
 import 'package:platform_front/lucid_ORG/components/results/sideBar/sections/diif_matrix_sb/diff_matrix_side_bar.dart';
 import 'package:platform_front/lucid_ORG/components/results/sideBar/sections/overview_sb/overview_side_bar.dart';
 import 'package:platform_front/lucid_ORG/components/results/sideBar/sections/foundations_sb.dart';
-import 'package:platform_front/global_components/blurOverlay.dart';
+import 'package:platform_front/global_components/blur_overlay.dart';
 import 'package:platform_front/core_config/constants.dart';
 import 'package:platform_front/lucid_ORG/config/enums_org.dart';
 import 'package:platform_front/lucid_ORG/config/providers_org.dart';

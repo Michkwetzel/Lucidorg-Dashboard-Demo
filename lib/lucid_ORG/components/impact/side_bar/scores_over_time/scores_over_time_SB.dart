@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/lucid_ORG/components/impact/compare_widgets/change_score_diff_box.dart';
-import 'package:platform_front/global_components/blurOverlay.dart';
-import 'package:platform_front/global_components/grayDivider.dart';
+import 'package:platform_front/global_components/blur_overlay.dart';
+import 'package:platform_front/global_components/gray_divider.dart';
 
 import 'package:platform_front/core_config/constants.dart';
 import 'package:platform_front/lucid_ORG/config/enums_org.dart';

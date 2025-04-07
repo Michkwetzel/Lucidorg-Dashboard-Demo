@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/lucid_ORG/config/enums_org.dart';
-import 'package:platform_front/auth/userProfileData/userProfileData.dart';
+import 'package:platform_front/auth/user_profile_data/userProfileData.dart';
 
 class CurrentEmailListState {
   final List<String> emailsCeo;

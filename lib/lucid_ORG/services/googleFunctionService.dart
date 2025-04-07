@@ -5,7 +5,7 @@ import 'package:platform_front/lucid_ORG/notifiers/assessment/currentAssessment/
 import 'package:platform_front/lucid_ORG/notifiers/userResultsData/userResultsData.dart';
 import 'package:platform_front/lucid_ORG/notifiers/assessment/createAssessment/emailListNotifer.dart';
 import 'package:platform_front/lucid_ORG/notifiers/assessment/createAssessment/emailTemplateNotifer.dart';
-import 'package:platform_front/auth/userProfileData/userProfileData.dart';
+import 'package:platform_front/auth/user_profile_data/userProfileData.dart';
 import 'package:platform_front/lucid_ORG/services/httpService.dart';
 
 class GoogleFunctionServiceState {

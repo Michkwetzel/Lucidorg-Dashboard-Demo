@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:platform_front/global_components/grayDivider.dart';
+import 'package:platform_front/global_components/gray_divider.dart';
 import 'package:platform_front/core_config/constants.dart';
 import 'package:platform_front/lucid_ORG/config/enums_org.dart';
 import 'package:platform_front/lucid_ORG/config/providers_org.dart';
@@ -79,8 +79,27 @@ class _HeadingSliderWidgetState extends ConsumerState<HeadingSliderWidget> {
 
   @override
   void initState() {
-    sliderValue = ref.read(financeModelProvider.notifier).getCurrentValue(widget.indicator)*100;
+    // start with default
+    sliderValue = widget.value;
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    final currentValue = ref.read(financeModelProvider.notifier).getCurrentValue(widget.indicator);
+
+    try {
+      print("current Value: $currentValue");
+      if (currentValue != null) {
+        setState(() {
+          sliderValue = currentValue * 100;
+        });
+      }
+    } catch (e) {
+      print("Not ready");
+    }
   }
 
   @override
@@ -99,7 +118,7 @@ class _HeadingSliderWidgetState extends ConsumerState<HeadingSliderWidget> {
           child: Slider(
               activeColor: Color(0xFFB9D08F),
               label: sliderValue.toString(),
-              divisions: 5,
+              divisions: null,
               value: sliderValue,
               min: 0,
               max: 100,

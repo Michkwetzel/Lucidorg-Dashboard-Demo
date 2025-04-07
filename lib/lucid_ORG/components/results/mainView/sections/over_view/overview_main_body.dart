@@ -4,8 +4,8 @@ import 'package:platform_front/lucid_ORG/components/results/mainView/sections/ov
 import 'package:platform_front/core_config/constants.dart';
 import 'package:platform_front/lucid_ORG/config/enums_org.dart';
 import 'package:platform_front/lucid_ORG/config/providers_org.dart';
-import 'package:platform_front/lucid_ORG/dataClasses/all_indicator_data.dart';
-import 'package:platform_front/lucid_ORG/dataClasses/indicator_data.dart';
+import 'package:platform_front/lucid_ORG/data_classes/all_indicator_data.dart';
+import 'package:platform_front/lucid_ORG/data_classes/indicator_data.dart';
 import 'package:platform_front/lucid_ORG/notifiers/surveyMetrics/metrics_data.dart';
 
 class OverviewMainView extends StatelessWidget {

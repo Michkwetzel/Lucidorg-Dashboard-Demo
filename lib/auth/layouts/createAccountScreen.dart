@@ -42,9 +42,9 @@ class _CreateAccountScreen extends ConsumerState<CreateAccountScreen> {
         }
 
         await ref.read(metricsDataProvider.notifier).getSurveyData();
-        ref.read(financeModelProvider.notifier).calculateInitialValues();
+        ref.read(financeModelProvider.notifier).calculateInitValues();
         ref.read(companyInfoService.notifier).getCompanyInfo();
-        NavigationService.navigateTo('/home');
+        NavigationService.navigateTo('/home_org');
         ref.read(authDisplayProvider.notifier).changeDisplay(const AppEntryLayout());
       } on Exception catch (e) {
         setState(() {

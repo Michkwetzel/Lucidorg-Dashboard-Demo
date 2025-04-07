@@ -41,7 +41,7 @@ class EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLayo
     await ref.read(userDataProvider.notifier).getUserInfo(ref.read(authfirestoreserviceProvider));
     ref.read(metricsDataProvider.notifier).getSurveyData();
 
-    NavigationService.navigateTo('/home');
+    NavigationService.navigateTo('/home_org');
     ref.read(authDisplayProvider.notifier).changeDisplay(const AppEntryLayout());
   }
 
@@ -50,7 +50,7 @@ class EnterEmailPasswordLayoutState extends ConsumerState<EnterEmailPasswordLayo
     await ref.read(userDataProvider.notifier).getUserInfo(ref.read(authfirestoreserviceProvider));
     ref.read(metricsDataProvider.notifier).getSurveyData();
     ref.read(companyInfoService.notifier).getCompanyInfo();
-    NavigationService.navigateTo('/home');
+    NavigationService.navigateTo('/home_org');
     ref.read(authDisplayProvider.notifier).changeDisplay(const AppEntryLayout());
   }
 

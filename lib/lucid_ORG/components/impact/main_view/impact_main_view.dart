@@ -5,7 +5,7 @@ import 'package:platform_front/lucid_ORG/components/impact/main_view/diff_over_t
 import 'package:platform_front/lucid_ORG/components/impact/main_view/financial/financial_mv.dart';
 import 'package:platform_front/lucid_ORG/components/impact/main_view/org_impact/org_impact_main_view.dart';
 import 'package:platform_front/lucid_ORG/components/impact/main_view/score_over_time/score_over_time_MV.dart';
-import 'package:platform_front/global_components/blurOverlay.dart';
+import 'package:platform_front/global_components/blur_overlay.dart';
 import 'package:platform_front/core_config/constants.dart';
 import 'package:platform_front/lucid_ORG/config/enums_org.dart';
 import 'package:platform_front/lucid_ORG/config/providers_org.dart';

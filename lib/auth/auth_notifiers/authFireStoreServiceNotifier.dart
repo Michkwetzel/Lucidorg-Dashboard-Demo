@@ -5,7 +5,7 @@ import 'package:logging/logging.dart';
 import 'package:platform_front/lucid_ORG/notifiers/companyInfo/companyInfoNotifer.dart';
 import 'package:platform_front/lucid_ORG/notifiers/assessment/createAssessment/emailListNotifer.dart';
 import 'package:platform_front/lucid_ORG/notifiers/userResultsData/userResultsData.dart';
-import 'package:platform_front/auth/userProfileData/userProfileData.dart';
+import 'package:platform_front/auth/user_profile_data/userProfileData.dart';
 import 'package:platform_front/lucid_ORG/services/firebaseServiceNotifier.dart';
 
 // Auth services. Holds the currently signed in user as its state

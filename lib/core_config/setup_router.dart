@@ -1,0 +1,151 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:platform_front/lucid_HR/home/home_body_org.dart';
+import 'package:platform_front/lucid_HR/results/results_body_org.dart';
+import 'package:platform_front/lucid_ORG/components/company_info/companyInfoBody.dart';
+import 'package:platform_front/lucid_ORG/components/create_assessment/create/createAssessmentBody.dart';
+import 'package:platform_front/lucid_ORG/components/create_assessment/current/current_assessment_body.dart';
+import 'package:platform_front/lucid_ORG/components/export/export_main_layout.dart';
+import 'package:platform_front/lucid_ORG/components/global_org/errorScreen/errorScreen.dart';
+import 'package:platform_front/lucid_ORG/components/home/homeScreenBody.dart';
+import 'package:platform_front/lucid_ORG/components/howTo/how_to_body.dart';
+import 'package:platform_front/lucid_ORG/components/impact/impact_body.dart';
+import 'package:platform_front/lucid_ORG/components/results/resultsBody.dart';
+import 'package:platform_front/global_components/main_sections/authscreen.dart';
+import 'package:platform_front/global_components/main_sections/dashboardScaffold.dart';
+
+GoRouter setupRouter() {
+  return GoRouter(
+    initialLocation: '/auth',
+    routerNeglect: true,
+    routes: [
+      // Lucid_HR routes
+      ShellRoute(
+          builder: (context, state, child) {
+            return Dashboardscaffold(body: child);
+          },
+          routes: [
+            GoRoute(
+              path: '/home_hr',
+              pageBuilder: (context, state) {
+                return const NoTransitionPage(
+                  child: HomeBodyOrg(),
+                );
+              },
+            ),
+            GoRoute(
+              path: '/results_hr',
+              pageBuilder: (context, state) {
+                return const NoTransitionPage(
+                  child: ResultsBodyOrg(),
+                );
+              },
+            )
+          ]),
+
+      // Lucid_ORG routes
+      ShellRoute(
+        builder: (context, state, child) {
+          return Dashboardscaffold(body: child);
+        },
+        routes: [
+          GoRoute(
+            path: '/createAssessment',
+            pageBuilder: (context, state) {
+              return NoTransitionPage(
+                child: CreateAssessmentBody(),
+              );
+            },
+          ),
+          GoRoute(
+            path: '/currentAssessment',
+            pageBuilder: (context, state) {
+              return const NoTransitionPage(
+                child: CurrentAssessmentBody(),
+              );
+            },
+          ),
+          GoRoute(
+            path: '/home_org',
+            pageBuilder: (context, state) {
+              return const NoTransitionPage(
+                child: HomeScreenBody(),
+              );
+            },
+          ),
+          GoRoute(
+            path: '/companyInfo',
+            pageBuilder: (context, state) {
+              return const NoTransitionPage(
+                child: CompanyInfoBody(),
+              );
+            },
+          ),
+          GoRoute(
+            path: '/results_org',
+            pageBuilder: (context, state) {
+              return const NoTransitionPage(
+                child: ResultsBody(),
+              );
+            },
+          ),
+          GoRoute(
+            path: '/impact',
+            pageBuilder: (context, state) {
+              return const NoTransitionPage(
+                child: ImpactBody(),
+              );
+            },
+          ),
+          GoRoute(
+            path: '/theFix',
+            pageBuilder: (context, state) {
+              return const NoTransitionPage(
+                child: Placeholder(),
+              );
+            },
+          ),
+          GoRoute(
+            path: '/howTo',
+            pageBuilder: (context, state) {
+              return NoTransitionPage(
+                child: HowToBody(),
+              );
+            },
+          ),
+          GoRoute(
+            path: '/export',
+            pageBuilder: (context, state) {
+              return NoTransitionPage(
+                child: ExportMainLayout(),
+              );
+            },
+          ),
+        ],
+      ),
+      GoRoute(
+        path: '/errorScreen',
+        builder: (context, state) => const ErrorScreen(),
+      ),
+      GoRoute(
+        path: '/auth',
+        builder: (context, state) => const AuthScreen(),
+      )
+    ],
+    redirect: (context, state) async {
+      // If you are not authenticated. You cant access any screens. so take you back to log in
+      final isAuthenticated = FirebaseAuth.instance.currentUser != null;
+      if (!isAuthenticated) {
+        return '/auth';
+      }
+
+      // if (state.extra == null) {
+      //   // Log user out if he reloads page. Always include an extra state if navigating using navigator. thus if reload you can notice it
+      //   await FirebaseAuth.instance.signOut();
+      //   return '/auth';
+      // }
+      return null;
+    },
+  );
+}

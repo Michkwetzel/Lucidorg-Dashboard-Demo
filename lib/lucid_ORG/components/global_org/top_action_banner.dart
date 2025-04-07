@@ -2,6 +2,7 @@ import 'dart:html' as html;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:platform_front/core_config/enums.dart';
 import 'package:platform_front/global_components/buttons/CallToActionButton.dart';
 import 'package:platform_front/lucid_ORG/config/enums_org.dart';
 import 'package:platform_front/lucid_ORG/config/providers_org.dart';
@@ -102,12 +103,12 @@ class TopActionBanner extends ConsumerWidget {
 
     void handlePress() async {
       if (metricsState.noSurveyData) {
-        ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.createAssessment);
+        ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.createAssessment_org);
         NavigationService.navigateTo('/createAssessment');
       } else if (metricsState.testData) {
         html.window.open("https://www.lucidorg.com/contact", '_blank');
       } else {
-        ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.currentAssessment);
+        ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.currentAssessment_org);
         NavigationService.navigateTo('/currentAssessment');
         ref.read(toggleSubMenuProvider.notifier).expand();
       }

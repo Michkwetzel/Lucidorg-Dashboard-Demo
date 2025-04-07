@@ -1,8 +1,8 @@
 // // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:platform_front/lucid_ORG/dataClasses/all_indicator_data.dart';
-import 'package:platform_front/lucid_ORG/dataClasses/indicator_data.dart';
+import 'package:platform_front/lucid_ORG/data_classes/all_indicator_data.dart';
+import 'package:platform_front/lucid_ORG/data_classes/indicator_data.dart';
 import 'package:platform_front/lucid_ORG/components/impact/side_bar/org_impact/components/impact_area_sub_widget.dart';
 import 'package:platform_front/core_config/constants.dart';
 import 'package:platform_front/lucid_ORG/config/enums_org.dart';

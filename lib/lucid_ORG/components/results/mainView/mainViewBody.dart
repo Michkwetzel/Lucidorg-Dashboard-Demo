@@ -5,7 +5,7 @@ import 'package:platform_front/lucid_ORG/components/results/mainView/sections/in
 import 'package:platform_front/lucid_ORG/components/results/mainView/sections/diff_matrix/diff_matrix_body.dart';
 import 'package:platform_front/lucid_ORG/components/results/mainView/sections/over_view/overview_main_body.dart';
 import 'package:platform_front/lucid_ORG/components/results/mainView/sections/foundations/foundations_body.dart';
-import 'package:platform_front/global_components/blurOverlay.dart';
+import 'package:platform_front/global_components/blur_overlay.dart';
 import 'package:platform_front/global_components/loading_overlay.dart';
 import 'package:platform_front/core_config/constants.dart';
 import 'package:platform_front/lucid_ORG/config/enums_org.dart';

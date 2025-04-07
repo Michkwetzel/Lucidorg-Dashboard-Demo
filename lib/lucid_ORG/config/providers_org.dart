@@ -12,7 +12,7 @@ import 'package:platform_front/lucid_ORG/notifiers/exportPDF/exportWidgetsNotifi
 import 'package:platform_front/lucid_ORG/notifiers/financials/finance_model_notifer.dart';
 import 'package:platform_front/lucid_ORG/notifiers/impact/impact_display_notifier.dart';
 import 'package:platform_front/lucid_ORG/notifiers/loading/loadingNotifer.dart';
-import 'package:platform_front/lucid_ORG/notifiers/navBar/navBarExpandState.dart';
+import 'package:platform_front/nav_bar/notifiers/navBarExpandState.dart';
 import 'package:platform_front/lucid_ORG/notifiers/scoreCompare/score_compare_provider.dart';
 import 'package:platform_front/lucid_ORG/notifiers/selectedDiffMatrix/selected_department_diff_matrix_notifer.dart';
 import 'package:platform_front/lucid_ORG/notifiers/selectedDiffMatrix/selected_diff_matrix.dart';
@@ -31,8 +31,8 @@ import 'package:platform_front/lucid_ORG/notifiers/assessment/createAssessment/e
 import 'package:platform_front/lucid_ORG/notifiers/assessment/createAssessment/emailListRadioButtonNotifier.dart';
 import 'package:platform_front/lucid_ORG/notifiers/assessment/createAssessment/emailTemplateNotifer.dart';
 import 'package:platform_front/lucid_ORG/services/companyInfoService.dart';
-import 'package:platform_front/lucid_ORG/notifiers/navBar/navBarNotifer.dart';
-import 'package:platform_front/auth/userProfileData/userProfileData.dart';
+import 'package:platform_front/nav_bar/notifiers/navBarNotifer.dart';
+import 'package:platform_front/auth/user_profile_data/userProfileData.dart';
 import 'package:platform_front/lucid_ORG/services/firebaseServiceNotifier.dart';
 import 'package:platform_front/lucid_ORG/services/googleFunctionService.dart';
 
@@ -93,8 +93,8 @@ final emailListProvider = StateNotifierProvider<EmailListNotifier, EmailListStat
   return EmailListNotifier(userDataNotifier);
 });
 
-final navBarProvider = StateNotifierProvider<Navbarnotifer, NavBarButtonType>((ref) {
-  return Navbarnotifer();
+final navBarProvider = StateNotifierProvider<NavbarNotifer, NavBarState>((ref) {
+  return NavbarNotifer();
 });
 
 final emailTemplateProvider = StateNotifierProvider<EmailTemplateNotifer, EmailTemplateState>((ref) {
@@ -142,11 +142,11 @@ final scoreCompareProvider = StateNotifierProvider<ScoreCompareNotifier, ScoreCo
   return ScoreCompareNotifier();
 });
 
-final metricsDataProvider = StateNotifierProvider<MetricsDataProvider, MetricsDataState>((ref) {
+final metricsDataProvider = StateNotifierProvider<MetricsDataNotifier, MetricsDataState>((ref) {
   final userProfileDataNotifier = ref.watch(userDataProvider.notifier);
   final scoreCompareNotifier = ref.watch(scoreCompareProvider.notifier);
   final currentEmailListNotifier = ref.watch(currentEmailListProvider.notifier);
-  return MetricsDataProvider(
+  return MetricsDataNotifier(
     scoreCompareProvider: scoreCompareNotifier,
     userProfileData: userProfileDataNotifier,
     currentAssessmentProvider: currentEmailListNotifier,
@@ -196,7 +196,7 @@ final toggleSubMenuProvider = StateNotifierProvider<ToggleSubMenuProvider, bool>
 
 final financeModelProvider = StateNotifierProvider<FinanceModelNotifer, FinanceModelState>((ref) {
   final metricsDataNotifer = ref.watch(metricsDataProvider.notifier);
-  return FinanceModelNotifer(metricsDataProvider: metricsDataNotifer);
+  return FinanceModelNotifer(surveyMetricNotifer: metricsDataNotifer);
 });
 
 final exportStatusProvider = StateNotifierProvider<ExportStatusNotifier, ExportStatus>((ref) {

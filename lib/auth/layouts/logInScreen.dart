@@ -6,6 +6,7 @@ import 'package:platform_front/auth/components/buttons/bottomButtonsRow.dart';
 import 'package:platform_front/auth/components/buttons/google_sign_in_button.dart';
 import 'package:platform_front/auth/components/misc/line_break.dart';
 import 'package:platform_front/auth/components/textfield/form_text_field.dart';
+import 'package:platform_front/core_config/enums.dart';
 import 'package:platform_front/global_components/loading_overlay.dart';
 import 'package:platform_front/core_config/constants.dart';
 import 'package:platform_front/lucid_ORG/config/providers_org.dart';
@@ -38,9 +39,10 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
         }
         // Load survey data then load finance
         await ref.read(metricsDataProvider.notifier).getSurveyData();
-        ref.read(financeModelProvider.notifier).calculateInitialValues();
+        ref.read(financeModelProvider.notifier).calculateInitValues();
         ref.read(companyInfoService.notifier).getCompanyInfo();
-        NavigationService.navigateTo('/home');
+        ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.home_org);
+        NavigationService.navigateTo('/home_org');
         ref.read(authDisplayProvider.notifier).changeDisplay(const AppEntryLayout());
       } on Exception catch (e) {
         setState(() {

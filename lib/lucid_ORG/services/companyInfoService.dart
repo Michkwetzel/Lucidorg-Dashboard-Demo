@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:platform_front/lucid_ORG/notifiers/companyInfo/companyInfoNotifer.dart';
-import 'package:platform_front/auth/userProfileData/userProfileData.dart';
+import 'package:platform_front/auth/user_profile_data/userProfileData.dart';
 import 'package:platform_front/lucid_ORG/services/firebaseServiceNotifier.dart';
 
 class CompanyInfoService extends StateNotifier<bool> {

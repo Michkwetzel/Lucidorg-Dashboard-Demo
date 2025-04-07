@@ -2,11 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
+import 'package:platform_front/core_config/enums.dart';
 import 'package:platform_front/lucid_ORG/config/enums_org.dart';
 import 'package:platform_front/lucid_ORG/notifiers/assessment/currentAssessment/currentAssessmentEmailProvider.dart';
 import 'package:platform_front/lucid_ORG/notifiers/scoreCompare/score_compare_provider.dart';
 import 'package:platform_front/lucid_ORG/notifiers/surveyMetrics/metrics_data.dart';
-import 'package:platform_front/auth/userProfileData/userProfileData.dart';
+import 'package:platform_front/auth/user_profile_data/userProfileData.dart';
 
 class MetricsDataState {
   final SurveyMetric surveyMetric;
@@ -77,20 +78,13 @@ class MetricsDataState {
   }
 }
 
-class MetricsDataProvider extends StateNotifier<MetricsDataState> {
-  MetricsDataProvider({
+class MetricsDataNotifier extends StateNotifier<MetricsDataState> {
+  MetricsDataNotifier({
     required this.userProfileData,
     required this.scoreCompareProvider,
     required this.currentAssessmentProvider,
   }) : super(MetricsDataState.init()) {
     // initialStateSetup();
-  }
-
-  Future<void> initialStateSetup() async {
-    if (userProfileData.initLoad) {
-      Future.delayed(Duration(seconds: 2));
-      await getSurveyData();
-    }
   }
 
   Logger logger = Logger('SurveyMetricsProvider');

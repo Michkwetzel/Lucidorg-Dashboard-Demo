@@ -2,8 +2,6 @@ enum SelectionButtonType { exec, guest, employee, none }
 
 enum EmailListRadioButtonType { ceo, cSuite, employee }
 
-enum NavBarButtonType { createAssessment, currentAssessment, newAssessment, companyInfo, logOut, home, results, impact, theFix, closeMenu, howTo }
-
 enum AssessmentDisplay { create, current }
 
 // All constants given by Vandie
@@ -55,8 +53,6 @@ extension Value on Finance {
     }
   }
 }
-
-enum Permission { exec, employee, guest, error }
 
 enum Diffsize { H1, H2, H3, H4 }
 

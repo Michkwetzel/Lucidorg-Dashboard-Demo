@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/lucid_ORG/config/enums_org.dart';
-import 'package:platform_front/auth/userProfileData/userProfileData.dart';
+import 'package:platform_front/auth/user_profile_data/userProfileData.dart';
 import 'package:platform_front/lucid_ORG/services/email_storage.dart';
 
 class EmailListState {
