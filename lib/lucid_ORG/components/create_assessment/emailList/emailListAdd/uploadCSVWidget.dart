@@ -173,7 +173,6 @@ class _UploadCSVWidgetState extends State<UploadCSVWidget> {
   SizedBox _buildCSVWidget() {
     return SizedBox(
       height: 95,
-      width: 330,
       child: Stack(
         children: [
           Positioned.fill(

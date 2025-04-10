@@ -35,7 +35,11 @@ class ActiveEmailListWidget extends ConsumerWidget {
       child: ListView.builder(
         itemCount: selectedEmailList.length,
         itemBuilder: (context, index) {
-          return EmailCard(emailText: selectedEmailList[index], index: index);
+          return EmailCard(
+            emailText: selectedEmailList[index],
+            index: index,
+            onDelete: () => ref.read(emailListProvider.notifier).deleteSingleEmail(index: index, type: ref.read(emailListRadioButtonProvider)),
+          );
         },
       ),
     );

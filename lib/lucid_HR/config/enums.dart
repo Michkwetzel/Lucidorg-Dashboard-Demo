@@ -1,0 +1,1 @@
+enum EmailListDisplay { view, add}

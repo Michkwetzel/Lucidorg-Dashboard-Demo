@@ -1,31 +1,34 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:platform_front/core_config/constants.dart';
 
 class CustomTextFieldForm extends StatelessWidget {
   const CustomTextFieldForm({
     super.key,
-    required this.ref,
-    required this.companyNameController,
+    this.errorText,
+    this.hintText,
+    required this.textEditController,
   });
 
-  final WidgetRef ref;
-  final TextEditingController companyNameController;
+  final TextEditingController textEditController;
+  final String? errorText;
+  final String? hintText;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-        //initialValue: ref.read(companyInfoProvider.notifier).companyName ?? "",
         validator: (value) {
           if (value == null || value.isEmpty) {
-            return "Please enter Company Name";
+            return errorText;
           }
           return null;
         },
-        controller: companyNameController,
+        controller: textEditController,
         decoration: InputDecoration(
           filled: true,
+          hintText: hintText,
+          hintStyle: ktextFieldHintStyle,
           fillColor: const Color(0xFFEFEFEF),
           focusColor: const Color(0xFFEFEFEF),
           enabledBorder: OutlineInputBorder(

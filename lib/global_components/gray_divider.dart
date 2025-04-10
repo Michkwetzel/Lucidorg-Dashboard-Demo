@@ -4,17 +4,23 @@ import 'package:flutter/material.dart';
 
 class GrayDivider extends StatelessWidget {
   final double? width;
+  final Color color;
+  final double? thickness;
+  
+
   const GrayDivider({
+    this.thickness = 1,
     this.width,
+    this.color = const Color(0xFFC7C7C7),
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     if (width == null) {
-      return Divider(color: Color(0xFFC7C7C7), thickness: 1);
+      return Divider(color: color, thickness: thickness);
     } else {
-      return SizedBox(width: width, child: Divider(color: Color(0xFFC7C7C7), thickness: 1));
+      return SizedBox(width: width, child: Divider(color: color, thickness: 1));
     }
   }
 }

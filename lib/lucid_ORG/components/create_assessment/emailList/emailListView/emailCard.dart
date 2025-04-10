@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/lucid_ORG/config/enums_org.dart';
-import 'package:platform_front/lucid_ORG/config/providers_org.dart';
 
-class EmailCard extends ConsumerWidget {
+class EmailCard extends StatelessWidget {
   final String emailText;
   final int index;
   final AssessmentDisplay display;
+  final VoidCallback? onDelete;
 
-  const EmailCard({super.key, required this.emailText, required this.index, this.display = AssessmentDisplay.create});
+  const EmailCard({super.key, required this.emailText, required this.index, this.display = AssessmentDisplay.create, this.onDelete});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Color(0xFFC3C3C3), width: 1))),
       child: Padding(
@@ -29,7 +28,7 @@ class EmailCard extends ConsumerWidget {
             ),
             if (display == AssessmentDisplay.create)
             IconButton(
-              onPressed: () => ref.read(emailListProvider.notifier).deleteSingleEmail(index: index, type: ref.read(emailListRadioButtonProvider)),
+              onPressed: onDelete,
               icon: const Icon(
                 Icons.close,
                 size: 20,

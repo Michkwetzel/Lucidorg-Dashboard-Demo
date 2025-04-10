@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:platform_front/lucid_HR/createJobSearch/job_creation_screen.dart';
+import 'package:platform_front/lucid_HR/createJobSearch/temp.dart';
 import 'package:platform_front/lucid_HR/home/home_body_org.dart';
 import 'package:platform_front/lucid_HR/results/results_body_org.dart';
 import 'package:platform_front/lucid_ORG/components/company_info/companyInfoBody.dart';
@@ -30,7 +32,7 @@ GoRouter setupRouter() {
               path: '/home_hr',
               pageBuilder: (context, state) {
                 return const NoTransitionPage(
-                  child: HomeBodyOrg(),
+                  child: JobCreationScreen(),
                 );
               },
             ),

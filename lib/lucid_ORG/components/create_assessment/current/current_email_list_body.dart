@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/lucid_ORG/components/create_assessment/current/current_active_email_list.dart';
-import 'package:platform_front/lucid_ORG/components/create_assessment/emailList/emailListView/activeEmailListWidget.dart';
 import 'package:platform_front/lucid_ORG/components/create_assessment/emailList/radioButton/radioButtonRow.dart';
 import 'package:platform_front/core_config/constants.dart';
 import 'package:platform_front/lucid_ORG/config/enums_org.dart';
@@ -48,7 +47,9 @@ class CurrentEmailListViewLayout extends ConsumerWidget {
               style: kInfoTextTextStyle,
             ),
             SizedBox(height: 12),
-            RadioButtonRow(display: AssessmentDisplay.current,),
+            RadioButtonRow(
+              display: AssessmentDisplay.current,
+            ),
             SizedBox(height: 12),
             CurrentActiveEmailList(),
           ],

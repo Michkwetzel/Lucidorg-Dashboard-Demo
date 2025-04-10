@@ -2,14 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:logging/logging.dart';
 import 'package:platform_front/core_config/enums.dart';
 import 'package:platform_front/global_components/buttons/CallToActionButton.dart';
 import 'package:platform_front/lucid_ORG/components/company_info/customTextFieldForm.dart';
 import 'package:platform_front/lucid_ORG/components/company_info/styledDropdown.dart';
 import 'package:platform_front/global_components/loading_overlay.dart';
 import 'package:platform_front/core_config/constants.dart';
-import 'package:platform_front/lucid_ORG/config/enums_org.dart';
 import 'package:platform_front/lucid_ORG/config/providers_org.dart';
 import 'package:platform_front/lucid_ORG/services/microServices/snackBarService.dart';
 
@@ -62,7 +60,7 @@ class _CompanyInfoBodyState extends ConsumerState<CompanyInfoBody> {
               Text('Company Name'),
               ConstrainedBox(
                 constraints: BoxConstraints(maxWidth: 250),
-                child: CustomTextFieldForm(ref: ref, companyNameController: companyNameController),
+                child: CustomTextFieldForm(errorText: "Please enter Company Name...", textEditController: companyNameController),
               ),
               SizedBox(
                 height: 16,

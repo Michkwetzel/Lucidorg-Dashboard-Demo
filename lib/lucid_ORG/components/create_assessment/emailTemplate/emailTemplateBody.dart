@@ -6,7 +6,6 @@ import 'package:platform_front/global_components/buttons/primaryButton.dart';
 import 'package:platform_front/lucid_ORG/components/create_assessment/emailTemplate/subjectEdit.dart';
 import 'package:platform_front/lucid_ORG/components/create_assessment/emailTemplate/templateEdit.dart';
 import 'package:platform_front/lucid_ORG/components/create_assessment/emailTemplate/templateView.dart';
-import 'package:platform_front/global_components/gray_divider.dart';
 import 'package:platform_front/core_config/constants.dart';
 import 'package:platform_front/lucid_ORG/config/providers_org.dart';
 

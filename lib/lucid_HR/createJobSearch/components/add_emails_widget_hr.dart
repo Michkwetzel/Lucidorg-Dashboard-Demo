@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/global_components/buttons/CallToActionButton.dart';
 import 'package:platform_front/global_components/buttons/secondaryButton.dart';
-import 'package:platform_front/lucid_ORG/components/create_assessment/emailList/radioButton/radioButtonRow.dart';
+import 'package:platform_front/lucid_HR/config/providers.dart';
 import 'package:platform_front/lucid_ORG/components/create_assessment/emailList/emailListAdd/uploadCSVWidget.dart';
 import 'package:platform_front/lucid_ORG/components/global_org/textfieldGray.dart';
 import 'package:platform_front/core_config/constants.dart';
 import 'package:platform_front/lucid_ORG/config/providers_org.dart';
 import 'package:platform_front/lucid_ORG/services/microServices/snackBarService.dart';
 
-class Emaillistaddlayout extends ConsumerStatefulWidget {
-  Emaillistaddlayout({super.key});
+class AddEmailsWidgetHR extends ConsumerStatefulWidget {
+  const AddEmailsWidgetHR({super.key});
 
   @override
-  ConsumerState<Emaillistaddlayout> createState() => _EmaillistaddlayoutState();
+  ConsumerState<AddEmailsWidgetHR> createState() => _AddEmailsWidgetHRState();
 }
 
-class _EmaillistaddlayoutState extends ConsumerState<Emaillistaddlayout> {
+class _AddEmailsWidgetHRState extends ConsumerState<AddEmailsWidgetHR> {
   final TextEditingController inputController = TextEditingController();
   List<String> newValidEmailsTextField = [];
   List<String> newValidEmailsCSV = [];
@@ -25,7 +25,7 @@ class _EmaillistaddlayoutState extends ConsumerState<Emaillistaddlayout> {
   bool errorTextField = false;
   bool errorCSV = false;
   bool displayErrorCSV = false;
-  double textFieldHeight = 50;
+  double textFieldHeight = 55;
   final FocusNode _focusNode = FocusNode();
   bool hideWidgets = false;
 
@@ -72,7 +72,7 @@ class _EmaillistaddlayoutState extends ConsumerState<Emaillistaddlayout> {
     if (!errorCSV && !errorTextField) {
       print(newValidEmails);
       if (newValidEmails.isNotEmpty) {
-        ref.read(emailListProvider.notifier).addEmails(newValidEmails, ref.watch(emailListRadioButtonProvider));
+        ref.read(jobCreationProvider.notifier).addEmails(newValidEmails);
         SnackBarService.showMessage(
             newValidEmails.length == 1
                 ? 'Successfully loaded ${newValidEmails.length} ${ref.read(emailListRadioButtonProvider.notifier).toString()} email'
@@ -80,7 +80,7 @@ class _EmaillistaddlayoutState extends ConsumerState<Emaillistaddlayout> {
             Colors.green,
             duration: 1);
 
-        ref.read(emailListProvider.notifier).changeToViewEmailsDisplay();
+        ref.read(jobCreationProvider.notifier).changeToViewEmailsDisplay();
       } else {
         setState(() {
           displayErrorCSV = true;
@@ -131,12 +131,10 @@ class _EmaillistaddlayoutState extends ConsumerState<Emaillistaddlayout> {
             ),
             const SizedBox(height: 12),
             const Text(
-              'Select appropriate department',
+              'Add emails via textfield or CSV file',
               style: kInfoTextTextStyle,
             ),
             const SizedBox(height: 12),
-            const RadioButtonRow(),
-            const SizedBox(height: 24),
             TextfieldGray(
               focusNode: _focusNode,
               error: errorTextField,
@@ -144,7 +142,7 @@ class _EmaillistaddlayoutState extends ConsumerState<Emaillistaddlayout> {
               height: textFieldHeight,
               controller: inputController,
               leadingIcon: Icons.email_outlined,
-              hintText: 'Emails (comma/space separated)',
+              hintText: 'Emails, comma/space separated',
             ),
             if (!hideWidgets) ...[
               errorTextField
@@ -190,7 +188,7 @@ class _EmaillistaddlayoutState extends ConsumerState<Emaillistaddlayout> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Secondarybutton(onPressed: () => ref.read(emailListProvider.notifier).changeToViewEmailsDisplay(), buttonText: "Cancel"),
+            Secondarybutton(onPressed: () => ref.read(jobCreationProvider.notifier).changeToViewEmailsDisplay(), buttonText: "Cancel"),
             CallToActionButton(onPressed: () => onUploadPressed(), buttonText: "Upload")
           ],
         )

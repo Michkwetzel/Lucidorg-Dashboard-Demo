@@ -33,7 +33,11 @@ class CurrentActiveEmailList extends ConsumerWidget {
       child: ListView.builder(
         itemCount: selectedEmailList.length,
         itemBuilder: (context, index) {
-          return EmailCard(emailText: selectedEmailList[index], index: index, display: AssessmentDisplay.current,);
+          return EmailCard(
+            emailText: selectedEmailList[index],
+            index: index,
+            display: AssessmentDisplay.current,
+          );
         },
       ),
     );

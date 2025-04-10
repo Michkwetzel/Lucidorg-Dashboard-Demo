@@ -136,7 +136,7 @@ class _CreateAssessmentBodyState extends ConsumerState<CreateAssessmentBody> {
                               children: [
                                 CallToActionButton(
                                   disabled: ref.watch(googlefunctionserviceProvider).loading,
-                                  onPressed: !ref.watch(metricsDataProvider).canSendNewAssessment ? null : () => startAssessment(context, ref),
+                                  onPressed: () => startAssessment(context, ref),
                                   buttonText: "Start Assessment",
                                 ),
                               ],
