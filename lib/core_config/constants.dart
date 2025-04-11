@@ -139,4 +139,5 @@ Color kSageGreen = Color(0xFFA2B185);
 
 // *********** Starting from HR **************
 
-const ktextFieldHintStyle = TextStyle(fontFamily: "Open Sans", fontSize: 16, fontWeight: FontWeight.w300);
+const ktextFieldHintStyle = TextStyle(fontFamily: "Open Sans", fontSize: 16, fontWeight: FontWeight.w300, color:  Color(0xFF949494));
+const ktextFieldHeadingStyle = TextStyle(fontFamily: "Open Sans", fontSize: 16, fontWeight: FontWeight.w300, color:  Colors.black);

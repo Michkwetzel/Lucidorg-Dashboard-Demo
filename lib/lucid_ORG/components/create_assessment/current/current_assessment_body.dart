@@ -53,7 +53,7 @@ class CurrentAssessmentBody extends ConsumerWidget {
                       SizedBox(height: 12),
                       Text("Number of emails sent: ${ref.read(currentEmailListProvider.notifier).getTotalEmails()}", style: kH3TextStyle),
                       SizedBox(height: 20),
-                      GrayDivider(width: 570),
+                      CustomDivider(width: 570),
                       SizedBox(height: 20),
                       const Padding(
                         padding: EdgeInsets.only(bottom: 4),

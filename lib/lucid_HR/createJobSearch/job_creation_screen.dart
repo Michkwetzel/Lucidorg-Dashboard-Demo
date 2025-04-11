@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/core_config/constants.dart';
-import 'package:platform_front/global_components/buttons/primaryButton.dart';
+import 'package:platform_front/global_components/buttons/CallToActionButton.dart';
 import 'package:platform_front/global_components/buttons/secondaryButton.dart';
 import 'package:platform_front/global_components/gray_divider.dart';
-import 'package:platform_front/lucid_HR/config/enums.dart';
+import 'package:platform_front/lucid_HR/config/enums_hr.dart';
 import 'package:platform_front/lucid_HR/config/providers.dart';
-import 'package:platform_front/lucid_HR/createJobSearch/components/add_emails_widget_hr.dart';
-import 'package:platform_front/lucid_ORG/components/company_info/customTextFieldForm.dart';
-import 'package:platform_front/lucid_ORG/components/create_assessment/emailList/emailListView/emailCard.dart';
+import 'package:platform_front/lucid_HR/createJobSearch/components/benchmark_widgets/benchmarks_widget.dart';
+import 'package:platform_front/lucid_HR/createJobSearch/components/email_list_widgets/emaillistbody.dart';
+import 'package:platform_front/lucid_HR/createJobSearch/components/input_title_widget.dart';
+import 'package:platform_front/lucid_HR/global_components/heading_and_divider.dart';
+import 'package:platform_front/lucid_HR/notifiers/job_creation_notifier.dart';
+import 'package:platform_front/lucid_ORG/components/global_org/textfieldGray.dart';
+import 'package:platform_front/lucid_ORG/config/enums_org.dart';
 
 class JobCreationScreen extends StatelessWidget {
   const JobCreationScreen({super.key});
@@ -16,125 +20,237 @@ class JobCreationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextEditingController textEditingController = TextEditingController();
+    bool mobile = false;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      spacing: 24,
-      children: [
-        Text(
-          "Create Job Search",
-          style: kH1TextStyle,
-        ),
-        Row(
-          children: [
-            Column(
-              spacing: 24,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                InputTitleWidget(textEditingController: textEditingController),
-                Emaillistbody(),
-              ],
-            ),
-          ],
-        )
-      ],
-    );
-  }
-}
+    return LayoutBuilder(builder: (context, constraints) {
+      final double screenWidth = constraints.maxWidth < 1300 ? constraints.maxWidth : 1300;
 
-class InputTitleWidget extends StatelessWidget {
-  final TextEditingController textEditingController;
+      if (screenWidth < 732) {
+        mobile = true;
+      } else {
+        mobile = false;
+      }
 
-  const InputTitleWidget({super.key, required this.textEditingController});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      spacing: 8,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          "Title",
-          style: kH2TextStyle,
-        ),
-        SizedBox(
-          width: 350,
-          height: 50,
-          child: CustomTextFieldForm(
-            hintText: "Please Enter Job Title...",
-            textEditController: textEditingController,
+      return SizedBox(
+        width: screenWidth,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            spacing: 24,
+            children: [
+              Text(
+                "Create Job Search",
+                style: kH1TextStyle,
+              ),
+              mobile
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      spacing: 24,
+                      children: [
+                        InputTitleWidget(textEditingController: textEditingController),
+                        Emaillistbody(),
+                        SizedBox(
+                          width: 350,
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: JobSearchDynamicSection(),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    )
+                  : Row(
+                      spacing: 32,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Column(
+                          spacing: 24,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            InputTitleWidget(textEditingController: textEditingController),
+                            Emaillistbody(),
+                          ],
+                        ),
+                        Expanded(
+                          child: JobSearchDynamicSection(),
+                        ),
+                      ],
+                    ),
+              ButtonsWidget(),
+            ],
           ),
-        )
-      ],
-    );
+        ),
+      );
+    });
   }
 }
 
-class Emaillistbody extends ConsumerWidget {
-  const Emaillistbody({super.key});
+class ButtonsWidget extends ConsumerWidget {
+  const ButtonsWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Container(
-      height: 500,
-      width: 350,
-      decoration: BoxDecoration(
-        border: Border.all(color: const Color(0xFF555353), width: 0.7),
-        borderRadius: BorderRadius.circular(24.0),
-      ),
-      child: Padding(padding: const EdgeInsets.all(24.0), child: ref.watch(jobCreationProvider).display == EmailListDisplay.view ? EmailListViewHR() : AddEmailsWidgetHR()),
+    if (ref.watch(jobCreationProvider).newJobSearchSection == NewJobSearchSection.chooseBenchmarks) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          CallToActionButton(
+            onPressed: () => ref.read(jobCreationProvider.notifier).onNextClicked(),
+            buttonText: "Next",
+          ),
+        ],
+      );
+    } else {
+      return Row(
+        spacing: 16,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Secondarybutton(
+            onPressed: () => ref.read(jobCreationProvider.notifier).onBackClicked(),
+            buttonText: "Back",
+          ),
+          CallToActionButton(
+            onPressed: () {},
+            buttonText: "Create Job Search",
+          )
+        ],
+      );
+    }
+  }
+}
+
+class EmailTemplateWidget extends ConsumerWidget {
+  const EmailTemplateWidget({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Column(
+      spacing: 12,
+      children: [
+        HeadingAndDivider(
+          heading: "Benchmarks",
+        ),
+        SimpleTextFieldGray(
+          heading: "Email From:",
+          hintText: "John from My Company...",
+          onTextChanged: (text) => ref.read(jobCreationProvider.notifier).updateEmailFrom(text),
+        ),
+        SimpleTextFieldGray(
+          heading: "Subject:",
+          hintText: "John from My Company...",
+          onTextChanged: (text) => ref.read(jobCreationProvider.notifier).updateEmailFrom(text),
+        ),
+        BodyEmailTemplateEdit(
+          validator: (text) {
+            if (text == null || text.isEmpty) {
+              return "Please enter some text";
+            }
+            return null;
+          },
+        )
+      ],
     );
   }
 }
 
-class EmailListViewHR extends ConsumerWidget {
-  const EmailListViewHR({
+class BodyEmailTemplateEdit extends ConsumerWidget {
+  final String? Function(String?)? validator;
+
+  const BodyEmailTemplateEdit({
     super.key,
+    required this.validator,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Email List',
-          style: kH2TextStyle,
+    return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      validator: validator,
+      enableInteractiveSelection: true,
+      initialValue: ref.read(jobCreationProvider.notifier).emailBody,
+      onChanged: (value) => ref.read(jobCreationProvider.notifier).updateEmailBody(value),
+      maxLines: null,
+      style: const TextStyle(
+        letterSpacing: 0.4,
+        fontSize: 16.0,
+        height: 1.5,
+        color: Colors.black87,
+      ),
+      decoration: InputDecoration(
+        border: InputBorder.none,
+        filled: true,
+        fillColor: Colors.white,
+        contentPadding: const EdgeInsets.all(6),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: const BorderSide(color: Colors.red, width: 2),
         ),
-        SizedBox(height: 12),
-        GrayDivider(color: Colors.black, thickness: 1),
-        SizedBox(height: 4),
-        Expanded(child: EmailListWidget()),
-        SizedBox(height: 12),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Secondarybutton(onPressed: () => ref.read(jobCreationProvider.notifier).clearEmails(), buttonText: 'Clear'),
-            Primarybutton(onPressed: () => ref.read(jobCreationProvider.notifier).changeToAddEmailsDisplay(), buttonText: 'Add Emails'),
-          ],
-        )
-      ],
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: const BorderSide(color: Colors.red, width: 1),
+        ),
+      ),
     );
   }
 }
 
-class EmailListWidget extends ConsumerWidget {
-  const EmailListWidget({super.key});
+class SimpleTextFieldGray extends StatelessWidget {
+  final Function(String) onTextChanged;
+  final String? heading;
+  final String? hintText;
+  const SimpleTextFieldGray({super.key, required this.onTextChanged, this.hintText, this.heading});
+
+  @override
+  Widget build(BuildContext context) {
+    Widget returnTextfield() {
+      return SizedBox(
+        width: 250,
+        height: 45,
+        child: TextField(
+            onChanged: onTextChanged,
+            decoration: InputDecoration(
+              filled: true,
+              hintText: hintText,
+              hintStyle: ktextFieldHintStyle,
+              fillColor: const Color(0xFFEFEFEF),
+              focusColor: const Color(0xFFEFEFEF),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16),
+                borderSide: BorderSide.none,
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16),
+                borderSide: BorderSide.none,
+              ),
+            )),
+      );
+    }
+
+    if (heading != null) {
+      return Row(
+        children: [
+          SizedBox(width: 100, child: Text(heading!, style: ktextFieldHeadingStyle)),
+          returnTextfield(),
+        ],
+      );
+    }
+    return returnTextfield();
+  }
+}
+
+class JobSearchDynamicSection extends ConsumerWidget {
+  const JobSearchDynamicSection({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final List<String> emailList = ref.watch(jobCreationProvider).emailList;
-
-    return ListView.builder(
-      itemCount: emailList.length,
-      itemBuilder: (context, index) {
-        return EmailCard(
-          emailText: emailList[index],
-          index: index,
-          onDelete: () => ref.read(jobCreationProvider.notifier).removeEmail(index),
-        );
-      },
-    );
+    if (ref.watch(jobCreationProvider).newJobSearchSection == NewJobSearchSection.chooseBenchmarks) {
+      return BenchmarksWidget();
+    } else {
+      return EmailTemplateWidget();
+    }
   }
 }

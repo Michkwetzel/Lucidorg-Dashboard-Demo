@@ -66,7 +66,7 @@ class DiffOverTimeMv extends ConsumerWidget {
                 SizedBox(width: 125, child: Text('Difference', style: kH3PoppinsRegular)),
               ],
             ),
-            GrayDivider(),
+            CustomDivider(),
             SizedBox(
               height: 8,
             ),
@@ -89,7 +89,7 @@ class DiffOverTimeMv extends ConsumerWidget {
             SizedBox(
               height: 8,
             ),
-            GrayDivider(),
+            CustomDivider(),
             SizedBox(
               height: 8,
             ),

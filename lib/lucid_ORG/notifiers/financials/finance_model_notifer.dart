@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/lucid_ORG/config/enums_org.dart';
-import 'package:platform_front/lucid_ORG/notifiers/surveyMetrics/metrics_data.dart';
 import 'package:platform_front/lucid_ORG/notifiers/surveyMetrics/survey_metrics_provider.dart';
 import 'dart:math' as math;
 

@@ -30,7 +30,7 @@ class DiffMatrixSideBar extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(selectedIndicator.heading, style: kH2PoppinsLight, textAlign: TextAlign.center),
-          GrayDivider(width: 200),
+          CustomDivider(width: 200),
           Text("Benchmark", style: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w300, fontSize: 24)),
           Text('$indicatorScore%', style: kH2TotalScoreLight),
           SizedBox(height: 8),

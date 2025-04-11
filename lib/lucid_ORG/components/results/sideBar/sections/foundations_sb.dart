@@ -42,7 +42,7 @@ class FoundationsSB extends StatelessWidget {
                   ),
                 ],
               ),
-              GrayDivider(
+              CustomDivider(
                 width: 250,
               ),
             ],
@@ -50,7 +50,7 @@ class FoundationsSB extends StatelessWidget {
           FoundationsSBWidget(
             indicator: Indicator.operations,
           ),
-          GrayDivider(
+          CustomDivider(
             width: 230,
           ),
           FoundationsSBWidget(

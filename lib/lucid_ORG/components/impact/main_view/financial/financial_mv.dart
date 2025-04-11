@@ -17,7 +17,7 @@ class FinancialMv extends StatelessWidget {
         children: [
           Text('Financial', style: kH3PoppinsMedium),
           SizedBox(height: 6),
-          GrayDivider(),
+          CustomDivider(),
           SizedBox(height: 32),
           Text('Move sliders to see effect of increasing scores over time', style: kH5PoppinsLight),
           SizedBox(height: 32),

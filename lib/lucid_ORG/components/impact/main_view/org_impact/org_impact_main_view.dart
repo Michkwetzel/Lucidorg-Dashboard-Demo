@@ -21,7 +21,7 @@ class OrgImpactMainView extends StatelessWidget {
             style: kH3PoppinsMedium,
           ),
           SizedBox(height: 6),
-          GrayDivider(),
+          CustomDivider(),
           SizedBox(height: 32),
           Align(alignment: AlignmentDirectional.center, child: ImpactChart()),
           SizedBox(height: 16),

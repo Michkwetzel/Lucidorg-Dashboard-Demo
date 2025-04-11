@@ -29,7 +29,7 @@ class IndicatorsMainView extends StatelessWidget {
         SizedBox(height: 6),
         Padding(
           padding: const EdgeInsets.only(left: 16, right: 16),
-          child: GrayDivider(),
+          child: CustomDivider(),
         ),
         SizedBox(height: 40),
         IndicatorsDepartmentScoresWidget(),

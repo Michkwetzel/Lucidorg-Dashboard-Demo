@@ -120,7 +120,7 @@ class FoundationsBody extends StatelessWidget {
               SizedBox(
                 height: 180,
               ),
-              GrayDivider(),
+              CustomDivider(),
             ],
           ),
         )

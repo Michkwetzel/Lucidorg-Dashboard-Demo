@@ -27,14 +27,14 @@ class ScoresOverTimeSB extends ConsumerWidget {
             child: Column(
               children: [
                 Text('Improvement', style: kH3PoppinsRegular),
-                GrayDivider(width: 200),
+                CustomDivider(width: 200),
                 SizedBox(height: 24),
                 CompareRowSB(type: Compare.score, change: topScoreImprove[0].entries.first.value, indicator: topScoreImprove[0].entries.first.key),
                 CompareRowSB(type: Compare.score, change: topScoreImprove[1].entries.first.value, indicator: topScoreImprove[1].entries.first.key),
                 CompareRowSB(type: Compare.score, change: topScoreImprove[2].entries.first.value, indicator: topScoreImprove[2].entries.first.key),
                 SizedBox(height: 24),
                 Text('Decline', style: kH3PoppinsRegular),
-                GrayDivider(width: 200),
+                CustomDivider(width: 200),
                 SizedBox(height: 24),
                 CompareRowSB(type: Compare.score, change: topScoreDecline[0].entries.first.value, indicator: topScoreDecline[0].entries.first.key),
                 CompareRowSB(type: Compare.score, change: topScoreDecline[1].entries.first.value, indicator: topScoreDecline[1].entries.first.key),

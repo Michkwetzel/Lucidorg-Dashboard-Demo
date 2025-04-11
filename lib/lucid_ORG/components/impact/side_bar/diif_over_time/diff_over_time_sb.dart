@@ -26,7 +26,7 @@ class DiffOverTimeSb extends ConsumerWidget {
             child: Column(
               children: [
                 Text('Improvement', style: kH3PoppinsRegular),
-                GrayDivider(
+                CustomDivider(
                   width: 200,
                 ),
                 SizedBox(height: 24),
@@ -35,7 +35,7 @@ class DiffOverTimeSb extends ConsumerWidget {
                 CompareRowSB(type: Compare.diff, change: topDiffImprove[2].entries.first.value, indicator: topDiffImprove[2].entries.first.key),
                 SizedBox(height: 24),
                 Text('Decline', style: kH3PoppinsRegular),
-                GrayDivider(
+                CustomDivider(
                   width: 200,
                 ),
                 SizedBox(height: 24),

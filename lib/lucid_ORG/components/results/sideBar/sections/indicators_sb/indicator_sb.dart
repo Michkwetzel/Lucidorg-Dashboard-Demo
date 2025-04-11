@@ -31,7 +31,7 @@ class IndicatorSideBar extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25),
-                child: GrayDivider(),
+                child: CustomDivider(),
               ),
               IndicatorRow(indicator: Indicator.orgAlign),
               IndicatorRow(indicator: Indicator.growthAlign),
@@ -46,7 +46,7 @@ class IndicatorSideBar extends StatelessWidget {
               IndicatorRow(indicator: Indicator.empoweredLeadership),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25),
-                child: GrayDivider(),
+                child: CustomDivider(),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25),

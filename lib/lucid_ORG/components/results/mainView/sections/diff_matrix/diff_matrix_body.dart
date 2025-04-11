@@ -20,7 +20,7 @@ class DiffMatrixBody extends StatelessWidget {
             style: kH3PoppinsMedium,
           ),
           SizedBox(height: 6),
-          GrayDivider(),
+          CustomDivider(),
           SizedBox(height: 32),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
