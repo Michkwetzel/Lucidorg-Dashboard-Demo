@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/core_config/constants.dart';
-import 'package:platform_front/lucid_ORG/components/company_info/customTextFieldForm.dart';
+import 'package:platform_front/lucid_HR/config/providers.dart';
+import 'package:platform_front/lucid_HR/createJobSearch/job_creation_screen.dart';
 
-class InputTitleWidget extends StatelessWidget {
-  final TextEditingController textEditingController;
-
-  const InputTitleWidget({super.key, required this.textEditingController});
+class InputTitleWidget extends ConsumerWidget {
+  const InputTitleWidget({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       spacing: 8,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -20,9 +20,9 @@ class InputTitleWidget extends StatelessWidget {
         SizedBox(
           width: 350,
           height: 50,
-          child: CustomTextFieldForm(
+          child: SimpleTextFieldGray(
+            onTextChanged: ref.read(jobCreationProvider.notifier).updateJobSearchTitle,
             hintText: "Please Enter Job Title...",
-            textEditController: textEditingController,
           ),
         )
       ],

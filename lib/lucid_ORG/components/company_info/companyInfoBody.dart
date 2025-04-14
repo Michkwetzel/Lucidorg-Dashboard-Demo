@@ -9,7 +9,7 @@ import 'package:platform_front/lucid_ORG/components/company_info/styledDropdown.
 import 'package:platform_front/global_components/loading_overlay.dart';
 import 'package:platform_front/core_config/constants.dart';
 import 'package:platform_front/lucid_ORG/config/providers_org.dart';
-import 'package:platform_front/lucid_ORG/services/microServices/snackBarService.dart';
+import 'package:platform_front/services/microServices/snackBarService.dart';
 
 class CompanyInfoBody extends ConsumerStatefulWidget {
   const CompanyInfoBody({super.key});

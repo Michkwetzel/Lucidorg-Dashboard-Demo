@@ -7,7 +7,7 @@ import 'package:platform_front/lucid_ORG/components/create_assessment/emailList/
 import 'package:platform_front/lucid_ORG/components/global_org/textfieldGray.dart';
 import 'package:platform_front/core_config/constants.dart';
 import 'package:platform_front/lucid_ORG/config/providers_org.dart';
-import 'package:platform_front/lucid_ORG/services/microServices/snackBarService.dart';
+import 'package:platform_front/services/microServices/snackBarService.dart';
 
 class Emaillistaddlayout extends ConsumerStatefulWidget {
   Emaillistaddlayout({super.key});
@@ -115,6 +115,14 @@ class _EmaillistaddlayoutState extends ConsumerState<Emaillistaddlayout> {
         handleUnfocus();
       }
     });
+  }
+
+  @override
+  void dispose() {
+    _focusNode.removeListener(() {});
+    _focusNode.dispose();
+    inputController.dispose();
+    super.dispose();
   }
 
   @override

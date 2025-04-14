@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/core_config/enums.dart';
-import 'package:platform_front/lucid_ORG/services/microServices/navigationService.dart';
+import 'package:platform_front/services/microServices/navigationService.dart';
 
 class NavBarState {
   final NavBarButtonType selectedDisplay;

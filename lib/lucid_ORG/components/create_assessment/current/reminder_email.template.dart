@@ -9,7 +9,7 @@ import 'package:platform_front/global_components/buttons/CallToActionButton.dart
 import 'package:platform_front/global_components/buttons/primaryButton.dart';
 import 'package:platform_front/core_config/constants.dart';
 import 'package:platform_front/lucid_ORG/config/providers_org.dart';
-import 'package:platform_front/lucid_ORG/services/microServices/alertService.dart';
+import 'package:platform_front/services/microServices/alertService.dart';
 
 final _formKey = GlobalKey<FormState>();
 

@@ -8,7 +8,7 @@ import 'package:platform_front/lucid_ORG/config/enums_org.dart';
 import 'package:platform_front/lucid_ORG/config/providers_org.dart';
 import 'package:platform_front/lucid_ORG/notifiers/surveyMetrics/metrics_data.dart';
 import 'package:platform_front/lucid_ORG/notifiers/surveyMetrics/survey_metrics_provider.dart';
-import 'package:platform_front/lucid_ORG/services/microServices/navigationService.dart';
+import 'package:platform_front/services/microServices/navigationService.dart';
 
 class TopActionBanner extends ConsumerWidget {
   final DashboardSection section;

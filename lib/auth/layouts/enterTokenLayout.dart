@@ -11,7 +11,7 @@ import 'package:platform_front/core_config/constants.dart';
 import 'package:platform_front/lucid_ORG/config/providers_org.dart';
 import 'package:platform_front/auth/layouts/enterEmailPasswordLayout.dart';
 import 'package:platform_front/auth/layouts/userTypeSelectionLayout.dart';
-import 'package:platform_front/lucid_ORG/services/microServices/snackBarService.dart';
+import 'package:platform_front/services/microServices/snackBarService.dart';
 
 class EnterTokenLayout extends ConsumerStatefulWidget {
   const EnterTokenLayout({super.key});

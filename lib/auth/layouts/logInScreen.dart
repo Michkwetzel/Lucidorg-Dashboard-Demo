@@ -11,8 +11,8 @@ import 'package:platform_front/global_components/loading_overlay.dart';
 import 'package:platform_front/core_config/constants.dart';
 import 'package:platform_front/lucid_ORG/config/providers_org.dart';
 import 'package:platform_front/auth/layouts/appEntryLayout.dart';
-import 'package:platform_front/lucid_ORG/services/microServices/navigationService.dart';
-import 'package:platform_front/lucid_ORG/services/microServices/snackBarService.dart';
+import 'package:platform_front/services/microServices/navigationService.dart';
+import 'package:platform_front/services/microServices/snackBarService.dart';
 
 class LogInScreen extends ConsumerStatefulWidget {
   const LogInScreen({super.key});

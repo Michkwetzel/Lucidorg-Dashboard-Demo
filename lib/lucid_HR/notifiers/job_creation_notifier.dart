@@ -69,6 +69,21 @@ Test Company""");
 class JobCreationNotifier extends StateNotifier<JobCreationState> {
   JobCreationNotifier() : super(JobCreationState.empty());
 
+  // Get all data to send to backend as Map
+
+  Map<String, dynamic> getAllData() {
+    print('getAllData: ${state.jobSearchTitle}, ${state.emailList}, ${state.benchmarks}, ${state.emailFrom}, ${state.emailSubject}, ${state.emailBody}');
+
+    return {
+      'title': state.jobSearchTitle,
+      'emailList': state.emailList,
+      'benchmarks': state.benchmarks.map((key, value) => MapEntry(key.name, value)),
+      'emailFrom': state.emailFrom,
+      'subject': state.emailSubject,
+      'emailBody': state.emailBody,
+    };
+  }
+
   void updateJobSearchTitle(String title) {
     state = state.copyWith(jobSearchTitle: title);
   }

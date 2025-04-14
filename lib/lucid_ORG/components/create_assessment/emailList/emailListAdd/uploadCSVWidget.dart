@@ -23,6 +23,11 @@ class _UploadCSVWidgetState extends State<UploadCSVWidget> {
   bool isHovering = false;
   bool success = false;
   bool uploadError = false;
+  
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   // Email validation regex
   final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');

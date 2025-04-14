@@ -6,7 +6,7 @@ import 'package:platform_front/lucid_ORG/notifiers/userResultsData/userResultsDa
 import 'package:platform_front/lucid_ORG/notifiers/assessment/createAssessment/emailListNotifer.dart';
 import 'package:platform_front/lucid_ORG/notifiers/assessment/createAssessment/emailTemplateNotifer.dart';
 import 'package:platform_front/auth/user_profile_data/userProfileData.dart';
-import 'package:platform_front/lucid_ORG/services/httpService.dart';
+import 'package:platform_front/services/httpService.dart';
 
 class GoogleFunctionServiceState {
   bool loading;
@@ -103,9 +103,32 @@ class GoogleFunctionService extends StateNotifier<GoogleFunctionServiceState> {
     }
   }
 
-  // Future<void> createTokens({int numTokens = 1, int numCompanyUIds = 1}) {
-  //   logger.info("Creating Tokens");
-  //   Map<String, int> request = {'numTokens': numTokens, 'numCompanyUIds': numCompanyUIds};
-  //   return HttpService.postRequest(path: kCreateTokensPath, request: request);
-  // }
+  // Next is all my HR google funtion services.
+
+  Future<void> createNewJobSearch(Map<String, dynamic> jobSearchData) async {
+    String title = jobSearchData['title'];
+    List<String> emailList = jobSearchData['emailList'];
+    Map<String, double> benchmarks = jobSearchData['benchmarks'];
+    String emailFrom = jobSearchData['emailFrom'];
+    String subject = jobSearchData['subject'];
+    String emailBody = jobSearchData['emailBody'];
+
+    print('title: $title, emailList: $emailList, benchmarks: $benchmarks, emailFrom: $emailFrom, subject: $subject, emailBody: $emailBody');
+
+    // await HttpService.postRequest(
+    //   path: "",
+    //   request: {
+    //     'title': title,
+    //     'emailList': emailList,
+    //     'benchmarks': benchmarks,
+    //     'emailFrom': emailFrom,
+    //     'subject': subject,
+    //     'emailBody': emailBody,
+    //   },
+    // );
+
+    try {} on Exception catch (e) {
+      logger.severe("Error sending CreateNewJobSearch");
+    }
+  }
 }

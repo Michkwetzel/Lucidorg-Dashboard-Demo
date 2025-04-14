@@ -4,8 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:platform_front/core_config/setup_router.dart';
 import 'package:platform_front/firebase_options.dart';
-import 'package:platform_front/lucid_ORG/services/microServices/navigationService.dart';
-import 'package:platform_front/lucid_ORG/services/microServices/snackBarService.dart';
+import 'package:platform_front/services/microServices/navigationService.dart';
+import 'package:platform_front/services/microServices/snackBarService.dart';
 
 void setupLogging() {
   Logger.root.level = Level.ALL;

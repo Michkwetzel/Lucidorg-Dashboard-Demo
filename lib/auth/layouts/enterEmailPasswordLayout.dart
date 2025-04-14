@@ -15,8 +15,8 @@ import 'package:platform_front/auth/auth_notifiers/emailPasswordValidateNotifier
 import 'package:platform_front/auth/layouts/appEntryLayout.dart';
 import 'package:platform_front/auth/layouts/enterTokenLayout.dart';
 import 'package:platform_front/auth/layouts/userTypeSelectionLayout.dart';
-import 'package:platform_front/lucid_ORG/services/microServices/navigationService.dart';
-import 'package:platform_front/lucid_ORG/services/microServices/snackBarService.dart';
+import 'package:platform_front/services/microServices/navigationService.dart';
+import 'package:platform_front/services/microServices/snackBarService.dart';
 
 class EnterEmailPasswordLayout extends ConsumerStatefulWidget {
   final bool logIn; // To keep track if this is a log in screen or a create account screen

@@ -10,8 +10,8 @@ import 'package:platform_front/lucid_ORG/components/global_org/top_action_banner
 import 'package:platform_front/core_config/constants.dart';
 import 'package:platform_front/lucid_ORG/config/enums_org.dart';
 import 'package:platform_front/lucid_ORG/config/providers_org.dart';
-import 'package:platform_front/lucid_ORG/services/microServices/alertService.dart';
-import 'package:platform_front/lucid_ORG/services/microServices/snackBarService.dart';
+import 'package:platform_front/services/microServices/alertService.dart';
+import 'package:platform_front/services/microServices/snackBarService.dart';
 
 class CreateAssessmentBody extends ConsumerStatefulWidget {
   CreateAssessmentBody({

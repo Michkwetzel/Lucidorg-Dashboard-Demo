@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/core_config/enums.dart';
 import 'package:platform_front/lucid_ORG/config/providers_org.dart';
-import 'package:platform_front/lucid_ORG/services/microServices/navigationService.dart';
+import 'package:platform_front/services/microServices/navigationService.dart';
 import 'package:platform_front/nav_bar/nav_bar_buttons/navBarButton.dart';
 
 class NavBarMenuHR extends ConsumerWidget {

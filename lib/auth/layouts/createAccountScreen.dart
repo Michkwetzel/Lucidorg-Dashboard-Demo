@@ -13,8 +13,8 @@ import 'package:platform_front/core_config/constants.dart';
 import 'package:platform_front/lucid_ORG/config/enums_org.dart';
 import 'package:platform_front/lucid_ORG/config/providers_org.dart';
 import 'package:platform_front/auth/layouts/appEntryLayout.dart';
-import 'package:platform_front/lucid_ORG/services/microServices/navigationService.dart';
-import 'package:platform_front/lucid_ORG/services/microServices/snackBarService.dart';
+import 'package:platform_front/services/microServices/navigationService.dart';
+import 'package:platform_front/services/microServices/snackBarService.dart';
 
 class CreateAccountScreen extends ConsumerStatefulWidget {
   const CreateAccountScreen({super.key});

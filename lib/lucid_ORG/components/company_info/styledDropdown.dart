@@ -22,6 +22,11 @@ class _StyledDropdownState extends State<StyledDropdown> {
   late String selectedValue = widget.initalValue;
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12),

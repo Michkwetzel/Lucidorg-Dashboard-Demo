@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
-import 'package:platform_front/lucid_ORG/services/firebaseServiceNotifier.dart';
+import 'package:platform_front/services/firebaseServiceNotifier.dart';
 
 class UserResultsDataState {
   final String? latestAssessmentDocName;

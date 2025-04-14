@@ -13,6 +13,7 @@ import 'package:platform_front/lucid_HR/global_components/heading_and_divider.da
 import 'package:platform_front/lucid_HR/notifiers/job_creation_notifier.dart';
 import 'package:platform_front/lucid_ORG/components/global_org/textfieldGray.dart';
 import 'package:platform_front/lucid_ORG/config/enums_org.dart';
+import 'package:platform_front/lucid_ORG/config/providers_org.dart';
 
 class JobCreationScreen extends StatelessWidget {
   const JobCreationScreen({super.key});
@@ -49,7 +50,7 @@ class JobCreationScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       spacing: 24,
                       children: [
-                        InputTitleWidget(textEditingController: textEditingController),
+                        InputTitleWidget(),
                         Emaillistbody(),
                         SizedBox(
                           width: 350,
@@ -71,7 +72,7 @@ class JobCreationScreen extends StatelessWidget {
                           spacing: 24,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            InputTitleWidget(textEditingController: textEditingController),
+                            InputTitleWidget(),
                             Emaillistbody(),
                           ],
                         ),
@@ -114,7 +115,9 @@ class ButtonsWidget extends ConsumerWidget {
             buttonText: "Back",
           ),
           CallToActionButton(
-            onPressed: () {},
+            onPressed: () {
+              ref.read(googlefunctionserviceProvider.notifier).createNewJobSearch(ref.read(jobCreationProvider.notifier).getAllData());
+            },
             buttonText: "Create Job Search",
           )
         ],
@@ -142,7 +145,7 @@ class EmailTemplateWidget extends ConsumerWidget {
         SimpleTextFieldGray(
           heading: "Subject:",
           hintText: "John from My Company...",
-          onTextChanged: (text) => ref.read(jobCreationProvider.notifier).updateEmailFrom(text),
+          onTextChanged: (text) => ref.read(jobCreationProvider.notifier).updateEmailSubject(text),
         ),
         BodyEmailTemplateEdit(
           validator: (text) {
@@ -202,6 +205,7 @@ class SimpleTextFieldGray extends StatelessWidget {
   final Function(String) onTextChanged;
   final String? heading;
   final String? hintText;
+
   const SimpleTextFieldGray({super.key, required this.onTextChanged, this.hintText, this.heading});
 
   @override
@@ -211,6 +215,7 @@ class SimpleTextFieldGray extends StatelessWidget {
         width: 250,
         height: 45,
         child: TextField(
+          
             onChanged: onTextChanged,
             decoration: InputDecoration(
               filled: true,

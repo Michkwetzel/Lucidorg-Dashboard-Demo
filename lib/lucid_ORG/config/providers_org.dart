@@ -30,11 +30,11 @@ import 'package:platform_front/lucid_ORG/notifiers/companyInfo/companyInfoNotife
 import 'package:platform_front/lucid_ORG/notifiers/assessment/createAssessment/emailListNotifer.dart';
 import 'package:platform_front/lucid_ORG/notifiers/assessment/createAssessment/emailListRadioButtonNotifier.dart';
 import 'package:platform_front/lucid_ORG/notifiers/assessment/createAssessment/emailTemplateNotifer.dart';
-import 'package:platform_front/lucid_ORG/services/companyInfoService.dart';
+import 'package:platform_front/lucid_ORG/notifiers/companyInfo/companyInfoService.dart';
 import 'package:platform_front/nav_bar/notifiers/navBarNotifer.dart';
 import 'package:platform_front/auth/user_profile_data/userProfileData.dart';
-import 'package:platform_front/lucid_ORG/services/firebaseServiceNotifier.dart';
-import 'package:platform_front/lucid_ORG/services/googleFunctionService.dart';
+import 'package:platform_front/services/firebaseServiceNotifier.dart';
+import 'package:platform_front/services/googleFunctionService.dart';
 
 final authDisplayProvider = StateNotifierProvider<AuthDisplayNotifier, Widget>((ref) {
   return AuthDisplayNotifier();

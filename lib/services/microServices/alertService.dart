@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:platform_front/lucid_ORG/services/microServices/navigationService.dart'; // Assuming you're using go_router based on the NavigationService.router
+import 'package:platform_front/services/microServices/navigationService.dart'; // Assuming you're using go_router based on the NavigationService.router
 
 class AlertService {
   static Future<void> showAlert({

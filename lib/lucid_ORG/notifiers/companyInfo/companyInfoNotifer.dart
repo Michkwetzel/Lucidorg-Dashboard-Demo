@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:platform_front/lucid_ORG/services/googleFunctionService.dart';
+import 'package:platform_front/services/googleFunctionService.dart';
 
 class CompanyInfoState {
   Map<String, String> companyInfo;
