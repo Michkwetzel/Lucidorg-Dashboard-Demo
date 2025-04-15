@@ -83,8 +83,8 @@ const double kLogoScale = 3.15;
 const String kVerifyAuthTokenPath = 'https://verifyauthtoken-rbyavkqn2a-uc.a.run.app';
 // const String kVerifyAuthTokenPath = 'http://127.0.0.1:5001/efficiency-1st/us-central1/verifyAuthToken';
 
-const String kCreateUserProfilePath = 'https://createuserprofile-rbyavkqn2a-uc.a.run.app';
-// const String kCreateUserProfilePath = 'http://127.0.0.1:5001/efficiency-1st/us-central1/createUserProfile';
+// const String kCreateUserProfilePath = 'https://createuserprofile-rbyavkqn2a-uc.a.run.app';
+const String kCreateUserProfilePath = 'http://127.0.0.1:5001/efficiency-1st/us-central1/createUserProfile';
 
 const String kCreateAssessmentPath = 'https://createassessment-rbyavkqn2a-uc.a.run.app';
 // const String kCreateAssessmentPath = 'http://127.0.0.1:5001/efficiency-1st/us-central1/createAssessment';
@@ -94,6 +94,8 @@ const String ksaveCompanyInfoPath = 'https://savecompanyinfo-rbyavkqn2a-uc.a.run
 // const String kCreateTokensPath = 'http://127.0.0.1:5001/efficiency-1st/us-central1/createTokens';
 
 const String ksendEmailReminderPath = 'https://sendemailreminder-rbyavkqn2a-uc.a.run.app';
+
+const String kCreateJobSearchPath = "http://127.0.0.1:5001/efficiency-1st/us-central1/createJobSearch";
 
 // ****************************************** Box Decorations ***************************************
 

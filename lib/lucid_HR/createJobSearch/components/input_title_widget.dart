@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/core_config/constants.dart';
 import 'package:platform_front/lucid_HR/config/providers.dart';
 import 'package:platform_front/lucid_HR/createJobSearch/job_creation_screen.dart';
+import 'package:platform_front/lucid_HR/global_components/simple_text_field_gray.dart';
 
 class InputTitleWidget extends ConsumerWidget {
   const InputTitleWidget({super.key});
@@ -19,10 +20,16 @@ class InputTitleWidget extends ConsumerWidget {
         ),
         SizedBox(
           width: 350,
-          height: 50,
           child: SimpleTextFieldGray(
+            formKey: ref.read(jobCreationProvider.notifier).formKeys[0],
             onTextChanged: ref.read(jobCreationProvider.notifier).updateJobSearchTitle,
             hintText: "Please Enter Job Title...",
+            validator: (text) {
+            if (text == null || text.isEmpty) {
+              return "Please enter a Title";
+            }
+            return null;
+          },
           ),
         )
       ],

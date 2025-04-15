@@ -32,7 +32,11 @@ class EmailListViewHR extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Secondarybutton(onPressed: () => ref.read(jobCreationProvider.notifier).clearEmails(), buttonText: 'Clear'),
-            Primarybutton(onPressed: () => ref.read(jobCreationProvider.notifier).changeToAddEmailsDisplay(), buttonText: 'Add Emails'),
+            Primarybutton(
+                onPressed: () {
+                  ref.read(jobCreationProvider.notifier).changeToAddEmailsDisplay();
+                },
+                buttonText: 'Add Emails'),
           ],
         )
       ],

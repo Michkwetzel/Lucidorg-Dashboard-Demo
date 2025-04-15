@@ -223,6 +223,6 @@ class _CreateAccountScreen extends ConsumerState<CreateAccountScreen> {
         ),
       ),
     );
-    ;
+    
   }
 }

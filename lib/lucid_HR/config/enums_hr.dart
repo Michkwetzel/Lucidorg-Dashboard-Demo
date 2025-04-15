@@ -1,3 +1,3 @@
-enum EmailListDisplay { view, add}
+enum EmailListDisplay { view, add, empty}
 
 enum NewJobSearchSection { chooseBenchmarks, emailTemplate}

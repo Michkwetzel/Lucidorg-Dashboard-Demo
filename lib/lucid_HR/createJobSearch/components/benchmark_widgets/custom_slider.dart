@@ -16,7 +16,7 @@ class CustomSlider extends ConsumerWidget {
       children: [
         Text(
           "0%",
-          style: TextStyle(fontFamily: "FS Pro Text", fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xFF8A8A8E)),
+          style: TextStyle(fontFamily: "Open Sans", fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xFF8A8A8E)),
         ),
         Expanded(
           child: Slider(
@@ -33,7 +33,7 @@ class CustomSlider extends ConsumerWidget {
         ),
         Text(
           "100%",
-          style: TextStyle(fontFamily: "FS Pro Display", fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xFF8A8A8E)),
+          style: TextStyle(fontFamily: "Open Sans", fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xFF8A8A8E)),
         ),
         SizedBox(width: 16),
         Container(
@@ -46,7 +46,7 @@ class CustomSlider extends ConsumerWidget {
           child: Center(
               child: Text(
             sliderValue.toStringAsFixed(0),
-            style: TextStyle(fontFamily: "FS Pro", fontSize: 14),
+            style: TextStyle(fontFamily: "Open Sans", fontSize: 14),
           )),
         )
       ],

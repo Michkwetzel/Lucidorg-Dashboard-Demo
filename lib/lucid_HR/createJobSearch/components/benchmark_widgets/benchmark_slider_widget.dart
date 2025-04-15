@@ -20,7 +20,7 @@ class BenchmarkSliderWidget extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.only(left: 10),
-          child: Text(extraText, style: TextStyle(fontFamily: "FS Pro Text", letterSpacing: 0.6, fontSize: 13, fontWeight: FontWeight.w200)),
+          child: Text(extraText, style: TextStyle(fontFamily: "Open Sans", letterSpacing: 0.6, fontSize: 13, fontWeight: FontWeight.w200)),
         ),
       ],
     );

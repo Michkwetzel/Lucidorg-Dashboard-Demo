@@ -40,7 +40,6 @@ class FormTextField extends ConsumerWidget {
           ),
           filled: true,
           fillColor: const Color(0xFFF3F3F3),
-          contentPadding: const EdgeInsets.all(6),
           focusedErrorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
             borderSide: const BorderSide(color: Colors.red, width: 2),

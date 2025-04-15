@@ -115,20 +115,13 @@ class GoogleFunctionService extends StateNotifier<GoogleFunctionServiceState> {
 
     print('title: $title, emailList: $emailList, benchmarks: $benchmarks, emailFrom: $emailFrom, subject: $subject, emailBody: $emailBody');
 
-    // await HttpService.postRequest(
-    //   path: "",
-    //   request: {
-    //     'title': title,
-    //     'emailList': emailList,
-    //     'benchmarks': benchmarks,
-    //     'emailFrom': emailFrom,
-    //     'subject': subject,
-    //     'emailBody': emailBody,
-    //   },
-    // );
-
-    try {} on Exception catch (e) {
-      logger.severe("Error sending CreateNewJobSearch");
+    try {
+      await HttpService.postRequest(
+        path: kCreateJobSearchPath,
+        request: {'title': title, 'emailList': emailList, 'benchmarks': benchmarks, 'emailFrom': emailFrom, 'subject': subject, 'emailBody': emailBody, 'companyUID': companyUID},
+      );
+    } on Exception catch (e) {
+      logger.severe("Error sending CreateNewJobSearch: $e");
     }
   }
 }
