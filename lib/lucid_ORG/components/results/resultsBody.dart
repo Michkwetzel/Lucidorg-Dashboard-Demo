@@ -29,25 +29,9 @@ class ResultsBody extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: 1008,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Results",
-                                style: kH1TextStyle,
-                              ),
-                              Text(
-                                'Assessment: Q1 2025',
-                                style: kH5PoppinsLight,
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
+                    Text(
+                      "Results",
+                      style: kH1TextStyle,
                     ),
                     if (ref.watch(metricsDataProvider).noSurveyData ||
                         ref.watch(metricsDataProvider).participationBelow30 ||

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:platform_front/lucid_HR/createJobSearch/components/benchmark_widgets/benchmark_slider_widget.dart';
-import 'package:platform_front/lucid_HR/global_components/heading_and_divider.dart';
+import 'package:platform_front/lucid_HR/components/createJobSearch/components/benchmark_widgets/benchmark_slider_widget.dart';
+import 'package:platform_front/lucid_HR/components/global_components/heading_and_divider.dart';
 import 'package:platform_front/lucid_ORG/config/enums_org.dart';
 
 class BenchmarksWidget extends StatelessWidget {

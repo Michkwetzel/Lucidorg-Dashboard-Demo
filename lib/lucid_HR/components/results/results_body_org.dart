@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:platform_front/core_config/constants.dart';
 
-class HomeBodyOrg extends StatelessWidget {
-  const HomeBodyOrg({super.key});
+class ResultsBodyHR extends StatelessWidget {
+  const ResultsBodyHR({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class HomeBodyOrg extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Home Lucid HR",
+                  "Results Lucid HR",
                   style: kH1TextStyle,
                 ),
               ],
@@ -27,4 +27,3 @@ class HomeBodyOrg extends StatelessWidget {
     );
   }
 }
-

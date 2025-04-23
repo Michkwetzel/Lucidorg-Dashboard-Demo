@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/core_config/constants.dart';
-import 'package:platform_front/lucid_HR/config/providers.dart';
+import 'package:platform_front/lucid_HR/config/providers_hr.dart';
 import 'package:platform_front/lucid_ORG/config/enums_org.dart';
 
 class CustomSlider extends ConsumerWidget {

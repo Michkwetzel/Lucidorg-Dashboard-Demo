@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/lucid_ORG/config/providers_org.dart';
 
-class SubjectEdit extends ConsumerWidget {
+class Emailfrom extends ConsumerWidget {
   final String? Function(String?)? validator;
 
-  const SubjectEdit({
+  const Emailfrom({
     super.key,
     required this.validator,
   });
@@ -16,8 +16,8 @@ class SubjectEdit extends ConsumerWidget {
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: validator,
       enableInteractiveSelection: true,
-      initialValue: ref.read(emailTemplateProvider.notifier).subject,
-      onChanged: (value) => ref.read(emailTemplateProvider.notifier).updateSubjectText(value),
+      initialValue: ref.read(emailTemplateProvider.notifier).emailFrom,
+      onChanged: (value) => ref.read(emailTemplateProvider.notifier).updateEmailFrom(value),
       maxLines: null,
       style: const TextStyle(
         letterSpacing: 0.4,
@@ -43,4 +43,23 @@ class SubjectEdit extends ConsumerWidget {
   }
 }
 
+class EmailFromView extends ConsumerWidget {
+  const EmailFromView({super.key});
 
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Container(
+      color: Colors.white,
+      padding: EdgeInsets.zero,
+      child: Text(
+        ref.read(emailTemplateProvider.notifier).emailFrom,
+        style: const TextStyle(
+          letterSpacing: 0.4,
+          fontSize: 16.0,
+          height: 1.5,
+          color: Colors.black87,
+        ),
+      ),
+    );
+  }
+}

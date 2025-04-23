@@ -65,6 +65,7 @@ class HomeScreenBody extends ConsumerWidget {
                     ),
                     const SizedBox(width: 32),
                     ParticipationWidget(),
+                    SizedBox(width: 8,)
                   ]),
                   const SizedBox(height: 32),
                   SizedBox(

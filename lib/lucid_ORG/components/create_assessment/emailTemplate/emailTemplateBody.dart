@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:platform_front/lucid_ORG/components/create_assessment/emailTemplate/emailFrom.dart';
 import 'package:platform_front/lucid_ORG/components/create_assessment/emailTemplate/subjectView.dart';
 import 'package:platform_front/global_components/buttons/CallToActionButton.dart';
 import 'package:platform_front/global_components/buttons/primaryButton.dart';
@@ -46,19 +47,17 @@ class EmailTemplateBody extends ConsumerWidget {
                 ),
               ],
             ),
-            Container(
-              color: Colors.white,
-              padding: EdgeInsets.zero,
-              child: Text(
-                'eric@Efficiency-first.com',
-                style: const TextStyle(
-                  letterSpacing: 0.4,
-                  fontSize: 16.0,
-                  height: 1.5,
-                  color: Colors.black87,
-                ),
-              ),
-            ),
+            SizedBox(height: 4),
+            isEditMode
+                ? Emailfrom(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter an Email From';
+                      }
+                      return null;
+                    },
+                  )
+                : const EmailFromView(),
             SizedBox(height: 16),
             Text(
               'Subject:',

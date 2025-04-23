@@ -35,6 +35,15 @@ class NavBarMenuHR extends ConsumerWidget {
         ),
         NavBarButton(
           onTap: () {
+            ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.newJobSearch_hr);
+            NavigationService.navigateTo('/newJobSearch_hr');
+          },
+          icon: Icons.layers,
+          label: 'New Job Search',
+          buttonType: NavBarButtonType.newJobSearch_hr,
+        ),
+        NavBarButton(
+          onTap: () {
             ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.results_hr);
             NavigationService.navigateTo('/results_hr');
           },

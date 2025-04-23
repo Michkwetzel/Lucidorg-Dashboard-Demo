@@ -29,32 +29,18 @@ class ImpactBody extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: 1008,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Impact",
-                              style: kH1TextStyle,
-                            ),
-                            Text(
-                              'Assessment: Q1 2025',
-                              style: kH5PoppinsLight,
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
+                  Text(
+                    "Impact",
+                    style: kH1TextStyle,
                   ),
                   if (ref.watch(metricsDataProvider).noSurveyData ||
                       ref.watch(metricsDataProvider).participationBelow30 ||
                       ref.watch(metricsDataProvider).between30And70 ||
                       ref.watch(metricsDataProvider).needAll3Departments ||
                       ref.watch(metricsDataProvider).testData)
-                    TopActionBanner(section: DashboardSection.impact,),
+                    TopActionBanner(
+                      section: DashboardSection.impact,
+                    ),
                   SizedBox(
                     height: 16,
                   ),

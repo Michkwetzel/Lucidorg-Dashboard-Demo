@@ -4,9 +4,9 @@ import 'package:platform_front/core_config/constants.dart';
 import 'package:platform_front/global_components/buttons/primaryButton.dart';
 import 'package:platform_front/global_components/buttons/secondaryButton.dart';
 import 'package:platform_front/global_components/gray_divider.dart';
-import 'package:platform_front/lucid_HR/config/providers.dart';
-import 'package:platform_front/lucid_HR/createJobSearch/components/email_list_widgets/email_list_widget.dart';
-import 'package:platform_front/lucid_HR/createJobSearch/job_creation_screen.dart';
+import 'package:platform_front/lucid_HR/config/providers_hr.dart';
+import 'package:platform_front/lucid_HR/components/createJobSearch/components/email_list_widgets/email_list_widget.dart';
+import 'package:platform_front/lucid_HR/components/createJobSearch/job_creation_screen.dart';
 
 class EmailListViewHR extends ConsumerWidget {
   const EmailListViewHR({

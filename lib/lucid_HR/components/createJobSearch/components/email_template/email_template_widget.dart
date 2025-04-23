@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:platform_front/lucid_HR/config/providers.dart';
-import 'package:platform_front/lucid_HR/createJobSearch/components/email_template/body_email_template_edit.dart';
-import 'package:platform_front/lucid_HR/createJobSearch/job_creation_screen.dart';
-import 'package:platform_front/lucid_HR/global_components/heading_and_divider.dart';
-import 'package:platform_front/lucid_HR/global_components/simple_text_field_gray.dart';
+import 'package:platform_front/lucid_HR/config/providers_hr.dart';
+import 'package:platform_front/lucid_HR/components/createJobSearch/components/email_template/body_email_template_edit.dart';
+import 'package:platform_front/lucid_HR/components/createJobSearch/job_creation_screen.dart';
+import 'package:platform_front/lucid_HR/components/global_components/heading_and_divider.dart';
+import 'package:platform_front/lucid_HR/components/global_components/simple_text_field_gray.dart';
 
 class EmailTemplateWidget extends ConsumerWidget {
   const EmailTemplateWidget({super.key});

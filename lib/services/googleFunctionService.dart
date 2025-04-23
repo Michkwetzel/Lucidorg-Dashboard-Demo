@@ -39,6 +39,7 @@ class GoogleFunctionService extends StateNotifier<GoogleFunctionServiceState> {
   String? get companyUID => _userDataNotifier.state.companyUID;
   String? get subject => _emailTemplateNotifier.state.subject;
   String? get latestDocName => _userDataNotifier.latestSurveyDocName;
+  String? get emailFrom => _emailTemplateNotifier.state.emailFrom;
 
   GoogleFunctionService(
       {required EmailListNotifier emailListNotifier,
@@ -75,6 +76,7 @@ class GoogleFunctionService extends StateNotifier<GoogleFunctionServiceState> {
         'userUID': userUID,
         'subject': subject,
         'companyUID': companyUID,
+        'emailFrom': emailFrom,
         'guest': guest
       };
 
@@ -123,5 +125,5 @@ class GoogleFunctionService extends StateNotifier<GoogleFunctionServiceState> {
     } on Exception catch (e) {
       logger.severe("Error sending CreateNewJobSearch: $e");
     }
-  }
+  } 
 }

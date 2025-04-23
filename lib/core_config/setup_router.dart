@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:platform_front/lucid_HR/createJobSearch/job_creation_screen.dart';
-import 'package:platform_front/lucid_HR/createJobSearch/temp.dart';
-import 'package:platform_front/lucid_HR/home/home_body_org.dart';
-import 'package:platform_front/lucid_HR/results/results_body_org.dart';
+import 'package:platform_front/lucid_HR/components/createJobSearch/job_creation_screen.dart';
+import 'package:platform_front/lucid_HR/components/createJobSearch/temp.dart';
+import 'package:platform_front/lucid_HR/components/home/home_body_org.dart';
+import 'package:platform_front/lucid_HR/components/results/results_body_org.dart';
 import 'package:platform_front/lucid_ORG/components/company_info/companyInfoBody.dart';
 import 'package:platform_front/lucid_ORG/components/create_assessment/create/createAssessmentBody.dart';
 import 'package:platform_front/lucid_ORG/components/create_assessment/current/current_assessment_body.dart';
@@ -29,7 +29,7 @@ GoRouter setupRouter() {
           },
           routes: [
             GoRoute(
-              path: '/home_hr',
+              path: '/newJobSearch_hr',
               pageBuilder: (context, state) {
                 return const NoTransitionPage(
                   child: JobCreationScreen(),
@@ -37,10 +37,18 @@ GoRouter setupRouter() {
               },
             ),
             GoRoute(
+              path: '/home_hr',
+              pageBuilder: (context, state) {
+                return const NoTransitionPage(
+                  child: HomeBodyOrg(),
+                );
+              },
+            ),
+            GoRoute(
               path: '/results_hr',
               pageBuilder: (context, state) {
                 return const NoTransitionPage(
-                  child: ResultsBodyOrg(),
+                  child: ResultsBodyHR(),
                 );
               },
             )
