@@ -51,6 +51,7 @@ flutter:
     - family: OpenSans
       fonts:
         - asset: assets/fonts/OpenSans/OpenSans.ttf
+
     - family: Poppins
       fonts:
         - asset: assets/fonts/Poppins/Poppins-Thin.ttf
@@ -67,6 +68,11 @@ flutter:
           weight: 600
         - asset: assets/fonts/Poppins/Poppins-Bold.ttf
           weight: 700
+  
+    - family: SF Pro
+      fonts: 
+        - asset: assets/fonts/SF-Pro/SF-Pro.ttf
+  
 
 
 

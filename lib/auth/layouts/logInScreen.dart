@@ -1,0 +1,189 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
+import 'package:platform_front/auth/components/buttons/bottomButtonsRow.dart';
+import 'package:platform_front/auth/components/buttons/google_sign_in_button.dart';
+import 'package:platform_front/auth/components/misc/line_break.dart';
+import 'package:platform_front/auth/components/textfield/form_text_field.dart';
+import 'package:platform_front/core_config/enums.dart';
+import 'package:platform_front/global_components/loading_overlay.dart';
+import 'package:platform_front/core_config/constants.dart';
+import 'package:platform_front/lucid_ORG/config/providers_org.dart';
+import 'package:platform_front/auth/layouts/appEntryLayout.dart';
+import 'package:platform_front/services/microServices/navigationService.dart';
+import 'package:platform_front/services/microServices/snackBarService.dart';
+
+class LogInScreen extends ConsumerStatefulWidget {
+  const LogInScreen({super.key});
+
+  @override
+  ConsumerState<LogInScreen> createState() => _LogInScreenState();
+}
+
+class _LogInScreenState extends ConsumerState<LogInScreen> {
+  bool loading = false;
+  String? errorText;
+  final _formKey = GlobalKey<FormState>(); // Add this line
+
+  @override
+  Widget build(BuildContext context) {
+    final Logger logger = Logger("LogIn");
+
+    Future<void> successfullyLogIn() async {
+      try {
+        SnackBarService.showMessage("Successfully Logged in", Colors.green);
+        await ref.read(userDataProvider.notifier).getUserInfo(ref.read(authfirestoreserviceProvider));
+        if (ref.read(userDataProvider).latestSurveyDocName != null) {
+          ref.read(currentEmailListProvider.notifier).getCurrentEmails();
+        }
+        // Load survey data then load finance
+        await ref.read(metricsDataProvider.notifier).getSurveyData();
+        ref.read(financeModelProvider.notifier).calculateInitValues();
+        ref.read(companyInfoService.notifier).getCompanyInfo();
+        ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.home_org);
+        NavigationService.navigateTo('/home_org');
+        ref.read(authDisplayProvider.notifier).changeDisplay(const AppEntryLayout());
+      } on Exception catch (e) {
+        setState(() {
+          loading = false;
+        });
+        SnackBarService.showMessage("Error signing in. Please try again later", Colors.red, duration: 4);
+      }
+    }
+
+    void googleSignInClicked() async {
+      try {
+        setState(() {
+          errorText = null;
+          loading = true;
+        });
+        final userCred = await ref.read(authfirestoreserviceProvider.notifier).signinWithGoogle();
+
+        //Log in via Google
+        if (userCred?.additionalUserInfo?.isNewUser != true) {
+          successfullyLogIn();
+        } else {
+          // new user. needs to go to create account page
+          await ref.read(authfirestoreserviceProvider.notifier).deleteAccount();
+          setState(() {
+            loading = false;
+          });
+          SnackBarService.showMessage("New email address. Please create an account", Colors.red, duration: 4);
+          ref.read(authDisplayProvider.notifier).changeDisplay(AppEntryLayout());
+        }
+      } on Exception catch (e) {
+        setState(() {
+          loading = false;
+        });
+        logger.severe(e);
+        SnackBarService.showMessage("Google sign in error, Please try again later or click feedback button", Colors.red, duration: 4);
+      }
+    }
+
+    void emailPasswordSignIn() async {
+      setState(() {
+        errorText = null;
+      });
+      if (_formKey.currentState!.validate()) {
+        // Add validation check
+        try {
+          setState(() {
+            loading = true;
+          });
+          await ref.read(authfirestoreserviceProvider.notifier).signInWithEmailAndPassword(ref.read(emailPasswordProvider.notifier).getEmail(), ref.read(emailPasswordProvider.notifier).getPassword());
+          await successfullyLogIn();
+        } on FirebaseAuthException catch (e) {
+          logger.info('Error logging in with Firebase Auth Account: ${e.code}');
+          String forcedErrorText = '';
+          switch (e.code) {
+            case 'network-request-failed':
+              forcedErrorText = "Network Error";
+            case 'user-not-found':
+              forcedErrorText = "User not found";
+            case 'wrong-password':
+              forcedErrorText = "Wrong password";
+            case 'invalid-credential':
+              forcedErrorText = "Invalid Credentials";
+            default:
+              forcedErrorText = "Error";
+          }
+          setState(() {
+            errorText = forcedErrorText;
+            loading = false;
+          });
+        }
+      }
+    }
+
+    return OverlayWidget(
+      loadingProvider: loading,
+      showChild: true,
+      child: Center(
+        child: Container(
+          padding: const EdgeInsets.all(32),
+          width: 350,
+          decoration: BoxDecoration(
+            boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.20), blurRadius: 4)],
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(24),
+          ),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Image.asset('assets/logo/logo.jpg', scale: kLogoScale),
+                const SizedBox(height: 12),
+                const Text("Email", style: kTextFieldHeaderTextStyle),
+                const SizedBox(height: 2),
+                FormTextField(
+                  forcedErrorText: errorText,
+                  textFieldType: "email",
+                  validator: (value) {
+                    final emailRegex = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+
+                    if (value == null) {
+                      return 'Email cannot be empty';
+                    } else if (!emailRegex.hasMatch(value)) {
+                      return 'Invalid email format';
+                    }
+                    return null;
+                  },
+                ),
+                Text("Password", style: kTextFieldHeaderTextStyle),
+                SizedBox(height: 2),
+                FormTextField(
+                  textFieldType: "password",
+                  validator: (value) {
+                    if (value == null) {
+                      return 'Password cannot be empty';
+                    } else if (value.length < 6) {
+                      return 'Password must be at least 6 characters';
+                    }
+                    return null;
+                  },
+                ),
+                LineBreak(
+                  colour: 'black',
+                ),
+                GoogleSignInButton(onPressed: () => googleSignInClicked()),
+                SizedBox(
+                  height: 18,
+                ),
+                BottomButtonsRow(
+                  onPressedBackButton: () {
+                    ref.read(authDisplayProvider.notifier).changeDisplay(const AppEntryLayout());
+                  },
+                  onPressedNextButton: () => emailPasswordSignIn(),
+                  nextButtonText: "Log in",
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

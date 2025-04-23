@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
-import 'package:platform_front/config/exceptions.dart';
+import 'package:platform_front/lucid_ORG/config/exceptions_org.dart';
 
 class FirebaseServiceNotifier extends StateNotifier<bool> {
   //Direct firestore serices

@@ -1,11 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
-import 'package:platform_front/config/constants.dart';
-import 'package:platform_front/notifiers/assessment/currentAssessment/reminderEmailTemplateProvider.dart';
-import 'package:platform_front/notifiers/userResultsData/userResultsData.dart';
-import 'package:platform_front/notifiers/assessment/createAssessment/emailListNotifer.dart';
-import 'package:platform_front/notifiers/assessment/createAssessment/emailTemplateNotifer.dart';
-import 'package:platform_front/notifiers/userProfileData/userProfileData.dart';
+import 'package:platform_front/core_config/constants.dart';
+import 'package:platform_front/lucid_ORG/notifiers/assessment/currentAssessment/reminderEmailTemplateProvider.dart';
+import 'package:platform_front/lucid_ORG/notifiers/userResultsData/userResultsData.dart';
+import 'package:platform_front/lucid_ORG/notifiers/assessment/createAssessment/emailListNotifer.dart';
+import 'package:platform_front/lucid_ORG/notifiers/assessment/createAssessment/emailTemplateNotifer.dart';
+import 'package:platform_front/auth/user_profile_data/userProfileData.dart';
 import 'package:platform_front/services/httpService.dart';
 
 class GoogleFunctionServiceState {
@@ -39,6 +39,7 @@ class GoogleFunctionService extends StateNotifier<GoogleFunctionServiceState> {
   String? get companyUID => _userDataNotifier.state.companyUID;
   String? get subject => _emailTemplateNotifier.state.subject;
   String? get latestDocName => _userDataNotifier.latestSurveyDocName;
+  String? get emailFrom => _emailTemplateNotifier.state.emailFrom;
 
   GoogleFunctionService(
       {required EmailListNotifier emailListNotifier,
@@ -75,6 +76,7 @@ class GoogleFunctionService extends StateNotifier<GoogleFunctionServiceState> {
         'userUID': userUID,
         'subject': subject,
         'companyUID': companyUID,
+        'emailFrom': emailFrom,
         'guest': guest
       };
 
@@ -103,9 +105,25 @@ class GoogleFunctionService extends StateNotifier<GoogleFunctionServiceState> {
     }
   }
 
-  // Future<void> createTokens({int numTokens = 1, int numCompanyUIds = 1}) {
-  //   logger.info("Creating Tokens");
-  //   Map<String, int> request = {'numTokens': numTokens, 'numCompanyUIds': numCompanyUIds};
-  //   return HttpService.postRequest(path: kCreateTokensPath, request: request);
-  // }
+  // Next is all my HR google funtion services.
+
+  Future<void> createNewJobSearch(Map<String, dynamic> jobSearchData) async {
+    String title = jobSearchData['title'];
+    List<String> emailList = jobSearchData['emailList'];
+    Map<String, double> benchmarks = jobSearchData['benchmarks'];
+    String emailFrom = jobSearchData['emailFrom'];
+    String subject = jobSearchData['subject'];
+    String emailBody = jobSearchData['emailBody'];
+
+    print('title: $title, emailList: $emailList, benchmarks: $benchmarks, emailFrom: $emailFrom, subject: $subject, emailBody: $emailBody');
+
+    try {
+      await HttpService.postRequest(
+        path: kCreateJobSearchPath,
+        request: {'title': title, 'emailList': emailList, 'benchmarks': benchmarks, 'emailFrom': emailFrom, 'subject': subject, 'emailBody': emailBody, 'companyUID': companyUID},
+      );
+    } on Exception catch (e) {
+      logger.severe("Error sending CreateNewJobSearch: $e");
+    }
+  } 
 }
