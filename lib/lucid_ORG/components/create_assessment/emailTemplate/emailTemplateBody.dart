@@ -1,131 +1,58 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:platform_front/lucid_ORG/components/create_assessment/emailTemplate/emailFrom.dart';
-import 'package:platform_front/lucid_ORG/components/create_assessment/emailTemplate/subjectView.dart';
-import 'package:platform_front/global_components/buttons/CallToActionButton.dart';
-import 'package:platform_front/global_components/buttons/primaryButton.dart';
-import 'package:platform_front/lucid_ORG/components/create_assessment/emailTemplate/subjectEdit.dart';
-import 'package:platform_front/lucid_ORG/components/create_assessment/emailTemplate/templateEdit.dart';
-import 'package:platform_front/lucid_ORG/components/create_assessment/emailTemplate/templateView.dart';
-import 'package:platform_front/core_config/constants.dart';
+import 'package:platform_front/lucid_HR/components/createJobSearch/components/email_template/body_email_template_edit.dart';
+import 'package:platform_front/lucid_HR/components/global_components/heading_and_divider.dart';
+import 'package:platform_front/lucid_HR/components/global_components/simple_text_field_gray.dart';
 import 'package:platform_front/lucid_ORG/config/providers_org.dart';
 
-final _formKey = GlobalKey<FormState>();
-
-class EmailTemplateBody extends ConsumerWidget {
-  const EmailTemplateBody({super.key});
+class EmailTemplateWidget_ORG extends ConsumerWidget {
+  const EmailTemplateWidget_ORG({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isEditMode = ref.watch(emailTemplateProvider.select((it) => it.editEmailTemplateDisplay));
-
-    return Container(
-      padding: const EdgeInsets.only(left: 32, right: 32, bottom: 16),
-      decoration: isEditMode
-          ? BoxDecoration(
-              boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.20), blurRadius: 4)],
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
-            )
-          : null,
-      constraints: BoxConstraints(
-        maxWidth: 570,
-      ),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (isEditMode) SizedBox(height: 24),
-            const Text("Email Template", style: kH2TextStyle),
-            SizedBox(height: 24),
-            Row(
-              children: [
-                Text(
-                  'From:',
-                  style: TextStyle(fontFamily: "Poppins", fontWeight: FontWeight.w500, fontSize: 22, color: Color(0xFF323232)),
-                ),
-              ],
-            ),
-            SizedBox(height: 4),
-            isEditMode
-                ? Emailfrom(
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter an Email From';
-                      }
-                      return null;
-                    },
-                  )
-                : const EmailFromView(),
-            SizedBox(height: 16),
-            Text(
-              'Subject:',
-              style: TextStyle(fontFamily: "Poppins", fontWeight: FontWeight.w500, fontSize: 22, color: Color(0xFF323232)),
-            ),
-            SizedBox(height: 4),
-            isEditMode
-                ? SubjectEdit(
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter a Subject';
-                      }
-                      return null;
-                    },
-                  )
-                : const SubjectView(),
-            SizedBox(height: 16),
-            Text(
-              'Body:',
-              style: TextStyle(fontFamily: "Poppins", fontWeight: FontWeight.w500, fontSize: 22, color: Color(0xFF323232)),
-            ),
-            SizedBox(height: 4),
-            isEditMode
-                ? BodyEmailTemplateEdit(
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
-                      } else if (!value.contains('[Assessment Link]') && !value.contains('[assessment link]')) {
-                        return 'Email must contain "[assessment link]" (This is where link will be inserted)';
-                      }
-                      return null;
-                    },
-                  )
-                : const TemplateView(),
-            const SizedBox(height: 32),
-            EditEmailTemplateBUtton(isEditMode: ref.watch(emailTemplateProvider.select((it) => it.editEmailTemplateDisplay))),
-          ],
+    return Column(
+      spacing: 12,
+      children: [
+        HeadingAndDivider(
+          heading: "Email Template",
         ),
-      ),
-    );
-  }
-}
-
-class EditEmailTemplateBUtton extends ConsumerWidget {
-  const EditEmailTemplateBUtton({
-    super.key,
-    required this.isEditMode,
-  });
-
-  final bool isEditMode;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Align(
-      alignment: Alignment.centerRight,
-      child: isEditMode
-          ? CallToActionButton(
-              onPressed: () {
-                if (_formKey.currentState!.validate()) {
-                  ref.read(emailTemplateProvider.notifier).changeToViewTemplateDisplay();
-                }
-              },
-              buttonText: 'Save',
-            )
-          : Primarybutton(
-              onPressed: () => ref.read(emailTemplateProvider.notifier).changeToEditTemplateDisplay(),
-              buttonText: "Edit Email Template",
-            ),
+        SimpleTextFieldGray(
+          formKey: ref.read(emailTemplateProvider.notifier).formKeys[0],
+          heading: "Email From:",
+          hintText: "John from My Company...",
+          onTextChanged: (text) => ref.read(emailTemplateProvider.notifier).updateEmailFrom(text),
+          validator: (text) {
+            if (text == null || text.isEmpty) {
+              return "Please enter an Email From";
+            }
+            return null;
+          },
+        ),
+        SimpleTextFieldGray(
+          formKey: ref.read(emailTemplateProvider.notifier).formKeys[1],
+          heading: "Subject:",
+          hintText: "You are invited to a ...",
+          onTextChanged: (text) => ref.read(emailTemplateProvider.notifier).updateSubjectText(text),
+          validator: (text) {
+            if (text == null || text.isEmpty) {
+              return "Please enter a Subject";
+            }
+            return null;
+          },
+        ),
+        BodyEmailTemplateEdit(
+          initialValue: ref.read(emailTemplateProvider.notifier).templateBody,
+          onChanged: (value) => ref.read(emailTemplateProvider.notifier).updateEmailTemplate(value),
+          validator: (text) {
+            if (text == null || text.isEmpty) {
+              return "Please enter some text";
+            } else if (!text.contains('[Assessment Link]') && !text.contains('[assessment link]')) {
+              return 'Please add "[assessment link]" in the email. (This is where link will be inserted)';
+            }
+            return null;
+          },
+        )
+      ],
     );
   }
 }

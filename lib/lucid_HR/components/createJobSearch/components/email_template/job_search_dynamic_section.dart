@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/lucid_HR/config/enums_hr.dart';
 import 'package:platform_front/lucid_HR/config/providers_hr.dart';
 import 'package:platform_front/lucid_HR/components/createJobSearch/components/benchmark_widgets/benchmarks_widget.dart';
-import 'package:platform_front/lucid_HR/components/createJobSearch/components/email_template/email_template_widget.dart';
+import 'package:platform_front/lucid_HR/components/createJobSearch/components/email_template/email_template_widget_HR.dart';
 
 class JobSearchDynamicSection extends ConsumerWidget {
   const JobSearchDynamicSection({super.key});
@@ -13,7 +13,7 @@ class JobSearchDynamicSection extends ConsumerWidget {
     if (ref.watch(jobCreationProvider.select((state) => state.newJobSearchSection)) == NewJobSearchSection.chooseBenchmarks) {
       return BenchmarksWidget();
     } else {
-      return EmailTemplateWidget();
+      return EmailTemplateWidget_HR();
     }
   }
 }

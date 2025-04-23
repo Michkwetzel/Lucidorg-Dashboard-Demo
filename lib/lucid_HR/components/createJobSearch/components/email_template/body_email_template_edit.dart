@@ -4,10 +4,14 @@ import 'package:platform_front/lucid_HR/config/providers_hr.dart';
 
 class BodyEmailTemplateEdit extends ConsumerWidget {
   final String? Function(String?)? validator;
+  final String initialValue;
+  final Function(String) onChanged;
 
   const BodyEmailTemplateEdit({
     super.key,
     required this.validator,
+    required this.initialValue,
+    required this.onChanged,
   });
 
   @override
@@ -16,8 +20,8 @@ class BodyEmailTemplateEdit extends ConsumerWidget {
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: validator,
       enableInteractiveSelection: true,
-      initialValue: ref.read(jobCreationProvider.notifier).emailBody,
-      onChanged: (value) => ref.read(jobCreationProvider.notifier).updateEmailBody(value),
+      initialValue: initialValue,
+      onChanged: onChanged,
       maxLines: null,
       style: const TextStyle(
         letterSpacing: 0.4,

@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/lucid_HR/config/providers_hr.dart';
 import 'package:platform_front/lucid_HR/components/createJobSearch/components/email_template/body_email_template_edit.dart';
-import 'package:platform_front/lucid_HR/components/createJobSearch/job_creation_screen.dart';
 import 'package:platform_front/lucid_HR/components/global_components/heading_and_divider.dart';
 import 'package:platform_front/lucid_HR/components/global_components/simple_text_field_gray.dart';
 
-class EmailTemplateWidget extends ConsumerWidget {
-  const EmailTemplateWidget({super.key});
+class EmailTemplateWidget_HR extends ConsumerWidget {
+  const EmailTemplateWidget_HR({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -42,6 +41,8 @@ class EmailTemplateWidget extends ConsumerWidget {
           },
         ),
         BodyEmailTemplateEdit(
+          initialValue: ref.read(jobCreationProvider.notifier).emailBody!,
+          onChanged: (value) => ref.read(jobCreationProvider.notifier).updateEmailBody(value),
           validator: (text) {
             if (text == null || text.isEmpty) {
               return "Please enter some text";

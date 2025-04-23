@@ -14,7 +14,7 @@ import 'package:platform_front/services/microServices/alertService.dart';
 import 'package:platform_front/services/microServices/snackBarService.dart';
 
 class CreateAssessmentBody extends ConsumerStatefulWidget {
-  CreateAssessmentBody({
+  const CreateAssessmentBody({
     super.key,
   });
 
@@ -57,31 +57,13 @@ class _CreateAssessmentBodyState extends ConsumerState<CreateAssessmentBody> {
           backgroundColor: Colors.red,
         ),
       );
-    } else if (ref.read(emailTemplateProvider.notifier).editEmailTemplateDisplay) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please Save Email Template'),
-          backgroundColor: Colors.red,
-        ),
-      );
-    } else {
+    } else if (ref.read(emailTemplateProvider.notifier).validateAllData()) {
       try {
         await ref.read(googlefunctionserviceProvider.notifier).createAssessment();
         AlertService.showAlert(message: 'Successfully Created assessment', title: 'Success');
         await ref.read(userDataProvider.notifier).getUserInfo(ref.read(authfirestoreserviceProvider));
         await ref.read(metricsDataProvider.notifier).getSurveyData();
         await ref.read(currentEmailListProvider.notifier).getCurrentEmails();
-        // await AlertService.showAlert(
-        //   title: "You are about to send out an Assessment",
-        //   message: "This is an awesome moment! Just one last check: Did you double check the email list? After starting an assessment you wont be able to start one for the next month.",
-        //   onConfirm: () async {
-        //     await ref.read(googlefunctionserviceProvider.notifier).createAssessment();
-        //     AlertService.showAlert(message: 'Successfully Created assessment', title: 'Success');
-        //     await ref.read(userDataProvider.notifier).getUserInfo(ref.read(authfirestoreserviceProvider));
-        //     await ref.read(metricsDataProvider.notifier).getSurveyData();
-        //     await ref.read(currentEmailListProvider.notifier).getCurrentEmails();
-        //   },
-        // );
       } on Exception catch (e) {
         SnackBarService.showMessage('Error creating Assessment', Colors.red, duration: 3);
         logger.severe("Failed to create Assessment with error: $e");
@@ -126,29 +108,27 @@ class _CreateAssessmentBodyState extends ConsumerState<CreateAssessmentBody> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Emaillistbody(),
-                            const SizedBox(height: 32),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                CallToActionButton(
-                                  disabled: ref.watch(googlefunctionserviceProvider).loading,
-                                  onPressed: () => startAssessment(context, ref),
-                                  buttonText: "Start Assessment",
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
+                        const Emaillistbody(),
+                        const SizedBox(height: 32),
                       ],
                     ),
                   ),
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.only(top: 4, bottom: 4),
-                    child: EmailTemplateBody(),
+                    child: SizedBox(
+                      width: 800,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          EmailTemplateWidget_ORG(),
+                          CallToActionButton(
+                            disabled: ref.watch(googlefunctionserviceProvider).loading,
+                            onPressed: () => startAssessment(context, ref),
+                            buttonText: "Start Assessment",
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),

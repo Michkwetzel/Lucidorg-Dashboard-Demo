@@ -35,6 +35,7 @@ class GoogleFunctionService extends StateNotifier<GoogleFunctionServiceState> {
   String get emailTemplate => _emailTemplateNotifier.state.templateBody;
   String? get reminderTemplate => _reminderEmailTemplateNotifer.state.templateBody;
   String? get reminderSubject => _reminderEmailTemplateNotifer.state.subject;
+  String? get reminderEmailFrom => _reminderEmailTemplateNotifer.state.emailFrom;
   String? get userUID => _userDataNotifier.state.userUID;
   String? get companyUID => _userDataNotifier.state.companyUID;
   String? get subject => _emailTemplateNotifier.state.subject;
@@ -99,9 +100,10 @@ class GoogleFunctionService extends StateNotifier<GoogleFunctionServiceState> {
         'companyUID': companyUID,
         'emailTemplate': reminderTemplate,
         'subject': reminderSubject,
+        'emailFrom': reminderEmailFrom,
       });
     } on Exception catch (e) {
-      logger.severe('Error sending email reminder');
+      logger.severe('Error sending email reminder: $e');
     }
   }
 

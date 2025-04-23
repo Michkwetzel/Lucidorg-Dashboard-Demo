@@ -94,9 +94,10 @@ const String ksaveCompanyInfoPath = 'https://savecompanyinfo-rbyavkqn2a-uc.a.run
 // const String kCreateTokensPath = 'http://127.0.0.1:5001/efficiency-1st/us-central1/createTokens';
 
 const String ksendEmailReminderPath = 'https://sendemailreminder-rbyavkqn2a-uc.a.run.app';
+// const String ksendEmailReminderPath = 'http://127.0.0.1:5001/efficiency-1st/us-central1/sendEmailReminder';
 
-// const String kCreateJobSearchPath = "https://createjobsearch-rbyavkqn2a-uc.a.run.app";
-const String kCreateJobSearchPath = "http://127.0.0.1:5001/efficiency-1st/us-central1/createJobSearch";
+const String kCreateJobSearchPath = "https://createjobsearch-rbyavkqn2a-uc.a.run.app";
+// const String kCreateJobSearchPath = "http://127.0.0.1:5001/efficiency-1st/us-central1/createJobSearch";
 
 // ****************************************** Box Decorations ***************************************
 

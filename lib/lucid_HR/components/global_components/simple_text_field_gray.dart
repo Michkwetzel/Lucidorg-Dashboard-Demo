@@ -15,7 +15,7 @@ class SimpleTextFieldGray extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     Widget returnTextfield() {
       return SizedBox(
-        width: 250,
+        width: 300,
         child: Form(
           key: formKey,
           child: TextFormField(
