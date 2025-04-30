@@ -71,7 +71,7 @@ class _BarChartWidgetState extends State<BarChartWidget> {
                     case 1:
                       return const Text('C-Suite');
                     case 2:
-                      return const Text('Staff');
+                      return const Text('Team');
                     default:
                       return const Text('');
                   }

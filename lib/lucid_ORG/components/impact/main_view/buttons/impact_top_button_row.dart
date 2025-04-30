@@ -12,7 +12,7 @@ class ImpactTopButtonRow extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         SizedBox(width: 32),
-        ImpactViewRadioButton(buttonText: 'Org Impact', section: ImpactSection.orgImpact),
+        ImpactViewRadioButton(buttonText: 'Org Impact', section: ImpactSection.pyramid1),
         ImpactViewRadioButton(buttonText: 'Financial', section: ImpactSection.financial),
         ImpactViewRadioButton(buttonText: 'Score over time', section: ImpactSection.scoreOverTime),
         ImpactViewRadioButton(buttonText: 'Diff over time', section: ImpactSection.diffOverTime),

@@ -75,7 +75,7 @@ class PerDepertmentScoresWidget extends StatelessWidget {
                 Text('|', style: kH4PoppinsLight),
                 SizedBox(width: 100, child: Center(child: Text('C-Suite', style: bold ? kH3PoppinsRegular : kH3PoppinsLight))),
                 Text('|', style: kH4PoppinsLight),
-                SizedBox(width: 60, child: Center(child: Text('Staff', style: bold ? kH3PoppinsRegular : kH3PoppinsLight))),
+                SizedBox(width: 70, child: Center(child: Text('Team', style: bold ? kH3PoppinsRegular : kH3PoppinsLight))),
               ],
             ),
           ),
@@ -89,7 +89,7 @@ class PerDepertmentScoresWidget extends StatelessWidget {
                 Text('|', style: kH4PoppinsLight),
                 SizedBox(width: 100, child: Center(child: Text('$cSuiteScore%', style: TextStyle(color: Color(0xFFB3A986), fontSize: 20, fontFamily: 'Poppins', fontWeight: FontWeight.w300)))),
                 Text('|', style: kH4PoppinsLight),
-                SizedBox(width: 60, child: Center(child: Text('$employeeScore%', style: TextStyle(color: Color(0xFF7FAF8C), fontSize: 20, fontFamily: 'Poppins', fontWeight: FontWeight.w300))))
+                SizedBox(width: 70, child: Center(child: Text('$employeeScore%', style: TextStyle(color: Color(0xFF7FAF8C), fontSize: 20, fontFamily: 'Poppins', fontWeight: FontWeight.w300))))
               ],
             ),
           ),

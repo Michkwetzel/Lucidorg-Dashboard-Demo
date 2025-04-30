@@ -80,7 +80,7 @@ class TopActionBanner extends ConsumerWidget {
         if (nCeoFinished == 0) {
           missing = "CEO";
         } else if (nEmployeeFinished == 0) {
-          missing = "Staff";
+          missing = "Team";
         } else if (nCSuiteFinished == 0) {
           missing = "C-Suite";
         }

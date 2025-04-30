@@ -4,6 +4,8 @@ enum EmailListRadioButtonType { ceo, cSuite, employee }
 
 enum AssessmentDisplay { create, current }
 
+enum DiffOrScore { diff, score}
+
 // All constants given by Vandie
 enum Finance { profit, cost, margin, productivity, turnover }
 
@@ -58,7 +60,7 @@ enum Diffsize { H1, H2, H3, H4 }
 
 enum ResultSection { overview, areaScore, diffMatrix, foundations }
 
-enum ImpactSection { orgImpact, financial, scoreOverTime, diffOverTime }
+enum ImpactSection { pyramid1, financial, scoreOverTime, diffOverTime }
 
 enum HomeSection { home, currentAssessment, newAssessment, howTo }
 
@@ -82,7 +84,7 @@ extension DepartmentHeading on Department {
       case Department.cSuite:
         return "C-Suite";
       case Department.staff:
-        return "Staff";
+        return "Team";
     }
   }
 }

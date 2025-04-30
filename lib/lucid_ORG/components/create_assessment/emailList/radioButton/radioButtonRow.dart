@@ -17,7 +17,7 @@ class RadioButtonRow extends StatelessWidget {
           child: RadioButtonEmailList(buttonType: EmailListRadioButtonType.cSuite, text: 'C-Suite', display: display),
         ),
         Flexible(
-          child: RadioButtonEmailList(buttonType: EmailListRadioButtonType.employee, text: 'Employee', display: display),
+          child: RadioButtonEmailList(buttonType: EmailListRadioButtonType.employee, text: 'Team', display: display),
         ),
       ],
     );

@@ -44,14 +44,16 @@ class ImpactBody extends ConsumerWidget {
                   SizedBox(
                     height: 16,
                   ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    spacing: 32,
-                    children: [
-                      ImpactSideBar(),
-                      ImpactMainView(),
-                    ],
-                  )
+                  ref.watch(impactSelectedSectionProvider) == ImpactSection.pyramid1
+                      ? ImpactMainView()
+                      : Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          spacing: 32,
+                          children: [
+                            ImpactSideBar(),
+                            ImpactMainView(),
+                          ],
+                        )
                 ],
               ),
             ),

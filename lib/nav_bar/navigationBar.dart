@@ -82,7 +82,7 @@ class _NavBarState extends ConsumerState<NavBar> {
                                       'assets/logo/logo.jpg',
                                     ),
                                   ),
-                                  SwitchProductButton(),
+                                  //SwitchProductButton(),
                                 ],
                               )
                             : Padding(

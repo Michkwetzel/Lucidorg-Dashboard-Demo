@@ -20,7 +20,7 @@ class ImpactSideBar extends ConsumerWidget {
 
     Widget returnSideBarWidget() {
       switch (selectedSection) {
-        case ImpactSection.orgImpact:
+        case ImpactSection.pyramid1:
           return OrgImpactSB();
         case ImpactSection.financial:
           return FinancialSB();
