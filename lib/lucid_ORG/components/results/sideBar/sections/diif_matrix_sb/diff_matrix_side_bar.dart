@@ -17,8 +17,8 @@ class DiffMatrixSideBar extends ConsumerWidget {
     Indicator selectedIndicator = ref.watch(selectedDiffMatrixProvider);
 
     double ceoScore = displayData.ceoBenchmarks[selectedIndicator]!;
-    double employeeScore = displayData.cSuiteBenchmarks[selectedIndicator]!;
-    double cSuiteScore = displayData.employeeBenchmarks[selectedIndicator]!;
+    double employeeScore = displayData.employeeBenchmarks[selectedIndicator]!;
+    double cSuiteScore = displayData.cSuiteBenchmarks[selectedIndicator]!;
     double indicatorScore = displayData.companyBenchmarks[selectedIndicator]!;
     double diff = displayData.diffScores[selectedIndicator]!;
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:platform_front/core_config/constants.dart';
 import 'package:platform_front/services/microServices/navigationService.dart'; // Assuming you're using go_router based on the NavigationService.router
 
 class AlertService {
@@ -21,8 +21,18 @@ class AlertService {
       barrierDismissible: false,
       builder: (BuildContext dialogContext) {
         return AlertDialog(
-          title: Text(title),
-          content: Text(message),
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          title: Text(
+            title,
+            style: kH3PoppinsRegular,
+          ),
+          content: Text(
+            message,
+            style: kH5PoppinsLight,
+          ),
           actions: <Widget>[
             if (cancelText != null)
               TextButton(

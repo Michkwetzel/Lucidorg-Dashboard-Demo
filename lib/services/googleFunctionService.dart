@@ -95,6 +95,9 @@ class GoogleFunctionService extends StateNotifier<GoogleFunctionServiceState> {
 
   Future<void> sendEmailReminder() async {
     try {
+      logger.info("Sending Reminder");
+
+      state = state.copyWith(loading: true);
       await HttpService.postRequest(path: ksendEmailReminderPath, request: {
         'currentSurvey': latestDocName,
         'companyUID': companyUID,
@@ -102,7 +105,10 @@ class GoogleFunctionService extends StateNotifier<GoogleFunctionServiceState> {
         'subject': reminderSubject,
         'emailFrom': reminderEmailFrom,
       });
+      state = state.copyWith(loading: false);
     } on Exception catch (e) {
+      state = state.copyWith(loading: false);
+
       logger.severe('Error sending email reminder: $e');
     }
   }
@@ -127,5 +133,5 @@ class GoogleFunctionService extends StateNotifier<GoogleFunctionServiceState> {
     } on Exception catch (e) {
       logger.severe("Error sending CreateNewJobSearch: $e");
     }
-  } 
+  }
 }
