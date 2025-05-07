@@ -85,9 +85,15 @@ class NavBarMenuOrg extends ConsumerWidget {
                 ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.impact_rg);
                 NavigationService.navigateTo('/impact');
               },
-              icon: Icons.electric_bolt,
-              label: 'Impact',
+              icon: Icons.location_searching,
+              label: 'Focus',
               buttonType: NavBarButtonType.impact_rg,
+            ),
+            NavBarButton(
+              onTap: () {},
+              icon: Icons.electric_bolt,
+              label: 'Action',
+              buttonType: NavBarButtonType.theFix_org,
             ),
           ],
         ),

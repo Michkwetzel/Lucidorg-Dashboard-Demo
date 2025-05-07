@@ -39,7 +39,7 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
         }
         // Load survey data then load finance
         await ref.read(metricsDataProvider.notifier).getSurveyData();
-        ref.read(financeModelProvider.notifier).calculateInitValues();
+        // ref.read(financeModelProvider.notifier).calculateInitValues();
         ref.read(companyInfoService.notifier).getCompanyInfo();
         ref.read(navBarProvider.notifier).changeDisplay(NavBarButtonType.home_org);
         NavigationService.navigateTo('/home_org');

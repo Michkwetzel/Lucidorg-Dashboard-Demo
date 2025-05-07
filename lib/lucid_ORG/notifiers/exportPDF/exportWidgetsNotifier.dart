@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/lucid_ORG/components/export/indicator_export/indicators_mv_export.dart';
-import 'package:platform_front/lucid_ORG/components/impact/main_view/diff_over_time/diff_over_time_mv.dart';
-import 'package:platform_front/lucid_ORG/components/impact/main_view/org_impact/org_impact_main_view.dart';
-import 'package:platform_front/lucid_ORG/components/impact/main_view/score_over_time/score_over_time_MV.dart';
-import 'package:platform_front/lucid_ORG/components/impact/side_bar/diif_over_time/diff_over_time_sb.dart';
-import 'package:platform_front/lucid_ORG/components/impact/side_bar/org_impact/org_impact_SB.dart';
-import 'package:platform_front/lucid_ORG/components/impact/side_bar/scores_over_time/scores_over_time_SB.dart';
+import 'package:platform_front/lucid_ORG/components/results/mainView/sections/change_over_time/diff_over_time/diff_over_time_mv.dart';
+import 'package:platform_front/lucid_ORG/archive/impact/org_impact/org_impact/org_impact_main_view.dart';
+import 'package:platform_front/lucid_ORG/components/results/mainView/sections/change_over_time/score_over_time/score_over_time_MV.dart';
+import 'package:platform_front/lucid_ORG/components/results/sideBar/sections/change_over_time/diif_over_time/diff_over_time_sb.dart';
+import 'package:platform_front/lucid_ORG/archive/impact/org_impact/org_impact_sb/org_impact_SB.dart';
+import 'package:platform_front/lucid_ORG/components/results/sideBar/sections/change_over_time/scores_over_time/scores_over_time_SB.dart';
 import 'package:platform_front/lucid_ORG/components/results/mainView/sections/diff_matrix/diff_matrix_body.dart';
-import 'package:platform_front/lucid_ORG/components/results/mainView/sections/foundations/foundations_body.dart';
+import 'package:platform_front/lucid_ORG/archive/results/foundations/foundations_mv.dart';
 import 'package:platform_front/lucid_ORG/components/results/mainView/sections/over_view/overview_main_body.dart';
 import 'package:platform_front/core_config/constants.dart';
 import 'package:platform_front/lucid_ORG/config/enums_org.dart';
@@ -55,7 +55,7 @@ class ExportsWidgetState {
       WidgetConfig(
         id: "foundations_main",
         title: "Foundations",
-        widgetBuilder: () => FoundationsBody(),
+        widgetBuilder: () => Foundations_mv(),
       ),
       WidgetConfig(
         id: "diff_matrix",

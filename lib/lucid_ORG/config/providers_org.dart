@@ -194,10 +194,10 @@ final toggleSubMenuProvider = StateNotifierProvider<ToggleSubMenuProvider, bool>
   return ToggleSubMenuProvider();
 });
 
-final financeModelProvider = StateNotifierProvider<FinanceModelNotifer, FinanceModelState>((ref) {
-  final metricsDataNotifer = ref.watch(metricsDataProvider.notifier);
-  return FinanceModelNotifer(surveyMetricNotifer: metricsDataNotifer);
-});
+// final financeModelProvider = StateNotifierProvider<FinanceModelNotifer, FinanceModelState>((ref) {
+//   final metricsDataNotifer = ref.watch(metricsDataProvider.notifier);
+//   return FinanceModelNotifer(surveyMetricNotifer: metricsDataNotifer);
+// });
 
 final exportStatusProvider = StateNotifierProvider<ExportStatusNotifier, ExportStatus>((ref) {
   return ExportStatusNotifier();

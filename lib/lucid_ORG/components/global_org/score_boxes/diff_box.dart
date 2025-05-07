@@ -23,9 +23,9 @@ class _DiffBoxState extends State<DiffBox> {
   void initState() {
     if (diff < 5) {
       decoration = kGreenBox;
-    } else if (diff < 15) {
+    } else if (diff < 10) {
       decoration = kGrayBox;
-    } else if (diff < 25) {
+    } else if (diff < 20) {
       decoration = kYellowBox;
     } else {
       decoration = kRedBox;

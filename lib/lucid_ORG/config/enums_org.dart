@@ -4,7 +4,9 @@ enum EmailListRadioButtonType { ceo, cSuite, employee }
 
 enum AssessmentDisplay { create, current }
 
-enum DiffOrScore { diff, score}
+enum DiffOrScore { diff, score }
+
+enum PyramidStatus { hide, opacity, show }
 
 // All constants given by Vandie
 enum Finance { profit, cost, margin, productivity, turnover }
@@ -58,9 +60,21 @@ extension Value on Finance {
 
 enum Diffsize { H1, H2, H3, H4 }
 
-enum ResultSection { overview, areaScore, diffMatrix, foundations }
+enum ResultSection {
+  overview,
+  areaScore,
+  diffMatrix,
+  foundations,
+  changeOverTime,
+  diffOverTime,
+  scoreOverTime,
+}
 
-enum ImpactSection { pyramid1, financial, scoreOverTime, diffOverTime }
+enum ImpactSection {
+  diffPyramid,
+  scorePyramid,
+}
+// enum ImpactSection { pyramid1, financial, scoreOverTime, diffOverTime }
 
 enum HomeSection { home, currentAssessment, newAssessment, howTo }
 

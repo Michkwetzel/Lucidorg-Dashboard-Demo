@@ -57,6 +57,132 @@ class SurveyMetric {
     );
   }
 
+  factory SurveyMetric.loadEmptyValues({double nCeoFinished = 0, double nCSuiteFinished = 0, double nEmployeeFinished = 0, double nSurveys = 0, double nStarted = 0}) {
+    Map<Indicator, double> ceoBenchmarks = {
+      Indicator.align: 0.0,
+      Indicator.meetingEfficacy: 0.0,
+      Indicator.leadership: 0.0,
+      Indicator.companyIndex: 0.0,
+      Indicator.workforce: 0.0,
+      Indicator.orgAlign: 0.0,
+      Indicator.alignedTech: 0.0,
+      Indicator.growthAlign: 0.0,
+      Indicator.collabKPIs: 0.0,
+      Indicator.crossFuncAcc: 0.0,
+      Indicator.crossFuncComms: 0.0,
+      Indicator.people: 0.0,
+      Indicator.engagedCommunity: 0.0,
+      Indicator.collabProcesses: 0.0,
+      Indicator.process: 0.0,
+      Indicator.purposeDriven: 0.0,
+      Indicator.operations: 0.0,
+      Indicator.empoweredLeadership: 0.0
+    };
+
+    Map<Indicator, double> cSuiteBenchmarks = {
+      Indicator.purposeDriven: 0.0,
+      Indicator.meetingEfficacy: 0.0,
+      Indicator.companyIndex: 0.0,
+      Indicator.leadership: 0.0,
+      Indicator.engagedCommunity: 0.0,
+      Indicator.collabKPIs: 0.0,
+      Indicator.process: 0.0,
+      Indicator.people: 0.0,
+      Indicator.collabProcesses: 0.0,
+      Indicator.empoweredLeadership: 0.0,
+      Indicator.alignedTech: 0.0,
+      Indicator.crossFuncAcc: 0.0,
+      Indicator.crossFuncComms: 0.0,
+      Indicator.growthAlign: 0.0,
+      Indicator.orgAlign: 0.0,
+      Indicator.align: 0.0,
+      Indicator.operations: 0.0,
+      Indicator.workforce: 0.0
+    };
+
+    Map<Indicator, double> employeeBenchmarks = {
+      Indicator.companyIndex: 0.0,
+      Indicator.meetingEfficacy: 0.0,
+      Indicator.growthAlign: 0.0,
+      Indicator.collabProcesses: 0.0,
+      Indicator.engagedCommunity: 0.0,
+      Indicator.operations: 0.0,
+      Indicator.crossFuncAcc: 0.0,
+      Indicator.empoweredLeadership: 0.0,
+      Indicator.align: 0.0,
+      Indicator.workforce: 0.0,
+      Indicator.process: 0.0,
+      Indicator.crossFuncComms: 0.0,
+      Indicator.alignedTech: 0.0,
+      Indicator.purposeDriven: 0.0,
+      Indicator.orgAlign: 0.0,
+      Indicator.leadership: 0.0,
+      Indicator.people: 0.0,
+      Indicator.collabKPIs: 0.0
+    };
+
+    Map<Indicator, double> companyBenchmarks = {
+      Indicator.purposeDriven: 0.0,
+      Indicator.growthAlign: 0.0,
+      Indicator.orgAlign: 0.0,
+      Indicator.collabProcesses: 0.0,
+      Indicator.collabKPIs: 0.0,
+      Indicator.alignedTech: 0.0,
+      Indicator.crossFuncComms: 0.0,
+      Indicator.empoweredLeadership: 0.0,
+      Indicator.engagedCommunity: 0.0,
+      Indicator.meetingEfficacy: 0.0,
+      Indicator.crossFuncAcc: 0.0,
+      Indicator.companyIndex: 0.0,
+      Indicator.workforce: 0.0,
+      Indicator.operations: 0.0,
+      Indicator.align: 0.0,
+      Indicator.process: 0.0,
+      Indicator.leadership: 0.0,
+      Indicator.people: 0.0
+    };
+
+    Map<Indicator, double> differenceScores = {
+      Indicator.purposeDriven: 0.0,
+      Indicator.growthAlign: 0.0,
+      Indicator.orgAlign: 0.0,
+      Indicator.collabProcesses: 0.0,
+      Indicator.collabKPIs: 0.0,
+      Indicator.alignedTech: 0.0,
+      Indicator.crossFuncComms: 0.0,
+      Indicator.empoweredLeadership: 0.0,
+      Indicator.engagedCommunity: 0.0,
+      Indicator.meetingEfficacy: 0.0,
+      Indicator.crossFuncAcc: 0.0,
+      Indicator.companyIndex: 0.0,
+      Indicator.workforce: 0.0,
+      Indicator.operations: 0.0,
+      Indicator.align: 0.0,
+      Indicator.process: 0.0,
+      Indicator.leadership: 0.0,
+      Indicator.people: 0.0
+    };
+
+    String surveyName = 'Empty';
+
+    return SurveyMetric(
+      ceoBenchmarks: ceoBenchmarks,
+      cSuiteBenchmarks: cSuiteBenchmarks,
+      employeeBenchmarks: employeeBenchmarks,
+      companyBenchmarks: companyBenchmarks,
+      diffScores: differenceScores,
+      nCeoFinished: nCeoFinished,
+      nCSuiteFinished: nCSuiteFinished,
+      nEmployeeFinished: nEmployeeFinished,
+      nSurveys: nSurveys,
+      nStarted: nStarted,
+      nSubmitted: nCeoFinished + nEmployeeFinished + nCSuiteFinished,
+      surveyDevName: surveyName,
+      surveyStartDate: '',
+      unableToCalculate: false,
+    );
+  }
+
   factory SurveyMetric.loadDefaultValues({double nCeoFinished = 1, double nCSuiteFinished = 4, double nEmployeeFinished = 12, double nSurveys = 20, double nStarted = 18}) {
     Map<Indicator, double> ceoBenchmarks = {
       Indicator.align: 58.3,
@@ -354,8 +480,8 @@ class SurveyMetric {
 
     //Calculate combined company benchmark
     if (employeeBenchmarksMap.isNotEmpty && cSuiteBenchmarksMap.isNotEmpty && ceoBenchmarksMap.isNotEmpty) {
-      for (final key in ceoBenchmarksMap.keys) {
-        companyBenchmarksMap[key] = (((ceoBenchmarksMap[key]! * nCeoFinished) + (cSuiteBenchmarksMap[key]! * nCSuiteFinished) + (employeeBenchmarksMap[key]! * nEmployeeFinished)) /
+      for (final indicator in ceoBenchmarksMap.keys) {
+        companyBenchmarksMap[indicator] = (((ceoBenchmarksMap[indicator]! * nCeoFinished) + (cSuiteBenchmarksMap[indicator]! * nCSuiteFinished) + (employeeBenchmarksMap[indicator]! * nEmployeeFinished)) /
             (nCeoFinished + nCSuiteFinished + nEmployeeFinished));
       }
       for (final key in ceoBenchmarksMap.keys) {

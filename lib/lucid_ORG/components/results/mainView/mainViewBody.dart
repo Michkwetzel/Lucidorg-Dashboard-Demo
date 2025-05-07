@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:platform_front/lucid_ORG/components/results/mainView/sections/change_over_time/diff_over_time/diff_over_time_mv.dart';
+import 'package:platform_front/lucid_ORG/components/results/mainView/sections/change_over_time/score_over_time/score_over_time_MV.dart';
 import 'package:platform_front/lucid_ORG/components/results/mainView/components/resultsTopButtonRow.dart';
 import 'package:platform_front/lucid_ORG/components/results/mainView/sections/indicators/indicators_main_view.dart';
 import 'package:platform_front/lucid_ORG/components/results/mainView/sections/diff_matrix/diff_matrix_body.dart';
 import 'package:platform_front/lucid_ORG/components/results/mainView/sections/over_view/overview_main_body.dart';
-import 'package:platform_front/lucid_ORG/components/results/mainView/sections/foundations/foundations_body.dart';
+import 'package:platform_front/lucid_ORG/archive/results/foundations/foundations_mv.dart';
 import 'package:platform_front/global_components/blur_overlay.dart';
 import 'package:platform_front/global_components/loading_overlay.dart';
 import 'package:platform_front/core_config/constants.dart';
@@ -29,8 +31,14 @@ class MainViewBody extends ConsumerWidget {
         case ResultSection.diffMatrix:
           return DiffMatrixBody();
 
-        case ResultSection.foundations:
-          return FoundationsBody();
+        case ResultSection.diffOverTime:
+          return DiffOverTimeMv();
+
+        case ResultSection.scoreOverTime:
+          return ScoreOverTimeMV();
+
+        default:
+          return Placeholder();
       }
     }
 

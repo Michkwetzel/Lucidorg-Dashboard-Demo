@@ -30,7 +30,7 @@ class BlurOverlay extends StatelessWidget {
               child: Container(
                 decoration: kboxShadowNormal,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric( vertical: 8.0, horizontal: 16),
+                  padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16),
                   child: Text(
                     message!,
                     style: kH4PoppinsRegular,

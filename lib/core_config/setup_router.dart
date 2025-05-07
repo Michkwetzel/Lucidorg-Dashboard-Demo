@@ -12,7 +12,7 @@ import 'package:platform_front/lucid_ORG/components/export/export_main_layout.da
 import 'package:platform_front/lucid_ORG/components/global_org/errorScreen/errorScreen.dart';
 import 'package:platform_front/lucid_ORG/components/home/homeScreenBody.dart';
 import 'package:platform_front/lucid_ORG/components/howTo/how_to_body.dart';
-import 'package:platform_front/lucid_ORG/components/impact/impact_body.dart';
+import 'package:platform_front/lucid_ORG/components/focus/focus_body.dart';
 import 'package:platform_front/lucid_ORG/components/results/resultsBody.dart';
 import 'package:platform_front/global_components/main_sections/authscreen.dart';
 import 'package:platform_front/global_components/main_sections/dashboardScaffold.dart';
@@ -104,7 +104,7 @@ GoRouter setupRouter() {
             path: '/impact',
             pageBuilder: (context, state) {
               return const NoTransitionPage(
-                child: ImpactBody(),
+                child: FocusBody(),
               );
             },
           ),

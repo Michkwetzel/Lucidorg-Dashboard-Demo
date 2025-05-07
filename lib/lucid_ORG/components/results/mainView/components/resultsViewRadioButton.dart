@@ -15,6 +15,12 @@ class ResultsViewRadioButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     ResultSection selectedSection = ref.watch(resultsSelectedSectionProvider);
 
+    if (section == ResultSection.diffOverTime) {
+      if (selectedSection == ResultSection.diffOverTime || selectedSection == ResultSection.scoreOverTime) {
+        return CallToActionButton(onPressed: () {}, buttonText: buttonText);
+      }
+    }
+
     if (selectedSection == section) {
       return CallToActionButton(onPressed: () {}, buttonText: buttonText);
     } else {

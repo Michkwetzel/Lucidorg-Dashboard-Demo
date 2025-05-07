@@ -13,9 +13,10 @@ class ResultsTopButtonRow extends StatelessWidget {
       children: [
         SizedBox(width: 32),
         ResultsViewRadioButton(buttonText: 'Overview', section: ResultSection.overview),
-        ResultsViewRadioButton(buttonText: 'Foundations', section: ResultSection.foundations),
+        //ResultsViewRadioButton(buttonText: 'Foundations', section: ResultSection.foundations),
         ResultsViewRadioButton(buttonText: 'Indicators', section: ResultSection.areaScore),
         ResultsViewRadioButton(buttonText: 'Differentiation', section: ResultSection.diffMatrix),
+        ResultsViewRadioButton(buttonText: 'Change over time', section: ResultSection.diffOverTime),
       ],
     );
   }

@@ -4,7 +4,7 @@ import 'package:platform_front/lucid_ORG/components/home/Sections/participation_
 import 'package:platform_front/lucid_ORG/components/home/Sections/benchmarkWidget.dart';
 import 'package:platform_front/lucid_ORG/components/home/Sections/currentActionAreaWidget.dart';
 import 'package:platform_front/lucid_ORG/components/home/Sections/nextAssessmentWidget.dart';
-import 'package:platform_front/lucid_ORG/components/home/Sections/topOppertunitiesWidget/TopOppertunitiesWidget.dart';
+import 'package:platform_front/lucid_ORG/components/home/Sections/topOppertunitiesWidget/top_opp_widget.dart';
 import 'package:platform_front/global_components/blur_overlay.dart';
 import 'package:platform_front/global_components/loading_overlay.dart';
 import 'package:platform_front/lucid_ORG/components/global_org/no_data_pop_up.dart';
@@ -94,7 +94,7 @@ class HomeScreenBody extends ConsumerWidget {
                           width: 32,
                         ),
                         BlurOverlay(
-                          child: TopOppertunitiesWidget(),
+                          child: TopOppWidget(),
                           blur: blurWidgets,
                         )
                       ],

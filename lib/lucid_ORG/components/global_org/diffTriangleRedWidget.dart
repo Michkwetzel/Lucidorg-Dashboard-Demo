@@ -6,43 +6,43 @@ import 'package:platform_front/lucid_ORG/config/enums_org.dart';
 class DiffTriangleRedWidget extends StatelessWidget {
   const DiffTriangleRedWidget({
     this.noDecimals = false,
+    this.allRed = false,
+    this.allBlack = false,
     required this.value,
     required this.size,
     super.key,
-    this.allRed = false,
   });
   final bool noDecimals;
   final Diffsize size;
   final double value;
   final bool allRed;
+  final bool allBlack;
 
   @override
   Widget build(BuildContext context) {
     TextStyle textStyle = kH4PoppinsLight;
     double trianleSize = 15;
-    Color textColor = Colors.black;
+    Color color = Colors.black;
 
     if (allRed) {
-      textColor = Color(0xFFF03535);
+      color = Color(0xFFF03535);
+    } else if (allBlack) {
+      color = Color(0xFF3F3F3F);
     }
 
     switch (size) {
       case Diffsize.H1:
-        textStyle = TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w400, fontSize: 22, color: textColor);
+        textStyle = TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w400, fontSize: 22, color: color);
         trianleSize = 28;
       case Diffsize.H2:
-        textStyle = TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w300, fontSize: 22, color: textColor);
+        textStyle = TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w300, fontSize: 22, color: color);
         trianleSize = 24;
       case Diffsize.H3:
-        textStyle = TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w300, fontSize: 18, color: textColor);
+        textStyle = TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w300, fontSize: 18, color: color);
         trianleSize = 22;
       case Diffsize.H4:
-        textStyle = TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w300, fontSize: 16, color: textColor);
+        textStyle = TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w300, fontSize: 16, color: color);
         trianleSize = 20;
-
-      default:
-        textStyle = TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w300, fontSize: 14, color: textColor);
-        trianleSize = 15;
     }
 
     return Row(
@@ -52,10 +52,9 @@ class DiffTriangleRedWidget extends StatelessWidget {
           'assets/icons/trianlge.svg',
           width: trianleSize,
           height: trianleSize,
-          colorFilter: const ColorFilter.mode(Color(0xFFF03535), BlendMode.srcIn),
+          colorFilter: ColorFilter.mode(allBlack ? color : Color(0xFFF03535), BlendMode.srcIn),
         ),
-        noDecimals ? Text('~${value.toStringAsFixed(0)}%', style: textStyle) :
-        Text('~$value%', style: textStyle),
+        noDecimals ? Text('~${value.toStringAsFixed(0)}%', style: textStyle) : Text('~$value%', style: textStyle),
       ],
     );
   }

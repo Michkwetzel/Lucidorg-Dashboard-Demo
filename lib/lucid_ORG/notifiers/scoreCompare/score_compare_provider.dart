@@ -184,7 +184,7 @@ class ScoreCompareNotifier extends StateNotifier<ScoreCompareState> {
       logger.info("Less than 2 surveys. Loading default values");
 
       SurveyMetric survey1 = SurveyMetric.loadBlurredData(surveyStartDate: '25 March 2025');
-      SurveyMetric survey2 = SurveyMetric.loadDefaultValues();
+      SurveyMetric survey2 = SurveyMetric.loadEmptyValues();
       state = state.copyWith(allComparableSurveys: {'Q1 2025': survey1, 'Q2 2025': survey2}, survey1Data: survey1, survey2Data: survey2, blur: true);
       calculateChange();
     }
