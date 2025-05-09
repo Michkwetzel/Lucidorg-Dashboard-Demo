@@ -70,7 +70,7 @@ enum ResultSection {
   scoreOverTime,
 }
 
-enum ImpactSection {
+enum FocusSection {
   diffPyramid,
   scorePyramid,
 }

@@ -34,8 +34,8 @@ class OverallDepertmentBenchmarkWidget extends ConsumerWidget {
     SurveyMetric displayData = ref.watch(metricsDataProvider).surveyMetric;
 
     double ceoScore = displayData.ceoBenchmarks[Indicator.companyIndex]!;
-    double employeeScore = displayData.cSuiteBenchmarks[Indicator.companyIndex]!;
-    double cSuiteScore = displayData.employeeBenchmarks[Indicator.companyIndex]!;
+    double cSuiteScore = displayData.cSuiteBenchmarks[Indicator.companyIndex]!;
+    double employeeScore = displayData.employeeBenchmarks[Indicator.companyIndex]!;
 
     return Column(
       children: [

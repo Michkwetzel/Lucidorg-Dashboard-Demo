@@ -10,13 +10,13 @@ import 'package:platform_front/lucid_ORG/notifiers/surveyMetrics/metrics_data.da
 class StackedPyramids extends ConsumerStatefulWidget {
   final List<PyramidInfo> pyramids;
   final bool debugShowHitAreas;
-  final DiffOrScore diffOrScore;
+  final FocusSection section;
 
   const StackedPyramids({
     super.key,
     required this.pyramids,
     this.debugShowHitAreas = false,
-    required this.diffOrScore,
+    required this.section,
   });
 
   @override
@@ -45,10 +45,10 @@ class _StackedPyramidsState extends ConsumerState<StackedPyramids> {
             late Decoration decoration;
             late PyramidStatus status;
 
-            if (widget.diffOrScore == DiffOrScore.diff) {
+            if (widget.section == FocusSection.diffPyramid) {
               if (diff < 10) {
                 status = PyramidStatus.hide;
-              } else if (diff < 20) {
+              } else if (diff < 15) {
                 status = PyramidStatus.opacity;
                 decoration = kYellowBox;
               } else {
@@ -56,7 +56,7 @@ class _StackedPyramidsState extends ConsumerState<StackedPyramids> {
                 decoration = kRedBox;
               }
             } else {
-              if (score < 40) {
+              if (score < 50) {
                 status = PyramidStatus.show;
                 decoration = kRedBox;
               } else if (score < 60) {
@@ -102,14 +102,15 @@ class _StackedPyramidsState extends ConsumerState<StackedPyramids> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              SvgPicture.asset(
-                                'assets/icons/trianlge.svg',
-                                width: 16,
-                                height: 16,
-                                colorFilter: ColorFilter.mode(Color.fromARGB(255, 86, 86, 86), BlendMode.srcIn),
-                              ),
+                              if (widget.section == FocusSection.diffPyramid)
+                                SvgPicture.asset(
+                                  'assets/icons/trianlge.svg',
+                                  width: 16,
+                                  height: 16,
+                                  colorFilter: ColorFilter.mode(Color.fromARGB(255, 86, 86, 86), BlendMode.srcIn),
+                                ),
                               Text(
-                                widget.diffOrScore == DiffOrScore.diff ? '~$diff%' : '$score%',
+                                widget.section == FocusSection.diffPyramid ? '~${diff.toStringAsFixed(0)}%' : '${score.toStringAsFixed(0)}%',
                                 style: TextStyle(fontSize: 15, fontFamily: 'Poppins', fontWeight: FontWeight.w400),
                               ),
                             ],

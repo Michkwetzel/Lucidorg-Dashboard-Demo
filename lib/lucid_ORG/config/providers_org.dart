@@ -134,8 +134,8 @@ final navBarExpandStateNotifier = StateNotifierProvider<NavBarExpandStateNotifie
   return NavBarExpandStateNotifier();
 });
 
-final impactSelectedSectionProvider = StateNotifierProvider<ImpactDisplayNotifier, ImpactSection>((ref) {
-  return ImpactDisplayNotifier();
+final focusSelectedSectionProvider = StateNotifierProvider<FocusDisplayNotifier, FocusSection>((ref) {
+  return FocusDisplayNotifier();
 });
 
 final scoreCompareProvider = StateNotifierProvider<ScoreCompareNotifier, ScoreCompareState>((ref) {

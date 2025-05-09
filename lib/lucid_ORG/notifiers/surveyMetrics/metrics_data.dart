@@ -481,8 +481,9 @@ class SurveyMetric {
     //Calculate combined company benchmark
     if (employeeBenchmarksMap.isNotEmpty && cSuiteBenchmarksMap.isNotEmpty && ceoBenchmarksMap.isNotEmpty) {
       for (final indicator in ceoBenchmarksMap.keys) {
-        companyBenchmarksMap[indicator] = (((ceoBenchmarksMap[indicator]! * nCeoFinished) + (cSuiteBenchmarksMap[indicator]! * nCSuiteFinished) + (employeeBenchmarksMap[indicator]! * nEmployeeFinished)) /
-            (nCeoFinished + nCSuiteFinished + nEmployeeFinished));
+        companyBenchmarksMap[indicator] =
+            (((ceoBenchmarksMap[indicator]! * nCeoFinished) + (cSuiteBenchmarksMap[indicator]! * nCSuiteFinished) + (employeeBenchmarksMap[indicator]! * nEmployeeFinished)) /
+                (nCeoFinished + nCSuiteFinished + nEmployeeFinished));
       }
       for (final key in ceoBenchmarksMap.keys) {
         double value1 = (ceoBenchmarksMap[key]! - cSuiteBenchmarksMap[key]!).abs();
@@ -639,6 +640,74 @@ class SurveyMetric {
       indicators.add(diff.key);
     }
     return indicators;
+  }
+
+  List<Indicator> getLowestScoreIndicators(int n) {
+    List<MapEntry<Indicator, double>> sortedEntries = returnJustIndicators('companyBenchmarks').entries.toList()..sort((a, b) => a.value.compareTo(b.value));
+    List<Indicator> indicators = [];
+    for (var diff in sortedEntries.take(n)) {
+      indicators.add(diff.key);
+    }
+    return indicators;
+  }
+
+  List<Indicator> getFocusIndicators(int n, FocusSection focusSection) {
+    // Predefined order for indicators based on focus section
+    List<Indicator> orderList = (focusSection == FocusSection.diffPyramid)
+        ? [
+            Indicator.purposeDriven,
+            Indicator.empoweredLeadership,
+            Indicator.crossFuncAcc,
+            Indicator.crossFuncComms,
+            Indicator.collabKPIs,
+            Indicator.engagedCommunity,
+            Indicator.collabProcesses,
+            Indicator.orgAlign,
+            Indicator.growthAlign,
+            Indicator.meetingEfficacy,
+            Indicator.alignedTech
+          ]
+        : [
+            Indicator.alignedTech,
+            Indicator.meetingEfficacy,
+            Indicator.growthAlign,
+            Indicator.orgAlign,
+            Indicator.collabProcesses,
+            Indicator.engagedCommunity,
+            Indicator.collabKPIs,
+            Indicator.crossFuncComms,
+            Indicator.crossFuncAcc,
+            Indicator.purposeDriven,
+            Indicator.empoweredLeadership,
+          ];
+
+    // Get qualified candidate indicators based on focus section
+    List<Indicator> candidates = [];
+
+    if (focusSection == FocusSection.diffPyramid) {
+      // Get indicators with diff > 10, sorted high to low
+      Map<Indicator, double> diffScores = returnJustIndicators('diffScores');
+      var sortedEntries = diffScores.entries.toList()..sort((a, b) => b.value.compareTo(a.value));
+
+      candidates = sortedEntries.where((entry) => entry.value > 10).map((entry) => entry.key).toList();
+    } else {
+      // Get indicators with score < 60, sorted low to high
+      Map<Indicator, double> scores = returnJustIndicators('companyBenchmarks');
+      var sortedEntries = scores.entries.toList()..sort((a, b) => a.value.compareTo(b.value));
+
+      candidates = sortedEntries.where((entry) => entry.value < 60).map((entry) => entry.key).toList();
+    }
+
+    // Filter and order the candidates according to the predefined order
+    List<Indicator> result = [];
+    for (Indicator indicator in orderList) {
+      if (candidates.contains(indicator)) {
+        result.add(indicator);
+        if (result.length >= n) break;
+      }
+    }
+
+    return result;
   }
 
   Indicator getLowestScoreIndicator() {

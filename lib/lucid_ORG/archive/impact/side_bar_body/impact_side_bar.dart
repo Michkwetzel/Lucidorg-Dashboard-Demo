@@ -16,13 +16,13 @@ class ImpactSideBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ImpactSection selectedSection = ref.watch(impactSelectedSectionProvider);
+    FocusSection selectedSection = ref.watch(focusSelectedSectionProvider);
 
     Widget returnSideBarWidget() {
       switch (selectedSection) {
-        case ImpactSection.diffPyramid:
+        case FocusSection.diffPyramid:
           return OrgImpactSB();
-        case ImpactSection.scorePyramid:
+        case FocusSection.scorePyramid:
           return OrgImpactSB();
       }
     }

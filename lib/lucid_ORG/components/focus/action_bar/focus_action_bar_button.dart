@@ -5,20 +5,20 @@ import 'package:platform_front/global_components/buttons/secondaryButton.dart';
 import 'package:platform_front/lucid_ORG/config/enums_org.dart';
 import 'package:platform_front/lucid_ORG/config/providers_org.dart';
 
-class ImpactViewRadioButton extends ConsumerWidget {
+class FocusActionBarButton extends ConsumerWidget {
   final String buttonText;
-  final ImpactSection section;
+  final FocusSection section;
 
-  const ImpactViewRadioButton({super.key, required this.buttonText, required this.section});
+  const FocusActionBarButton({super.key, required this.buttonText, required this.section});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ImpactSection selectedSection = ref.watch(impactSelectedSectionProvider);
+    FocusSection selectedSection = ref.watch(focusSelectedSectionProvider);
 
     if (selectedSection == section) {
       return CallToActionButton(onPressed: () {}, buttonText: buttonText);
     } else {
-      return Secondarybutton(onPressed: () => ref.read(impactSelectedSectionProvider.notifier).setDisplay(section), buttonText: buttonText);
+      return Secondarybutton(onPressed: () => ref.read(focusSelectedSectionProvider.notifier).setDisplay(section), buttonText: buttonText);
     }
   }
 }

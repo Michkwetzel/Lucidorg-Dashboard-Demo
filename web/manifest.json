@@ -1,6 +1,6 @@
 {
-    "name": "platform_front",
-    "short_name": "platform_front",
+    "name": "LucidORG",
+    "short_name": "LucidORG",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

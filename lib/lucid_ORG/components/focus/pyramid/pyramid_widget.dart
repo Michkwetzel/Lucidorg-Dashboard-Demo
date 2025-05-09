@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:platform_front/lucid_ORG/components/focus/main_view/action_step_1/stacked_pyramids.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:platform_front/lucid_ORG/components/focus/pyramid/stacked_pyramids.dart';
 import 'package:platform_front/lucid_ORG/config/enums_org.dart';
+import 'package:platform_front/lucid_ORG/config/providers_org.dart';
 
-class PyramidWidget extends StatelessWidget {
+class PyramidWidget extends ConsumerWidget {
   const PyramidWidget({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return SizedBox(
       height: 480,
       width: 800,
       child: StackedPyramids(
-        diffOrScore: DiffOrScore.diff,
+        section: ref.watch(focusSelectedSectionProvider),
         pyramids: [
           PyramidInfo(
-            indicator: Indicator.leadership,
+            indicator: Indicator.empoweredLeadership,
             title: 'Leadership',
             left: 296,
             top: 0,

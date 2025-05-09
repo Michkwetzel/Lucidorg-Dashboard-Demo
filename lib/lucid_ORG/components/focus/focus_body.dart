@@ -2,7 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:platform_front/lucid_ORG/components/focus/main_view/focus_main_view.dart';
+import 'package:platform_front/global_components/blur_overlay.dart';
+import 'package:platform_front/lucid_ORG/components/focus/focus_content/focus_content_widget.dart';
+import 'package:platform_front/lucid_ORG/components/focus/action_bar/focus_action_bar.dart';
 import 'package:platform_front/global_components/loading_overlay.dart';
 import 'package:platform_front/lucid_ORG/components/global_org/top_action_banner.dart';
 import 'package:platform_front/core_config/constants.dart';
@@ -28,7 +30,7 @@ class FocusBody extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Impact",
+                    "Focus",
                     style: kH1TextStyle,
                   ),
                   if (ref.watch(metricsDataProvider).noSurveyData ||
@@ -42,7 +44,21 @@ class FocusBody extends ConsumerWidget {
                   SizedBox(
                     height: 16,
                   ),
-                  FocusMainView()
+                  Container(
+                    width: 1520,
+                    padding: EdgeInsets.all(32),
+                    margin: EdgeInsets.only(left: 5, bottom: 5, right: 5),
+                    decoration: kboxShadowNormal,
+                    child: Column(
+                      children: [
+                        FocusActionBar(),
+                        BlurOverlay(
+                          blur: ref.watch(metricsDataProvider).participationBelow30 || ref.watch(metricsDataProvider).needAll3Departments,
+                          child: FocusContentWidget(),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),

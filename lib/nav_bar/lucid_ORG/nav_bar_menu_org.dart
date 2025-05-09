@@ -92,7 +92,7 @@ class NavBarMenuOrg extends ConsumerWidget {
             NavBarButton(
               onTap: () {},
               icon: Icons.electric_bolt,
-              label: 'Action',
+              label: 'Fix',
               buttonType: NavBarButtonType.theFix_org,
             ),
           ],
