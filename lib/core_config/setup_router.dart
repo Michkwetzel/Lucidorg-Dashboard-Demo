@@ -9,8 +9,8 @@ import 'package:platform_front/lucid_HR/components/results/results_body_org.dart
 import 'package:platform_front/lucid_ORG/archive/impact/org_impact/org_impact/org_impact_main_view.dart';
 import 'package:platform_front/lucid_ORG/archive/impact/org_impact/org_impact_sb/org_impact_SB.dart';
 import 'package:platform_front/lucid_ORG/components/company_info/companyInfoBody.dart';
-import 'package:platform_front/lucid_ORG/components/create_assessment/create/createAssessmentBody.dart';
-import 'package:platform_front/lucid_ORG/components/create_assessment/current/current_assessment_body.dart';
+import 'package:platform_front/lucid_ORG/components/assessment/create/createAssessmentBody.dart';
+import 'package:platform_front/lucid_ORG/components/assessment/current/current_assessment_body.dart';
 import 'package:platform_front/lucid_ORG/components/export/export_main_layout.dart';
 import 'package:platform_front/lucid_ORG/components/global_org/errorScreen/errorScreen.dart';
 import 'package:platform_front/lucid_ORG/components/home/homeScreenBody.dart';
@@ -170,11 +170,11 @@ GoRouter setupRouter() {
         return '/auth';
       }
 
-      if (state.extra == null) {
-        // Log user out if he reloads page. Always include an extra state if navigating using navigator. thus if reload you can notice it
-        await FirebaseAuth.instance.signOut();
-        return '/auth';
-      }
+      // if (state.extra == null) {
+      //   // Log user out if he reloads page. Always include an extra state if navigating using navigator. thus if reload you can notice it
+      //   await FirebaseAuth.instance.signOut();
+      //   return '/auth';
+      // }
       return null;
     },
   );

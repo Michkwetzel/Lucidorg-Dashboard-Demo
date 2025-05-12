@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/lucid_HR/config/providers_hr.dart';
-import 'package:platform_front/lucid_ORG/components/create_assessment/emailList/emailListView/emailCard.dart';
+import 'package:platform_front/lucid_ORG/components/assessment/emailList/emailListView/emailCard.dart';
 
 class EmailListWidget extends ConsumerWidget {
   const EmailListWidget({super.key});

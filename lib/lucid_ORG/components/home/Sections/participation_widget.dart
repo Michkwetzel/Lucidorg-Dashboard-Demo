@@ -6,7 +6,7 @@ import 'package:platform_front/lucid_ORG/config/providers_org.dart';
 import 'package:platform_front/lucid_ORG/notifiers/surveyMetrics/metrics_data.dart';
 
 class ParticipationWidget extends ConsumerWidget {
-   const ParticipationWidget({super.key});
+  const ParticipationWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -30,17 +30,14 @@ class ParticipationWidget extends ConsumerWidget {
     return Container(
       height: 400,
       width: 400,
-      padding: const EdgeInsets.all(16),
-      decoration: kboxShadowNormal,
+      // decoration: kboxShadowNormal,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Participation Rate:', style: kH2PoppinsRegular),
-          const SizedBox(height: 16),
-          Padding(
-            padding: const EdgeInsets.only(left: 12),
-            child: Text('$participationRate%', style: kH2PoppinsLight),
-          ),
+          Text('Participation Rate', style: kH2PoppinsRegular),
+          SizedBox(height: 16),
+          Text('$participationRate%', style: kH2PoppinsLight),
           Flexible(
             child: Align(
               alignment: Alignment.topCenter,
@@ -50,7 +47,7 @@ class ParticipationWidget extends ConsumerWidget {
               ),
             ),
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: 24),
           // Legend
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

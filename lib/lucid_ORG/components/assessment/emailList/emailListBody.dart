@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:platform_front/lucid_ORG/components/create_assessment/emailList/emailListAdd/emailListAddLayout.dart';
-import 'package:platform_front/lucid_ORG/components/create_assessment/emailList/emailListView/emailListViewLayout.dart';
+import 'package:platform_front/lucid_ORG/components/assessment/emailList/emailListAdd/emailListAddLayout.dart';
+import 'package:platform_front/lucid_ORG/components/assessment/emailList/emailListView/emailListViewLayout.dart';
 import 'package:platform_front/lucid_ORG/config/providers_org.dart';
 
 class Emaillistbody extends ConsumerWidget {

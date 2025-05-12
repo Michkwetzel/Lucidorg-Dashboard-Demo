@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/global_components/buttons/CallToActionButton.dart';
 import 'package:platform_front/global_components/buttons/secondaryButton.dart';
 import 'package:platform_front/lucid_HR/config/providers_hr.dart';
-import 'package:platform_front/lucid_ORG/components/create_assessment/emailList/emailListAdd/uploadCSVWidget.dart';
+import 'package:platform_front/lucid_ORG/components/assessment/emailList/emailListAdd/uploadCSVWidget.dart';
 import 'package:platform_front/lucid_ORG/components/global_org/textfieldGray.dart';
 import 'package:platform_front/core_config/constants.dart';
 import 'package:platform_front/lucid_ORG/config/providers_org.dart';

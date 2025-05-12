@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:platform_front/core_config/constants.dart';
 import 'package:platform_front/lucid_HR/components/createJobSearch/components/email_template/body_email_template_edit.dart';
 import 'package:platform_front/lucid_HR/components/global_components/heading_and_divider.dart';
 import 'package:platform_front/lucid_HR/components/global_components/simple_text_field_gray.dart';
@@ -11,10 +12,11 @@ class ReminderTemplateWidget_ORG extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Column(
-      spacing: 12,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        HeadingAndDivider(
-          heading: "Email Template",
+        Text("Send Reminder", style: kH2TextStyle),
+        SizedBox(
+          height: 14,
         ),
         SimpleTextFieldGray(
           formKey: ref.read(reminderEmailTemplateProvider.notifier).formKeys[0],
@@ -28,6 +30,9 @@ class ReminderTemplateWidget_ORG extends ConsumerWidget {
             return null;
           },
         ),
+        SizedBox(
+          height: 12,
+        ),
         SimpleTextFieldGray(
           formKey: ref.read(reminderEmailTemplateProvider.notifier).formKeys[1],
           heading: "Subject:",
@@ -39,6 +44,9 @@ class ReminderTemplateWidget_ORG extends ConsumerWidget {
             }
             return null;
           },
+        ),
+        SizedBox(
+          height: 12,
         ),
         BodyEmailTemplateEdit(
           initialValue: ref.read(reminderEmailTemplateProvider.notifier).templateBody,

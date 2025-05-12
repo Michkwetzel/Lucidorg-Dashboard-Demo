@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/global_components/buttons/primaryButton.dart';
 import 'package:platform_front/global_components/buttons/secondaryButton.dart';
-import 'package:platform_front/lucid_ORG/components/create_assessment/emailList/emailListView/activeEmailListWidget.dart';
-import 'package:platform_front/lucid_ORG/components/create_assessment/emailList/radioButton/radioButtonRow.dart';
+import 'package:platform_front/lucid_ORG/components/assessment/emailList/emailListView/activeEmailListWidget.dart';
+import 'package:platform_front/lucid_ORG/components/assessment/emailList/radioButton/radioButtonRow.dart';
 import 'package:platform_front/core_config/constants.dart';
 import 'package:platform_front/lucid_ORG/config/providers_org.dart';
 

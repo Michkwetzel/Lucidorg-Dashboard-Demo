@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:platform_front/lucid_ORG/components/create_assessment/current/current_active_email_list.dart';
-import 'package:platform_front/lucid_ORG/components/create_assessment/emailList/radioButton/radioButtonRow.dart';
+import 'package:platform_front/lucid_ORG/components/assessment/current/current_active_email_list.dart';
+import 'package:platform_front/lucid_ORG/components/assessment/emailList/radioButton/radioButtonRow.dart';
 import 'package:platform_front/core_config/constants.dart';
 import 'package:platform_front/lucid_ORG/config/enums_org.dart';
 
@@ -11,6 +11,7 @@ class CurrentEmaillistbody extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
+        width: 380,
         height: 600,
         decoration: BoxDecoration(
           border: Border.all(color: const Color(0xFF555353), width: 0.7),

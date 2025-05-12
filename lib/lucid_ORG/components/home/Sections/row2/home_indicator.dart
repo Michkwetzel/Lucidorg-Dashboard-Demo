@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:platform_front/lucid_ORG/components/global_org/score_boxes/diff_box.dart';
 import 'package:platform_front/lucid_ORG/components/global_org/score_boxes/score_box.dart';
-import 'package:platform_front/lucid_ORG/components/new_home/home_high_level.dart';
+import 'package:platform_front/lucid_ORG/components/home/Sections/row1/home_pilars.dart';
 import 'package:platform_front/lucid_ORG/config/enums_org.dart';
 import 'package:platform_front/lucid_ORG/config/providers_org.dart';
 import 'package:platform_front/lucid_ORG/data_classes/all_indicator_data.dart';

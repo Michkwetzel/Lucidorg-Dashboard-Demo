@@ -6,9 +6,9 @@ import 'package:platform_front/lucid_ORG/config/enums_org.dart';
 import 'package:platform_front/lucid_ORG/config/providers_org.dart';
 import 'package:platform_front/lucid_ORG/notifiers/surveyMetrics/metrics_data.dart';
 
-class HomeFocusAreasWidget extends ConsumerWidget {
+class HomeFocusAreas extends ConsumerWidget {
   final FocusSection section;
-  const HomeFocusAreasWidget({super.key, required this.section});
+  const HomeFocusAreas({super.key, required this.section});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

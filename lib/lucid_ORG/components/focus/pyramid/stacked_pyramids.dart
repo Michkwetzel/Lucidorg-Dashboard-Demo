@@ -49,7 +49,7 @@ class _StackedPyramidsState extends ConsumerState<StackedPyramids> {
             if (widget.section == FocusSection.diffPyramid) {
               if (diff < 10) {
                 status = PyramidStatus.hide;
-              } else if (diff < 15) {
+              } else if (diff < 20) {
                 status = PyramidStatus.opacity;
                 decoration = kYellowBox;
               } else {

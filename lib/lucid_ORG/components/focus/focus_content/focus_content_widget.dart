@@ -18,9 +18,9 @@ class FocusContentWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 16),
-        CustomDivider(),
-        SizedBox(height: 16),
+        // SizedBox(height: 16),
+        // CustomDivider(),
+        SizedBox(height: 32),
         TopTextWidget(),
         Stack(
           children: [

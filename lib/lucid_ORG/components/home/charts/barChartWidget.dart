@@ -88,16 +88,7 @@ class _BarChartWidgetState extends State<BarChartWidget> {
               ),
             ),
             leftTitles: AxisTitles(
-              axisNameWidget: Padding(
-                padding: EdgeInsets.only(left: 20),
-                child: Text(
-                  "Score",
-                  style: TextStyle(
-                    color: Colors.black87,
-                    fontSize: 12,
-                  ),
-                ),
-              ),
+             
               sideTitles: SideTitles(
                 showTitles: true,
                 interval: 20,

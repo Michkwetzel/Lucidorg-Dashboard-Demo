@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:platform_front/lucid_ORG/components/create_assessment/emailList/radioButton/radioButtonEmailList.dart';
+import 'package:platform_front/lucid_ORG/components/assessment/emailList/radioButton/radioButtonEmailList.dart';
 import 'package:platform_front/lucid_ORG/config/enums_org.dart';
 
 class RadioButtonRow extends StatelessWidget {
