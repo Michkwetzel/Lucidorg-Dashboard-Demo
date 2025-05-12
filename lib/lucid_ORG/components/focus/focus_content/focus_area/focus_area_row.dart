@@ -8,8 +8,16 @@ class FocusAreaRow extends StatelessWidget {
   final double diff;
   final double score;
   final FocusSection section;
+  final double companyIndex;
 
-  const FocusAreaRow({required this.text, required this.diff, required this.score, required this.section, super.key});
+  const FocusAreaRow({
+    required this.text,
+    required this.diff,
+    required this.score,
+    required this.section,
+    required this.companyIndex,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -26,15 +34,30 @@ class FocusAreaRow extends StatelessWidget {
         }
         break;
       case FocusSection.scorePyramid:
-        if (score < 40) {
-          decoration = kRedBox;
-        } else if (score < 50) {
-          decoration = kYellowBox;
-        } else if (score < 60) {
-          decoration = kGrayBox;
-        } else {
+        double diffFromIndex = companyIndex - score;
+
+        if (score > companyIndex) {
           decoration = kGreenBox;
+        } else {
+          if (diffFromIndex < 5) {
+            decoration = kGrayBox;
+          } else if (diffFromIndex < 10) {
+            decoration = kYellowBox;
+          } else if (diffFromIndex < 15) {
+            decoration = kRedBox;
+          } else {
+            decoration = kRedBox;
+          }
         }
+        // if (score < 40) {
+        //   decoration = kRedBox;
+        // } else if (score < 50) {
+        //   decoration = kYellowBox;
+        // } else if (score < 60) {
+        //   decoration = kGrayBox;
+        // } else {
+        //   decoration = kGreenBox;
+        // }
         break;
     }
 

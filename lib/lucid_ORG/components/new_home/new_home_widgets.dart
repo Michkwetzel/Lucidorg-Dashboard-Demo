@@ -6,17 +6,17 @@ import 'package:platform_front/lucid_ORG/config/enums_org.dart';
 import 'package:platform_front/lucid_ORG/config/providers_org.dart';
 import 'package:platform_front/lucid_ORG/notifiers/surveyMetrics/metrics_data.dart';
 
-class FocusAreasWidget extends ConsumerWidget {
-  const FocusAreasWidget({super.key});
+class HomeFocusAreasWidget extends ConsumerWidget {
+  final FocusSection section;
+  const HomeFocusAreasWidget({super.key, required this.section});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     SurveyMetric surveyMetric = ref.watch(metricsDataProvider).surveyMetric;
-    FocusSection selectedSection = ref.watch(focusSelectedSectionProvider);
     double companyIndex = surveyMetric.companyBenchmarks[Indicator.companyIndex]!;
 
     //Get higest diff or score indicators according to specified order and which step is selected
-    List<Indicator> topOppIndicators = surveyMetric.getFocusIndicators(3, selectedSection);
+    List<Indicator> topOppIndicators = surveyMetric.getFocusIndicators(3, section);
 
     return Container(
       width: 550,
@@ -26,10 +26,7 @@ class FocusAreasWidget extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(
-            'Focus Areas',
-            style: kH2PoppinsRegular,
-          ),
+          Text(section == FocusSection.diffPyramid ? 'Differentiation' : 'Scores', style: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w300, fontSize: 24)),
           SizedBox(height: 6),
           topOppIndicators.isEmpty
               ? Container(
@@ -49,11 +46,11 @@ class FocusAreasWidget extends ConsumerWidget {
                   children: [
                     for (int i = 0; i < topOppIndicators.length; i++)
                       FocusAreaRow(
+                        companyIndex: companyIndex,
                         text: '${i + 1}. ${topOppIndicators[i].heading}',
                         diff: surveyMetric.diffScores[topOppIndicators[i]]!,
                         score: surveyMetric.companyBenchmarks[topOppIndicators[i]]!,
-                        section: selectedSection,
-                        companyIndex: companyIndex,
+                        section: section,
                       ),
                   ],
                 )

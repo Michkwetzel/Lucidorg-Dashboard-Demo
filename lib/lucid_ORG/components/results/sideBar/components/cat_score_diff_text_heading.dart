@@ -13,7 +13,7 @@ class CategoryScoreDiffTextHeading extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         SizedBox(
-          width: 130,
+          width: 100,
           child: Text('Category', style: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w400, fontSize: 13)),
         ),
         SizedBox(

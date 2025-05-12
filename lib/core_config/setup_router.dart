@@ -1,10 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:platform_front/core_config/constants.dart';
 import 'package:platform_front/lucid_HR/components/createJobSearch/job_creation_screen.dart';
 import 'package:platform_front/lucid_HR/components/createJobSearch/temp.dart';
 import 'package:platform_front/lucid_HR/components/home/home_body_org.dart';
 import 'package:platform_front/lucid_HR/components/results/results_body_org.dart';
+import 'package:platform_front/lucid_ORG/archive/impact/org_impact/org_impact/org_impact_main_view.dart';
+import 'package:platform_front/lucid_ORG/archive/impact/org_impact/org_impact_sb/org_impact_SB.dart';
 import 'package:platform_front/lucid_ORG/components/company_info/companyInfoBody.dart';
 import 'package:platform_front/lucid_ORG/components/create_assessment/create/createAssessmentBody.dart';
 import 'package:platform_front/lucid_ORG/components/create_assessment/current/current_assessment_body.dart';
@@ -111,8 +114,25 @@ GoRouter setupRouter() {
           GoRoute(
             path: '/theFix',
             pageBuilder: (context, state) {
-              return const NoTransitionPage(
-                child: Placeholder(),
+              return NoTransitionPage(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Impact', style: kH1TextStyle),
+                      SizedBox(
+                        height: 60,
+                      ),
+                      Row(
+                        spacing: 32,
+                        children: [
+                          Container(margin: EdgeInsets.only(left: 5, bottom: 5), width: 350, decoration: kboxShadowNormal, child: OrgImpactSB()),
+                          OrgImpactMainView(),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
               );
             },
           ),

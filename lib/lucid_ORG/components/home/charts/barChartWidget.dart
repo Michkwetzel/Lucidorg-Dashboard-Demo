@@ -24,7 +24,7 @@ class _BarChartWidgetState extends State<BarChartWidget> {
       x: x,
       barRods: [
         BarChartRodData(
-          toY: isHovered ? value + 2 : value,
+          toY: isHovered ? value + 4 : value,
           color: color,
           borderRadius: BorderRadius.circular(4),
           width: 80,
@@ -35,7 +35,7 @@ class _BarChartWidgetState extends State<BarChartWidget> {
           ),
         ),
       ],
-      showingTooltipIndicators: isHovered ? [0] : [],
+      showingTooltipIndicators: isHovered ? [0] : [0],
     );
   }
 
@@ -67,11 +67,20 @@ class _BarChartWidgetState extends State<BarChartWidget> {
                 getTitlesWidget: (value, meta) {
                   switch (value.toInt()) {
                     case 0:
-                      return const Text('CEO');
+                      return Padding(
+                        padding: EdgeInsets.only(top: 4),
+                        child: Text('CEO'),
+                      );
                     case 1:
-                      return const Text('C-Suite');
+                      return const Padding(
+                        padding: EdgeInsets.only(top: 4),
+                        child: Text('C-Suite'),
+                      );
                     case 2:
-                      return const Text('Team');
+                      return const Padding(
+                        padding: EdgeInsets.only(top: 4),
+                        child: Text('Team'),
+                      );
                     default:
                       return const Text('');
                   }
@@ -79,6 +88,16 @@ class _BarChartWidgetState extends State<BarChartWidget> {
               ),
             ),
             leftTitles: AxisTitles(
+              axisNameWidget: Padding(
+                padding: EdgeInsets.only(left: 20),
+                child: Text(
+                  "Score",
+                  style: TextStyle(
+                    color: Colors.black87,
+                    fontSize: 12,
+                  ),
+                ),
+              ),
               sideTitles: SideTitles(
                 showTitles: true,
                 interval: 20,

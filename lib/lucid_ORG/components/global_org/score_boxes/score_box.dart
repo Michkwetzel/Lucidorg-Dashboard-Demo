@@ -8,6 +8,7 @@ class ScoreBox extends StatelessWidget {
   final double score;
   final double textSize;
   final FontWeight fontWeight;
+  final double companyIndex;
 
   const ScoreBox({
     super.key,
@@ -16,6 +17,7 @@ class ScoreBox extends StatelessWidget {
     required this.height,
     required this.textSize,
     required this.fontWeight,
+    this.companyIndex = 0,
   });
 
   BoxDecoration _getDecoration() {
@@ -23,15 +25,30 @@ class ScoreBox extends StatelessWidget {
       return kGrayBox; // Handle invalid scores
     }
 
-    if (score < 40) {
-      return kRedBox;
-    } else if (score < 50) {
-      return kYellowBox;
-    } else if (score < 60) {
-      return kGrayBox;
-    } else {
+    if (score > companyIndex) {
       return kGreenBox;
+    } else {
+      double diffFromIndex = companyIndex - score;
+      if (diffFromIndex < 5) {
+        return kGrayBox;
+      } else if (diffFromIndex < 10) {
+        return kYellowBox;
+      } else if (diffFromIndex < 15) {
+        return kRedBox;
+      } else {
+        return kRedBox;
+      }
     }
+
+    // if (score < 40) {
+    //   return kRedBox;
+    // } else if (score < 50) {
+    //   return kYellowBox;
+    // } else if (score < 60) {
+    //   return kGrayBox;
+    // } else {
+    //   return kGreenBox;
+    // }
   }
 
   @override

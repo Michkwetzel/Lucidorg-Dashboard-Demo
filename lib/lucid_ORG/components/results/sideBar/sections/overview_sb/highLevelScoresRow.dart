@@ -23,11 +23,11 @@ class HighLevelScoresRow extends ConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         SizedBox(
-          width: 100,
-          child: Text(category, style: TextStyle(color: Colors.black, fontSize: 17, fontFamily: 'Poppins', fontWeight: FontWeight.w300)),
+          width: 120,
+          child: Text(category, style: TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'Poppins', fontWeight: FontWeight.w300)),
         ),
         ScoreBox(height: 40, width: 60, score: score, textSize: 15, fontWeight: FontWeight.w300),
-        DiffBox(height: 30, width: 52, diff: diff, textSize: 14, fontWeight: FontWeight.w300)
+        DiffBox(height: 40, width: 60, diff: diff, textSize: 15, fontWeight: FontWeight.w300)
       ],
     );
   }

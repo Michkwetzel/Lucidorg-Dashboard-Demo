@@ -83,26 +83,22 @@ class ClickableRadarChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 900,
-      height: 700,
-      child: Stack(
-        children: [
-          ScoresRadarChart(),
-          Positioned(left: 372, top: 10, child: ClickableTitle(60, 30, Indicator.companyIndex)),
-          Positioned(left: 508, top: 40, child: ClickableTitle(120, 45, Indicator.orgAlign)),
-          Positioned(left: 648, top: 160, child: ClickableTitle(82, 45, Indicator.growthAlign)),
-          Positioned(left: 685, top: 330, child: ClickableTitle(100, 45, Indicator.collabKPIs)),
-          Positioned(left: 640, top: 495, child: ClickableTitle(100, 45, Indicator.engagedCommunity)),
-          Positioned(left: 500, top: 615, child: ClickableTitle(140, 45, Indicator.crossFuncComms)),
-          Positioned(left: 335, top: 665, child: ClickableTitle(135, 45, Indicator.crossFuncAcc)),
-          Positioned(left: 190, top: 620, child: ClickableTitle(90, 42, Indicator.alignedTech)),
-          Positioned(left: 70, top: 500, child: ClickableTitle(90, 42, Indicator.collabProcesses)),
-          Positioned(left: 35, top: 330, child: ClickableTitle(75, 42, Indicator.meetingEfficacy)),
-          Positioned(left: 80, top: 165, child: ClickableTitle(70, 42, Indicator.purposeDriven)),
-          Positioned(left: 190, top: 42, child: ClickableTitle(90, 42, Indicator.empoweredLeadership)),
-        ],
-      ),
+    return Stack(
+      children: [
+        ScoresRadarChart(),
+        Positioned(left: 372, top: 10, child: ClickableTitle(60, 30, Indicator.companyIndex)),
+        Positioned(left: 508, top: 40, child: ClickableTitle(120, 45, Indicator.orgAlign)),
+        Positioned(left: 648, top: 160, child: ClickableTitle(82, 45, Indicator.growthAlign)),
+        Positioned(left: 685, top: 330, child: ClickableTitle(100, 45, Indicator.collabKPIs)),
+        Positioned(left: 640, top: 495, child: ClickableTitle(100, 45, Indicator.engagedCommunity)),
+        Positioned(left: 500, top: 615, child: ClickableTitle(140, 45, Indicator.crossFuncComms)),
+        Positioned(left: 335, top: 665, child: ClickableTitle(135, 45, Indicator.crossFuncAcc)),
+        Positioned(left: 190, top: 620, child: ClickableTitle(90, 42, Indicator.alignedTech)),
+        Positioned(left: 70, top: 500, child: ClickableTitle(90, 42, Indicator.collabProcesses)),
+        Positioned(left: 35, top: 330, child: ClickableTitle(75, 42, Indicator.meetingEfficacy)),
+        Positioned(left: 80, top: 165, child: ClickableTitle(70, 42, Indicator.purposeDriven)),
+        Positioned(left: 190, top: 42, child: ClickableTitle(90, 42, Indicator.empoweredLeadership)),
+      ],
     );
   }
 }

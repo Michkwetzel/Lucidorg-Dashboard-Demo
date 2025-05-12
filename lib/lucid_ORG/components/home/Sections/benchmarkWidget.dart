@@ -25,46 +25,11 @@ class BenchmarkWidget extends ConsumerWidget {
 
     return Container(
       padding: const EdgeInsets.all(16),
-      decoration: kboxShadowNormal,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Benchmark', style: kH2PoppinsRegular),
-              SizedBox(height: 24),
-              SizedBox(
-                height: 300,
-                width: 360,
-                child: BarChartWidget(scores: [ceoIndex, cSuiteIndex, employeeIndex]),
-              ),
-            ],
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              SizedBox(height: 32),
-              Text('Total Score', style: kH2PoppinsLight),
-              SizedBox(height: 8),
-              Text('${companyIndex.toStringAsFixed(1)}%', style: kH1TotalScoreRegular),
-              SizedBox(height: 35),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: OverallDepertmentBenchmarkWidget(),
-              ),
-              SizedBox(height: 35),
-              Text('Differentiation', style: kH3PoppinsLight),
-              SizedBox(height: 8),
-              DiffTriangleRedWidget(
-                size: Diffsize.H1,
-                value: indexDiff,
-              )
-            ],
-          )
-        ],
+      child: SizedBox(
+        height: 300,
+        width: 360,
+        child: BarChartWidget(scores: [ceoIndex, cSuiteIndex, employeeIndex]),
       ),
     );
   }
 }
-

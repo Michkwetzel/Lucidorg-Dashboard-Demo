@@ -29,6 +29,7 @@ class _StackedPyramidsState extends ConsumerState<StackedPyramids> {
   @override
   Widget build(BuildContext context) {
     SurveyMetric displayData = ref.watch(metricsDataProvider).surveyMetric;
+    double companyIndex = displayData.companyBenchmarks[Indicator.companyIndex]!;
 
     return Stack(
       children: [
@@ -56,16 +57,35 @@ class _StackedPyramidsState extends ConsumerState<StackedPyramids> {
                 decoration = kRedBox;
               }
             } else {
-              if (score < 50) {
-                status = PyramidStatus.show;
-                decoration = kRedBox;
-              } else if (score < 60) {
-                status = PyramidStatus.opacity;
-                decoration = kYellowBox;
-              } else {
+              if (score > companyIndex) {
                 status = PyramidStatus.hide;
+              } else {
+                double diffFromIndex = companyIndex - score;
+                if (diffFromIndex < 5) {
+                  status = PyramidStatus.opacity;
+                  decoration = kGrayBox;
+                } else if (diffFromIndex < 10) {
+                  status = PyramidStatus.opacity;
+                  decoration = kYellowBox;
+                } else if (diffFromIndex < 15) {
+                  status = PyramidStatus.show;
+                  decoration = kRedBox;
+                } else {
+                  status = PyramidStatus.show;
+                  decoration = kRedBox;
+                }
               }
             }
+
+            // if (score < 50) {
+            //   status = PyramidStatus.show;
+            //   decoration = kRedBox;
+            // } else if (score < 60) {
+            //   status = PyramidStatus.opacity;
+            //   decoration = kYellowBox;
+            // } else {
+            //   status = PyramidStatus.hide;
+            // }
 
             return Positioned(
               left: pyramid.left,

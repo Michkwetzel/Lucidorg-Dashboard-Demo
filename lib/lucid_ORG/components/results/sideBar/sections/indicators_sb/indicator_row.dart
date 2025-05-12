@@ -31,6 +31,8 @@ class IndicatorRow extends ConsumerWidget {
     score = displayData.companyBenchmarks[indicator]!;
     diff = displayData.diffScores[indicator]!;
 
+    double companyIndex = displayData.companyBenchmarks[Indicator.companyIndex]!;
+
     SelectedIndicator selectedIndicator = ref.read(selectedIndicatorProvider.notifier);
 
     return Padding(
@@ -52,7 +54,7 @@ class IndicatorRow extends ConsumerWidget {
                   width: 130,
                   child: Text(heading, style: TextStyle(color: Colors.black, fontSize: 14, fontFamily: 'Poppins', fontWeight: FontWeight.w300)),
                 ),
-                ScoreBox(height: 40, width: 60, score: score, textSize: 15, fontWeight: FontWeight.w300),
+                ScoreBox(height: 40, width: 60, score: score, textSize: 15, fontWeight: FontWeight.w300, companyIndex: companyIndex),
                 DiffBox(height: 33, width: 55, diff: diff, textSize: 14, fontWeight: FontWeight.w300)
               ],
             ),

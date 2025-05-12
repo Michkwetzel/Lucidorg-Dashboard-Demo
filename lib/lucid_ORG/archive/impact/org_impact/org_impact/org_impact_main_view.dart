@@ -16,16 +16,18 @@ class OrgImpactMainView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Impact Chart',
-            style: kH3PoppinsMedium,
-          ),
+          //Text('Impact Chart', style: kH3PoppinsMedium),
           SizedBox(height: 6),
           CustomDivider(),
           SizedBox(height: 32),
-          Align(alignment: AlignmentDirectional.center, child: ImpactChart()),
+          Padding(
+            padding: EdgeInsets.only(left: 30),
+            child: Align(alignment: AlignmentDirectional.center, child: ImpactChart()),
+          ),
           SizedBox(height: 16),
-          ImpactGraphKey()
+          Padding(
+            padding: EdgeInsets.only(left: 90),
+            child: ImpactGraphKey())
         ],
       ),
     );

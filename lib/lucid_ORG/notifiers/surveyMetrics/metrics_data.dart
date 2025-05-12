@@ -695,7 +695,9 @@ class SurveyMetric {
       Map<Indicator, double> scores = returnJustIndicators('companyBenchmarks');
       var sortedEntries = scores.entries.toList()..sort((a, b) => a.value.compareTo(b.value));
 
-      candidates = sortedEntries.where((entry) => entry.value < 60).map((entry) => entry.key).toList();
+      double companyIndex = companyBenchmarks[Indicator.companyIndex]!;
+
+      candidates = sortedEntries.where((entry) => (companyIndex - entry.value) > 5).map((entry) => entry.key).toList();
     }
 
     // Filter and order the candidates according to the predefined order

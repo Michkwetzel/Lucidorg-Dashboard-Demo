@@ -10,7 +10,9 @@ import 'package:platform_front/lucid_ORG/config/providers_org.dart';
 import 'package:platform_front/lucid_ORG/notifiers/surveyMetrics/metrics_data.dart';
 
 class HighLevelScoresWidget extends ConsumerWidget {
+  final bool showHeading;
   const HighLevelScoresWidget({
+    this.showHeading = true,
     super.key,
   });
 
@@ -20,8 +22,13 @@ class HighLevelScoresWidget extends ConsumerWidget {
 
     return Column(
       children: [
-        Text('High Level Scores', style: kH3PoppinsRegular),
-        SizedBox(height: 30),
+        if (showHeading)
+          Column(
+            children: [
+              Text('High Level Scores', style: kH3PoppinsRegular),
+              SizedBox(height: 30),
+            ],
+          ),
         CategoryScoreDiffTextHeading(),
         SizedBox(height: 4),
         Divider(color: Color(0xFFC7C7C7), thickness: 1),
