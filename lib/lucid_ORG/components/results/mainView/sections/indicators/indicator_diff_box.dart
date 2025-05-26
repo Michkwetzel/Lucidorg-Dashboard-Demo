@@ -5,7 +5,6 @@ import 'package:platform_front/lucid_ORG/config/enums_org.dart';
 import 'package:platform_front/lucid_ORG/config/providers_org.dart';
 import 'package:platform_front/lucid_ORG/notifiers/surveyMetrics/metrics_data.dart';
 
-
 class IndicatorDiffBox extends ConsumerWidget {
   final String text;
   final double diff;
@@ -20,8 +19,9 @@ class IndicatorDiffBox extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     Indicator selectedIndicator = ref.watch(selectedIndicatorProvider);
     SurveyMetric displayData = ref.watch(metricsDataProvider).surveyMetric;
-    
+
     double diff = displayData.diffScores[selectedIndicator]!;
+    
     return Container(
       width: 205,
       height: 105,

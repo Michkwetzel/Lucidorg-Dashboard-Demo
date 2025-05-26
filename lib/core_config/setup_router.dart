@@ -119,9 +119,12 @@ GoRouter setupRouter() {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      SizedBox(
+                        height: 16,
+                      ),
                       Text('Impact', style: kH1TextStyle),
                       SizedBox(
-                        height: 60,
+                        height: 16,
                       ),
                       Row(
                         spacing: 32,
@@ -170,11 +173,11 @@ GoRouter setupRouter() {
         return '/auth';
       }
 
-      // if (state.extra == null) {
-      //   // Log user out if he reloads page. Always include an extra state if navigating using navigator. thus if reload you can notice it
-      //   await FirebaseAuth.instance.signOut();
-      //   return '/auth';
-      // }
+      if (state.extra == null) {
+        // Log user out if he reloads page. Always include an extra state if navigating using navigator. thus if reload you can notice it
+        await FirebaseAuth.instance.signOut();
+        return '/auth';
+      }
       return null;
     },
   );

@@ -80,7 +80,7 @@ class IndicatorDiffBrief extends ConsumerWidget {
 
     Map<Indicator, IndicatorData> allIndicatorData = AllIndicatorData.indicatorMap;
 
-    String diffTextBody = allIndicatorData[selectedIndicator]!.getScoreTextBody(diff).replaceAll("___", '${diff.toString()}%');
+    String diffTextBody = allIndicatorData[selectedIndicator]!.getDiffText(diff).replaceAll("___", '${diff.toString()}%');
 
     return Flexible(
       child: Padding(

@@ -3,7 +3,7 @@ description: "LucidORG Dashboard"
 
 publish_to: 'none' 
 
-version: 2.6.0
+version: 2.9.0
 
 environment:
   sdk: ^3.5.0

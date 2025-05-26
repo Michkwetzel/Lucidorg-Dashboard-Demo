@@ -45,7 +45,7 @@ class CurrentAssessmentBody extends ConsumerWidget {
                 height: 24,
               ),
               Row(
-                spacing: 32,
+                spacing: 65,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SentEmailList(),
@@ -77,7 +77,7 @@ class SentEmailList extends ConsumerStatefulWidget {
 class _SentEmailListState extends ConsumerState<SentEmailList> {
   bool isExpandedCEO = false;
   bool isExpandedCSuite = false;
-  bool isExpandedTeam = false;
+  bool isExpandedTeam = true;
 
   @override
   Widget build(BuildContext context) {
