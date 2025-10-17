@@ -9,7 +9,7 @@
 
 https://github.com/user-attachments/assets/71e56a37-d5f8-43c8-8ce3-56ea38f3e88d
 
-End-to-end organizational assessment platform with automated distribution, real-time analytics, and enterprise security. Built from 0→production in 5 months as founding engineer.
+End-to-end organizational assessment platform with automated distribution, real-time analytics, and enterprise security. Built from 0→production in 4 months as founding engineer.
 
 ## 📊 Impact
 
