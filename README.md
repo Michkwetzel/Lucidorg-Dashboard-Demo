@@ -1,1 +1,47 @@
+# LucidOrg Assessment Platform
 
+**Solo-built SaaS platform that reduced client delivery from weeks to hours**
+
+> **📖 [Read the Complete Case Study →](https://www.notion.so/LucidOrg-Assessment-Platform-From-Manual-to-Automated-SaaS-Deep-Dive-28db502d0e3a80aa9a12c88c7a4a274c?source=copy_link)**  
+> *For videos, architecture deep-dives, production deployment learnings, and complete reflections on what I'd do differently*
+
+---
+
+End-to-end organizational assessment platform with automated distribution, real-time analytics, and enterprise security. Built from 0→production in 5 months as founding engineer.
+
+## 📊 Impact
+
+- **95% completion rate** on first enterprise deployment (20/21 responses)
+- **Weeks → Hours** delivery timeline
+- **Zero-budget MVP** shipped in 4 months
+- Successfully deployed at C-suite leadership retreat
+
+## 🛠️ Tech Stack
+
+- **Frontend:** Flutter/Dart (2 apps)
+- **Backend:** Google Cloud Functions (Python)
+- **Database:** Firestore
+- **Auth:** Firebase + Custom JWT
+
+## ✨ Key Features
+
+- **Token-based access** - MVP-ready subscription system
+- **Dual-app architecture** - Public assessment + admin dashboard
+- **Automated distribution** - Email assessments with reminders
+- **Real-time analytics** - Participation tracking & data visualizations
+- **Dynamic questions** - Firestore-based content management
+
+## 💡 What I Learned
+
+### Technical
+End-to-end product architecture, Flutter/Dart proficiency, serverless backend integration, JWT implementation
+
+### Product
+User research is non-negotiable. Beautiful dashboards fail without clear value. Client-facing products need 10x more polish than internal tools.
+
+### The Pivot
+Post-launch research revealed businesses need flexible org structures, not fixed hierarchies. Validated the concept but required a complete rebuild.
+
+---
+
+**Built as Founding Engineer | Oct 2024 - Feb 2025**
