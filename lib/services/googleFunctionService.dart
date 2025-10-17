@@ -69,20 +69,29 @@ class GoogleFunctionService extends StateNotifier<GoogleFunctionServiceState> {
       state = state.copyWith(loadingMessage: 'Creating Assessment!', loading: true);
       logger.info("Creating Assessment");
 
-      Map<String, dynamic> request = {
-        'ceoEmails': ceoEmails,
-        'cSuiteEmails': cSuiteEmails,
-        'employeeEmails': employeeEmails,
-        'emailTemplate': emailTemplate,
-        'userUID': userUID,
-        'subject': subject,
-        'companyUID': companyUID,
-        'emailFrom': emailFrom,
-        'guest': guest
-      };
+      // Simulate a 2-second delay for guest account
+      await Future.delayed(const Duration(seconds: 4));
 
-      await HttpService.postRequest(path: kCreateAssessmentPath, request: request);
+      // Return fake success for guest account without making actual API call
+      logger.info("Guest account - returning fake success");
       state = state.copyWith(loadingMessage: 'Loading!', loading: false);
+      return;
+
+      // Actual code
+      // Map<String, dynamic> request = {
+      //   'ceoEmails': ceoEmails,
+      //   'cSuiteEmails': cSuiteEmails,
+      //   'employeeEmails': employeeEmails,
+      //   'emailTemplate': emailTemplate,
+      //   'userUID': userUID,
+      //   'subject': subject,
+      //   'companyUID': companyUID,
+      //   'emailFrom': emailFrom,
+      //   'guest': guest
+      // };
+
+      // await HttpService.postRequest(path: kCreateAssessmentPath, request: request);
+      // state = state.copyWith(loadingMessage: 'Loading!', loading: false);
     } on Exception {
       state = state.copyWith(loadingMessage: 'Loading!', loading: false);
       rethrow;
@@ -90,7 +99,17 @@ class GoogleFunctionService extends StateNotifier<GoogleFunctionServiceState> {
   }
 
   Future<void> saveCompanyInfo(Map<String, dynamic> companyInfo) async {
-    await HttpService.postRequest(path: ksaveCompanyInfoPath, request: {'companyInfo': companyInfo, 'companyUID': companyUID});
+    state = state.copyWith(loading: true);
+
+    // Simulate a 2-second delay for guest account
+    await Future.delayed(const Duration(seconds: 4));
+
+    // Return fake success for guest account without making actual API call
+    logger.info("Guest account - returning fake success");
+    state = state.copyWith(loading: false);
+    return;
+    // actual code
+    // await HttpService.postRequest(path: ksaveCompanyInfoPath, request: {'companyInfo': companyInfo, 'companyUID': companyUID});
   }
 
   Future<void> sendEmailReminder() async {
@@ -98,14 +117,24 @@ class GoogleFunctionService extends StateNotifier<GoogleFunctionServiceState> {
       logger.info("Sending Reminder");
 
       state = state.copyWith(loading: true);
-      await HttpService.postRequest(path: ksendEmailReminderPath, request: {
-        'currentSurvey': latestDocName,
-        'companyUID': companyUID,
-        'emailTemplate': reminderTemplate,
-        'subject': reminderSubject,
-        'emailFrom': reminderEmailFrom,
-      });
+
+      // Simulate a 2-second delay for guest account
+      await Future.delayed(const Duration(seconds: 4));
+
+      // Return fake success for guest account without making actual API call
+      logger.info("Guest account - returning fake success");
       state = state.copyWith(loading: false);
+      return;
+
+      // actual code
+      // await HttpService.postRequest(path: ksendEmailReminderPath, request: {
+      //   'currentSurvey': latestDocName,
+      //   'companyUID': companyUID,
+      //   'emailTemplate': reminderTemplate,
+      //   'subject': reminderSubject,
+      //   'emailFrom': reminderEmailFrom,
+      // });
+      // state = state.copyWith(loading: false);
     } on Exception catch (e) {
       state = state.copyWith(loading: false);
 
@@ -125,6 +154,14 @@ class GoogleFunctionService extends StateNotifier<GoogleFunctionServiceState> {
 
     print('title: $title, emailList: $emailList, benchmarks: $benchmarks, emailFrom: $emailFrom, subject: $subject, emailBody: $emailBody');
 
+    // Simulate a 2-second delay for guest account
+    await Future.delayed(const Duration(seconds: 2));
+
+    // Return fake success for guest account without making actual API call
+    logger.info("Guest account - returning fake success");
+    return;
+
+    // The code below is unreachable but kept for reference
     try {
       await HttpService.postRequest(
         path: kCreateJobSearchPath,
