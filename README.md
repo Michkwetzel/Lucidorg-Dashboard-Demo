@@ -39,7 +39,7 @@ End-to-end organizational assessment platform with email distribution and real-t
 End-to-end product architecture, Flutter/Dart proficiency, serverless backend integration, JWT implementation
 
 ### Product
-User research is non-negotiable, so is product validation. Beautiful dashboards mean nothing without clear value delivery. There are far quicker ways to build an MVP. Client-facing products require 10x more polish than internal tools.
+User research and product validation is incredibly important. Beautiful dashboards mean nothing without clear value delivery. There are far quicker ways to build an MVP. Client-facing products require 10x more polish than internal tools.
 
 ### The Pivot
 Post-launch revealed businesses need flexible organizational structures, not fixed hierarchies. The analytics we were showing weren't actionable for clients. This required scrapping our approach and rebuilding the product from scratch.
